@@ -8,7 +8,7 @@ function handleClientLoad() {
 function initClient() {
 	gapi.client.init({
 		"apiKey":"AIzaSyCvmllLxYfhaqKfxiALAu-OObj0h-qX4sM",
-		"discoveryDocs":["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
+		"discoveryDocs":['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
 		"clientId":"1031491199015-pbjmtfn9kj0tvcl24k7vntelua6glb90.apps.googleusercontent.com",
 		"scope":SCOPE
 	}).then(function() {
