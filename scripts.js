@@ -6,7 +6,8 @@ function handleClientLoad() {
 }
 
 function initClient() {
-	var docs = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'; // do not place directly in the array because javascript is autistic
+	// do not place docs directly in the array because javascript will stroke out
+	var docs = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
 	gapi.client.init({
 		"apiKey":"AIzaSyDIptkXtN8vcrOr5LPBvk21WuAk8UmVwAs",
 		"discoveryDocs":[docs],
