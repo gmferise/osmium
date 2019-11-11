@@ -7,7 +7,7 @@ function handleClientLoad() {
 
 function initClient() {
 	// do not place docs directly in the array because javascript will stroke out
-	var docs = ["https://www.googleapis.com/discovery/v1/apis/sheets/v4/rest"];
+	var docs = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest","https://www.googleapis.com/discovery/v1/apis/sheets/v4/rest"];
 	var scopes = ["https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/spreadsheets"];
 	gapi.client.init({
 		"apiKey":"AIzaSyDIptkXtN8vcrOr5LPBvk21WuAk8UmVwAs",
