@@ -45,7 +45,7 @@ function revokeAccess() {
 
 function setSigninStatus(isSignedIn) {
 	var user = GoogleAuth.currentUser.get();
-	if (isAuthorized) {
+	if (GoogleAuth.isSignedIn.get()) {
 		$('#sign-in-or-out-button').html('Sign out');
 		$('#revoke-access-button').css('display', 'inline-block');
 		$('#auth-status').html('You are currently signed in and have granted ' +
