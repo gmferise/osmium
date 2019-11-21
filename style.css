@@ -1,3 +1,21 @@
 .hidden {
   visibility: hidden;
 }
+
+body {
+	background-color: cyan;
+}
+
+#sidebar-toggle {
+	background-color: white;
+	float: right;
+}
+
+#sidebar-container {
+	z-index: 100;
+	float: right;
+	background-color: magenta;
+	width: 25%;
+	height: 100%;
+}
+
