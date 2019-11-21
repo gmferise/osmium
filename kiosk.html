@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<title>Osmium</title>
+	<link href="style.css" rel="stylesheet" type ="text/css"/>
+	<link href="favicon.ico" rel="icon" type="image/png">
+	
+	<!-- Vue Styling -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
+	
+  </head>
+  <body id="splitbody">	
+	<div id="sidebar-container">
+		<div class="centered">OwO<br>UwU<br>UnU</div>
+	</div>
+	
+	<script>
+		function toggleSidebar() {
+			var el = document.getElementById("splitbody");
+			
+			if (el.classList.contains("split-visible")) {
+				el.classList.remove("split-visible");
+			} else {
+				el.classList.add("split-visible");
+			}
+		}
+	</script>
+	
+	
+	<div id="main-form-container">
+	
+		<button id="sidebar-toggle" onclick="toggleSidebar()"><i class="material-icons">keyboard_arrow_left</i></button>
+		
+		<div id="main-form" class="page-center">
+		<div class="center-h title">WELCOME, PLEASE SIGN IN</div>
+		</div>
+	</div>
+	
+  </body>
+</html>

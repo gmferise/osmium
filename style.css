@@ -4,18 +4,79 @@
 
 body {
 	background-color: cyan;
+	height: 100%;
+	margin: 0px;
+}
+
+html { 
+	height: 100%;
 }
 
 #sidebar-toggle {
 	background-color: white;
 	float: right;
+	padding-top: 60px;
+	padding-bottom: 60px;
+	padding-left: 0px;
+	padding-right: 0px;
+	border-bottom-left-radius: 20px;
+	border-top-left-radius: 20px;
 }
 
 #sidebar-container {
-	z-index: 100;
-	float: right;
 	background-color: magenta;
-	width: 25%;
+	width: 0px;
 	height: 100%;
+	position: fixed;
+	top: 0;
+	right: 0;
+	transition: width 0.5s;
+}
+
+body.split-visible #sidebar-container {
+	width: 30%;
+}
+
+#main-form-container {
+	height: 100%;
+	overflow-y: scroll;
+	direction: rtl;
+	
+	transition: margin-right 0.5s;
+}
+
+body.split-visible #main-form-container {
+	margin-right: 30%;
+}
+
+#main-form {
+	background-color: white;
+	height: 100%;
+	padding-top: 2%;
+}
+
+.page-center {
+	margin-left: 15%;
+	margin-right: 15%;
+	transition: 
+	margin-left 0.5s, 
+	margin-right 0.5s;
+}
+
+body.split-visible .page-center {
+	margin-left: 0%;
+	margin-right: 0%;
+}
+
+.center-h {
+	left: 50%;
+	text-align: center;
+}
+
+.title {
+	font-family: Roboto;
+	font-size: 42px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
