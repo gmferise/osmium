@@ -14,7 +14,9 @@ html {
 
 #sidebar-toggle {
 	background-color: white;
-	float: right;
+	position: fixed;
+	top: 50%;
+	transform: translate(0, -50%);
 	padding-top: 60px;
 	padding-bottom: 60px;
 	padding-left: 0px;
