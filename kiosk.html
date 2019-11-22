@@ -11,23 +11,31 @@
 	<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
 	
   </head>
+  <script>
+	function toggleSidebar() {
+		var el = document.getElementById("splitbody");
+		
+		if (el.classList.contains("split-visible")) {
+			el.classList.remove("split-visible");
+		} else {
+			el.classList.add("split-visible");
+		}
+	}
+	</script>
   <body id="splitbody">	
 	<div id="sidebar-container">
-		<div class="centered">OwO<br>UwU<br>UnU</div>
+		<div class="check-card">
+			<button><i class="material-icons">check</i></button>
+			<div class="text-holder">
+				<div class="medium-text">
+				991015
+				</div>
+				<div class="small-text">
+				10m ago
+				</div>
+			</div>
+		</div>
 	</div>
-	
-	<script>
-		function toggleSidebar() {
-			var el = document.getElementById("splitbody");
-			
-			if (el.classList.contains("split-visible")) {
-				el.classList.remove("split-visible");
-			} else {
-				el.classList.add("split-visible");
-			}
-		}
-	</script>
-	
 	
 	<div id="main-form-container">
 	
