@@ -104,12 +104,12 @@ body.split-visible .page-center {
 	background-color: green;
 	margin-left: 10%;
 	margin-top: 40px;
-	height: fit-content;
+	height: 50px;
+	overflow: hidden;
 }
 
 .check-card button {
 	border: none;
-	right: 0px;
 	float: right;
 	clear: left;
 	height: 100%;
@@ -127,7 +127,7 @@ body.split-visible .page-center {
 }
 
 .medium-text {
-	font-size: 20px;
+	font-size: 21px;
 }
 
 .small-text {
