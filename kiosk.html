@@ -12,26 +12,29 @@
 	
   </head>
   <script>
-	function toggleSidebar() {
+	//showSidebar() - toggle visibility
+	//showSidebar(true|false) - set visibility
+	function showSidebar(forcestate) {
 		var el = document.getElementById("splitbody");
 		
-		if (el.classList.contains("split-visible")) {
+		if ((el.classList.contains("split-visible"))&&(forcestate != true)) {
 			el.classList.remove("split-visible");
-		} else {
+		} else if (forcestate != false) {
 			el.classList.add("split-visible");
 		}
 	}
 	</script>
-  <body id="splitbody">	
+  <body id="splitbody" class="color-bg-main">	
 	<div id="main-form-container">
 	
-		<button id="sidebar-toggle" onclick="toggleSidebar()"><i class="material-icons">keyboard_arrow_left</i></button>
+		<button id="sidebar-toggle" class="color-bg-alt" onclick="showSidebar()"><i class="material-icons">keyboard_arrow_left</i></button>
 		
-		<div id="main-form" class="page-center">
+		<div id="main-form" onclick="showSidebar(false)">
 		<div class="center-h title">WELCOME, PLEASE SIGN IN</div>
 		</div>
 	</div>
-	<div id="sidebar-container">
+	<div id="sidebar-container" class="color-bg-alt">
+		<div class="center-h title">Today</div>
 		<div class="check-card">
 			<button><i class="material-icons">check</i></button>
 			<div class="text-holder">
@@ -43,6 +46,7 @@
 				</div>
 			</div>
 		</div>
+		<div class="center-h title">Older</div>
 	</div>
   </body>
 </html>

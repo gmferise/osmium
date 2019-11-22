@@ -3,7 +3,6 @@
 }
 
 body {
-	background-color: cyan;
 	height: 100%;
 	margin: 0px;
 }
@@ -18,7 +17,6 @@ html {
 }
 
 #sidebar-toggle {
-	background-color: white;
 	position: fixed;
 	top: 50%;
 	transform: translate(0, -50%);
@@ -26,11 +24,12 @@ html {
 	padding-bottom: 100px;
 	padding-left: 0px;
 	padding-right: 0px;
+	border: solid rgba(0,0,0,0.1);
 	border-bottom-left-radius: 20px;
 	border-top-left-radius: 20px;
 	border-right: 0px;
-	border-style: solid;
 	overflow: hidden;
+	z-index: 10;
 }
 
 #sidebar-toggle .material-icons {
@@ -42,7 +41,6 @@ body.split-visible #sidebar-toggle .material-icons {
 }
 
 #sidebar-container {
-	background-color: magenta;
 	width: 30%;
 	height: 100%;
 	position: fixed;
@@ -54,6 +52,7 @@ body.split-visible #sidebar-toggle .material-icons {
 }
 
 body.split-visible #sidebar-container {
+	box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.37);
 	left: 70%;
 }
 
@@ -73,9 +72,9 @@ body.split-visible #main-form-container {
 	background-color: white;
 	height: 100%;
 	padding-top: 30px;
-}
-
-.page-center {
+	direction: ltr;
+	box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.37);
+	
 	margin-left: 15%;
 	margin-right: 15%;
 	transition: 
@@ -83,7 +82,7 @@ body.split-visible #main-form-container {
 	margin-right 0.25s ease-in-out;
 }
 
-body.split-visible .page-center {
+body.split-visible #main-form {
 	margin-left: 0%;
 	margin-right: 0%;
 }
@@ -97,13 +96,26 @@ body.split-visible .page-center {
 	font-size: 42px;
 	margin-top: 10px;
 	margin-bottom: 10px;
+	font-weight: 100;
+}
+
+.title:after {
+	content: "";
+	border-bottom: 2px solid black;
+	opacity: 0.10;
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+	position: relative;
+	display: block;
 }
 
 .check-card {
 	width: 80%;
 	background-color: green;
 	margin-left: 10%;
-	margin-top: 40px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 	height: 50px;
 	overflow: hidden;
 }
@@ -133,4 +145,12 @@ body.split-visible .page-center {
 .small-text {
 	font-size: 10px;
 	font-style: italic;
+}
+
+.color-bg-main {
+	background-color: royalblue;
+}
+
+.color-bg-alt {
+	background-color: lightskyblue;
 }
