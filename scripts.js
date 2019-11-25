@@ -25,6 +25,7 @@ function initClient() { // Generates auth client instance, stored in GoogleAuth
 			toggleAuth();
 		});
 	});
+}
 
 function toggleAuth() {
 	if (GoogleAuth.isSignedIn.get()) {
@@ -53,12 +54,11 @@ function updateSigninStatus(isSignedIn) {
 
 // Sheets Calls
 function createTable(){
-	gapi.client.sheets.spreadsheets.create(
-	{
+	gapi.client.sheets.spreadsheets.create({
 		properties: {
 			title: 'Osmium Database'
 		}
-	}
-	)
-	.then(databaseId = response.result.spreadsheetId;);
+	}).then( (response) => {
+			databaseId = response.result.spreadsheetId;
+	});
 }
