@@ -61,5 +61,4 @@ function createTable(){
 		callback(response);
 		databaseId = response.result.spreadsheetId;
 	});
-	console.log(databaseId);
 }
