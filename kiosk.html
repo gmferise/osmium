@@ -25,28 +25,40 @@
 	}
 	</script>
   <body id="splitbody" class="color-bg-main">	
-	<div id="main-form-container">
+	<div id="main-form-container" class="pretty-scrollbar-light">
 	
 		<button id="sidebar-toggle" class="color-bg-alt" onclick="showSidebar()"><i class="material-icons">keyboard_arrow_left</i></button>
-		
+		<div class="medium-spacer"></div>
 		<div id="main-form" onclick="showSidebar(false)">
-		<div class="center-h title">WELCOME, PLEASE SIGN IN</div>
+			<div class="center-h title fullsize">WELCOME, PLEASE SIGN IN</div>
+			
+			<!-- testing element -->
+			<div class="center-h TEST-scroll">OwO</div>
+			<!-- end test -->
+			<div class="medium-spacer"></div>
 		</div>
+		<div class="large-spacer"></div>
 	</div>
-	<div id="sidebar-container" class="color-bg-alt">
+	</div>
+	<div id="sidebar-container" class="color-bg-alt pretty-scrollbar-dark">
+		<div class="small-spacer"></div>
 		<div class="center-h title">Today</div>
 		<div class="check-card">
 			<button><i class="material-icons">check</i></button>
 			<div class="text-holder">
-				<div class="medium-text">
+				<div class="medium-static-text">
 				991015
 				</div>
-				<div class="small-text">
+				<div class="small-static-text">
 				10m ago
 				</div>
 			</div>
 		</div>
 		<div class="center-h title">Older</div>
+		<!-- testing element -->
+		<div class="center-h TEST-scroll">OwO</div>
+		<!-- end test-->
+		</div>
 	</div>
   </body>
 </html>

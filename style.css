@@ -30,12 +30,14 @@ html {
 	border-right: 0px;
 	overflow: hidden;
 	z-index: 10;
+	cursor: pointer;
 }
-
 #sidebar-toggle .material-icons {
 	transition: transform 0.25s ease-in-out;
 }
-
+#sidebar-toggle:focus {
+	outline:0;
+}
 body.split-visible #sidebar-toggle .material-icons {
 	transform: rotate(180deg);
 }
@@ -48,9 +50,9 @@ body.split-visible #sidebar-toggle .material-icons {
 	left: 100%;
 	transition: left 0.25s ease-in-out;
 	
-	overflow: hidden;
+	overflow-x: hidden;
+	overflow-y: scroll;
 }
-
 body.split-visible #sidebar-container {
 	box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.37);
 	left: 70%;
@@ -63,14 +65,13 @@ body.split-visible #sidebar-container {
 	
 	transition: margin-right 0.25s ease-in-out;
 }
-
 body.split-visible #main-form-container {
 	margin-right: 30%;
 }
 
 #main-form {
 	background-color: white;
-	height: 100%;
+	height: fit-content;
 	padding-top: 30px;
 	direction: ltr;
 	box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.37);
@@ -81,22 +82,53 @@ body.split-visible #main-form-container {
 	margin-left 0.25s ease-in-out, 
 	margin-right 0.25s ease-in-out;
 }
-
 body.split-visible #main-form {
 	margin-left: 0%;
 	margin-right: 0%;
 }
 
+.check-card {
+	width: 80%;
+	background-color: green;
+	margin-left: 10%;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	height: 50px;
+	overflow: hidden;
+}
+.check-card button {
+	border: none;
+	float: right;
+	clear: left;
+	height: 100%;
+}
+.check-card .text-holder {
+	padding-top: 5px;
+	padding-left: 5px;
+	padding-bottom: 5px;
+	height: 100%;
+}
+.check-card .text-holder div {
+	color: white;
+}
+
+/* GENERAL ELEMENT STYLING */
+
+/* center an element horizontally */
 .center-h {
 	left: 50%;
 	text-align: center;
 }
 
+/* title element */
 .title {
 	font-size: 42px;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	font-weight: 100;
+}
+.fullsize {
+	font-size: 5vw;
 }
 
 .title:after {
@@ -110,39 +142,23 @@ body.split-visible #main-form {
 	display: block;
 }
 
-.check-card {
-	width: 80%;
-	background-color: green;
-	margin-left: 10%;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	height: 50px;
-	overflow: hidden;
-}
-
-.check-card button {
-	border: none;
-	float: right;
-	clear: left;
-	height: 100%;
-}
-
-.check-card .text-holder {
-	padding-top: 5px;
-	padding-left: 5px;
-	padding-bottom: 5px;
-	height: 100%;
-}
-
-.check-card .text-holder div {
-	color: white;
+.large-text {
+	font-size: 3vw;
 }
 
 .medium-text {
-	font-size: 21px;
+	font-size: 2vw;
 }
 
 .small-text {
+	font-size: 1vw;
+}
+
+.medium-static-text {
+	font-size: 21px;
+}
+
+.small-static-text {
 	font-size: 10px;
 	font-style: italic;
 }
@@ -152,5 +168,43 @@ body.split-visible #main-form {
 }
 
 .color-bg-alt {
-	background-color: lightskyblue;
+	background-color: antiquewhite;
+}
+
+.large-spacer {
+	height: 250px;
+}
+
+.medium-spacer {
+	height: 100px;
+}
+
+.small-spacer {
+	height: 25px;
+}
+
+/* SCROLLBARS */
+.pretty-scrollbar-light::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	background-color: rgba(255,255,255,0.6);
+}
+
+.pretty-scrollbar-light::-webkit-scrollbar {
+	width: 10px;
+}
+
+.pretty-scrollbar-dark::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	background-color: rgba(120,120,120,0.5);
+}
+
+.pretty-scrollbar-dark::-webkit-scrollbar {
+	width: 10px;
+}
+
+/* testing css */
+.TEST-scroll {
+	height: 1000px;
+	border: 1px dashed magenta;
+	margin: 10px;
 }
