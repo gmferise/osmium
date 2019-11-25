@@ -31,7 +31,7 @@
 		obj.time = intime;
 		obj.color = colornum;
 		
-		obj.insertIntoCards = function() {
+		obj.insertIntoCards = function(belowElement) {
 			var wrap = document.createElement('div');
 				wrap.classList.add('check-card');
 				var btn = document.createElement('button');
@@ -52,15 +52,19 @@
 						txtsml.innerHTML = obj.time + "m ago";
 					txtwrap.appendChild(txtsml);
 				wrap.appendChild(txtwrap);
-			document.getElementById('sidebar-container').appendChild(wrap);
+			document.getElementById(belowElement).insertAdjacentElement('afterEnd',wrap);
 		};
 		return obj;
 	}
 	
 	function test() {
 		for (var i=1; i<=6; i++) {
-		new_Card("12345",i*3,i).insertIntoCards();
-			}
+		if (parseInt(Math.random() * 2) == 0) {
+			new_Card("12345",i*3,i).insertIntoCards('card-divider-today');
+		} else {
+			new_Card("12345",i*3,i).insertIntoCards('card-divider-older');
+		}
+		}
 	}
 	
 	</script>
@@ -82,8 +86,12 @@
 	</div>
 	<div id="sidebar-container" class="color-bg-alt pretty-scrollbar-dark">
 		<div class="small-spacer"></div>
-		<div class="center-h title">Today</div>
-		<div class="check-card">
+		<!-- testing element -->
+		<button class="center-h" style="position: absolute;" onclick="test()">test: Press to add :)</button>
+		<!-- end test-->
+		<div id='card-divider-today' class="center-h title">Today</div>
+		<!-- testing element -->
+		<div class="check-card" STYLE="DISPLAY: NONE;">
 			<button><i class="material-icons">check</i></button>
 			<div class="text-holder">
 				<div class="medium-static-text">
@@ -94,10 +102,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="center-h title">Older</div>
-		<!-- testing element -->
-		<button class="center-h" onclick="test()">test: Press to add :)</button>
 		<!-- end test-->
+		<div id='card-divider-older' class="center-h title">Older</div>
 		</div>
 	</div>
   </body>
