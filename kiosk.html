@@ -23,6 +23,46 @@
 			el.classList.add("split-visible");
 		}
 	}
+	
+	//OBJECT - Card
+	function new_Card(personalid, intime, colornum) {
+		const obj = {};
+		obj.id = personalid;
+		obj.time = intime;
+		obj.color = colornum;
+		
+		obj.insertIntoCards = function() {
+			var wrap = document.createElement('div');
+				wrap.classList.add('check-card');
+				var btn = document.createElement('button');
+					var ico = document.createElement('i');
+					ico.classList.add('material-icons');
+					ico.innerHTML = "check";
+					btn.appendChild(ico);
+				wrap.appendChild(btn);
+				var txtwrap = document.createElement('div');
+					txtwrap.classList.add('text-holder');
+					txtwrap.classList.add('color-card-'+obj.color);
+					var txtmed = document.createElement('div');
+						txtmed.classList.add('medium-static-text');
+						txtmed.innerHTML = obj.id;
+					txtwrap.appendChild(txtmed);
+					var txtsml = document.createElement('div');
+						txtsml.classList.add('small-static-text');
+						txtsml.innerHTML = obj.time + "m ago";
+					txtwrap.appendChild(txtsml);
+				wrap.appendChild(txtwrap);
+			document.getElementById('sidebar-container').appendChild(wrap);
+		};
+		return obj;
+	}
+	
+	function test() {
+		for (var i=1; i<=6; i++) {
+		new_Card("12345",i*3,i).insertIntoCards();
+			}
+	}
+	
 	</script>
   <body id="splitbody" class="color-bg-main">	
 	<div id="main-form-container" class="pretty-scrollbar-light">
@@ -56,7 +96,7 @@
 		</div>
 		<div class="center-h title">Older</div>
 		<!-- testing element -->
-		<div class="center-h TEST-scroll">Scrollbar Tester</div>
+		<button class="center-h" onclick="test()">test: Press to add :)</button>
 		<!-- end test-->
 		</div>
 	</div>

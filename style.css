@@ -89,7 +89,6 @@ body.split-visible #main-form {
 
 .check-card {
 	width: 80%;
-	background-color: green;
 	margin-left: 10%;
 	margin-top: 20px;
 	margin-bottom: 20px;
@@ -101,15 +100,54 @@ body.split-visible #main-form {
 	float: right;
 	clear: left;
 	height: 100%;
+	width: fit-content;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	background-color: mediumseagreen;
+	border-left: 1px solid white;
 }
 .check-card .text-holder {
 	padding-top: 5px;
 	padding-left: 5px;
 	padding-bottom: 5px;
 	height: 100%;
+	width: 90%;
 }
 .check-card .text-holder div {
 	color: white;
+}
+.check-card .material-icons {
+	color: white;
+	font-size: xx-large;
+	float: right;
+	margin-right: 2px;
+}
+.check-card .medium-text {
+	font-size: medium;
+}
+.small-static-text {
+	font-size: 10px;
+	font-style: italic;
+}
+
+/* CARD COLORS */
+.color-card-1 {
+	background-color: #FF6663;
+}
+.color-card-2 {
+	background-color: #FEB144;
+}
+.color-card-3 {
+	background-color: #FDFD97;
+}
+.color-card-4 {
+	background-color: #9EE09E;
+}
+.color-card-5 {
+	background-color: #9EC1CF;
+}
+.color-card-6 {
+	background-color: #CC99C9;
 }
 
 /* GENERAL ELEMENT STYLING */
@@ -154,21 +192,12 @@ body.split-visible #main-form {
 	font-size: 1vw;
 }
 
-.medium-static-text {
-	font-size: 21px;
-}
-
-.small-static-text {
-	font-size: 10px;
-	font-style: italic;
-}
-
 .color-bg-main {
 	background-color: royalblue;
 }
 
 .color-bg-alt {
-	background-color: antiquewhite;
+	background-color: whitesmoke;
 }
 
 .large-spacer {
