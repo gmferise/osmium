@@ -60,11 +60,5 @@ function createTable(){
 		}
 	}
 	)
-	.then(
-	(response) => {
-		callback(response) {
-			databaseId = response.result.spreadsheetId;
-		}
-	}
-	);
+	.then(databaseId = response.result.spreadsheetId;);
 }
