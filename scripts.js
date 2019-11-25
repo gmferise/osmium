@@ -1,6 +1,6 @@
 // Google Auth Config
 var GoogleAuth;
-
+var databaseId
 
 function handleClientLoad() { // Called from HTML when API loads
 	gapi.load("client:auth2", initClient);
@@ -17,9 +17,7 @@ function initClient() { // Generates auth client instance, stored in GoogleAuth
 	}).then(function() {
 		GoogleAuth = gapi.auth2.getAuthInstance();
 		GoogleAuth.isSignedIn.listen(updateSigninStatus);
-		
-		loadAppData();
-		
+				
 		var user = GoogleAuth.currentUser.get();
 		setSigninStatus();
 		
@@ -27,45 +25,6 @@ function initClient() { // Generates auth client instance, stored in GoogleAuth
 			toggleAuth();
 		});
 	});
-}
-
-function loadAppData() {
-	// Search for our appdata file
-	var exists = false;
-	drive.files.list({
-		spaces: 'appDataFolder',
-		fields: 'nextPageToken, files(id, name)',
-		pageSize: 100
-	}, function (err, res) {
-		if (err) { console.error(err); }
-		else {
-			res.files.forEach(function (file) {
-				console.log('Found file:', file.name, file.id);
-				if (file.name == 'config.json') { exists = true; }
-			});
-		}
-	});
-	
-	// Not found, create it
-	if (!exists) {
-		var fileMetadata = {
-			'name': 'config.json',
-			'parents': ['appDataFolder']
-		};
-		var media = {
-			mimeType: 'application/json',
-			body: fs.createReadSstream('files/config.json')
-		};
-		drive.files.create({
-			resource: fileMetadata,
-			media: media,
-			fields: 'id'
-		}, function (err, file) {
-			if (err) { console.error(err); }
-			else { console.log('File Id:', file.id); }
-		});
-	}
-}
 
 function toggleAuth() {
 	if (GoogleAuth.isSignedIn.get()) {
@@ -93,21 +52,14 @@ function updateSigninStatus(isSignedIn) {
 }
 
 // Sheets Calls
-function testCall() {
-      var params = {
-        spreadsheetId: 'os-test',
-        range: 'A1:C3',
-        
-        // The default render option is ValueRenderOption.FORMATTED_VALUE.
-        valueRenderOption: '',
-        // The default dateTime render option is [DateTimeRenderOption.SERIAL_NUMBER].
-        dateTimeRenderOption: '',
-      };
-
-      var request = gapi.client.sheets.spreadsheets.values.get(params);
-      request.then(function(response) {
-        console.log(response.result);
-      }, function(reason) {
-        console.error('error: ' + reason.result.error.message);
-      });
-    }
+function createTable(){
+	gapi.client.sheets.spreadsheets.create({
+		properties: {
+			title: 'Osmium Database'
+		}
+	}).then((response) => {
+		callback(response);
+		databaseId = response.result.spreadsheetId;
+	});
+	console.log(databaseId);
+}
