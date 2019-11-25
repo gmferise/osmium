@@ -53,12 +53,18 @@ function updateSigninStatus(isSignedIn) {
 
 // Sheets Calls
 function createTable(){
-	gapi.client.sheets.spreadsheets.create({
+	gapi.client.sheets.spreadsheets.create(
+	{
 		properties: {
 			title: 'Osmium Database'
 		}
-	}).then((response) => {
-		callback(response);
-		databaseId = response.result.spreadsheetId;
-	});
+	}
+	)
+	.then(
+	(response) => {
+		callback(response) {
+			databaseId = response.result.spreadsheetId;
+		}
+	}
+	);
 }
