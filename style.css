@@ -92,7 +92,7 @@ body.split-visible #main-form {
 	margin-left: 10%;
 	margin-top: 20px;
 	margin-bottom: 20px;
-	height: 50px;
+	height: 45px;
 	overflow: hidden;
 }
 .check-card button {
@@ -110,11 +110,11 @@ body.split-visible #main-form {
 	padding-top: 5px;
 	padding-left: 5px;
 	padding-bottom: 5px;
-	height: 100%;
+	height: fit-content;
 	width: 90%;
 }
 .check-card .text-holder div {
-	color: white;
+	color: black;
 }
 .check-card .material-icons {
 	color: white;
@@ -123,11 +123,21 @@ body.split-visible #main-form {
 	margin-right: 2px;
 }
 .check-card .medium-text {
-	font-size: medium;
+	font-size: xx-large;
+	display: inline;
+	vertical-align: middle;
+	font-weight: 300;
 }
-.small-static-text {
-	font-size: 10px;
-	font-style: italic;
+.check-card .small-text {
+	font-size: larger;
+	float: right;
+	margin-right: 10px;
+}
+.check-card .small-text:before {
+	font-family: "Material Icons";
+	vertical-align: middle;
+	margin-right: 3px;
+	content: 'access_time';
 }
 
 /* CARD COLORS */
@@ -138,7 +148,7 @@ body.split-visible #main-form {
 	background-color: #FEB144;
 }
 .color-card-3 {
-	background-color: #FDFD97;
+	background-color: #FCE26E;
 }
 .color-card-4 {
 	background-color: #9EE09E;

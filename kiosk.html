@@ -2,13 +2,14 @@
 <html lang="en">
   <head>
 	<title>Osmium</title>
-	<link href="style.css" rel="stylesheet" type ="text/css"/>
 	<link href="favicon.ico" rel="icon" type="image/png">
 	
 	<!-- Vue Styling -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
+	
+	<link href="style.css" rel="stylesheet" type ="text/css"/>
 	
   </head>
   <script>
@@ -44,11 +45,11 @@
 					txtwrap.classList.add('text-holder');
 					txtwrap.classList.add('color-card-'+obj.color);
 					var txtmed = document.createElement('div');
-						txtmed.classList.add('medium-static-text');
+						txtmed.classList.add('medium-text');
 						txtmed.innerHTML = obj.id;
 					txtwrap.appendChild(txtmed);
 					var txtsml = document.createElement('div');
-						txtsml.classList.add('small-static-text');
+						txtsml.classList.add('small-text');
 						txtsml.innerHTML = obj.time + "m ago";
 					txtwrap.appendChild(txtsml);
 				wrap.appendChild(txtwrap);
@@ -94,10 +95,10 @@
 		<div class="check-card" STYLE="DISPLAY: NONE;">
 			<button><i class="material-icons">check</i></button>
 			<div class="text-holder">
-				<div class="medium-static-text">
+				<div class="medium-text">
 				991015
 				</div>
-				<div class="small-static-text">
+				<div class="small-text">
 				10m ago
 				</div>
 			</div>
