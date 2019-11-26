@@ -129,13 +129,14 @@ body.split-visible #main-form {
 	font-weight: 300;
 }
 .check-card .small-text {
-	font-size: larger;
+	font-size: 130%;
 	float: right;
 	margin-right: 10px;
 }
 .check-card .small-text:before {
 	font-family: "Material Icons";
 	vertical-align: middle;
+	font-size: inherit;
 	margin-right: 3px;
 	content: 'access_time';
 }
