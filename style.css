@@ -335,8 +335,11 @@ body.split-visible #main-form {
 input:checked + .slider {
 	background-color: mediumseagreen;
 }
+input:checked:focus + .slider {
+	box-shadow: 0 0 10px mediumseagreen, 0 0 0px 3px #fff;
+}
 input:focus + .slider {
-	box-shadow: 0 0 1px mediumseagreen;
+	box-shadow: 0 0 10px 1px #ccc, 0 0 0px 3px #fff;
 }
 input:checked + .slider:before {
 	transform: translateX(26px);
