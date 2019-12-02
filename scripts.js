@@ -1,6 +1,6 @@
 // Google Auth Config
 var GoogleAuth;
-var databaseId
+var databaseId;
 
 function handleClientLoad() { // Called from HTML when API loads
 	gapi.load("client:auth2", initClient);
@@ -58,7 +58,8 @@ function createTable(){
 		properties: {
 			title: 'Osmium Database'
 		}
-	}).then( (response) => {
-			databaseId = response.result.spreadsheetId;
-	});
+	}).then((response) => {
+    databaseId = response.result.spreadsheetId;
+    callback(response);
+  });
 }
