@@ -49,9 +49,7 @@ body.split-visible #sidebar-toggle .material-icons {
 	top: 0;
 	left: 100%;
 	transition: left 0.25s ease-in-out;
-	
-	overflow-x: hidden;
-	overflow-y: scroll;
+	overflow: hidden;
 }
 body.split-visible #sidebar-container {
 	box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.37);
@@ -87,13 +85,17 @@ body.split-visible #main-form {
 	margin-right: 0%;
 }
 
+#cards-wrapper {
+	overflow-y: scroll;
+	max-height: calc(100% - 50px);
+}
+
 .check-card {
 	width: 80%;
-	background-color: green;
 	margin-left: 10%;
 	margin-top: 20px;
 	margin-bottom: 20px;
-	height: 50px;
+	height: 45px;
 	overflow: hidden;
 }
 .check-card button {
@@ -101,15 +103,121 @@ body.split-visible #main-form {
 	float: right;
 	clear: left;
 	height: 100%;
+	width: fit-content;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	background-color: mediumseagreen;
+	border-left: 1px solid white;
+	cursor: pointer;
+}
+.check-card button:hover .material-icons {
+	animation: wiggle 0.25s linear forwards;
+	text-shadow: 1px 3px 0 #000;
+} @keyframes wiggle {
+	0% {transform:rotate(0deg);}
+	25% {transform:rotate(10deg);}
+	50% {transform:rotate(0deg);}
+	75% {transform:rotate(-10deg);}
+	100% {transform:rotate(0deg);}
 }
 .check-card .text-holder {
 	padding-top: 5px;
 	padding-left: 5px;
 	padding-bottom: 5px;
-	height: 100%;
+	height: fit-content;
+	width: 90%;
 }
 .check-card .text-holder div {
+	color: black;
+}
+.check-card .material-icons {
 	color: white;
+	font-size: xx-large;
+	float: right;
+	margin-right: 2px;
+}
+.check-card .medium-text {
+	font-size: xx-large;
+	display: inline;
+	vertical-align: middle;
+	font-weight: 300;
+}
+.check-card .small-text {
+	font-size: 130%;
+	float: right;
+	margin-right: 10px;
+}
+.check-card .small-text:before {
+	font-family: "Material Icons";
+	vertical-align: middle;
+	font-size: inherit;
+	margin-right: 3px;
+	content: 'access_time';
+}
+
+#search-wrapper {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	max-height: 50px;
+	width: 100%;
+	box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.37);
+	
+	display: table;
+}
+
+#crisis-wrapper {
+	padding: 8px;
+	width: 245px;
+	white-space: nowrap;
+}
+#crisis-wrapper .medium-text {
+	display: inline-block;
+	float: left;
+	font-size: 27px;
+	margin-right: 8px;
+	font-weight: 100;
+}
+#search-wrapper button {
+	height: 100%;
+	width: fit-content;
+	border: none;
+	float: right;
+}
+#search-wrapper button .material-icons {
+	font-size: 50px;
+}
+#searchbar {
+	height: 100%;
+	padding-right: 2%;
+	width: auto;
+}
+#searchbar input {
+	width: 100%;
+}
+#crisis-wrapper, #searchbar, .button {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+/* CARD COLORS */
+.color-card-1 {
+	background-color: #FF6663;
+}
+.color-card-2 {
+	background-color: #FEB144;
+}
+.color-card-3 {
+	background-color: #FCE26E;
+}
+.color-card-4 {
+	background-color: #9EE09E;
+}
+.color-card-5 {
+	background-color: #9EC1CF;
+}
+.color-card-6 {
+	background-color: #CC99C9;
 }
 
 /* GENERAL ELEMENT STYLING */
@@ -154,21 +262,12 @@ body.split-visible #main-form {
 	font-size: 1vw;
 }
 
-.medium-static-text {
-	font-size: 21px;
-}
-
-.small-static-text {
-	font-size: 10px;
-	font-style: italic;
-}
-
 .color-bg-main {
 	background-color: royalblue;
 }
 
 .color-bg-alt {
-	background-color: antiquewhite;
+	background-color: whitesmoke;
 }
 
 .large-spacer {
@@ -200,6 +299,53 @@ body.split-visible #main-form {
 
 .pretty-scrollbar-dark::-webkit-scrollbar {
 	width: 10px;
+}
+
+/* PRETTY ELEMENT STRUCTURES */
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+}
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	border-radius: 34px;
+	transition: all 0.25s ease-in-out;
+}
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 26px;
+	width: 26px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	border-radius: 50%;
+	transition: all 0.25s ease-in-out;
+}
+input:checked + .slider {
+	background-color: mediumseagreen;
+}
+input:checked:focus + .slider {
+	box-shadow: 0 0 10px mediumseagreen, 0 0 0px 3px #fff;
+}
+input:focus + .slider {
+	box-shadow: 0 0 10px 1px #ccc, 0 0 0px 3px #fff;
+}
+input:checked + .slider:before {
+	transform: translateX(26px);
 }
 
 /* testing css */
