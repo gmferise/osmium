@@ -1,6 +1,51 @@
-// Google Auth Config
-var GoogleAuth;
-var databaseId;
+// NOTE: Any relevant information for frontend is
+// located towards the top of each large section header.
+// Button functions & global variables are for you!
+
+/// *********************
+/// * COOKIE MANAGEMENT *
+/// *********************
+
+// ***** UTILITY FUNCTIONS *****
+function setCookie(id, value){
+	var exp = new Date();
+	exp.setFullYear(exp.getFullYear()+1);
+	document.cookie = id+'='+value+'; path=/; expires='+exp.toUTCString();
+}
+
+function getCookie(id){
+	id = id+'=';
+	var cookieArray = decodeURIComponent(document.cookie).split(';');
+	for (var i = 0; i < cookieArray.length(); i++){
+		var c = cookieArray[i];
+		while (c.charAt(0) == ' '){
+			c = c.substring(1);
+		}
+		if (c.indexOf(id) == 0){
+			return c.substring(id.length, c.length);
+		}
+	}
+	return '';
+}
+
+/// ******************************
+/// * GOOGLE AUTH API AND CONFIG *
+/// ******************************
+
+var GoogleAuth; // Stores authenticated token
+
+// ***** BUTTON FUNCTIONS *****
+
+function toggleAuth() { // Hangles sign in and out with one press
+	if (GoogleAuth.isSignedIn.get()) {
+		GoogleAuth.signOut();
+	}
+	else {
+		GoogleAuth.signIn();
+	}
+}
+
+// ***** INTERNAL FUNCTIONS *****
 
 function handleClientLoad() { // Called from HTML when API loads
 	gapi.load("client:auth2", initClient);
@@ -19,7 +64,7 @@ function initClient() { // Generates auth client instance, stored in GoogleAuth
 		GoogleAuth.isSignedIn.listen(updateSigninStatus);
 				
 		var user = GoogleAuth.currentUser.get();
-		setSigninStatus();
+		updateAuthStatus();
 		
 		$("#sign-in-or-out-button").click(function() {
 			toggleAuth();
@@ -27,16 +72,7 @@ function initClient() { // Generates auth client instance, stored in GoogleAuth
 	});
 }
 
-function toggleAuth() {
-	if (GoogleAuth.isSignedIn.get()) {
-		GoogleAuth.signOut();
-	}
-	else {
-		GoogleAuth.signIn();
-	}
-}
-
-function setSigninStatus(isSignedIn) { // Sets status message
+function updateAuthStatus() { // Updates status text
 	var user = GoogleAuth.currentUser.get();
 	if (GoogleAuth.isSignedIn.get()) {
 		$('#sign-in-or-out-button').html('Sign Out');
@@ -48,17 +84,40 @@ function setSigninStatus(isSignedIn) { // Sets status message
 	}
 }
 
-function updateSigninStatus(isSignedIn) {
-	setSigninStatus();
-}
+/// *************************
+/// * DATABASE MANAGEMENT *
+/// *************************
 
-// Sheets Calls
-function createTable(){
+var knownDatabases = []; // List of known OS Databases, use to populate dropdown
+var databaseId; // Currently selected OS Database (Spreadsheet ID)
+
+// ***** BUTTON FUNCTIONS *****
+
+// Creates new database in user's Drive using given name
+function createDatabase(name){
+	name = '[OsDB] '+name;
 	gapi.client.sheets.spreadsheets.create({
 		properties: {
-			title: 'Osmium Database'
+		title: name
 		}
 	}).then((response) => {
     databaseId = response.result.spreadsheetId;
+	knownDatabases.push(databaseId);
+	writeKnownDatabases();
   });
+}
+
+// ***** INTERNAL FUNCTIONS *****
+
+function readKnownDatabases(){
+	knownDatabases = JSON.parse(getCookie('databases'));
+}
+
+function writeKnownDatabases(){
+	setCookie('databases',JSON.stringify(knownDatabases));
+}
+
+function selectDatabase(index){
+	databaseId = knownDatabases[index];
+	// TODO: Actually do stuff
 }
