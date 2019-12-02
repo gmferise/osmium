@@ -13,7 +13,7 @@ function initClient() { // Generates auth client instance, stored in GoogleAuth
 		"apiKey":"AIzaSyDIptkXtN8vcrOr5LPBvk21WuAk8UmVwAs",
 		"discoveryDocs":docs,
 		"clientId":"1031491199015-pbjmtfn9kj0tvcl24k7vntelua6glb90.apps.googleusercontent.com",
-		"scope":"https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.appdata"
+		"scope":"https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/spreadsheets"
 	}).then(function() {
 		GoogleAuth = gapi.auth2.getAuthInstance();
 		GoogleAuth.isSignedIn.listen(updateSigninStatus);
@@ -60,6 +60,5 @@ function createTable(){
 		}
 	}).then((response) => {
     databaseId = response.result.spreadsheetId;
-    callback(response);
   });
 }
