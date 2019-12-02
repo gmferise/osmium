@@ -26,6 +26,16 @@
 		}
 	}
 	
+	function showSearch(forcestate) {
+		var el = document.getElementById("search-wrapper");
+		
+		if ((el.classList.contains("expanded"))&&(forcestate != true)) {
+			el.classList.remove("expanded");
+		} else if (forcestate != false) {
+			el.classList.add("expanded");
+		}
+	}
+	
 	//OBJECT - Card
 	function new_Card(personalid, intime, colornum) {
 		const obj = {};
@@ -117,10 +127,10 @@
 					<span class="slider"></span>
 					</label>
 			</div>
-			<div id='searchbar'>
-				<input type='text' id='searchfield'></input>
+			<div id='searchbar' onclick="showSearch()">
+				<input type='text' id='searchfield' placeholder="Search"></input>
+				<button><i class="material-icons">search</i></button>
 			</div>
-			<button><i class="material-icons">search</i></button>
 		</div>
 	</div>
   </body>

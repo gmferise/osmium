@@ -160,16 +160,20 @@ body.split-visible #main-form {
 	bottom: 0;
 	left: 0;
 	max-height: 50px;
+	height: 50px;
 	width: 100%;
 	box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.37);
-	
-	display: table;
 }
 
 #crisis-wrapper {
 	padding: 8px;
-	width: 245px;
 	white-space: nowrap;
+	display: inline;
+	vertical-align: middle;
+	float: left;
+	position: absolute;
+	left: 0;
+	transition: transform 0.25s ease-in-out;
 }
 #crisis-wrapper .medium-text {
 	display: inline-block;
@@ -178,26 +182,36 @@ body.split-visible #main-form {
 	margin-right: 8px;
 	font-weight: 100;
 }
-#search-wrapper button {
+#searchbar button {
 	height: 100%;
 	width: fit-content;
 	border: none;
 	float: right;
+	position: absolute;
+	bottom: 0;
+	right: 0;
 }
-#search-wrapper button .material-icons {
+#searchbar button .material-icons {
 	font-size: 50px;
 }
 #searchbar {
 	height: 100%;
-	padding-right: 2%;
-	width: auto;
+	float: right;
+	width: calc(100% - 246px);
+	transition: width 0.25s ease-in-out;
 }
-#searchbar input {
+#searchfield {
 	width: 100%;
+	height: 100%;
+	border: none;
+	padding-left: 10px;
+	transition: left 0.25s ease-in-out;
 }
-#crisis-wrapper, #searchbar, .button {
-	display: table-cell;
-	vertical-align: middle;
+#search-wrapper.expanded #crisis-wrapper {
+	transform: translate(-100%, 0);
+}
+#search-wrapper.expanded #searchbar {
+	width: 100%;
 }
 
 /* CARD COLORS */
