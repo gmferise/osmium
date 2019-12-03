@@ -127,14 +127,15 @@ function writeKnownDatabases(){
 	setCookie('databases',JSON.stringify(Object.assign({},knownDatabases)));
 }
 
-// Given Spreadsheet url, loads it into known and cookies
+// Given Spreadsheet url, loads it into knownDBs and cookies
 function importDatabase(url){
-	var id = new RegExp("/spreadsheets/d/([a-zA-Z0-9-_]+)").exec(resourceUrl)[1];
+	var id = new RegExp("/spreadsheets/d/([a-zA-Z0-9-_]+)").exec(url)[1];
 	var name = '';
-	gapi.client.sheets.spreadsheets.get(
-	).then(function(response){
-		name = response.properties.title;
+	gapi.client.sheets.spreadsheets.get({
+		spreadsheetId:id
+	}).then(function(response){
+		name = JSON.parse(response.body)['properties']['title'];
+		knownDatabases[name] = id;
+		writeKnownDatabases();
 	});
-	knownDatabases[name] = id;
-	writeKnownDatabases();
 }
