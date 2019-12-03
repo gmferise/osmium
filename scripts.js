@@ -102,10 +102,10 @@ function createDatabase(name){
 		properties: {
 		title: name
 		}
-	}).then((response) => {
-    databaseId = response.result.spreadsheetId;
-	knownDatabases[name] = databaseId;
-	writeKnownDatabases();
+	}).then(function(response){
+		databaseId = response.result.spreadsheetId;
+		knownDatabases[name] = databaseId;
+		writeKnownDatabases();
   });
 }
 
@@ -125,4 +125,16 @@ function writeKnownDatabases(){
 	// Super jank, if you don't assign then stringify
 	// Gives you just "[]"
 	setCookie('databases',JSON.stringify(Object.assign({},knownDatabases)));
+}
+
+// Given Spreadsheet url, loads it into known and cookies
+function importDatabase(url){
+	var id = new RegExp("/spreadsheets/d/([a-zA-Z0-9-_]+)").exec(resourceUrl)[1];
+	var name = '';
+	gapi.client.sheets.spreadsheets.get(
+	).then(function(response){
+		name = response.properties.title;
+	});
+	knownDatabases[name] = id;
+	writeKnownDatabases();
 }
