@@ -182,28 +182,20 @@ body.split-visible #main-form {
 	margin-right: 8px;
 	font-weight: 100;
 }
-#searchbar button {
-	height: 100%;
-	width: fit-content;
-	border: none;
-	float: right;
-	position: absolute;
-	bottom: 0;
-	right: 0;
-}
-#searchbar button .material-icons {
-	font-size: 50px;
-}
 #searchbar {
 	height: 100%;
 	float: right;
 	width: calc(100% - 246px);
+	box-sizing: border-box;
+	padding: 5px;
 	transition: width 0.25s ease-in-out;
 }
 #searchfield {
 	width: 100%;
 	height: 100%;
-	border: none;
+	border: 1px solid grey;
+	border-radius: 50px;
+	box-sizing: border-box;
 	padding-left: 10px;
 	transition: left 0.25s ease-in-out;
 }
