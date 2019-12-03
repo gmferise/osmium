@@ -16,7 +16,7 @@ function setCookie(id, value){
 function getCookie(id){
 	id = id+'=';
 	var cookieArray = decodeURIComponent(document.cookie).split(';');
-	for (var i = 0; i < cookieArray.length(); i++){
+	for (var i = 0; i < cookieArray.length; i++){
 		var c = cookieArray[i];
 		while (c.charAt(0) == ' '){
 			c = c.substring(1);
@@ -61,7 +61,7 @@ function initClient() { // Generates auth client instance, stored in GoogleAuth
 		"scope":"https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/spreadsheets"
 	}).then(function() {
 		GoogleAuth = gapi.auth2.getAuthInstance();
-		GoogleAuth.isSignedIn.listen(updateSigninStatus);
+		GoogleAuth.isSignedIn.listen(updateAuthStatus);
 				
 		var user = GoogleAuth.currentUser.get();
 		updateAuthStatus();
@@ -88,7 +88,9 @@ function updateAuthStatus() { // Updates status text
 /// * DATABASE MANAGEMENT *
 /// *************************
 
-var knownDatabases = []; // List of known OS Databases, use to populate dropdown
+// Dictionary of known OS Databases, use to populate dropdown
+// Stored as 'Name':'SpreadsheetID'
+var knownDatabases = {}; 
 var databaseId; // Currently selected OS Database (Spreadsheet ID)
 
 // ***** BUTTON FUNCTIONS *****
@@ -100,24 +102,39 @@ function createDatabase(name){
 		properties: {
 		title: name
 		}
-	}).then((response) => {
-    databaseId = response.result.spreadsheetId;
-	knownDatabases.push(databaseId);
-	writeKnownDatabases();
+	}).then(function(response){
+		databaseId = response.result.spreadsheetId;
+		knownDatabases[name] = databaseId;
+		writeKnownDatabases();
   });
+}
+
+// Selects a database from index in knownDatabases
+function selectDatabase(index){ 
+	databaseId = knownDatabases[index];
 }
 
 // ***** INTERNAL FUNCTIONS *****
 
 function readKnownDatabases(){
 	knownDatabases = JSON.parse(getCookie('databases'));
+	console.log(knownDatabases);
 }
 
 function writeKnownDatabases(){
-	setCookie('databases',JSON.stringify(knownDatabases));
+	// Super jank, if you don't assign then stringify
+	// Gives you just "[]"
+	setCookie('databases',JSON.stringify(Object.assign({},knownDatabases)));
 }
 
-function selectDatabase(index){
-	databaseId = knownDatabases[index];
-	// TODO: Actually do stuff
+// Given Spreadsheet url, loads it into known and cookies
+function importDatabase(url){
+	var id = new RegExp("/spreadsheets/d/([a-zA-Z0-9-_]+)").exec(resourceUrl)[1];
+	var name = '';
+	gapi.client.sheets.spreadsheets.get(
+	).then(function(response){
+		name = response.properties.title;
+	});
+	knownDatabases[name] = id;
+	writeKnownDatabases();
 }
