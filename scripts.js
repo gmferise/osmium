@@ -16,7 +16,7 @@ function setCookie(id, value){
 function getCookie(id){
 	id = id+'=';
 	var cookieArray = decodeURIComponent(document.cookie).split(';');
-	for (var i = 0; i < cookieArray.length(); i++){
+	for (var i = 0; i < cookieArray.length; i++){
 		var c = cookieArray[i];
 		while (c.charAt(0) == ' '){
 			c = c.substring(1);
@@ -122,5 +122,7 @@ function readKnownDatabases(){
 }
 
 function writeKnownDatabases(){
-	setCookie('databases',JSON.stringify(knownDatabases));
+	// Super jank, if you don't assign then stringify
+	// Gives you just "[]"
+	setCookie('databases',JSON.stringify(Object.assign({},knownDatabases));
 }
