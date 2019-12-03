@@ -88,7 +88,7 @@ function updateAuthStatus() { // Updates status text
 /// * DATABASE MANAGEMENT *
 /// *************************
 
-var knownDatabases = []; // List of known OS Databases, use to populate dropdown
+var knownDatabases = {}; // List of known OS Databases, use to populate dropdown
 var databaseId; // Currently selected OS Database (Spreadsheet ID)
 
 // ***** BUTTON FUNCTIONS *****
@@ -102,22 +102,23 @@ function createDatabase(name){
 		}
 	}).then((response) => {
     databaseId = response.result.spreadsheetId;
-	knownDatabases.push(databaseId);
+	knownDatabases[name] = databaseId;
 	writeKnownDatabases();
   });
+}
+
+// Selects a database from index in knownDatabases
+function selectDatabase(index){ 
+	databaseId = knownDatabases[index];
 }
 
 // ***** INTERNAL FUNCTIONS *****
 
 function readKnownDatabases(){
 	knownDatabases = JSON.parse(getCookie('databases'));
+	console.log(knownDatabases);
 }
 
 function writeKnownDatabases(){
 	setCookie('databases',JSON.stringify(knownDatabases));
-}
-
-function selectDatabase(index){
-	databaseId = knownDatabases[index];
-	// TODO: Actually do stuff
 }
