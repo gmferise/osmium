@@ -124,5 +124,5 @@ function readKnownDatabases(){
 function writeKnownDatabases(){
 	// Super jank, if you don't assign then stringify
 	// Gives you just "[]"
-	setCookie('databases',JSON.stringify(Object.assign({},knownDatabases));
+	setCookie('databases',JSON.stringify(Object.assign({},knownDatabases)));
 }
