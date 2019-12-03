@@ -88,7 +88,9 @@ function updateAuthStatus() { // Updates status text
 /// * DATABASE MANAGEMENT *
 /// *************************
 
-var knownDatabases = {}; // List of known OS Databases, use to populate dropdown
+// Dictionary of known OS Databases, use to populate dropdown
+// Stored as 'Name':'SpreadsheetID'
+var knownDatabases = {}; 
 var databaseId; // Currently selected OS Database (Spreadsheet ID)
 
 // ***** BUTTON FUNCTIONS *****
