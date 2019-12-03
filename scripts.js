@@ -61,7 +61,7 @@ function initClient() { // Generates auth client instance, stored in GoogleAuth
 		"scope":"https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/spreadsheets"
 	}).then(function() {
 		GoogleAuth = gapi.auth2.getAuthInstance();
-		GoogleAuth.isSignedIn.listen(updateSigninStatus);
+		GoogleAuth.isSignedIn.listen(updateAuthStatus);
 				
 		var user = GoogleAuth.currentUser.get();
 		updateAuthStatus();
