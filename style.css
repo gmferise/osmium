@@ -189,7 +189,9 @@ body.split-visible #main-form {
 	float: right;
 	position: absolute;
 	bottom: 0;
-	right: 0;
+	right: 5px;
+	border-top-right-radius: 25px;
+	border-bottom-right-radius: 25px;
 }
 #searchbar button .material-icons {
 	font-size: 50px;
@@ -198,12 +200,17 @@ body.split-visible #main-form {
 	height: 100%;
 	float: right;
 	width: calc(100% - 246px);
+	box-sizing: border-box;
+	padding-right: 30px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 	transition: width 0.25s ease-in-out;
 }
 #searchfield {
 	width: 100%;
 	height: 100%;
 	border: none;
+	border-radius: 50px;
 	padding-left: 10px;
 	transition: left 0.25s ease-in-out;
 }
@@ -211,7 +218,7 @@ body.split-visible #main-form {
 	transform: translate(-100%, 0);
 }
 #search-wrapper.expanded #searchbar {
-	width: 100%;
+	width: calc(100% - 5px);
 }
 
 /* CARD COLORS */
