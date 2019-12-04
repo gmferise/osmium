@@ -45,11 +45,18 @@ function initClient() { // Generates auth client instance, stored in GoogleAuth
 }
 
 function updateAuthButton() { // Updates button
+	var btn = document.getElementById('auth-button');
 	if (GoogleAuth.isSignedIn.get()) {
-		$('#auth-button').html('Sign Out');
+		btn.innerHTML = "Sign Out";
+		if (!(btn.classList.contains('signed-in'))) {
+			btn.classList.add('signed-in');
+		}
 	}
 	else {
-		$('#auth-button').html('Sign In');
+		btn.innerHTML = "Sign In";
+		if (btn.classList.contains('signed-in')) {
+			btn.classList.remove('signed-in');
+		}
 	}
 }
 
