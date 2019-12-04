@@ -2,32 +2,6 @@
 // located towards the top of each large section header.
 // Button functions & global variables are for you!
 
-/// *********************
-/// * COOKIE MANAGEMENT *
-/// *********************
-
-// ***** UTILITY FUNCTIONS *****
-function setCookie(id, value){
-	var exp = new Date();
-	exp.setFullYear(exp.getFullYear()+1);
-	document.cookie = id+'='+value+'; path=/; expires='+exp.toUTCString();
-}
-
-function getCookie(id){
-	id = id+'=';
-	var cookieArray = decodeURIComponent(document.cookie).split(';');
-	for (var i = 0; i < cookieArray.length(); i++){
-		var c = cookieArray[i];
-		while (c.charAt(0) == ' '){
-			c = c.substring(1);
-		}
-		if (c.indexOf(id) == 0){
-			return c.substring(id.length, c.length);
-		}
-	}
-	return '';
-}
-
 /// ******************************
 /// * GOOGLE AUTH API AND CONFIG *
 /// ******************************
@@ -61,27 +35,48 @@ function initClient() { // Generates auth client instance, stored in GoogleAuth
 		"scope":"https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/spreadsheets"
 	}).then(function() {
 		GoogleAuth = gapi.auth2.getAuthInstance();
-		GoogleAuth.isSignedIn.listen(updateAuthStatus);
-				
-		var user = GoogleAuth.currentUser.get();
-		updateAuthStatus();
+		GoogleAuth.isSignedIn.listen(updateAuthButton);
 		
-		$("#sign-in-or-out-button").click(function() {
+		updateAuthButton();
+		$("#auth-button").click(function() {
 			toggleAuth();
 		});
 	});
 }
 
-function updateAuthStatus() { // Updates status text
-	var user = GoogleAuth.currentUser.get();
+function updateAuthButton() { // Updates button
 	if (GoogleAuth.isSignedIn.get()) {
 		$('#sign-in-or-out-button').html('Sign Out');
-		$('#auth-status').html('(Currently Signed In.)');
 	}
 	else {
 		$('#sign-in-or-out-button').html('Sign In');
-		$('#auth-status').html('(Curently Signed Out.)');
 	}
+}
+
+/// *********************
+/// * COOKIE MANAGEMENT *
+/// *********************
+
+// ***** UTILITY FUNCTIONS *****
+function setCookie(id, value){
+	var exp = new Date();
+	exp.setFullYear(exp.getFullYear()+1);
+	document.cookie = id+'='+value+'; path=/; expires='+exp.toUTCString();
+}
+
+function getCookie(id){
+	id = id+'=';
+	var cookieArray = decodeURIComponent(document.cookie).split(';');
+	for (var i = 0; i < cookieArray.length; i++){
+		var c = cookieArray[i];
+		while (c.charAt(0) == ' '){
+			c = c.substring(1);
+		}
+		if (c.indexOf(id) == 0){
+			return c.substring(id.length, c.length);
+		}
+	}
+	return '';
 }
 
 /// *************************
@@ -102,10 +97,10 @@ function createDatabase(name){
 		properties: {
 		title: name
 		}
-	}).then((response) => {
-    databaseId = response.result.spreadsheetId;
-	knownDatabases[name] = databaseId;
-	writeKnownDatabases();
+	}).then(function(response){
+		databaseId = response.result.spreadsheetId;
+		knownDatabases[name] = databaseId;
+		writeKnownDatabases();
   });
 }
 
@@ -122,5 +117,20 @@ function readKnownDatabases(){
 }
 
 function writeKnownDatabases(){
-	setCookie('databases',JSON.stringify(knownDatabases));
+	// Super jank, if you don't assign then stringify
+	// Gives you just "[]"
+	setCookie('databases',JSON.stringify(Object.assign({},knownDatabases)));
+}
+
+// Given Spreadsheet url, loads it into knownDBs and cookies
+function importDatabase(url){
+	var id = new RegExp("/spreadsheets/d/([a-zA-Z0-9-_]+)").exec(url)[1];
+	var name = '';
+	gapi.client.sheets.spreadsheets.get({
+		spreadsheetId:id
+	}).then(function(response){
+		name = JSON.parse(response.body)['properties']['title'];
+		knownDatabases[name] = id;
+		writeKnownDatabases();
+	});
 }

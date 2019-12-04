@@ -88,6 +88,7 @@ body.split-visible #main-form {
 #cards-wrapper {
 	overflow-y: scroll;
 	max-height: calc(100% - 50px);
+	min-height: calc(100% - 50px);
 }
 
 .check-card {
@@ -160,13 +161,36 @@ body.split-visible #main-form {
 	bottom: 0;
 	left: 0;
 	max-height: 50px;
+	box-sizing: border-box;
 	height: 50px;
 	width: 100%;
+	padding: 5px;
 	box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.37);
+}
+#search-wrapper button.material-icons {
+	border: none;
+	height: 100%;
+	padding: 0;	
+	padding-left: 0.5%;
+	width: 0;
+	font-size: 0;
+	position: absolute;
+	top: 0;
+	left: 246px;
+	transition: all 0.25s ease-in-out;
+}
+#search-wrapper button.material-icons:focus {
+	outline: 0;
+}
+#search-wrapper.expanded button.material-icons {
+	width: 5%;
+	font-size: 24px;
+	left: 0px;
 }
 
 #crisis-wrapper {
-	padding: 8px;
+	padding: 3px;
+	padding-left: 8px;
 	white-space: nowrap;
 	display: inline;
 	vertical-align: middle;
@@ -182,36 +206,36 @@ body.split-visible #main-form {
 	margin-right: 8px;
 	font-weight: 100;
 }
-#searchbar button {
-	height: 100%;
-	width: fit-content;
-	border: none;
-	float: right;
-	position: absolute;
-	bottom: 0;
-	right: 0;
-}
-#searchbar button .material-icons {
-	font-size: 50px;
-}
 #searchbar {
 	height: 100%;
 	float: right;
 	width: calc(100% - 246px);
+	box-sizing: border-box;
+	padding: 7px;
+	border: 1px solid #ccc;
+	border-radius: 50px;
+	background-color: white;
 	transition: width 0.25s ease-in-out;
 }
+#searchbar .material-icons {
+	font-size: 28px;
+	vertical-align: middle;
+}
 #searchfield {
-	width: 100%;
+	width: calc(100% - 50px);
 	height: 100%;
 	border: none;
-	padding-left: 10px;
-	transition: left 0.25s ease-in-out;
+	box-sizing: border-box;
+	vertical-align: middle;
+}
+#searchfield:focus {
+	outline:0;
 }
 #search-wrapper.expanded #crisis-wrapper {
 	transform: translate(-100%, 0);
 }
 #search-wrapper.expanded #searchbar {
-	width: 100%;
+	width: 95%;
 }
 
 /* CARD COLORS */
@@ -365,6 +389,6 @@ input:checked + .slider:before {
 /* testing css */
 .TEST-scroll {
 	height: 1000px;
-	border: 1px dashed magenta;
+	outline: 1px dashed magenta;
 	margin: 10px;
 }
