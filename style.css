@@ -179,6 +179,9 @@ body.split-visible #main-form {
 	left: 246px;
 	transition: all 0.25s ease-in-out;
 }
+#search-wrapper button.material-icons:focus {
+	outline: 0;
+}
 #search-wrapper.expanded button.material-icons {
 	width: 5%;
 	font-size: 24px;
