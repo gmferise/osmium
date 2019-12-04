@@ -88,6 +88,7 @@ body.split-visible #main-form {
 #cards-wrapper {
 	overflow-y: scroll;
 	max-height: calc(100% - 50px);
+	min-height: calc(100% - 50px);
 }
 
 .check-card {
@@ -166,6 +167,26 @@ body.split-visible #main-form {
 	padding: 5px;
 	box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.37);
 }
+#search-wrapper button.material-icons {
+	border: none;
+	height: 100%;
+	padding: 0;	
+	padding-left: 0.5%;
+	width: 0;
+	font-size: 0;
+	position: absolute;
+	top: 0;
+	left: 246px;
+	transition: all 0.25s ease-in-out;
+}
+#search-wrapper button.material-icons:focus {
+	outline: 0;
+}
+#search-wrapper.expanded button.material-icons {
+	width: 5%;
+	font-size: 24px;
+	left: 0px;
+}
 
 #crisis-wrapper {
 	padding: 3px;
@@ -201,16 +222,20 @@ body.split-visible #main-form {
 	vertical-align: middle;
 }
 #searchfield {
-	width: calc(100% - 32px);
+	width: calc(100% - 50px);
 	height: 100%;
 	border: none;
 	box-sizing: border-box;
+	vertical-align: middle;
+}
+#searchfield:focus {
+	outline:0;
 }
 #search-wrapper.expanded #crisis-wrapper {
 	transform: translate(-100%, 0);
 }
 #search-wrapper.expanded #searchbar {
-	width: 100%;
+	width: 95%;
 }
 
 /* CARD COLORS */
@@ -364,6 +389,6 @@ input:checked + .slider:before {
 /* testing css */
 .TEST-scroll {
 	height: 1000px;
-	border: 1px dashed magenta;
+	outline: 1px dashed magenta;
 	margin: 10px;
 }
