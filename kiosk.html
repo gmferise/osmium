@@ -8,7 +8,6 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
-	
 	<link href="style.css" rel="stylesheet" type ="text/css"/>
 	
   </head>
@@ -17,22 +16,31 @@
 	//showSidebar(true|false) - set visibility
 	function showSidebar(forcestate) {
 		var el = document.getElementById("splitbody");
-		
 		if ((el.classList.contains("split-visible"))&&(forcestate != true)) {
+			//hide
 			el.classList.remove("split-visible");
+			//hide search
+			showSearch(false);
 		} else if (forcestate != false) {
+			//show
 			el.classList.add("split-visible");
+			//scroll to top
 			document.getElementById('cards-wrapper').scrollTop = 0;
 		}
 	}
 	
 	function showSearch(forcestate) {
 		var el = document.getElementById("search-wrapper");
-		
 		if ((el.classList.contains("expanded"))&&(forcestate != true)) {
+			//minimize
 			el.classList.remove("expanded");
+			//clear search
+			document.getElementById('searchfield').value = '';
 		} else if (forcestate != false) {
+			//maximize
 			el.classList.add("expanded");
+			//focus search
+			document.getElementById('searchfield').focus();
 		}
 	}
 	
@@ -96,7 +104,7 @@
 		<div class="large-spacer"></div>
 	</div>
 	<div id="sidebar-container" class="color-bg-alt">
-		<div id='cards-wrapper' class='pretty-scrollbar-dark'>
+		<div id='cards-wrapper' class='pretty-scrollbar-dark' onclick='showSearch(false)'>
 			<div class="small-spacer"></div>
 			<!-- testing element -->
 			<button class="center-h" style="position: absolute;" onclick="test()">test: Press to add :)</button>
@@ -127,7 +135,8 @@
 					<span class="slider"></span>
 					</label>
 			</div>
-			<div id='searchbar' onclick="showSearch()">
+			<button class="material-icons color-bg-alt" onclick="showSearch(false)">keyboard_arrow_left</button>
+			<div id='searchbar' onclick="showSearch(true)">
 				<i class="material-icons">search</i>
 				<input type='text' id='searchfield' placeholder="Search"></input>
 			</div>
