@@ -38,9 +38,6 @@ function initClient() { // Generates auth client instance, stored in GoogleAuth
 		GoogleAuth.isSignedIn.listen(updateAuthButton);
 		
 		updateAuthButton();
-		$("#auth-button").click(function() {
-			toggleAuth();
-		});
 	});
 }
 
