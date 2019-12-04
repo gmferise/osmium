@@ -46,10 +46,10 @@ function initClient() { // Generates auth client instance, stored in GoogleAuth
 
 function updateAuthButton() { // Updates button
 	if (GoogleAuth.isSignedIn.get()) {
-		$('#sign-in-or-out-button').html('Sign Out');
+		$('#auth-button').html('Sign Out');
 	}
 	else {
-		$('#sign-in-or-out-button').html('Sign In');
+		$('#auth-button').html('Sign In');
 	}
 }
 
