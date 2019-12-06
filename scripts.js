@@ -62,10 +62,13 @@ function updateAuthButton() { // Updates button
 /// **********************
 
 // ***** UTILITY FUNCTIONS *****
-function parseBookmark(){
+function loadDocument(){
+	readKnownDatabases();
 	var value = window.location.hash;
 	importDatabase('https://docs.google.com/spreadsheets/u/1/d/'+value+'/edit');
 }
+
+loadDocument();
 
 function setCookie(id, value){
 	var exp = new Date();
@@ -88,9 +91,9 @@ function getCookie(id){
 	return '';
 }
 
-/// *************************
+/// ***********************
 /// * DATABASE MANAGEMENT *
-/// *************************
+/// ***********************
 
 // Dictionary of known OS Databases, use to populate dropdown
 // Stored as 'Name':'SpreadsheetID'
