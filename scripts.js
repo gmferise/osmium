@@ -63,7 +63,7 @@ function updateAuthButton() { // Updates button
 
 // ***** UTILITY FUNCTIONS *****
 function parseBookmark(){
-	var value = window.location.search;
+	var value = window.location.hash;
 	importDatabase('https://docs.google.com/spreadsheets/u/1/d/'+value+'/edit');
 }
 
@@ -142,7 +142,7 @@ function readKnownDatabases(){ // Reads knownDatabases from cookies
 }
 
 function selectDatabaseId(id){
-	window.location.search = id;
+	window.location.hash = id;
 	databaseId = id;
 }
 
