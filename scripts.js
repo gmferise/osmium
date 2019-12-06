@@ -123,7 +123,7 @@ function createDatabase(name){
 
 // Given Spreadsheet url, loads it into knownDBs and cookies
 function importDatabase(url){
-	var id = new RegExp("/spreadsheets/d/([a-zA-Z0-9-_]+)").exec(url)[1];
+	var id = new RegExp("/d/([a-zA-Z0-9-_]+)").exec(url)[1];
 	if (id != '' && id != null){
 		var name = '';
 		gapi.client.sheets.spreadsheets.get({
