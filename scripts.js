@@ -23,7 +23,6 @@ function toggleAuth() { // Hangles sign in and out with one press
 
 function handleClientLoad() { // Called from HTML when API loads
 	gapi.load("client:auth2", initClient);
-	loadDocument();
 }
 
 function initClient() { // Generates auth client instance, stored in GoogleAuth
@@ -38,6 +37,7 @@ function initClient() { // Generates auth client instance, stored in GoogleAuth
 		GoogleAuth = gapi.auth2.getAuthInstance();
 		GoogleAuth.isSignedIn.listen(updateAuthButton);
 		updateAuthButton();
+		loadDocument();
 	});
 }
 
