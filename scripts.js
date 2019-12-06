@@ -64,9 +64,9 @@ function updateAuthButton() { // Updates button
 // ***** UTILITY FUNCTIONS *****
 function loadDocument(){
 	readKnownDatabases();
-	var value = window.location.hash;
+	var value = window.location.hash.substring(1);
 	if (value != null){
-		importDatabase('https://docs.google.com/spreadsheets/u/1/d/'+value+'/edit');
+		importDatabase('https://docs.google.com/spreadsheets/d/'+value+'/edit');
 	}
 }
 
