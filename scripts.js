@@ -64,7 +64,10 @@ function updateAuthButton() { // Updates button
 // ***** UTILITY FUNCTIONS *****
 function loadDocument(){
 	readKnownDatabases();
-	importDatabase('https://docs.google.com/spreadsheets/u/1/d/'+window.location.hash+'/edit');
+	var value = window.location.hash;
+	if (value != null){
+		importDatabase('https://docs.google.com/spreadsheets/u/1/d/'+value+'/edit');
+	}
 }
 
 loadDocument();
@@ -103,38 +106,41 @@ var databaseId; // Currently selected OS Database (Spreadsheet ID)
 
 // Creates new database in user's Drive using given name
 function createDatabase(name){
-	name = '[OsDB] '+name;
-	gapi.client.sheets.spreadsheets.create({
-		properties: {
-		title: name
-		}
-	}).then(function(response){
-		var id = response.result.spreadsheetId
-		selectDatabaseId(id);
-		knownDatabases[name] = id;  
-		writeKnownDatabases();
-  });
+	if (name != '' && name != null){
+		name = '[OsDB] '+name;
+		gapi.client.sheets.spreadsheets.create({
+			properties: {
+			title: name
+			}
+		}).then(function(response){
+			var id = response.result.spreadsheetId
+			selectDatabaseId(id);
+			knownDatabases[name] = id;  
+			writeKnownDatabases();
+	  });
+	}
 }
 
 // Given Spreadsheet url, loads it into knownDBs and cookies
 function importDatabase(url){
 	var id = new RegExp("/spreadsheets/d/([a-zA-Z0-9-_]+)").exec(url)[1];
-	var name = '';
-	gapi.client.sheets.spreadsheets.get({
-		spreadsheetId:id
-	}).then(function(response){
-		name = JSON.parse(response.body)['properties']['title'];
-		selectDatabaseId(id);
-		knownDatabases[name] = id;
-		writeKnownDatabases();
-	});
+	if (id != '' && id != null){
+		var name = '';
+		gapi.client.sheets.spreadsheets.get({
+			spreadsheetId:id
+		}).then(function(response){
+			name = JSON.parse(response.body)['properties']['title'];
+			selectDatabaseId(id);
+			knownDatabases[name] = id;
+			writeKnownDatabases();
+		});
+	}
 }
 
 // Selects a databaseId from name
 function selectDatabase(name){ 
 	selectDatabaseId(knownDatabases[name]);
 }
-
 
 // ***** INTERNAL FUNCTIONS *****
 
