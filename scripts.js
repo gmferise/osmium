@@ -57,11 +57,16 @@ function updateAuthButton() { // Updates button
 	}
 }
 
-/// *********************
-/// * COOKIE MANAGEMENT *
-/// *********************
+/// **********************
+/// * BROWSER MANAGEMENT *
+/// **********************
 
 // ***** UTILITY FUNCTIONS *****
+function parseBookmark(){
+	var value = window.location.search;
+	importDatabase('https://docs.google.com/spreadsheets/u/1/d/'+value+'/edit');
+}
+
 function setCookie(id, value){
 	var exp = new Date();
 	exp.setFullYear(exp.getFullYear()+1);
@@ -102,28 +107,11 @@ function createDatabase(name){
 		title: name
 		}
 	}).then(function(response){
-		databaseId = response.result.spreadsheetId;
-		knownDatabases[name] = databaseId;
+		var id = response.result.spreadsheetId
+		selectDatabaseId(id);
+		knownDatabases[name] = id;  
 		writeKnownDatabases();
   });
-}
-
-// Selects a database from index in knownDatabases
-function selectDatabase(index){ 
-	databaseId = knownDatabases[index];
-}
-
-// ***** INTERNAL FUNCTIONS *****
-
-function readKnownDatabases(){
-	knownDatabases = JSON.parse(getCookie('databases'));
-	console.log(knownDatabases);
-}
-
-function writeKnownDatabases(){
-	// Super jank, if you don't assign then stringify
-	// Gives you just "[]"
-	setCookie('databases',JSON.stringify(Object.assign({},knownDatabases)));
 }
 
 // Given Spreadsheet url, loads it into knownDBs and cookies
@@ -134,7 +122,32 @@ function importDatabase(url){
 		spreadsheetId:id
 	}).then(function(response){
 		name = JSON.parse(response.body)['properties']['title'];
+		selectDatabaseId(id);
 		knownDatabases[name] = id;
 		writeKnownDatabases();
 	});
+}
+
+// Selects a databaseId from name
+function selectDatabase(name){ 
+	selectDatabaseId(knownDatabases[name]);
+}
+
+
+// ***** INTERNAL FUNCTIONS *****
+
+function readKnownDatabases(){ // Reads knownDatabases from cookies
+	knownDatabases = JSON.parse(getCookie('databases'));
+	console.log(knownDatabases);
+}
+
+function selectDatabaseId(id){
+	window.location.search = id;
+	databaseId = id;
+}
+
+function writeKnownDatabases(){ // Writes knownDatabases to cookies
+	// Super jank, if you don't assign then stringify
+	// Gives you just "[]"
+	setCookie('databases',JSON.stringify(Object.assign({},knownDatabases)));
 }
