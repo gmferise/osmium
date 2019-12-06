@@ -66,7 +66,12 @@ function loadDocument(){
 	readKnownDatabases();
 	var value = window.location.hash.substring(1);
 	if (value != null){
-		importDatabase('https://docs.google.com/spreadsheets/d/'+value+'/edit');
+		try{
+			importDatabase('https://docs.google.com/spreadsheets/d/'+value+'/edit');
+		}
+		catch {
+			console.log('URL # Import Failed.');
+		}
 	}
 }
 
