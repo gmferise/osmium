@@ -22,7 +22,8 @@ function toggleAuth() { // Hangles sign in and out with one press
 // ***** INTERNAL FUNCTIONS *****
 
 function handleClientLoad() { // Called from HTML when API loads
-	gapi.load("client:auth2", initClient).then(loadDocument());
+	gapi.load("client:auth2", initClient);
+	loadDocument();
 }
 
 function initClient() { // Generates auth client instance, stored in GoogleAuth
