@@ -1,0 +1,16 @@
+{
+    "name": "osm-app",
+    "description": "",
+    "version": "1.0.0",
+    "main": "index.html",
+    "scripts": {},
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/gmferise/osmium/"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {},
+    "homepage": "https://github.com/gmferise/osmium/"
+  }
