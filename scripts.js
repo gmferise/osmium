@@ -22,7 +22,7 @@ function toggleAuth() { // Hangles sign in and out with one press
 // ***** INTERNAL FUNCTIONS *****
 
 function handleClientLoad() { // Called from HTML when API loads
-	gapi.load("client:auth2", initClient);
+	gapi.load("client:auth2", initClient).then(loadDocument());
 }
 
 function initClient() { // Generates auth client instance, stored in GoogleAuth
@@ -36,7 +36,6 @@ function initClient() { // Generates auth client instance, stored in GoogleAuth
 	}).then(function() {
 		GoogleAuth = gapi.auth2.getAuthInstance();
 		GoogleAuth.isSignedIn.listen(updateAuthButton);
-		
 		updateAuthButton();
 	});
 }
@@ -69,8 +68,6 @@ function loadDocument(){
 		importDatabase('https://docs.google.com/spreadsheets/d/'+value+'/edit');
 	}
 }
-
-loadDocument();
 
 function setCookie(id, value){
 	var exp = new Date();
