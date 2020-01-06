@@ -36,8 +36,8 @@ function initClient() { // Generates auth client instance, stored in GoogleAuth
 	}).then(function() {
 		GoogleAuth = gapi.auth2.getAuthInstance();
 		GoogleAuth.isSignedIn.listen(updateAuthButton);
-		
 		updateAuthButton();
+		loadDocument();
 	});
 }
 
@@ -57,11 +57,24 @@ function updateAuthButton() { // Updates button
 	}
 }
 
-/// *********************
-/// * COOKIE MANAGEMENT *
-/// *********************
+/// **********************
+/// * BROWSER MANAGEMENT *
+/// **********************
 
 // ***** UTILITY FUNCTIONS *****
+function loadDocument(){
+	readKnownDatabases();
+	var value = window.location.hash.substring(1);
+	if (value != null){
+		try{
+			importDatabase('https://docs.google.com/spreadsheets/d/'+value+'/edit');
+		}
+		catch {
+			console.log('URL # Import Failed.');
+		}
+	}
+}
+
 function setCookie(id, value){
 	var exp = new Date();
 	exp.setFullYear(exp.getFullYear()+1);
@@ -83,9 +96,9 @@ function getCookie(id){
 	return '';
 }
 
-/// *************************
+/// ***********************
 /// * DATABASE MANAGEMENT *
-/// *************************
+/// ***********************
 
 // Dictionary of known OS Databases, use to populate dropdown
 // Stored as 'Name':'SpreadsheetID'
@@ -96,45 +109,56 @@ var databaseId; // Currently selected OS Database (Spreadsheet ID)
 
 // Creates new database in user's Drive using given name
 function createDatabase(name){
-	name = '[OsDB] '+name;
-	gapi.client.sheets.spreadsheets.create({
-		properties: {
-		title: name
-		}
-	}).then(function(response){
-		databaseId = response.result.spreadsheetId;
-		knownDatabases[name] = databaseId;
-		writeKnownDatabases();
-  });
-}
-
-// Selects a database from index in knownDatabases
-function selectDatabase(index){ 
-	databaseId = knownDatabases[index];
-}
-
-// ***** INTERNAL FUNCTIONS *****
-
-function readKnownDatabases(){
-	knownDatabases = JSON.parse(getCookie('databases'));
-	console.log(knownDatabases);
-}
-
-function writeKnownDatabases(){
-	// Super jank, if you don't assign then stringify
-	// Gives you just "[]"
-	setCookie('databases',JSON.stringify(Object.assign({},knownDatabases)));
+	if (name != '' && name != null){
+		name = '[OsDB] '+name;
+		gapi.client.sheets.spreadsheets.create({
+			properties: {
+			title: name
+			}
+		}).then(function(response){
+			var id = response.result.spreadsheetId
+			selectDatabaseId(id);
+			knownDatabases[name] = id;  
+			writeKnownDatabases();
+	  });
+	}
 }
 
 // Given Spreadsheet url, loads it into knownDBs and cookies
 function importDatabase(url){
-	var id = new RegExp("/spreadsheets/d/([a-zA-Z0-9-_]+)").exec(url)[1];
-	var name = '';
-	gapi.client.sheets.spreadsheets.get({
-		spreadsheetId:id
-	}).then(function(response){
-		name = JSON.parse(response.body)['properties']['title'];
-		knownDatabases[name] = id;
-		writeKnownDatabases();
-	});
+	var id = new RegExp("/d/([a-zA-Z0-9-_]+)").exec(url)[1];
+	if (id != '' && id != null){
+		var name = '';
+		gapi.client.sheets.spreadsheets.get({
+			spreadsheetId:id
+		}).then(function(response){
+			name = JSON.parse(response.body)['properties']['title'];
+			selectDatabaseId(id);
+			knownDatabases[name] = id;
+			writeKnownDatabases();
+		});
+	}
+}
+
+// Selects a databaseId from name
+function selectDatabase(name){ 
+	selectDatabaseId(knownDatabases[name]);
+}
+
+// ***** INTERNAL FUNCTIONS *****
+
+function readKnownDatabases(){ // Reads knownDatabases from cookies
+	knownDatabases = JSON.parse(getCookie('databases'));
+	console.log(knownDatabases);
+}
+
+function selectDatabaseId(id){
+	window.location.hash = id;
+	databaseId = id;
+}
+
+function writeKnownDatabases(){ // Writes knownDatabases to cookies
+	// Super jank, if you don't assign then stringify
+	// Gives you just "[]"
+	setCookie('databases',JSON.stringify(Object.assign({},knownDatabases)));
 }
