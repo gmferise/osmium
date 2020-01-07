@@ -17,14 +17,14 @@
 	function showSidebar(forcestate) {
 		var el = document.getElementById("splitbody");
 		if ((el.classList.contains("split-visible"))&&(forcestate != true)) {
-			//hide
+			//hide sidebar
 			el.classList.remove("split-visible");
-			//hide search
+			//side-effect: hide searchbar in sidebar
 			showSearch(false);
 		} else if (forcestate != false) {
-			//show
+			//show sidebar
 			el.classList.add("split-visible");
-			//scroll to top
+			//side-effect: scroll sidebar cards list to top
 			document.getElementById('cards-wrapper').scrollTop = 0;
 		}
 	}
@@ -32,14 +32,14 @@
 	function showSearch(forcestate) {
 		var el = document.getElementById("search-wrapper");
 		if ((el.classList.contains("expanded"))&&(forcestate != true)) {
-			//minimize
+			//minimize search
 			el.classList.remove("expanded");
-			//clear search
+			//side-effect: clear search
 			document.getElementById('searchfield').value = '';
 		} else if (forcestate != false) {
-			//maximize
+			//maximize search
 			el.classList.add("expanded");
-			//focus search
+			//side-effect: focus search
 			document.getElementById('searchfield').focus();
 		}
 	}

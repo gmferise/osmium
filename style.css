@@ -272,11 +272,11 @@ body.split-visible #main-form {
 	margin-bottom: 10px;
 	font-weight: 100;
 }
-.fullsize {
+.fullsize { /* make title scaled to size */
 	font-size: 4vw;
 }
 
-.title:after {
+.title:after { /* title underline */
 	content: "";
 	border-bottom: 2px solid black;
 	opacity: 0.10;
@@ -287,6 +287,7 @@ body.split-visible #main-form {
 	display: block;
 }
 
+/* fontsize labels */
 .large-text {
 	font-size: 3vw;
 }
@@ -299,6 +300,7 @@ body.split-visible #main-form {
 	font-size: 1vw;
 }
 
+/* bg colors */
 .color-bg-main {
 	background-color: royalblue;
 }
@@ -307,6 +309,7 @@ body.split-visible #main-form {
 	background-color: whitesmoke;
 }
 
+/* spacers */
 .large-spacer {
 	height: 250px;
 }
@@ -319,7 +322,7 @@ body.split-visible #main-form {
 	height: 25px;
 }
 
-/* SCROLLBARS */
+/* scrollbars */
 .pretty-scrollbar-light::-webkit-scrollbar-thumb {
 	border-radius: 10px;
 	background-color: rgba(255,255,255,0.7);
@@ -338,7 +341,7 @@ body.split-visible #main-form {
 	width: 10px;
 }
 
-/* PRETTY ELEMENT STRUCTURES */
+/* toggle switches */
 .switch {
 	position: relative;
 	display: inline-block;
