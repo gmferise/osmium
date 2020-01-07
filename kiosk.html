@@ -17,14 +17,14 @@
 	function showSidebar(forcestate) {
 		var el = document.getElementById("splitbody");
 		if ((el.classList.contains("split-visible"))&&(forcestate != true)) {
-			//hide sidebar
+			//hide
 			el.classList.remove("split-visible");
-			//side-effect: hide searchbar in sidebar
+			//hide search
 			showSearch(false);
 		} else if (forcestate != false) {
-			//show sidebar
+			//show
 			el.classList.add("split-visible");
-			//side-effect: scroll sidebar cards list to top
+			//scroll to top
 			document.getElementById('cards-wrapper').scrollTop = 0;
 		}
 	}
@@ -32,14 +32,14 @@
 	function showSearch(forcestate) {
 		var el = document.getElementById("search-wrapper");
 		if ((el.classList.contains("expanded"))&&(forcestate != true)) {
-			//minimize search
+			//minimize
 			el.classList.remove("expanded");
-			//side-effect: clear search
+			//clear search
 			document.getElementById('searchfield').value = '';
 		} else if (forcestate != false) {
-			//maximize search
+			//maximize
 			el.classList.add("expanded");
-			//side-effect: focus search
+			//focus search
 			document.getElementById('searchfield').focus();
 		}
 	}
@@ -95,17 +95,19 @@
 		<div class="medium-spacer"></div>
 		<div id="main-form" onclick="showSidebar(false)">
 			<div class="center-h title fullsize">WELCOME</div> <br>
-			<input class="center" type="radio" name = "type" value="staff">I am a staff member<br>
-			<input class="center" type="radio" name = "type" value="student">I am a student<br>
+			<input class="center" type="radio" name = "occupation" value="staff">I am a staff member<br>
+			<input class="center" type="radio" name = "occupation" value="student">I am a student<br>
 			<br>
 			
-			<div class="center-h"> Enter your student ID </div> <br>
-			<input class="center" type="text" name ="id">
+			<div class="center-h"> Enter your student ID </div>
+			<input class="center" type="text" name ="id"><br><br>
 
-			
-			
+			<div class="center-h"> Is this a problem with a rental or personal laptop? </div> 
+			<input class="center" type="radio" name = "type" value="laptop">Rental<br>
+			<input class="center" type="radio" name = "type" value="laptop">Personal<br>
+			<input class="center" type="radio" name = "type" value="laptop">I have a different question<br>
 
-
+			<div class="center-h"> Select the issue that most closely resembles your problem today </div> 
 
 			<!-- testing element -->
 			<div class="center-h TEST-scroll">Scrollbar Tester</div>
