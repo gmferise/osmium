@@ -5,6 +5,7 @@
 body {
 	height: 100%;
 	margin: 0px;
+	overflow: hidden;
 }
 
 body * {
@@ -36,16 +37,6 @@ html {
 	border-left: 1px solid white;
 	cursor: pointer;
 }
-.check-card button:hover .material-icons {
-	animation: wiggle 0.25s linear forwards;
-	text-shadow: 1px 3px 0 #000;
-} @keyframes wiggle {
-	0% {transform:rotate(0deg);}
-	25% {transform:rotate(10deg);}
-	50% {transform:rotate(0deg);}
-	75% {transform:rotate(-10deg);}
-	100% {transform:rotate(0deg);}
-}
 .check-card .text-holder {
 	padding-top: 5px;
 	padding-left: 5px;
@@ -55,12 +46,6 @@ html {
 }
 .check-card .text-holder div {
 	color: black;
-}
-.check-card .material-icons {
-	color: white;
-	font-size: xx-large;
-	float: right;
-	margin-right: 2px;
 }
 .check-card .medium-text {
 	font-size: xx-large;
@@ -81,11 +66,37 @@ html {
 	content: 'access_time';
 }
 
+#cards-wrapper {
+	overflow: scroll;
+	height: 100%;
+}
+#mins-wrapper {
+	overflow: scroll;
+	height: 100%;
+}
+
+.min-card {
+	width: 80%;
+	margin-left: 10%;
+	height: 8px;
+	border-radius: 4px;
+	border: none;
+}
+
 .split-left {
-	/* todo */
+	position: absolute;
+	left: 0px;
+	width: 80%;
+	height: 100%;
+	overflow: hidden
 }
 .split-right {
-	/* todo */
+	position: absolute;
+	right: 0px;
+	width: 20%;
+	height: 100%;
+	overflow: hidden;
+	box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.37);
 }
 
 #search-wrapper {
@@ -149,16 +160,63 @@ html {
 }
 
 /* CARD COLORS */
-.color-card-1 {
+.color-card-in div {
 	background-color: mediumseagreen;
 }
-.color-card-2 {
+.color-card-out div {
 	background-color: lightgrey;
 }
-.color-card-3 {
+.color-card-techin div {
 	background-color: dodgerblue;
 }
-.color-card-4 {
+.color-card-techout div {
+	background-color: lightsteelblue;
+}
+.color-card-in button {
+	background-color: dodgerblue;
+}
+.color-card-in button:after {
+	font-family: 'Material Icons';
+	content: "send";
+	color: white;
+	font-size: xx-large;
+	float: right;
+	margin-right: 2px;
+}
+.color-card-techin button {
+	background-color: orange;
+}
+.color-card-out button, .color-card-techout button {
+	background-color: grey;
+}
+.color-card-out button:after, .color-card-techin button:after, .color-card-techout button:after {
+	font-family: 'Material Icons';
+	content: "create";
+	color: white;
+	font-size: xx-large;
+	float: right;
+	margin-right: 2px;
+}
+.check-card button:hover:after {
+	animation: wiggle 0.25s linear forwards;
+	text-shadow: 1px 3px 0 #000;
+} @keyframes wiggle {
+	0% {transform:rotate(0deg);}
+	25% {transform:rotate(10deg);}
+	50% {transform:rotate(0deg);}
+	75% {transform:rotate(-10deg);}
+	100% {transform:rotate(0deg);}
+}
+.color-min-in {
+	background-color: mediumseagreen;
+}
+.color-min-out {
+	background-color: lightgrey;
+}
+.color-min-techin {
+	background-color: dodgerblue;
+}
+.color-min-techout {
 	background-color: lightsteelblue;
 }
 /* GENERAL ELEMENT STYLING */
@@ -224,6 +282,11 @@ html {
 
 .small-spacer {
 	height: 25px;
+}
+
+.null-spacer {
+	height: 0px;
+	display: none;
 }
 
 /* scrollbars */
