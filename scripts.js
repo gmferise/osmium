@@ -177,3 +177,7 @@ function getName_response(response){
 	var tbl = response.getDataTable();
 	tbl.draw();
 }
+
+function test(){
+	getName('9923456');
+}
