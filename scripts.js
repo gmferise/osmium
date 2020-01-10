@@ -162,3 +162,22 @@ function writeKnownDatabases(){ // Writes knownDatabases to cookies
 	// Gives you just "[]"
 	setCookie('databases',JSON.stringify(Object.assign({},knownDatabases)));
 }
+
+/// ***********
+/// * QUERIES *
+/// ***********
+
+function getName(id){
+	var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/12gJB8OyaZBdAgl2ly02_BbjYtr8PosX-O3Jdy6iS6ZA/');
+	query.setQuery("SELECT name WHERE id = '9923456'");
+	query.send(getName_response);
+}
+
+function getName_response(response){
+	var tbl = response.getDataTable();
+	tbl.draw();
+}
+
+function test(){
+	getName('9923456');
+}
