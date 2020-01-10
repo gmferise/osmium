@@ -51,7 +51,7 @@ html {
 	padding-left: 5px;
 	padding-bottom: 5px;
 	height: fit-content;
-	width: 90%;
+	width: calc(100% - 32px);
 }
 .check-card .text-holder div {
 	color: black;
@@ -79,6 +79,13 @@ html {
 	font-size: inherit;
 	margin-right: 3px;
 	content: 'access_time';
+}
+
+.split-left {
+	/* todo */
+}
+.split-right {
+	/* todo */
 }
 
 #search-wrapper {
@@ -143,24 +150,17 @@ html {
 
 /* CARD COLORS */
 .color-card-1 {
-	background-color: #FF6663;
+	background-color: mediumseagreen;
 }
 .color-card-2 {
-	background-color: #FEB144;
+	background-color: lightgrey;
 }
 .color-card-3 {
-	background-color: #FCE26E;
+	background-color: dodgerblue;
 }
 .color-card-4 {
-	background-color: #9EE09E;
+	background-color: lightsteelblue;
 }
-.color-card-5 {
-	background-color: #9EC1CF;
-}
-.color-card-6 {
-	background-color: #CC99C9;
-}
-
 /* GENERAL ELEMENT STYLING */
 
 /* center an element horizontally */

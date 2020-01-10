@@ -45,9 +45,9 @@
 	}
 	
 	//OBJECT - Card
-	function new_Card(personalid, intime, colornum) {
+	function new_Card(stuname, intime, colornum) {
 		const obj = {};
-		obj.id = personalid;
+		obj.name = stuname;
 		obj.time = intime;
 		obj.color = colornum;
 		
@@ -65,7 +65,7 @@
 					txtwrap.classList.add('color-card-'+obj.color);
 					var txtmed = document.createElement('div');
 						txtmed.classList.add('medium-text');
-						txtmed.innerHTML = obj.id;
+						txtmed.innerHTML = obj.name;
 					txtwrap.appendChild(txtmed);
 					var txtsml = document.createElement('div');
 						txtsml.classList.add('small-text');
@@ -78,43 +78,49 @@
 	}
 	
 	function test() {
-		for (var i=1; i<=6; i++) {
+		for (var i=1; i<=4; i++) {
 		if (parseInt(Math.random() * 2) == 0) {
-			new_Card("12345",i*3,i).insertIntoCards('card-divider-today');
+			new_Card("Joeseph Jones",i*3,i).insertIntoCards('card-divider-today');
 		} else {
-			new_Card("12345",i*3,i).insertIntoCards('card-divider-older');
+			new_Card("Billiam Phillus",i*3,i).insertIntoCards('card-divider-older');
 		}
 		}
 	}
 	
 	</script>
-  <body id="splitbody" class="color-bg-alt">
-	  <div id='search-wrapper'>
-			<div id='searchbar'>
-				<i class="material-icons">search</i>
-				<input type='text' id='searchfield' placeholder="Search"></input>
-			</div>
-		</div>
-	<div id='cards-wrapper' class='pretty-scrollbar-dark' onclick='showSearch(false)'>
-		<div class="small-spacer"></div>
-		<!-- testing element -->
-		<button class="center-h" style="position: absolute;" onclick="test()">test: Press to add :)</button>
-		<!-- end test-->
-		<div id='card-divider-today' class="center-h title">Today</div>
-		<!-- testing element -->
-		<div class="check-card" STYLE="DISPLAY: NONE;">
-			<button><i class="material-icons">check</i></button>
-			<div class="text-holder">
-				<div class="medium-text">
-				991015
-				</div>
-				<div class="small-text">
-				10m ago
+  <body class="color-bg-main">
+	<div class="split-left">
+		  <div id='search-wrapper'>
+				<div id='searchbar'>
+					<i class="material-icons">search</i>
+					<input type='text' id='searchfield' placeholder="Search"></input>
 				</div>
 			</div>
+		<div id='cards-wrapper' class='pretty-scrollbar-dark' onclick=''>
+			<div class="small-spacer"></div>
+			<!-- testing element -->
+			<button class="center-h" style="position: absolute;" onclick="test()">test: Press to add :)</button>
+			<!-- end test-->
+			<div id='card-divider-today' class="center-h title">Today</div>
+			<!-- testing element -->
+			<div class="check-card" STYLE="DISPLAY: NONE;">
+				<button><i class="material-icons">check</i></button>
+				<div class="text-holder">
+					<div class="medium-text">
+					991015
+					</div>
+					<div class="small-text">
+					10m ago
+					</div>
+				</div>
+			</div>
+			<!-- end test-->
+			<div id='card-divider-older' class="center-h title">Older</div>
 		</div>
-		<!-- end test-->
-		<div id='card-divider-older' class="center-h title">Older</div>
+	</div>
+	<div class="split-right">
+		<div class="center-h title" style="display: sticky">Overview</div>
+		<div class="TEST-scroll"></div>
 	</div>
 	<!-- WIP ELEMENT -->
 	<div id="checkout-popup" style="display: none">
