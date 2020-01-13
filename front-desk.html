@@ -79,21 +79,11 @@
 			
 		obj.card = wrap;
 		
-		//create minimal card
-		var min = document.createElement('button');
-				min.classList.add('color-card-'+obj.color);
-				min.classList.add('min-card');
-		
-		obj.cardmin = min;
-		
 		obj.updateStatusAndColor = function(statusName, isSentToTech) {
 			var newcolor = getColorClassFromStatus(statusName, isSentToTech);
 			obj.card.classList = "";
 			obj.card.classList.add('check-card');
 			obj.card.classList.add("color-card-"+newcolor);
-			obj.cardmin.classList = "";
-			obj.cardmin.classList.add('min-card');
-			obj.cardmin.classList.add("color-min-"+newcolor);
 			obj.status = statusName;
 			obj.tech = isSentToTech;
 		}
@@ -101,7 +91,6 @@
 		
 		obj.insertIntoCards = function() {
 			document.getElementById("insert-cards").insertAdjacentElement('afterEnd',obj.card);
-			document.getElementById("insert-mins").insertAdjacentElement('afterEnd',obj.cardmin);
 		};
 		
 		return obj;
@@ -110,7 +99,7 @@
 	var cards = [];
 	function test() {
 		for (var i=1; i<=4; i++) {
-		if (parseInt(Math.random() * 2) == 0) {
+		if (parseInt(Math.random() * 4) == 0) {
 			var card = new_Card("Joeseph Jones",i*3,"in",parseInt(Math.random()*2));
 			cards.push(card);
 			card.insertIntoCards();
@@ -140,9 +129,7 @@
 		</div>
 	</div>
 	<div class="split-right">
-		<div id='mins-wrapper' class='pretty-scrollbar-dark'>	
-			<div class="center-h title" id="insert-mins">Overview</div>
-		</div>
+		<div class="center-h title">Overview</div>
 	</div>
 	<!-- WIP ELEMENT -->
 	<div id="checkout-popup" style="display: none">

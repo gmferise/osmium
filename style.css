@@ -184,14 +184,14 @@ html {
 	margin-right: 2px;
 }
 .color-card-techin button {
-	background-color: orange;
+	background-color: slateblue;
 }
 .color-card-out button, .color-card-techout button {
 	background-color: grey;
 }
 .color-card-out button:after, .color-card-techin button:after, .color-card-techout button:after {
 	font-family: 'Material Icons';
-	content: "create";
+	content: "edit";
 	color: white;
 	font-size: xx-large;
 	float: right;
