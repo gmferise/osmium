@@ -96,6 +96,7 @@ function updateTodaysDate() {
 	var now = new Date();
 	var s = now.toLocaleString('en-US',{weekday:'long',month:'long',day:'numeric'});
 	var d = s.split(", ");
+	d[0] += ",";
 	d.push(get12time(now));
 	var here = document.getElementById('todays-date');
 	for (var i=0; i<d.length; i++) {
@@ -121,38 +122,46 @@ function updateTodaysDate() {
 		</div>
 	</div>
 	<div class="split-right">
-		<div id="todays-date" class="center-h title">
-			<div class="center-h medium-text"></div>
-			<div class="center-h medium-text"></div>
-			<div class="center-h medium-text" style="padding-bottom:10px;"></div>
+		<div style="display: table; height: 100%;">
+			<div style="display: table-row; height: 33%;">
+				<div id="todays-date" class="center-h title">
+					<div class="center-h medium-text"></div>
+					<div class="center-h medium-text"></div>
+					<div class="center-h medium-text" style="padding-bottom:10px;"></div>
+					</div>
 			</div>
-		<div class="small-spacer"></div>
-		<div class="center-h title medium-text">In the Library</div>
-		<div class="half-pair">
-			<div class="left">
-				<div class="large-text">10</div>
-				<div class="small-text">Checked In</div>
+			
+			<div style="display: table-row; height: 33%;">
+				<div class="center-h title medium-text">In the Library</div>
+				<div class="half-pair">
+					<div class="left">
+						<div class="large-text">10</div>
+						<div class="small-text">Checked In</div>
+					</div>
+					<div class="middle"></div>
+					<div class="right">
+						<div class="large-text">2</div>
+						<div class="small-text">In Tech</div>
+					</div>
+				</div>
 			</div>
-			<div class="middle"></div>
-			<div class="right">
-				<div class="large-text">2</div>
-				<div class="small-text">In Tech</div>
+			
+			
+			<div style="display: table-row; height: 33%;">
+				<div class="center-h title medium-text">Today's Traffic</div>
+				<div class="half-pair">
+					<div class="left">
+						<div class="large-text">23</div>
+						<div class="small-text">Students</div>
+					</div>
+					<div class="middle"></div>
+					<div class="right">
+						<div class="large-text">5</div>
+						<div class="small-text">Tech Issues</div>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="small-spacer"></div>
-		<div class="center-h title medium-text">Today's Traffic</div>
-		<div class="half-pair">
-			<div class="left">
-				<div class="large-text">23</div>
-				<div class="small-text">Students</div>
-			</div>
-			<div class="middle"></div>
-			<div class="right">
-				<div class="large-text">5</div>
-				<div class="small-text">Tech Issues</div>
-			</div>
-		</div>
-		<div class="small-spacer"></div>
 	</div>
 	<!-- WIP ELEMENT -->
 	<div id="checkout-popup" style="display: none">
