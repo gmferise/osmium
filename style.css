@@ -54,20 +54,20 @@ html {
 	font-weight: 300;
 }
 .check-card .small-text {
-	font-size: 130%;
+	font-size: x-large;
+	font-weight: 400;
 	float: right;
 	margin-right: 10px;
 }
 .check-card .small-text:before {
 	font-family: "Material Icons";
 	vertical-align: middle;
-	font-size: inherit;
+	font-size: larger;
 	margin-right: 3px;
 	content: 'access_time';
 }
 
 #cards-wrapper {
-	overflow: scroll;
 	height: 100%;
 }
 #mins-wrapper {
@@ -88,7 +88,7 @@ html {
 	left: 0px;
 	width: 80%;
 	height: 100%;
-	overflow: hidden
+	overflow: auto;
 }
 .split-right {
 	position: absolute;
@@ -161,19 +161,22 @@ html {
 
 /* CARD COLORS */
 .color-card-in div {
-	background-color: mediumseagreen;
+	background-color: #46c37e; /* checkedin green */
 }
 .color-card-out div {
-	background-color: lightgrey;
+	background-color: #a7d3bb; /* checkedout green */
 }
 .color-card-techin div {
-	background-color: dodgerblue;
+	background-color: #6d8ce8; /* tech blue */
 }
 .color-card-techout div {
-	background-color: lightsteelblue;
+	background-color: #b0c4dd; /* techout blue */
 }
-.color-card-in button {
-	background-color: dodgerblue;
+.color-card-in button, .color-card-techin button {
+	background-color: cornflowerblue;
+}
+.color-card-out button, .color-card-techout button {
+	background-color: grey;
 }
 .color-card-in button:after {
 	font-family: 'Material Icons';
@@ -182,12 +185,6 @@ html {
 	font-size: xx-large;
 	float: right;
 	margin-right: 2px;
-}
-.color-card-techin button {
-	background-color: slateblue;
-}
-.color-card-out button, .color-card-techout button {
-	background-color: grey;
 }
 .color-card-out button:after, .color-card-techin button:after, .color-card-techout button:after {
 	font-family: 'Material Icons';
@@ -306,6 +303,27 @@ html {
 
 .pretty-scrollbar-dark::-webkit-scrollbar {
 	width: 10px;
+}
+
+/* left | right structure */
+div.half-pair {
+	display: table;
+	width: 100%;
+}
+div.half-pair .left {
+	font-size: inherit;
+	text-align: right;
+	padding-right: 1em;
+	width: 50%;
+	display: table-cell;
+}
+div.half-pair .right {
+	border-left: 1px solid rgba(0,0,0,0.5);
+	font-size: inherit;
+	text-align: left;
+	padding-left: 1em;
+	width: 50%;
+	display: table-cell;
 }
 
 /* close button */

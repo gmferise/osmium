@@ -12,37 +12,17 @@
 	
   </head>
   <script>
-	//showSidebar() - toggle visibility
-	//showSidebar(true|false) - set visibility
-	function showSidebar(forcestate) {
-		var el = document.getElementById("splitbody");
-		if ((el.classList.contains("split-visible"))&&(forcestate != true)) {
-			//hide sidebar
-			el.classList.remove("split-visible");
-			//side-effect: hide searchbar in sidebar
-			showSearch(false);
-		} else if (forcestate != false) {
-			//show sidebar
-			el.classList.add("split-visible");
-			//side-effect: scroll sidebar cards list to top
-			document.getElementById('cards-wrapper').scrollTop = 0;
-		}
-	}
 	
-	function showSearch(forcestate) {
-		var el = document.getElementById("search-wrapper");
-		if ((el.classList.contains("expanded"))&&(forcestate != true)) {
-			//minimize search
-			el.classList.remove("expanded");
-			//side-effect: clear search
-			document.getElementById('searchfield').value = '';
-		} else if (forcestate != false) {
-			//maximize search
-			el.classList.add("expanded");
-			//side-effect: focus search
-			document.getElementById('searchfield').focus();
-		}
-	}
+	function get12time(date) {
+		var hours = date.getHours();
+		var minutes = date.getMinutes();
+		var ampm = hours >= 12 ? 'pm' : 'am';
+		hours = hours % 12;
+		hours = hours ? hours : 12; // the hour '0' should be '12'
+		minutes = minutes < 10 ? '0'+minutes : minutes;
+		var strTime = hours + ':' + minutes + ' ' + ampm;
+		return strTime;
+}
 	
 	function getColorClassFromStatus(statusName, isSentToTech) {
 		if (isSentToTech == true) {
@@ -73,7 +53,7 @@
 				txtwrap.appendChild(txtmed);
 				var txtsml = document.createElement('div');
 					txtsml.classList.add('small-text');
-					txtsml.innerHTML = obj.time + "m ago";
+					txtsml.innerHTML = get12time(obj.time);
 				txtwrap.appendChild(txtsml);
 			wrap.appendChild(txtwrap);
 			
@@ -100,23 +80,35 @@
 	function test() {
 		for (var i=1; i<=4; i++) {
 		if (parseInt(Math.random() * 4) == 0) {
-			var card = new_Card("Joeseph Jones",i*3,"in",parseInt(Math.random()*2));
+			var card = new_Card("Joeseph Jones",new Date(new Date().getTime()+Math.random()*100000000),"in",parseInt(Math.random()*2));
 			cards.push(card);
 			card.insertIntoCards();
 		} else {
-			var card = new_Card("Joeseph Jones",i*3,"out",parseInt(Math.random()*2));
+			var card = new_Card("Joeseph Jones",new Date(new Date().getTime()+Math.random()*100000000),"out",parseInt(Math.random()*2));
 			cards.push(card);
 			card.insertIntoCards();
 		}
 		}
 	}
 	
+function updateTodaysDate() {
+	//var now = new Date(new Date().getTime()+Math.random()*100000000000)
+	var now = new Date();
+	var s = now.toLocaleString('en-US',{weekday:'long',month:'long',day:'numeric'});
+	var d = s.split(", ");
+	d.push(get12time(now));
+	var here = document.getElementById('todays-date');
+	for (var i=0; i<d.length; i++) {
+		here.children[i].innerHTML = d[i];
+	}
+	setTimeout(function(){updateTodaysDate();},60000);
+}
 	</script>
   <body class="color-bg-main">
 	<!-- testing element -->
 	<button class="center-h" style="position: absolute;left:0;top:0;z-index:10000;" onclick="test()">test: Press to add :)</button>
 	<!-- end test-->
-	<div class="split-left">
+	<div class="split-left pretty-scrollbar-dark">
 		<div class="small-spacer"></div>
 		<div id='search-wrapper'>
 			<div id='searchbar'>
@@ -124,12 +116,43 @@
 				<input type='text' id='searchfield' placeholder="Search"></input>
 			</div>
 		</div>
-		<div id='cards-wrapper' class='pretty-scrollbar-dark'>
+		<div id='cards-wrapper'>
 			<div class="null-spacer" id="insert-cards"></div>
 		</div>
 	</div>
 	<div class="split-right">
-		<div class="center-h title">Overview</div>
+		<div id="todays-date" class="center-h title">
+			<div class="center-h medium-text"></div>
+			<div class="center-h medium-text"></div>
+			<div class="center-h medium-text" style="padding-bottom:10px;"></div>
+			</div>
+		<div class="small-spacer"></div>
+		<div class="center-h title medium-text">In the Library</div>
+		<div class="half-pair">
+			<div class="left">
+				<div class="large-text">10</div>
+				<div class="small-text">Checked In</div>
+			</div>
+			<div class="middle"></div>
+			<div class="right">
+				<div class="large-text">2</div>
+				<div class="small-text">In Tech</div>
+			</div>
+		</div>
+		<div class="small-spacer"></div>
+		<div class="center-h title medium-text">Today's Traffic</div>
+		<div class="half-pair">
+			<div class="left">
+				<div class="large-text">23</div>
+				<div class="small-text">Students</div>
+			</div>
+			<div class="middle"></div>
+			<div class="right">
+				<div class="large-text">5</div>
+				<div class="small-text">Tech Issues</div>
+			</div>
+		</div>
+		<div class="small-spacer"></div>
 	</div>
 	<!-- WIP ELEMENT -->
 	<div id="checkout-popup" style="display: none">
@@ -143,3 +166,6 @@
 	<!-- END WIP -->
   </body>
 </html>
+<script>
+updateTodaysDate();	
+</script>
