@@ -132,6 +132,7 @@ html {
 	display: inline;
 	vertical-align: middle;
 	font-weight: 300;
+	position: relative;
 }
 .check-card .small-text {
 	font-size: x-large;
@@ -206,15 +207,40 @@ html {
 /* CARD TOOLTIP CONTENT */
 .color-card-in button div.tooltip:before {
 	content: "Send to Tech";
+	padding-left: 10px;
+	padding-right: 10px;
 }
 .color-card-out button div.tooltip:before, .color-card-techin button div.tooltip:before, .color-card-techout button div.tooltip:before {
 	content: "Edit Notes";
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.color-card-in .medium-text div.tooltip:before {
+	content: "Checked In - Library";
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.color-card-out .medium-text div.tooltip:before {
+	content: "Checked Out - Library";
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.color-card-techin .medium-text div.tooltip:before {
+	content: "Checked In - Tech Office";
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.color-card-techout .medium-text div.tooltip:before {
+	content: "Checked Out - Tech Office";
+	padding-left: 10px;
+	padding-right: 10px;
 }
 /* CARD TOOLTIP FORMAT */
+/* button */
 .check-card button div.tooltip {
 	visibility: hidden;
 	opacity: 0;
-	width: 120px;
+	width: max-content;
 	background-color: black;
 	color: #fff;
 	text-align: center;
@@ -240,6 +266,38 @@ html {
 	visibility: visible;
 	opacity: 1;
 }
+/* name */
+.check-card .medium-text div.tooltip {
+	visibility: hidden;
+	opacity: 0;
+	width: max-content;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	padding: 5px 0;
+	border-radius: 6px;
+ 
+	position: absolute;
+	left: calc(100% + 10px);
+	top: 4px;
+	z-index: 1;
+	transition: opacity 0.25s ease-in-out;
+}
+.check-card .medium-text div.tooltip:after {
+	content: " ";
+	position: absolute;
+	top: 50%;
+	right: 100%;
+	margin-top: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: transparent black transparent transparent;
+}
+.check-card .medium-text:hover div.tooltip {
+	visibility: visible;
+	opacity: 1;
+}
+
 /* CARD ANIMATION */
 .check-card button:hover:after {
 	animation: wiggle 0.25s linear forwards;
