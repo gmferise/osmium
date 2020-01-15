@@ -123,6 +123,7 @@ html {
 	height: fit-content;
 	width: calc(100% - 32px);
 	border-left: 5px solid rgba(255,255,255,0.3);
+	transition: background-color 0.25s ease-in-out;
 }
 .check-card .text-holder div {
 	color: black;
@@ -169,16 +170,16 @@ html {
 }
 
 /* CARD COLORS */
-.color-card-in div {
+.color-card-in .text-holder {
 	background-color: #46c37e; /* checkedin green */
 }
-.color-card-out div {
+.color-card-out .text-holder {
 	background-color: #a7d3bb; /* checkedout green */
 }
-.color-card-techin div {
+.color-card-techin .text-holder {
 	background-color: #6d8ce8; /* tech blue */
 }
-.color-card-techout div {
+.color-card-techout .text-holder {
 	background-color: #b0c4dd; /* techout blue */
 }
 .color-card-in button, .color-card-techin button {
