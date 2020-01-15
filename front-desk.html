@@ -32,6 +32,18 @@
 		}
 	}
 	
+	var cards = [];
+	function cardObjectFromElement(element,numParents) {
+		var el = element;
+		if (numParents == null) {
+			numParents = 0;
+		}
+		for (var i=0; i<numParents; i++) {
+			el = el.parentElement;
+		}
+		return cards[Array.from(el.parentElement.children).indexOf(el)-1];
+	}
+	
 	//OBJECT - Card
 	function new_Card(studentName, timeStamp, statusName, isSentToTech) {
 		const obj = {};
@@ -44,6 +56,10 @@
 		var wrap = document.createElement('div');
 			wrap.classList.add('check-card');
 			var btn = document.createElement('button');
+				btn.setAttribute('onclick','cardObjectFromElement(this,1).clickAction();');
+				var hover = document.createElement('div');
+					hover.classList.add('tooltip');
+				btn.appendChild(hover);
 			wrap.appendChild(btn);
 			var txtwrap = document.createElement('div');
 				txtwrap.classList.add('text-holder');
@@ -59,6 +75,7 @@
 			
 		obj.card = wrap;
 		
+		//provide status name ("in"|"out") and tech status (true|false) to update proper styling and object's properties
 		obj.updateStatusAndColor = function(statusName, isSentToTech) {
 			var newcolor = getColorClassFromStatus(statusName, isSentToTech);
 			obj.card.classList = "";
@@ -69,6 +86,50 @@
 		}
 		obj.updateStatusAndColor(obj.status,obj.tech);
 		
+		obj.showComments = function() {
+			var popup = document.createElement('div');
+				popup.classList.add('card-popup');
+				var container = document.createElement('div');
+				container.classList.add('card-popup-container','color-bg-main');
+					var close = document.createElement('button');
+						close.classList.add('close','material-icons');
+						close.innerHTML = 'close';
+						close.setAttribute('onclick','this.parentElement.parentElement.remove()');
+					container.appendChild(close);
+					var header = document.createElement('div');
+						header.classList.add('center-h','title');
+						header.innerHTML = obj.name;
+					container.appendChild(header);
+				popup.appendChild(container);
+			document.body.appendChild(popup);
+		}
+		
+		//click the card's button - uses card's properties to determine action
+		obj.clickAction = function() {
+			if (!(obj.tech) && (obj.status=="in")) {
+				//todo send "moved to tech" query
+				obj.updateStatusAndColor("in",true);
+				obj.playRefreshAnimation();
+			} else {
+				obj.showComments();
+			}
+		}
+		
+		obj.playRefreshAnimation = function() {
+			obj.card.classList.add('anim-refresh');
+			setTimeout(function() {
+				obj.card.classList.remove('anim-refresh');
+			},500);
+		}
+		
+		obj.playInsertAnimation = function() {
+			obj.card.classList.add('anim-in');
+			setTimeout(function() {
+				obj.card.classList.remove('anim-in');
+			},500);
+		}
+		
+		//insert into cards list at top
 		obj.insertIntoCards = function() {
 			document.getElementById("insert-cards").insertAdjacentElement('afterEnd',obj.card);
 		};
@@ -76,18 +137,18 @@
 		return obj;
 	}
 	
-	var cards = [];
 	function test() {
-		for (var i=1; i<=4; i++) {
-		if (parseInt(Math.random() * 4) == 0) {
+		for (var i=0; i<parseInt(Math.random() * 5)+1; i++) {
+		if (parseInt(Math.random() * 2) == 0) {
 			var card = new_Card("Joeseph Jones",new Date(new Date().getTime()+Math.random()*100000000),"in",parseInt(Math.random()*2));
-			cards.push(card);
+			cards.unshift(card); //unshift pushes to start instead of end... weirdname.
 			card.insertIntoCards();
 		} else {
 			var card = new_Card("Joeseph Jones",new Date(new Date().getTime()+Math.random()*100000000),"out",parseInt(Math.random()*2));
-			cards.push(card);
+			cards.unshift(card);
 			card.insertIntoCards();
 		}
+		card.playInsertAnimation();
 		}
 	}
 	

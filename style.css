@@ -17,70 +17,12 @@ html {
 	height: 100%;
 }
 
-.check-card {
-	width: 80%;
-	margin-left: 10%;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	height: 45px;
-	overflow: hidden;
-}
-.check-card button {
-	border: none;
-	float: right;
-	clear: left;
-	height: 100%;
-	width: fit-content;
-	border-top-right-radius: 10px;
-	border-bottom-right-radius: 10px;
-	background-color: mediumseagreen;
-	border-left: 1px solid white;
-	cursor: pointer;
-}
-.check-card .text-holder {
-	padding-top: 5px;
-	padding-left: 5px;
-	padding-bottom: 5px;
-	height: fit-content;
-	width: calc(100% - 32px);
-}
-.check-card .text-holder div {
-	color: black;
-}
-.check-card .medium-text {
-	font-size: xx-large;
-	display: inline;
-	vertical-align: middle;
-	font-weight: 300;
-}
-.check-card .small-text {
-	font-size: x-large;
-	font-weight: 400;
-	float: right;
-	margin-right: 10px;
-}
-.check-card .small-text:before {
-	font-family: "Material Icons";
-	vertical-align: middle;
-	font-size: larger;
-	margin-right: 3px;
-	content: 'access_time';
-}
-
 #cards-wrapper {
 	height: 100%;
 }
 #mins-wrapper {
 	overflow: scroll;
 	height: 100%;
-}
-
-.min-card {
-	width: 80%;
-	margin-left: 10%;
-	height: 8px;
-	border-radius: 4px;
-	border: none;
 }
 
 .split-left {
@@ -128,7 +70,6 @@ html {
 	border: 1px solid #ccc;
 	border-radius: 50px;
 	background-color: white;
-	transition: width 0.25s ease-in-out;
 }
 #searchbar .material-icons {
 	font-size: 28px;
@@ -150,8 +91,64 @@ html {
 #search-wrapper.expanded #searchbar {
 	width: 95%;
 }
-/* WIP ELEMENT */
-#checkout-popup {
+
+/* CARDS */
+.check-card {
+	width: 80%;
+	margin-left: 10%;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	height: 45px;
+	overflow: hidden;
+}
+.check-card button {
+	border: none;
+	float: right;
+	clear: left;
+	height: 100%;
+	width: fit-content;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	background-color: mediumseagreen;
+	border-left: 1px solid white;
+	cursor: pointer;
+}
+.check-card button:focus {
+	outline: 0;
+}
+.check-card .text-holder {
+	padding-top: 5px;
+	padding-left: 10px;
+	padding-bottom: 5px;
+	height: fit-content;
+	width: calc(100% - 32px);
+	border-left: 5px solid rgba(255,255,255,0.3);
+}
+.check-card .text-holder div {
+	color: black;
+}
+.check-card .medium-text {
+	font-size: xx-large;
+	display: inline;
+	vertical-align: middle;
+	font-weight: 300;
+}
+.check-card .small-text {
+	font-size: x-large;
+	font-weight: 400;
+	float: right;
+	margin-right: 10px;
+}
+.check-card .small-text:before {
+	font-family: "Material Icons";
+	vertical-align: middle;
+	font-size: larger;
+	margin-right: 3px;
+	content: 'access_time';
+}
+
+/* CARD POPUP */
+.card-popup {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -159,8 +156,7 @@ html {
 	height: 100%;
 	background: rgba(0,0,0,0.5);
 }
-
-#checkout-container {
+.card-popup-container {
 	position: absolute;
 	left: 40px;
 	top: 40px;
@@ -190,6 +186,7 @@ html {
 .color-card-out button, .color-card-techout button {
 	background-color: grey;
 }
+/* CARD ICONS */
 .color-card-in button:after {
 	font-family: 'Material Icons';
 	content: "send";
@@ -206,6 +203,44 @@ html {
 	float: right;
 	margin-right: 2px;
 }
+/* CARD TOOLTIP CONTENT */
+.color-card-in button div.tooltip:before {
+	content: "Send to Tech";
+}
+.color-card-out button div.tooltip:before, .color-card-techin button div.tooltip:before, .color-card-techout button div.tooltip:before {
+	content: "Edit Notes";
+}
+/* CARD TOOLTIP FORMAT */
+.check-card button div.tooltip {
+	visibility: hidden;
+	opacity: 0;
+	width: 120px;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	padding: 5px 0;
+	border-radius: 6px;
+ 
+	position: absolute;
+	transform: translate(45px,2px);
+	z-index: 1;
+	transition: opacity 0.25s ease-in-out;
+}
+.check-card button div.tooltip:after{
+	content: " ";
+	position: absolute;
+	top: 50%;
+	right: 100%;
+	margin-top: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: transparent black transparent transparent;
+}
+.check-card button:hover div.tooltip {
+	visibility: visible;
+	opacity: 1;
+}
+/* CARD ANIMATION */
 .check-card button:hover:after {
 	animation: wiggle 0.25s linear forwards;
 	text-shadow: 1px 3px 0 #000;
@@ -216,18 +251,21 @@ html {
 	75% {transform:rotate(-10deg);}
 	100% {transform:rotate(0deg);}
 }
-.color-min-in {
-	background-color: mediumseagreen;
+.check-card.anim-in {
+	animation: bump-left 0.25s ease-in-out forwards;
+} @keyframes bump-left {
+	0% {transform:translateX(-100%);opacity:0;}
+	50% {transform:translateX(-50%);opacity:0;}
+	100% {transform:translateX(0%);opacity:1;}
 }
-.color-min-out {
-	background-color: lightgrey;
+.check-card.anim-refresh {
+	animation: refresh 0.25s ease-in-out forwards;
+} @keyframes refresh {
+	0% {transform:translateX(0%);}
+	50% {transform:translateX(-1%);}
+	100% {transform:translateX(0%);}
 }
-.color-min-techin {
-	background-color: dodgerblue;
-}
-.color-min-techout {
-	background-color: lightsteelblue;
-}
+
 /* GENERAL ELEMENT STYLING */
 
 /* center an element horizontally */
