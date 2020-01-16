@@ -6,7 +6,8 @@
 	
 	<!-- Vue Styling -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Round"
+rel="stylesheet"/>
 	<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
 	<link href="style.css" rel="stylesheet" type ="text/css"/>
 	
@@ -175,18 +176,34 @@ function updateTodaysDate() {
 	<!-- testing element -->
 	<button class="center-h" style="position: absolute;left:0;top:0;z-index:10000;" onclick="test()">test: Press to add :)</button>
 	<!-- end test-->
+	
 	<div class="split-left pretty-scrollbar-dark">
 		<div class="small-spacer"></div>
-		<div id='search-wrapper'>
+		<div class='middle-wrapper'>
 			<div id='searchbar'>
 				<i class="material-icons">search</i>
 				<input type='text' id='searchfield' placeholder="Search"></input>
+			</div>
+		</div>
+		<div class='middle-wrapper'>
+			<div id='sortbar'>
+				<div class="tablecell">
+					<div>Name</div>
+					<div class="updown">
+					</div>
+				</div>
+				<div class="tablecell">
+					<div>Time</div>
+					<div class="updown">
+					</div>
+				</div>
 			</div>
 		</div>
 		<div id='cards-wrapper'>
 			<div class="null-spacer" id="insert-cards"></div>
 		</div>
 	</div>
+	
 	<div class="split-right">
 		<div id="overview-table">
 			<div class="tablerow">

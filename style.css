@@ -20,11 +20,8 @@ html {
 #cards-wrapper {
 	height: 100%;
 }
-#mins-wrapper {
-	overflow: scroll;
-	height: 100%;
-}
 
+/* splitting document */
 .split-left {
 	position: absolute;
 	left: 0px;
@@ -41,6 +38,7 @@ html {
 	box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.37);
 }
 
+/* right hand overview */
 #overview-table {
 	display: table;
 	height: 100%;
@@ -53,7 +51,7 @@ html {
 	display: table-row; height: 33%;
 }
 
-#search-wrapper {
+.middle-wrapper {
 	max-height: 50px;
 	box-sizing: border-box;
 	height: 50px;
@@ -61,6 +59,7 @@ html {
 	width: 80%;
 	padding: 5px;
 }
+/* searchbar */
 #searchbar {
 	height: 100%;
 	float: right;
@@ -85,11 +84,39 @@ html {
 #searchfield:focus {
 	outline:0;
 }
-#search-wrapper.expanded #crisis-wrapper {
-	transform: translate(-100%, 0);
+
+/* sortbar */
+#sortbar {
+	display: table;
+	width: 100%;
+	height: 100%;
+	outline: 1px dashed red;
 }
-#search-wrapper.expanded #searchbar {
-	width: 95%;
+#sortbar div.tablecell {
+	display: table-cell;
+	width: 50%;
+	outline: 1px dashed blue;
+}
+#sortbar div.tablecell div {
+	height: 100%;
+	display: inline;
+	font-size: x-large;
+	vertical-align: middle;
+}
+#sortbar div.tablecell div.updown {
+	display: inline-table;
+}
+#sortbar div.tablecell div.updown:before {
+	font-family: "Material Icons Round";
+	content: "arrow_drop_up";
+	height: 25%;
+	display: table-row;
+}
+#sortbar div.tablecell div.updown:after {
+	font-family: "Material Icons Round";
+	content: "arrow_drop_down";
+	height: 25%;
+	display: table-row;
 }
 
 /* CARDS */
@@ -190,7 +217,7 @@ html {
 }
 /* CARD ICONS */
 .color-card-in button:after {
-	font-family: 'Material Icons';
+	font-family: 'Material Icons Round';
 	content: "send";
 	color: white;
 	font-size: xx-large;
