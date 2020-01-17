@@ -167,13 +167,18 @@ function writeKnownDatabases(){ // Writes knownDatabases to cookies
 /// ***********
 
 function loadAPI(){
-	google.charts.load('current', {'packages':['corechart']});
+	google.charts.load('current');
+}
+
+function gvzQuery(query, callback){
+	var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/'+spreadsheetId+'/gviz/tq?headers=1&access_token='+encodeURIComponent(gapi.auth.getToken().access_token));
+	query.setQuery(query);
+	query.send(callback);
 }
 
 function getName(id){
-	var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/12gJB8OyaZBdAgl2ly02_BbjYtr8PosX-O3Jdy6iS6ZA/gviz/tq?headers=1&access_token='+encodeURIComponent(gapi.auth.getToken().access_token));
-	query.setQuery("SELECT *"); //name WHERE id = '"+id+"'");
-	query.send(getName_response);
+	// SELECT name WHERE id = ?
+	gvzQuery("SELECT A WHERE B = "+id, getName_response);
 }
 
 function getName_response(response){
