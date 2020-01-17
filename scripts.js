@@ -26,7 +26,7 @@ function handleClientLoad() { // Called from HTML when API loads
 }
 
 function initClient() { // Generates auth client instance, stored in GoogleAuth
-	// do not place docs directly in the array because javascript will stroke out
+	// do not place docs directly in the array, must be evaluated beforehand
 	var docs = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest","https://www.googleapis.com/discovery/v1/apis/sheets/v4/rest"];
 	gapi.client.init({ // Initialize a client with these properties
 		"apiKey":"AIzaSyDIptkXtN8vcrOr5LPBvk21WuAk8UmVwAs",
@@ -43,6 +43,7 @@ function initClient() { // Generates auth client instance, stored in GoogleAuth
 
 function updateAuthButton() { // Updates button
 	var btn = document.getElementById('auth-button');
+	
 	if (GoogleAuth.isSignedIn.get()) {
 		btn.innerHTML = "Sign Out";
 		if (!(btn.classList.contains('signed-in'))) {
@@ -57,12 +58,14 @@ function updateAuthButton() { // Updates button
 	}
 }
 
+
 /// **********************
 /// * BROWSER MANAGEMENT *
 /// **********************
 
 // ***** UTILITY FUNCTIONS *****
 function loadDocument(){
+	/*
 	readKnownDatabases();
 	var value = window.location.hash.substring(1);
 	if (value != null){
@@ -73,6 +76,7 @@ function loadDocument(){
 			console.log('URL # Import Failed.');
 		}
 	}
+	*/
 }
 
 function setCookie(id, value){
@@ -107,6 +111,15 @@ var databaseId; // Currently selected OS Database (Spreadsheet ID)
 
 // ***** BUTTON FUNCTIONS *****
 
+/*
+drive.files.list({
+    q: "mimeType='application/vnd.google-apps.spreadsheet'",
+    fields: 'nextPageToken, files(id, name)'
+}, (err, response) => {
+    //Your code
+})
+*/
+
 // Creates new database in user's Drive using given name
 function createDatabase(name){
 	if (name != '' && name != null){
@@ -140,6 +153,16 @@ function importDatabase(url){
 	}
 }
 
+function getDatabases(){
+	// Do not place queryParams directly in the array, must be evaluated beforehand
+	var queryParams = "mimeType='application/vnd.google-apps.spreadsheet' and '"+GoogleAuth.currentUser.get().getBasicProfile().getEmail()+"' in writers and name contains '[OsDB]'";
+	gapi.client.drive.files.list({
+		q: queryParams,
+	}).then(function(response) {
+		console.log("Response", response.result.files);
+    },function(err) { console.error("Failed to search Drive for Databases"); });
+}
+
 // Selects a databaseId from name
 function selectDatabase(name){ 
 	selectDatabaseId(knownDatabases[name]);
@@ -158,8 +181,7 @@ function selectDatabaseId(id){
 }
 
 function writeKnownDatabases(){ // Writes knownDatabases to cookies
-	// Super jank, if you don't assign then stringify
-	// Gives you just "[]"
+	// Super jank, if you don't assign then stringify returns "[]"
 	setCookie('databases',JSON.stringify(Object.assign({},knownDatabases)));
 }
 
@@ -167,15 +189,20 @@ function writeKnownDatabases(){ // Writes knownDatabases to cookies
 /// * QUERIES *
 /// ***********
 
+function gvzQuery(query, callback){
+	var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/'+spreadsheetId+'/gviz/tq?headers=1&access_token='+encodeURIComponent(gapi.auth.getToken().access_token));
+	query.setQuery(query);
+	query.send(callback);
+}
+
 function getName(id){
-	var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/12gJB8OyaZBdAgl2ly02_BbjYtr8PosX-O3Jdy6iS6ZA/');
-	query.setQuery("SELECT name WHERE id = '9923456'");
-	query.send(getName_response);
+	// SELECT name WHERE id = ?
+	gvzQuery("SELECT A WHERE B = "+id, getName_response);
 }
 
 function getName_response(response){
+	console.log(response);
 	var tbl = response.getDataTable();
-	tbl.draw();
 }
 
 function test(){
