@@ -43,6 +43,7 @@ function initClient() { // Generates auth client instance, stored in GoogleAuth
 
 function updateAuthButton() { // Updates button
 	var btn = document.getElementById('auth-button');
+	
 	if (GoogleAuth.isSignedIn.get()) {
 		btn.innerHTML = "Sign Out";
 		if (!(btn.classList.contains('signed-in'))) {
@@ -57,12 +58,14 @@ function updateAuthButton() { // Updates button
 	}
 }
 
+
 /// **********************
 /// * BROWSER MANAGEMENT *
 /// **********************
 
 // ***** UTILITY FUNCTIONS *****
 function loadDocument(){
+	/*
 	readKnownDatabases();
 	var value = window.location.hash.substring(1);
 	if (value != null){
@@ -73,6 +76,7 @@ function loadDocument(){
 			console.log('URL # Import Failed.');
 		}
 	}
+	*/
 }
 
 function setCookie(id, value){
@@ -107,6 +111,15 @@ var databaseId; // Currently selected OS Database (Spreadsheet ID)
 
 // ***** BUTTON FUNCTIONS *****
 
+/*
+drive.files.list({
+    q: "mimeType='application/vnd.google-apps.spreadsheet'",
+    fields: 'nextPageToken, files(id, name)'
+}, (err, response) => {
+    //Your code
+})
+*/
+
 // Creates new database in user's Drive using given name
 function createDatabase(name){
 	if (name != '' && name != null){
@@ -140,6 +153,14 @@ function importDatabase(url){
 	}
 }
 
+function getDatabases(){
+	gapi.client.drive.files.list({
+		q: "mimeType='application/vnd.google-apps.spreadsheet'",
+	}).then(function(response) {
+		console.log("Response", response);
+    },function(err) { console.error("Failed to search Drive for Databases"); });
+}
+
 // Selects a databaseId from name
 function selectDatabase(name){ 
 	selectDatabaseId(knownDatabases[name]);
@@ -165,10 +186,6 @@ function writeKnownDatabases(){ // Writes knownDatabases to cookies
 /// ***********
 /// * QUERIES *
 /// ***********
-
-function loadAPI(){
-	google.charts.load('current');
-}
 
 function gvzQuery(query, callback){
 	var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/'+spreadsheetId+'/gviz/tq?headers=1&access_token='+encodeURIComponent(gapi.auth.getToken().access_token));
