@@ -158,8 +158,7 @@ function selectDatabaseId(id){
 }
 
 function writeKnownDatabases(){ // Writes knownDatabases to cookies
-	// Super jank, if you don't assign then stringify
-	// Gives you just "[]"
+	// Super jank, if you don't assign then stringify returns "[]"
 	setCookie('databases',JSON.stringify(Object.assign({},knownDatabases)));
 }
 
@@ -167,15 +166,19 @@ function writeKnownDatabases(){ // Writes knownDatabases to cookies
 /// * QUERIES *
 /// ***********
 
+function loadAPI(){
+	google.charts.load('current', {'packages':['corechart']});
+}
+
 function getName(id){
-	var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/12gJB8OyaZBdAgl2ly02_BbjYtr8PosX-O3Jdy6iS6ZA/');
-	query.setQuery("SELECT name WHERE id = '9923456'");
+	var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/12gJB8OyaZBdAgl2ly02_BbjYtr8PosX-O3Jdy6iS6ZA/edit',headers=1);
+	query.setQuery("SELECT name WHERE id = '"+id+"'");
 	query.send(getName_response);
 }
 
 function getName_response(response){
+	console.log(response);
 	var tbl = response.getDataTable();
-	tbl.draw();
 }
 
 function test(){
