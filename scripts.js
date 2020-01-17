@@ -26,7 +26,7 @@ function handleClientLoad() { // Called from HTML when API loads
 }
 
 function initClient() { // Generates auth client instance, stored in GoogleAuth
-	// do not place docs directly in the array because javascript will stroke out
+	// do not place docs directly in the array, must be evaluated beforehand
 	var docs = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest","https://www.googleapis.com/discovery/v1/apis/sheets/v4/rest"];
 	gapi.client.init({ // Initialize a client with these properties
 		"apiKey":"AIzaSyDIptkXtN8vcrOr5LPBvk21WuAk8UmVwAs",
@@ -154,9 +154,11 @@ function importDatabase(url){
 }
 
 function getDatabases(){
+	// Do not place queryParams directly in the array, must be evaluated beforehand
+	var queryParams = "mimeType='application/vnd.google-apps.spreadsheet' and '"+GoogleAuth.currentUser.get().getBasicProfile().getEmail()+"' in writers";
 	gapi.client.drive.files.list({
-		q: "mimeType='application/vnd.google-apps.spreadsheet'",
-	}).then(function(response) {
+		q: queryParams
+	}).then(function(response.result.files) {
 		console.log("Response", response);
     },function(err) { console.error("Failed to search Drive for Databases"); });
 }
