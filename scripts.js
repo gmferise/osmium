@@ -157,9 +157,9 @@ function getDatabases(){
 	// Do not place queryParams directly in the array, must be evaluated beforehand
 	var queryParams = "mimeType='application/vnd.google-apps.spreadsheet' and '"+GoogleAuth.currentUser.get().getBasicProfile().getEmail()+"' in writers and name contains '[OsDB]'";
 	gapi.client.drive.files.list({
-		q: queryParams
-	}).then(function(response.result.files) {
-		console.log("Response", response);
+		q: queryParams,
+	}).then(function(response) {
+		console.log("Response", response.result.files);
     },function(err) { console.error("Failed to search Drive for Databases"); });
 }
 
