@@ -4,19 +4,12 @@
 	<title>Osmium</title>
 	<link href="style.css" rel="stylesheet" type ="text/css"/>
 	<link href="favicon.ico" rel="icon" type="image/png">
-	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-	<script type="text/javascript">
-		google.charts.load('current');
-		google.charts.setOnLoadCallback(test);
-		
-		function test(){
-			var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/12gJB8OyaZBdAgl2ly02_BbjYtr8PosX-O3Jdy6iS6ZA/');
-			query.setQuery("SELECT name WHERE id = '9923456'");
-			query.send(getName_response);
-		}
-	</script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="scripts.js" type="text/javascript"></script> 
+	<script src="https://www.gstatic.com/charts/loader.js"></script>
+	<script>
+		google.charts.load('current', {'packages':['corechart']});
+	</script>
+	<script src="scripts.js"></script> 
 	
 	<!-- Vue Styling -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
@@ -35,3 +28,5 @@
 	<button width=100% onclick="window.open('front-desk.html','_blank')">A AA AAA DESK AAA AA A</button>
 </body>
 </html>
+
+
