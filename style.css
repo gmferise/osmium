@@ -227,6 +227,28 @@ html {
 	border-radius: 20px;
 	z-index: 100;
 }
+.timeline-date {
+	font-size: xx-large;
+    font-weight: 300;
+    margin-top: 10px;
+    width: fit-content;
+    padding-left: 10px;
+}
+.timeline-date div {
+	border-left: 2px solid rgba(0,0,0,0.2);
+    padding-left: 10px;
+    margin-left: 10px;
+    font-size: x-large;
+    font-weight: 100;
+    padding-top: 2px;
+    width: 100%;
+}
+.timeline-date div:first-child {
+	border-top-right-radius: 100px;
+}
+.timeline-date div:last-child {
+	border-bottom-right-radius: 100px;
+}
 
 /* CARD COLORS */
 .color-card-in .text-holder {
