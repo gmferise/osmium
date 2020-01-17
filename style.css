@@ -243,6 +243,9 @@ html {
     padding-top: 2px;
     width: 100%;
 }
+.timeline-date div:hover {
+	background-color: rgba(0,0,0,0.1);
+}
 .timeline-date div:first-child {
 	border-top-right-radius: 100px;
 }

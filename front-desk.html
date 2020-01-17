@@ -104,13 +104,29 @@ rel="stylesheet"/>
 						header.classList.add('center-h','title');
 						header.innerHTML = obj.name;
 					container.appendChild(header);
+					
+					var center = document.createElement('div');
+					center.classList.add('middle-wrapper');
+						//[ [day, [time,type],[time,type],[time,type]...],[...] ]
+						var data = [
+						[new Date(2020,0,2),[new Date(new Date().setMinutes(0)),"Checked In"],[new Date(new Date().setMinutes(10)),"Sent to Tech"],[new Date(new Date().setMinutes(20)),"Checked Out"]],
+						[new Date(2020,0,1),[new Date(new Date().setMinutes(2)),"Checked In"],[new Date(new Date().setMinutes(12)),"Checked Out"],[new Date(new Date().setMinutes(20)),"Checked In"],[new Date(new Date().setMinutes(26)),"Sent to Tech"],[new Date(new Date().setMinutes(38)),"Checked Out"]]
+						]
+						//todo pull person data
+						for (var i=0; i<data.length; i++) {
+							var eachdate = document.createElement('div');
+							eachdate.classList.add('timeline-date');
+							eachdate.innerHTML = data[i][0].toLocaleString('en-US',{weekday:'long',month:'long',day:'numeric'});
+							for (var j=1; j<data[i].length; j++) {
+								var eachtime = document.createElement('div');
+								eachtime.innerHTML = get12time(data[i][j][0])+" - "+data[i][j][1];
+								eachdate.appendChild(eachtime);
+							}
+							center.appendChild(eachdate);
+						}
+						//todo add comments box
+					container.appendChild(center);
 				popup.appendChild(container);
-				
-			var data = [] //todo datastructure
-			//todo pull person data
-			//todo add timeline-date s 
-			//todo add comments box
-				
 			document.body.appendChild(popup);
 		}
 		
