@@ -6,131 +6,381 @@
 	
 	<!-- Vue Styling -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Round"
+rel="stylesheet"/>
 	<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
 	<link href="style.css" rel="stylesheet" type ="text/css"/>
 	
   </head>
   <script>
-	//showSidebar() - toggle visibility
-	//showSidebar(true|false) - set visibility
-	function showSidebar(forcestate) {
-		var el = document.getElementById("splitbody");
-		if ((el.classList.contains("split-visible"))&&(forcestate != true)) {
-			//hide sidebar
-			el.classList.remove("split-visible");
-			//side-effect: hide searchbar in sidebar
-			showSearch(false);
-		} else if (forcestate != false) {
-			//show sidebar
-			el.classList.add("split-visible");
-			//side-effect: scroll sidebar cards list to top
-			document.getElementById('cards-wrapper').scrollTop = 0;
+	
+	function get12time(date) {
+		var hours = date.getHours();
+		var minutes = date.getMinutes();
+		var ampm = hours >= 12 ? 'pm' : 'am';
+		hours = hours % 12;
+		hours = hours ? hours : 12; // the hour '0' should be '12'
+		minutes = minutes < 10 ? '0'+minutes : minutes;
+		var strTime = hours + ':' + minutes + ' ' + ampm;
+		return strTime;
+}
+	
+	function getColorClassFromStatus(statusName, isSentToTech) {
+		if (isSentToTech == true) {
+			return "tech"+statusName;
+		} else {
+			return statusName;
 		}
 	}
 	
-	function showSearch(forcestate) {
-		var el = document.getElementById("search-wrapper");
-		if ((el.classList.contains("expanded"))&&(forcestate != true)) {
-			//minimize search
-			el.classList.remove("expanded");
-			//side-effect: clear search
-			document.getElementById('searchfield').value = '';
-		} else if (forcestate != false) {
-			//maximize search
-			el.classList.add("expanded");
-			//side-effect: focus search
-			document.getElementById('searchfield').focus();
+	var cards = [];
+	function cardObjectFromElement(element,numParents) {
+		var el = element;
+		if (numParents == null) {
+			numParents = 0;
 		}
+		for (var i=0; i<numParents; i++) {
+			el = el.parentElement;
+		}
+		return cards[Array.from(el.parentElement.children).indexOf(el)-1];
 	}
 	
 	//OBJECT - Card
-	function new_Card(stuname, intime, colornum) {
+	function new_Card(studentName, timeStamp, statusName, isSentToTech) {
 		const obj = {};
-		obj.name = stuname;
-		obj.time = intime;
-		obj.color = colornum;
+		obj.name = studentName;
+		obj.time = timeStamp;
+		obj.status = statusName;
+		obj.tech = isSentToTech
 		
-		obj.insertIntoCards = function(belowElement) {
-			var wrap = document.createElement('div');
-				wrap.classList.add('check-card');
-				var btn = document.createElement('button');
-					var ico = document.createElement('i');
-					ico.classList.add('material-icons');
-					ico.innerHTML = "check";
-					btn.appendChild(ico);
-				wrap.appendChild(btn);
-				var txtwrap = document.createElement('div');
-					txtwrap.classList.add('text-holder');
-					txtwrap.classList.add('color-card-'+obj.color);
-					var txtmed = document.createElement('div');
-						txtmed.classList.add('medium-text');
-						txtmed.innerHTML = obj.name;
-					txtwrap.appendChild(txtmed);
-					var txtsml = document.createElement('div');
-						txtsml.classList.add('small-text');
-						txtsml.innerHTML = obj.time + "m ago";
-					txtwrap.appendChild(txtsml);
-				wrap.appendChild(txtwrap);
-			document.getElementById(belowElement).insertAdjacentElement('afterEnd',wrap);
+		//create card
+		var wrap = document.createElement('div');
+			wrap.classList.add('check-card');
+			var btn = document.createElement('button');
+				btn.setAttribute('onclick','cardObjectFromElement(this,1).clickAction();');
+				var hover = document.createElement('div');
+					hover.classList.add('tooltip');
+				btn.appendChild(hover);
+			wrap.appendChild(btn);
+			var txtwrap = document.createElement('div');
+				txtwrap.classList.add('text-holder');
+				var txtmed = document.createElement('div');
+					txtmed.classList.add('medium-text');
+					txtmed.innerHTML = obj.name;
+					var hover = document.createElement('div');
+						hover.classList.add('tooltip');
+					txtmed.appendChild(hover);
+				txtwrap.appendChild(txtmed);
+				var txtsml = document.createElement('div');
+					txtsml.classList.add('small-text');
+					txtsml.innerHTML = get12time(obj.time);
+				txtwrap.appendChild(txtsml);
+			wrap.appendChild(txtwrap);
+			
+		obj.card = wrap;
+		
+		//provide status name ("in"|"out") and tech status (true|false) to update proper styling and object's properties
+		obj.updateStatusAndColor = function(statusName, isSentToTech) {
+			var newcolor = getColorClassFromStatus(statusName, isSentToTech);
+			obj.card.classList = "";
+			obj.card.classList.add('check-card');
+			obj.card.classList.add("color-card-"+newcolor);
+			obj.status = statusName;
+			obj.tech = isSentToTech;
+		}
+		obj.updateStatusAndColor(obj.status,obj.tech);
+		
+		obj.showComments = function() {
+			var popup = document.createElement('div');
+				popup.classList.add('card-popup');
+				var container = document.createElement('div');
+				container.classList.add('card-popup-container','color-bg-main');
+					var close = document.createElement('button');
+						close.classList.add('close','material-icons');
+						close.innerHTML = 'close';
+						close.setAttribute('onclick','this.parentElement.parentElement.remove()');
+					container.appendChild(close);
+					var header = document.createElement('div');
+						header.classList.add('center-h','title');
+						header.innerHTML = obj.name;
+					container.appendChild(header);
+					
+					var center = document.createElement('div');
+					center.classList.add('middle-wrapper');
+						//[ [day, [time,type],[time,type],[time,type]...],[...] ]
+						var data = [
+						[new Date(2020,0,2),[new Date(new Date().setMinutes(0)),"Checked In"],[new Date(new Date().setMinutes(10)),"Sent to Tech"],[new Date(new Date().setMinutes(20)),"Checked Out"]],
+						[new Date(2020,0,1),[new Date(new Date().setMinutes(2)),"Checked In"],[new Date(new Date().setMinutes(12)),"Checked Out"],[new Date(new Date().setMinutes(20)),"Checked In"],[new Date(new Date().setMinutes(26)),"Sent to Tech"],[new Date(new Date().setMinutes(38)),"Checked Out"]]
+						]
+						//todo pull person data
+						for (var i=0; i<data.length; i++) {
+							var eachdate = document.createElement('div');
+							eachdate.classList.add('timeline-date');
+							eachdate.innerHTML = data[i][0].toLocaleString('en-US',{weekday:'long',month:'long',day:'numeric'});
+							for (var j=1; j<data[i].length; j++) {
+								var eachtime = document.createElement('div');
+								eachtime.innerHTML = get12time(data[i][j][0])+" - "+data[i][j][1];
+								eachdate.appendChild(eachtime);
+							}
+							center.appendChild(eachdate);
+						}
+						//todo add comments box
+					container.appendChild(center);
+				popup.appendChild(container);
+			document.body.appendChild(popup);
+		}
+		
+		//click the card's button - uses card's properties to determine action
+		obj.clickAction = function() {
+			if (!(obj.tech) && (obj.status=="in")) {
+				//todo send "moved to tech" query
+				obj.updateStatusAndColor("in",true);
+				obj.playRefreshAnimation();
+			} else {
+				obj.showComments();
+			}
+		}
+		
+		obj.playRefreshAnimation = function() {
+			obj.card.classList.add('anim-refresh');
+			setTimeout(function() {
+				obj.card.classList.remove('anim-refresh');
+			},500);
+		}
+		
+		obj.playInsertAnimation = function() {
+			obj.card.classList.add('anim-in');
+			setTimeout(function() {
+				obj.card.classList.remove('anim-in');
+			},500);
+		}
+		
+		//insert into cards list at top
+		obj.insertIntoCards = function() {
+			document.getElementById("insert-cards").insertAdjacentElement('afterEnd',obj.card);
 		};
+		
 		return obj;
 	}
 	
+	var testnames = ["Marissa Hansen","Lynda Richmond","Roberto Brennan","Dwain Owens","Omer Mcintyre","Martina Grant","Bertram Weber","Milan Bryant","Louise Vincent","Margarita Guerra","Dorothea Sharp","Bertha Howell","Mable Gillespie","Marisa Mills","Lesley Ramirez","Burt Austin","Kathryn Weaver","Harrison Ferguson","Alonzo Zamora","Jean Munoz","Brain Wood","Osvaldo Berger","Debra Hayes","Luke Sheppard","Elisabeth Dougherty","Trey Velez","Edgardo Macias","Javier Carpenter","Rene Simon","Cassandra Osborne","Wilford Finley","Heriberto Odonnell","Beau Terry","Miquel Mendez","Garry Tyler","Anita Tapia","Kim Campos","Dane Griffith","Liliana Blackwell","Pamela Sims","Owen Cook","Joel Gomez","Marshall Carson","Bernadette Poole","Hiram Mcclain","Amanda Walters","Monte Ball","Toney Yoder","Brett Choi","Elsa Jones"];
 	function test() {
-		for (var i=1; i<=4; i++) {
+		for (var i=0; i<parseInt(Math.random() * 5)+1; i++) {
 		if (parseInt(Math.random() * 2) == 0) {
-			new_Card("Joeseph Jones",i*3,i).insertIntoCards('card-divider-today');
+			var card = new_Card(testnames[parseInt(Math.random() * 50)],randomDate(),"in",parseInt(Math.random()*2));
+			cards.unshift(card); //unshift pushes to start instead of end... weirdname.
+			card.playInsertAnimation();
 		} else {
-			new_Card("Billiam Phillus",i*3,i).insertIntoCards('card-divider-older');
+			var card = new_Card(testnames[parseInt(Math.random() * 50)],randomDate(),"out",parseInt(Math.random()*2));
+			cards.unshift(card);
+			card.playInsertAnimation();
 		}
 		}
+		cards = quickSort(cards, 0, cards.length-1, false);
+		repackCards();
 	}
 	
+	function randomDate() {
+		var now = new Date();
+		now.setHours(parseInt(Math.random()*24));
+		now.setMinutes(parseInt(Math.random()*60));
+		now.setSeconds(parseInt(Math.random()*60));
+		return now;
+	}
+	
+function toggleSort(toggle) {
+	var el = document.getElementById('sortbar');
+	var current = el.classList[0];
+	el.classList.remove(current);
+	if (toggle == current.substring(0,9)) {
+		if (current.substring(10) == "up") {
+			el.classList.add(current.substring(0,9)+"-down");
+			cards = cards.reverse();
+			repackCards();
+		} else {
+			el.classList.add(current.substring(0,9)+"-up");
+			cards = cards.reverse();
+			repackCards();
+		}
+	} else if (current.substring(5,9)=="name") {
+		el.classList.add("sort-time-down");
+		cards = quickSort(cards, 0, cards.length-1, false);
+		repackCards();
+	} else {
+		el.classList.add("sort-name-down");
+		cards = quickSort(cards, 0, cards.length-1, true);
+		repackCards();
+	}
+}
+function repackCards(cardslist) {
+	var el = document.getElementById('cards-wrapper');
+	el.innerHTML = '';
+	var ns = document.createElement('div');
+	ns.classList.add('null-spacer');
+	ns.setAttribute('id','insert-cards');
+	el.appendChild(ns);
+	for (var i=cards.length-1; i>=0; i--) {
+		cards[i].insertIntoCards();
+	}
+	
+}
+
+function QSswap(items, leftIndex, rightIndex){
+    var temp = items[leftIndex];
+    items[leftIndex] = items[rightIndex];
+    items[rightIndex] = temp;
+}
+function QSpartition_name(items, left, right) {
+    var pivot   = items[Math.floor((right + left) / 2)], //middle element
+        i       = left, //left pointer
+        j       = right; //right pointer
+    while (i <= j) {
+        while (items[i].name < pivot.name) {
+            i++;
+        }
+        while (items[j].name > pivot.name) {
+            j--;
+        }
+        if (i <= j) {
+            QSswap(items, i, j); //sawpping two elements
+            i++;
+            j--;
+        }
+    }
+    return i;
+}
+function QSpartition_time(items, left, right) {
+    var pivot   = items[Math.floor((right + left) / 2)], //middle element
+        i       = left, //left pointer
+        j       = right; //right pointer
+    while (i <= j) {
+        while (items[i].time > pivot.time) {
+            i++;
+        }
+        while (items[j].time < pivot.time) {
+            j--;
+        }
+        if (i <= j) {
+            QSswap(items, i, j); //sawpping two elements
+            i++;
+            j--;
+        }
+    }
+    return i;
+}
+function quickSort(items, left, right, name) {
+    var index;
+    if (items.length > 1) {
+		if (name) {
+			index = QSpartition_name(items, left, right); //index returned from partition
+		} else {
+			index = QSpartition_time(items, left, right); //index returned from partition
+		}
+		
+        if (left < index - 1) { //more elements on the left side of the pivot
+            quickSort(items, left, index - 1, name);
+        }
+        if (index < right) { //more elements on the right side of the pivot
+            quickSort(items, index, right, name);
+        }
+    }
+    return items;
+}
+	
+function updateTodaysDate() {
+	//var now = new Date(new Date().getTime()+Math.random()*100000000000)
+	var now = new Date();
+	var s = now.toLocaleString('en-US',{weekday:'long',month:'long',day:'numeric'});
+	var d = s.split(", ");
+	d[0] += ",";
+	d.push(get12time(now));
+	var here = document.getElementById('todays-date');
+	for (var i=0; i<d.length; i++) {
+		here.children[i].innerHTML = d[i];
+	}
+	var now = new Date();
+	setTimeout(function(){updateTodaysDate();},60000-((now.getSeconds()*1000)+now.getMilliseconds())); //timeout to refresh on next minute
+}
 	</script>
   <body class="color-bg-main">
-	<div class="split-left">
-		  <div id='search-wrapper'>
-				<div id='searchbar'>
-					<i class="material-icons">search</i>
-					<input type='text' id='searchfield' placeholder="Search"></input>
+	<!-- testing element -->
+	<button class="center-h" style="position: absolute;left:0;top:0;z-index:10000;" onclick="test()">test: Press to add :)</button>
+	<!-- end test-->
+	
+	<div class="split-left pretty-scrollbar-dark">
+		<div class="small-spacer"></div>
+		<div class='middle-wrapper'>
+			<div id='searchbar'>
+				<i class="material-icons">search</i>
+				<input type='text' id='searchfield' placeholder="Search"></input>
+			</div>
+		</div>
+		<div class='middle-wrapper'>
+			<div id='sortbar' class='sort-time-down'>
+				<div id='sort-name' class="tablecell">
+					<button onclick="toggleSort('sort-name');">
+						<div class="sortfield">Name</div>
+						<div class="updown">
+						</div>
+					</button>
+				</div>
+				<div id='sort-time' class="tablecell">
+					<button onclick="toggleSort('sort-time');">
+						<div class="sortfield">Time</div>
+						<div class="updown">
+						</div>
+					</button>
 				</div>
 			</div>
-		<div id='cards-wrapper' class='pretty-scrollbar-dark' onclick=''>
-			<div class="small-spacer"></div>
-			<!-- testing element -->
-			<button class="center-h" style="position: absolute;" onclick="test()">test: Press to add :)</button>
-			<!-- end test-->
-			<div id='card-divider-today' class="center-h title">Today</div>
-			<!-- testing element -->
-			<div class="check-card" STYLE="DISPLAY: NONE;">
-				<button><i class="material-icons">check</i></button>
-				<div class="text-holder">
-					<div class="medium-text">
-					991015
-					</div>
-					<div class="small-text">
-					10m ago
-					</div>
-				</div>
-			</div>
-			<!-- end test-->
-			<div id='card-divider-older' class="center-h title">Older</div>
+		</div>
+		<div id='cards-wrapper'>
+			<div class="null-spacer" id="insert-cards"></div>
 		</div>
 	</div>
+	
 	<div class="split-right">
-		<div class="center-h title" style="display: sticky">Overview</div>
-		<div class="TEST-scroll"></div>
-	</div>
-	<!-- WIP ELEMENT -->
-	<div id="checkout-popup" style="display: none">
-		<div id="checkout-container" class="color-bg-alt">
-			<div class="small-spacer"></div>
-			<div class="title center-h">Check Out</div>
-			<div class="medium-spacer"></div>
-			<button class="close material-icons">close</button>
+		<div id="overview-table">
+			<div class="tablerow">
+				<div id="todays-date" class="center-h title">
+					<div class="center-h medium-text"></div>
+					<div class="center-h medium-text"></div>
+					<div class="center-h medium-text" style="padding-bottom:10px;"></div>
+				</div>
+			</div>
+			
+			<div class="tablerow">
+				<div class="center-h title medium-text">In the Library</div>
+				<div class="half-pair">
+					<div class="left">
+						<div class="large-text">10</div>
+						<div class="small-text">Checked In</div>
+					</div>
+					<div class="middle"></div>
+					<div class="right">
+						<div class="large-text">2</div>
+						<div class="small-text">In Tech</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="tablerow">
+				<div class="center-h title medium-text">Today's Traffic</div>
+				<div class="half-pair">
+					<div class="left">
+						<div class="large-text">23</div>
+						<div class="small-text">Students</div>
+					</div>
+					<div class="middle"></div>
+					<div class="right">
+						<div class="large-text">5</div>
+						<div class="small-text">Tech Issues</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
-	<!-- END WIP -->
   </body>
 </html>
+<script>
+updateTodaysDate();	
+</script>

@@ -5,6 +5,7 @@
 body {
 	height: 100%;
 	margin: 0px;
+	overflow: hidden;
 }
 
 body * {
@@ -16,6 +17,141 @@ html {
 	height: 100%;
 }
 
+#cards-wrapper {
+	height: 100%;
+}
+
+/* splitting document */
+.split-left {
+	position: absolute;
+	left: 0px;
+	width: 80%;
+	height: 100%;
+	overflow: auto;
+}
+.split-right {
+	position: absolute;
+	right: 0px;
+	width: 20%;
+	height: 100%;
+	overflow: hidden;
+	box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.37);
+}
+
+/* right hand overview */
+#overview-table {
+	display: table;
+	height: 100%;
+	width: 100%;
+	margin-left: 50%;
+	transform: translateX(-50%);
+	max-height: 40vw;
+}
+#overview-table div.tablerow {
+	display: table-row; height: 33%;
+}
+
+.middle-wrapper {
+	max-height: 50px;
+	box-sizing: border-box;
+	height: 50px;
+	margin-left: 10%;
+	width: 80%;
+	padding: 5px;
+}
+/* searchbar */
+#searchbar {
+	height: 100%;
+	float: right;
+	width: 100%;
+	box-sizing: border-box;
+	padding-left: 7px;
+	border: 1px solid #ccc;
+	border-radius: 50px;
+	background-color: white;
+}
+#searchbar .material-icons {
+	font-size: 28px;
+	vertical-align: middle;
+}
+#searchfield {
+	width: calc(100% - 50px);
+	height: 100%;
+	border: none;
+	box-sizing: border-box;
+	vertical-align: middle;
+}
+#searchfield:focus {
+	outline:0;
+}
+
+/* sortbar */
+#sortbar {
+	display: table;
+	width: 100%;
+	height: 100%;
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+#sortbar div.tablecell {
+	display: table-cell;
+	width: 50%;
+}
+#sortbar div.tablecell div.sortfield {
+	height: 100%;
+	display: inline;
+	font-size: x-large;
+	font-weight: 300;
+}
+#sortbar div.tablecell div.updown {
+	display: inline-table;
+	vertical-align: top;
+}
+#sortbar div.tablecell div.updown:before {
+	font-family: "Material Icons Round";
+	content: "keyboard_arrow_up";
+	height: 50%;
+	display: table-row;
+	font-size: 16px;
+	opacity: 0.5;
+	transition: all 0.1s ease-in-out;
+}
+#sortbar div.tablecell div.updown:after {
+	font-family: "Material Icons Round";
+	content: "keyboard_arrow_down";
+	height: 50%;
+	display: table-row;
+	font-size: 16px;
+	opacity: 0.5;
+	transition: all 0.1s ease-in-out;
+}
+#sortbar div.tablecell button {
+	border: 0;
+	border-radius: 24px;
+	padding-left: 10px;
+	padding-right: 10px;
+	background-color: transparent;
+	cursor: pointer;
+	transition: all 0.1s ease-in-out;
+}
+#sortbar div.tablecell button:hover {
+	background-color: rgba(0,0,0,0.1);
+}
+#sortbar div.tablecell button:focus {
+	outline: 0;
+}
+#sortbar div.tablecell#sort-time {
+	text-align: right;
+	padding-right: 90px;
+}
+#sortbar.sort-name-down div.tablecell#sort-name div.updown:after,
+#sortbar.sort-name-up div.tablecell#sort-name div.updown:before,
+#sortbar.sort-time-down div.tablecell#sort-time div.updown:after,
+#sortbar.sort-time-up div.tablecell#sort-time div.updown:before {
+	opacity: 1;
+	font-weight: bold;
+}
+
+/* CARDS */
 .check-card {
 	width: 80%;
 	margin-left: 10%;
@@ -36,99 +172,44 @@ html {
 	border-left: 1px solid white;
 	cursor: pointer;
 }
-.check-card button:hover .material-icons {
-	animation: wiggle 0.25s linear forwards;
-	text-shadow: 1px 3px 0 #000;
-} @keyframes wiggle {
-	0% {transform:rotate(0deg);}
-	25% {transform:rotate(10deg);}
-	50% {transform:rotate(0deg);}
-	75% {transform:rotate(-10deg);}
-	100% {transform:rotate(0deg);}
+.check-card button:focus {
+	outline: 0;
 }
 .check-card .text-holder {
 	padding-top: 5px;
-	padding-left: 5px;
+	padding-left: 10px;
 	padding-bottom: 5px;
 	height: fit-content;
 	width: calc(100% - 32px);
+	border-left: 5px solid rgba(255,255,255,0.3);
+	transition: background-color 0.25s ease-in-out;
 }
 .check-card .text-holder div {
 	color: black;
-}
-.check-card .material-icons {
-	color: white;
-	font-size: xx-large;
-	float: right;
-	margin-right: 2px;
 }
 .check-card .medium-text {
 	font-size: xx-large;
 	display: inline;
 	vertical-align: middle;
 	font-weight: 300;
+	position: relative;
 }
 .check-card .small-text {
-	font-size: 130%;
+	font-size: x-large;
+	font-weight: 400;
 	float: right;
 	margin-right: 10px;
 }
 .check-card .small-text:before {
 	font-family: "Material Icons";
 	vertical-align: middle;
-	font-size: inherit;
+	font-size: larger;
 	margin-right: 3px;
 	content: 'access_time';
 }
 
-.split-left {
-	/* todo */
-}
-.split-right {
-	/* todo */
-}
-
-#search-wrapper {
-	max-height: 50px;
-	box-sizing: border-box;
-	height: 50px;
-	margin-left: 10%;
-	width: 80%;
-	padding: 5px;
-}
-#searchbar {
-	height: 100%;
-	float: right;
-	width: 100%;
-	box-sizing: border-box;
-	padding-left: 7px;
-	border: 1px solid #ccc;
-	border-radius: 50px;
-	background-color: white;
-	transition: width 0.25s ease-in-out;
-}
-#searchbar .material-icons {
-	font-size: 28px;
-	vertical-align: middle;
-}
-#searchfield {
-	width: calc(100% - 50px);
-	height: 100%;
-	border: none;
-	box-sizing: border-box;
-	vertical-align: middle;
-}
-#searchfield:focus {
-	outline:0;
-}
-#search-wrapper.expanded #crisis-wrapper {
-	transform: translate(-100%, 0);
-}
-#search-wrapper.expanded #searchbar {
-	width: 95%;
-}
-/* WIP ELEMENT */
-#checkout-popup {
+/* CARD POPUP */
+.card-popup {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -136,8 +217,7 @@ html {
 	height: 100%;
 	background: rgba(0,0,0,0.5);
 }
-
-#checkout-container {
+.card-popup-container {
 	position: absolute;
 	left: 40px;
 	top: 40px;
@@ -147,20 +227,188 @@ html {
 	border-radius: 20px;
 	z-index: 100;
 }
+.timeline-date {
+	font-size: xx-large;
+    font-weight: 300;
+    margin-top: 10px;
+    width: fit-content;
+    padding-left: 10px;
+}
+.timeline-date div {
+	border-left: 2px solid rgba(0,0,0,0.2);
+    padding-left: 10px;
+    margin-left: 10px;
+    font-size: x-large;
+    font-weight: 100;
+    padding-top: 2px;
+    width: 100%;
+}
+.timeline-date div:hover {
+	background-color: rgba(0,0,0,0.1);
+}
+.timeline-date div:first-child {
+	border-top-right-radius: 100px;
+}
+.timeline-date div:last-child {
+	border-bottom-right-radius: 100px;
+}
 
 /* CARD COLORS */
-.color-card-1 {
-	background-color: mediumseagreen;
+.color-card-in .text-holder {
+	background-color: #46c37e; /* checkedin green */
 }
-.color-card-2 {
-	background-color: lightgrey;
+.color-card-out .text-holder {
+	background-color: #a7d3bb; /* checkedout green */
 }
-.color-card-3 {
-	background-color: dodgerblue;
+.color-card-techin .text-holder {
+	background-color: #6d8ce8; /* tech blue */
 }
-.color-card-4 {
-	background-color: lightsteelblue;
+.color-card-techout .text-holder {
+	background-color: #b0c4dd; /* techout blue */
 }
+.color-card-in button, .color-card-techin button {
+	background-color: royalblue;
+}
+.color-card-out button, .color-card-techout button {
+	background-color: grey;
+}
+/* CARD ICONS */
+.color-card-in button:after {
+	font-family: 'Material Icons Round';
+	content: "send";
+	color: white;
+	font-size: xx-large;
+	float: right;
+	margin-right: 2px;
+}
+.color-card-out button:after, .color-card-techin button:after, .color-card-techout button:after {
+	font-family: 'Material Icons';
+	content: "edit";
+	color: white;
+	font-size: xx-large;
+	float: right;
+	margin-right: 2px;
+}
+/* CARD TOOLTIP CONTENT */
+.color-card-in button div.tooltip:before {
+	content: "Send to Tech";
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.color-card-out button div.tooltip:before, .color-card-techin button div.tooltip:before, .color-card-techout button div.tooltip:before {
+	content: "Edit Notes";
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.color-card-in .medium-text div.tooltip:before {
+	content: "Checked In - Library";
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.color-card-out .medium-text div.tooltip:before {
+	content: "Checked Out - Library";
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.color-card-techin .medium-text div.tooltip:before {
+	content: "Checked In - Tech Office";
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.color-card-techout .medium-text div.tooltip:before {
+	content: "Checked Out - Tech Office";
+	padding-left: 10px;
+	padding-right: 10px;
+}
+/* CARD TOOLTIP FORMAT */
+/* button */
+.check-card button div.tooltip {
+	visibility: hidden;
+	opacity: 0;
+	width: max-content;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	padding: 5px 0;
+	border-radius: 6px;
+ 
+	position: absolute;
+	transform: translate(45px,2px);
+	z-index: 1;
+	transition: opacity 0.25s ease-in-out;
+}
+.check-card button div.tooltip:after{
+	content: " ";
+	position: absolute;
+	top: 50%;
+	right: 100%;
+	margin-top: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: transparent black transparent transparent;
+}
+.check-card button:hover div.tooltip {
+	visibility: visible;
+	opacity: 1;
+}
+/* name */
+.check-card .medium-text div.tooltip {
+	visibility: hidden;
+	opacity: 0;
+	width: max-content;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	padding: 5px 0;
+	border-radius: 6px;
+ 
+	position: absolute;
+	left: calc(100% + 10px);
+	top: 4px;
+	z-index: 1;
+	transition: opacity 0.25s ease-in-out;
+}
+.check-card .medium-text div.tooltip:after {
+	content: " ";
+	position: absolute;
+	top: 50%;
+	right: 100%;
+	margin-top: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: transparent black transparent transparent;
+}
+.check-card .medium-text:hover div.tooltip {
+	visibility: visible;
+	opacity: 1;
+}
+
+/* CARD ANIMATION */
+.check-card button:hover:after {
+	animation: wiggle 0.25s linear forwards;
+	text-shadow: 1px 3px 0 #000;
+} @keyframes wiggle {
+	0% {transform:rotate(0deg);}
+	25% {transform:rotate(10deg);}
+	50% {transform:rotate(0deg);}
+	75% {transform:rotate(-10deg);}
+	100% {transform:rotate(0deg);}
+}
+.check-card.anim-in {
+	animation: bump-left 0.25s ease-in-out forwards;
+} @keyframes bump-left {
+	0% {transform:translateX(-100%);opacity:0;}
+	50% {transform:translateX(-50%);opacity:0;}
+	100% {transform:translateX(0%);opacity:1;}
+}
+.check-card.anim-refresh {
+	animation: refresh 0.25s ease-in-out forwards;
+} @keyframes refresh {
+	0% {transform:translateX(0%);}
+	50% {transform:translateX(-1%);}
+	100% {transform:translateX(0%);}
+}
+
 /* GENERAL ELEMENT STYLING */
 
 /* center an element horizontally */
@@ -226,6 +474,11 @@ html {
 	height: 25px;
 }
 
+.null-spacer {
+	height: 0px;
+	display: none;
+}
+
 /* scrollbars */
 .pretty-scrollbar-light::-webkit-scrollbar-thumb {
 	border-radius: 10px;
@@ -243,6 +496,27 @@ html {
 
 .pretty-scrollbar-dark::-webkit-scrollbar {
 	width: 10px;
+}
+
+/* left | right structure */
+div.half-pair {
+	display: table;
+	width: 100%;
+}
+div.half-pair .left {
+	font-size: inherit;
+	text-align: right;
+	padding-right: 1em;
+	width: 50%;
+	display: table-cell;
+}
+div.half-pair .right {
+	border-left: 1px solid rgba(0,0,0,0.5);
+	font-size: inherit;
+	text-align: left;
+	padding-left: 1em;
+	width: 50%;
+	display: table-cell;
 }
 
 /* close button */
