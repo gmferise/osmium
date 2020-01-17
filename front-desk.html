@@ -101,30 +101,56 @@ rel="stylesheet"/>
 						close.setAttribute('onclick','this.parentElement.parentElement.remove()');
 					container.appendChild(close);
 					var header = document.createElement('div');
-						header.classList.add('center-h','title');
+						header.classList.add('title-center');
 						header.innerHTML = obj.name;
 					container.appendChild(header);
-					
 					var center = document.createElement('div');
-					center.classList.add('middle-wrapper');
-						//[ [day, [time,type],[time,type],[time,type]...],[...] ]
-						var data = [
-						[new Date(2020,0,2),[new Date(new Date().setMinutes(0)),"Checked In"],[new Date(new Date().setMinutes(10)),"Sent to Tech"],[new Date(new Date().setMinutes(20)),"Checked Out"]],
-						[new Date(2020,0,1),[new Date(new Date().setMinutes(2)),"Checked In"],[new Date(new Date().setMinutes(12)),"Checked Out"],[new Date(new Date().setMinutes(20)),"Checked In"],[new Date(new Date().setMinutes(26)),"Sent to Tech"],[new Date(new Date().setMinutes(38)),"Checked Out"]]
-						]
-						//todo pull person data
-						for (var i=0; i<data.length; i++) {
-							var eachdate = document.createElement('div');
-							eachdate.classList.add('timeline-date');
-							eachdate.innerHTML = data[i][0].toLocaleString('en-US',{weekday:'long',month:'long',day:'numeric'});
-							for (var j=1; j<data[i].length; j++) {
-								var eachtime = document.createElement('div');
-								eachtime.innerHTML = get12time(data[i][j][0])+" - "+data[i][j][1];
-								eachdate.appendChild(eachtime);
-							}
-							center.appendChild(eachdate);
-						}
-						//todo add comments box
+						center.classList.add('middle-wrapper');
+						var leftside = document.createElement('div');
+							leftside.classList.add('left');
+							
+								var leftlabel = document.createElement('div');
+									leftlabel.classList.add('title-left');
+									leftlabel.innerHTML = "Student History";
+								leftside.appendChild(leftlabel);
+								
+								var historylist = document.createElement('div');
+									historylist.classList.add('pretty-scrollbar-dark');
+								
+									//[ [day, [time,type],[time,type],[time,type]...],[...] ]
+									var data = [
+									[new Date(2020,0,2),[new Date(new Date().setMinutes(0)),"Checked In"],[new Date(new Date().setMinutes(10)),"Sent to Tech"],[new Date(new Date().setMinutes(20)),"Checked Out"]],
+									[new Date(2020,0,1),[new Date(new Date().setMinutes(2)),"Checked In"],[new Date(new Date().setMinutes(12)),"Checked Out"],[new Date(new Date().setMinutes(20)),"Checked In"],[new Date(new Date().setMinutes(26)),"Sent to Tech"],[new Date(new Date().setMinutes(38)),"Checked Out"]]
+									]
+									//todo pull person data
+									
+									for (var i=0; i<data.length; i++) {
+										var eachdate = document.createElement('div');
+										eachdate.classList.add('timeline-date');
+										eachdate.innerHTML = data[i][0].toLocaleString('en-US',{weekday:'long',month:'long',day:'numeric'});
+										for (var j=1; j<data[i].length; j++) {
+											var eachtime = document.createElement('div');
+											eachtime.innerHTML = get12time(data[i][j][0])+" - "+data[i][j][1];
+											eachdate.appendChild(eachtime);
+										}
+										historylist.appendChild(eachdate);
+									}
+									var t = document.createElement('div')
+									t.classList.add('TEST-scroll');
+									historylist.appendChild(t);
+								leftside.appendChild(historylist)
+								
+						center.appendChild(leftside);
+						var rightside = document.createElement('div');
+							rightside.classList.add('right');
+							var rightlabel = document.createElement('div');
+								rightlabel.classList.add('title-center');
+								rightlabel.innerHTML = "Notes for Event";
+							rightside.appendChild(rightlabel);
+							var commentsbox = document.createElement('textarea');
+								commentsbox.setAttribute('placeholder','Click to add notes');
+							rightside.appendChild(commentsbox);
+						center.appendChild(rightside);
 					container.appendChild(center);
 				popup.appendChild(container);
 			document.body.appendChild(popup);
@@ -341,7 +367,7 @@ function updateTodaysDate() {
 	<div class="split-right">
 		<div id="overview-table">
 			<div class="tablerow">
-				<div id="todays-date" class="center-h title">
+				<div id="todays-date" class="title-center">
 					<div class="center-h medium-text"></div>
 					<div class="center-h medium-text"></div>
 					<div class="center-h medium-text" style="padding-bottom:10px;"></div>
@@ -349,7 +375,7 @@ function updateTodaysDate() {
 			</div>
 			
 			<div class="tablerow">
-				<div class="center-h title medium-text">In the Library</div>
+				<div class="title-center medium-text">In the Library</div>
 				<div class="half-pair">
 					<div class="left">
 						<div class="large-text">10</div>
@@ -364,7 +390,7 @@ function updateTodaysDate() {
 			</div>
 			
 			<div class="tablerow">
-				<div class="center-h title medium-text">Today's Traffic</div>
+				<div class="title-center medium-text">Today's Traffic</div>
 				<div class="half-pair">
 					<div class="left">
 						<div class="large-text">23</div>
