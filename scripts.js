@@ -171,8 +171,8 @@ function loadAPI(){
 }
 
 function getName(id){
-	var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/12gJB8OyaZBdAgl2ly02_BbjYtr8PosX-O3Jdy6iS6ZA/edit',headers=1);
-	query.setQuery("SELECT name WHERE id = '"+id+"'");
+	var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/12gJB8OyaZBdAgl2ly02_BbjYtr8PosX-O3Jdy6iS6ZA/gviz/tq?headers=1&access_token='+encodeURIComponent(gapi.auth.getToken().access_token));
+	query.setQuery("SELECT *"); //name WHERE id = '"+id+"'");
 	query.send(getName_response);
 }
 
