@@ -145,17 +145,125 @@ rel="stylesheet"/>
 	function test() {
 		for (var i=0; i<parseInt(Math.random() * 5)+1; i++) {
 		if (parseInt(Math.random() * 2) == 0) {
-			var card = new_Card(testnames[parseInt(Math.random() * 50)],new Date(new Date().getTime()+Math.random()*100000000),"in",parseInt(Math.random()*2));
+			var card = new_Card(testnames[parseInt(Math.random() * 50)],randomDate(),"in",parseInt(Math.random()*2));
 			cards.unshift(card); //unshift pushes to start instead of end... weirdname.
-			card.insertIntoCards();
+			card.playInsertAnimation();
 		} else {
-			var card = new_Card(testnames[parseInt(Math.random() * 50)],new Date(new Date().getTime()+Math.random()*100000000),"out",parseInt(Math.random()*2));
+			var card = new_Card(testnames[parseInt(Math.random() * 50)],randomDate(),"out",parseInt(Math.random()*2));
 			cards.unshift(card);
-			card.insertIntoCards();
+			card.playInsertAnimation();
 		}
-		card.playInsertAnimation();
 		}
+		cards = quickSort(cards, 0, cards.length-1, false);
+		repackCards();
 	}
+	
+	function randomDate() {
+		var now = new Date();
+		now.setHours(parseInt(Math.random()*24));
+		now.setMinutes(parseInt(Math.random()*60));
+		now.setSeconds(parseInt(Math.random()*60));
+		return now;
+	}
+	
+function toggleSort(toggle) {
+	var el = document.getElementById('sortbar');
+	var current = el.classList[0];
+	el.classList.remove(current);
+	if (toggle == current.substring(0,9)) {
+		if (current.substring(10) == "up") {
+			el.classList.add(current.substring(0,9)+"-down");
+			cards = cards.reverse();
+			repackCards();
+		} else {
+			el.classList.add(current.substring(0,9)+"-up");
+			cards = cards.reverse();
+			repackCards();
+		}
+	} else if (current.substring(5,9)=="name") {
+		el.classList.add("sort-time-down");
+		cards = quickSort(cards, 0, cards.length-1, false);
+		repackCards();
+	} else {
+		el.classList.add("sort-name-down");
+		cards = quickSort(cards, 0, cards.length-1, true);
+		repackCards();
+	}
+}
+function repackCards(cardslist) {
+	var el = document.getElementById('cards-wrapper');
+	el.innerHTML = '';
+	var ns = document.createElement('div');
+	ns.classList.add('null-spacer');
+	ns.setAttribute('id','insert-cards');
+	el.appendChild(ns);
+	for (var i=cards.length-1; i>=0; i--) {
+		cards[i].insertIntoCards();
+	}
+	
+}
+
+function QSswap(items, leftIndex, rightIndex){
+    var temp = items[leftIndex];
+    items[leftIndex] = items[rightIndex];
+    items[rightIndex] = temp;
+}
+function QSpartition_name(items, left, right) {
+    var pivot   = items[Math.floor((right + left) / 2)], //middle element
+        i       = left, //left pointer
+        j       = right; //right pointer
+    while (i <= j) {
+        while (items[i].name < pivot.name) {
+            i++;
+        }
+        while (items[j].name > pivot.name) {
+            j--;
+        }
+        if (i <= j) {
+            QSswap(items, i, j); //sawpping two elements
+            i++;
+            j--;
+        }
+    }
+    return i;
+}
+function QSpartition_time(items, left, right) {
+    var pivot   = items[Math.floor((right + left) / 2)], //middle element
+        i       = left, //left pointer
+        j       = right; //right pointer
+    while (i <= j) {
+        while (items[i].time > pivot.time) {
+            i++;
+        }
+        while (items[j].time < pivot.time) {
+            j--;
+        }
+        if (i <= j) {
+            QSswap(items, i, j); //sawpping two elements
+            i++;
+            j--;
+        }
+    }
+    return i;
+}
+function quickSort(items, left, right, name) {
+    var index;
+    if (items.length > 1) {
+		if (name) {
+			index = QSpartition_name(items, left, right); //index returned from partition
+		} else {
+			index = QSpartition_time(items, left, right); //index returned from partition
+		}
+		
+        if (left < index - 1) { //more elements on the left side of the pivot
+            quickSort(items, left, index - 1, name);
+        }
+        if (index < right) { //more elements on the right side of the pivot
+            quickSort(items, index, right, name);
+        }
+    }
+    return items;
+}
 	
 function updateTodaysDate() {
 	//var now = new Date(new Date().getTime()+Math.random()*100000000000)
@@ -186,16 +294,20 @@ function updateTodaysDate() {
 			</div>
 		</div>
 		<div class='middle-wrapper'>
-			<div id='sortbar'>
-				<div class="tablecell">
-					<div>Name</div>
-					<div class="updown">
-					</div>
+			<div id='sortbar' class='sort-time-down'>
+				<div id='sort-name' class="tablecell">
+					<button onclick="toggleSort('sort-name');">
+						<div class="sortfield">Name</div>
+						<div class="updown">
+						</div>
+					</button>
 				</div>
-				<div class="tablecell">
-					<div>Time</div>
-					<div class="updown">
-					</div>
+				<div id='sort-time' class="tablecell">
+					<button onclick="toggleSort('sort-time');">
+						<div class="sortfield">Time</div>
+						<div class="updown">
+						</div>
+					</button>
 				</div>
 			</div>
 		</div>
