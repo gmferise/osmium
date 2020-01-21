@@ -58,48 +58,6 @@ function updateAuthButton() { // Updates button
 	}
 }
 
-
-/// **********************
-/// * BROWSER MANAGEMENT *
-/// **********************
-
-// ***** UTILITY FUNCTIONS *****
-function loadDocument(){
-	/*
-	readKnownDatabases();
-	var value = window.location.hash.substring(1);
-	if (value != null){
-		try{
-			importDatabase('https://docs.google.com/spreadsheets/d/'+value+'/edit');
-		}
-		catch {
-			console.log('URL # Import Failed.');
-		}
-	}
-	*/
-}
-
-function setCookie(id, value){
-	var exp = new Date();
-	exp.setFullYear(exp.getFullYear()+1);
-	document.cookie = id+'='+value+'; path=/; expires='+exp.toUTCString();
-}
-
-function getCookie(id){
-	id = id+'=';
-	var cookieArray = decodeURIComponent(document.cookie).split(';');
-	for (var i = 0; i < cookieArray.length; i++){
-		var c = cookieArray[i];
-		while (c.charAt(0) == ' '){
-			c = c.substring(1);
-		}
-		if (c.indexOf(id) == 0){
-			return c.substring(id.length, c.length);
-		}
-	}
-	return '';
-}
-
 /// ***********************
 /// * DATABASE MANAGEMENT *
 /// ***********************
@@ -108,17 +66,6 @@ function getCookie(id){
 // Stored as 'Name':'SpreadsheetID'
 var knownDatabases = {}; 
 var databaseId; // Currently selected OS Database (Spreadsheet ID)
-
-// ***** BUTTON FUNCTIONS *****
-
-/*
-drive.files.list({
-    q: "mimeType='application/vnd.google-apps.spreadsheet'",
-    fields: 'nextPageToken, files(id, name)'
-}, (err, response) => {
-    //Your code
-})
-*/
 
 // Creates new database in user's Drive using given name
 function createDatabase(name){
@@ -132,57 +79,33 @@ function createDatabase(name){
 			var id = response.result.spreadsheetId
 			selectDatabaseId(id);
 			knownDatabases[name] = id;  
-			writeKnownDatabases();
 	  });
 	}
 }
 
-// Given Spreadsheet url, loads it into knownDBs and cookies
-function importDatabase(url){
-	var id = new RegExp("/d/([a-zA-Z0-9-_]+)").exec(url)[1];
-	if (id != '' && id != null){
-		var name = '';
-		gapi.client.sheets.spreadsheets.get({
-			spreadsheetId:id
-		}).then(function(response){
-			name = JSON.parse(response.body)['properties']['title'];
-			selectDatabaseId(id);
-			knownDatabases[name] = id;
-			writeKnownDatabases();
-		});
-	}
-}
-
+// Pulls list of [OsDB] sheets from user's Drive and assigns it into AssocArr knownDatabases
 function getDatabases(){
 	// Do not place params directly in the array, must be evaluated beforehand
 	var params = "mimeType='application/vnd.google-apps.spreadsheet' and '"+GoogleAuth.currentUser.get().getBasicProfile().getEmail()+"' in writers and name contains '[OsDB]' and trashed = false";
 	gapi.client.drive.files.list({
 		q: params,
 	}).then(function(response) {
-		console.log("Your Databases: ", response.result.files);
+		var dbs = response.result.files
+		for (var i = 0; i < dbs.length; i++){
+			knownDatabases[dbs[i].name] = dbs[i].id;
+		}
     },function(err) { console.error("Failed to search Drive for Databases"); });
+	
 }
 
-// Selects a databaseId from name
+// Selects a database given it's name
 function selectDatabase(name){ 
 	selectDatabaseId(knownDatabases[name]);
 }
 
-// ***** INTERNAL FUNCTIONS *****
-
-function readKnownDatabases(){ // Reads knownDatabases from cookies
-	knownDatabases = JSON.parse(getCookie('databases'));
-	console.log(knownDatabases);
-}
-
+// Selects a database given it's id
 function selectDatabaseId(id){
-	window.location.hash = id;
 	databaseId = id;
-}
-
-function writeKnownDatabases(){ // Writes knownDatabases to cookies
-	// Super jank, if you don't assign then stringify returns "[]"
-	setCookie('databases',JSON.stringify(Object.assign({},knownDatabases)));
 }
 
 /// ***********
