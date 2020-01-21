@@ -155,7 +155,7 @@ function importDatabase(url){
 
 function getDatabases(){
 	// Do not place params directly in the array, must be evaluated beforehand
-	var params = "mimeType='application/vnd.google-apps.spreadsheet' and '"+GoogleAuth.currentUser.get().getBasicProfile().getEmail()+"' in writers and name contains '[OsDB]'";
+	var params = "mimeType='application/vnd.google-apps.spreadsheet' and '"+GoogleAuth.currentUser.get().getBasicProfile().getEmail()+"' in writers and name contains '[OsDB]' and trashed = false";
 	gapi.client.drive.files.list({
 		q: params,
 	}).then(function(response) {
