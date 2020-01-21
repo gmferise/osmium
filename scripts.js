@@ -37,7 +37,6 @@ function initClient() { // Generates auth client instance, stored in GoogleAuth
 		GoogleAuth = gapi.auth2.getAuthInstance();
 		GoogleAuth.isSignedIn.listen(updateAuthButton);
 		updateAuthButton();
-		loadDocument();
 	});
 }
 
@@ -76,9 +75,7 @@ function createDatabase(name){
 			title: name
 			}
 		}).then(function(response){
-			var id = response.result.spreadsheetId
-			selectDatabaseId(id);
-			knownDatabases[name] = id;  
+			getDatabases();
 	  });
 	}
 }
