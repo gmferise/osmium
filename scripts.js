@@ -32,7 +32,7 @@ function initClient() { // Generates auth client instance, stored in GoogleAuth
 		"apiKey":"AIzaSyDIptkXtN8vcrOr5LPBvk21WuAk8UmVwAs",
 		"discoveryDocs":docs,
 		"clientId":"1031491199015-pbjmtfn9kj0tvcl24k7vntelua6glb90.apps.googleusercontent.com",
-		"scope":"https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/spreadsheets"
+		"scope":"https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets"
 	}).then(function() {
 		GoogleAuth = gapi.auth2.getAuthInstance();
 		GoogleAuth.isSignedIn.listen(updateAuthButton);
@@ -155,11 +155,11 @@ function importDatabase(url){
 
 function getDatabases(){
 	// Do not place params directly in the array, must be evaluated beforehand
-	// var params = "mimeType='application/vnd.google-apps.spreadsheet' and '"+GoogleAuth.currentUser.get().getBasicProfile().getEmail()+"' in writers and name contains '[OsDB]'";
+	var params = "mimeType='application/vnd.google-apps.spreadsheet' and '"+GoogleAuth.currentUser.get().getBasicProfile().getEmail()+"' in writers and name contains '[OsDB]'";
 	gapi.client.drive.files.list({
-		// q: params,
+		q: params,
 	}).then(function(response) {
-		console.log("Response", response.result.files);
+		console.log("Your Databases: ", response.result.files);
     },function(err) { console.error("Failed to search Drive for Databases"); });
 }
 
