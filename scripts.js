@@ -71,13 +71,13 @@ var databaseId; // Currently selected database in the form of it's spreadsheet i
 function createDatabase(name){
 	if (name != '' && name != null){
 		name = '[OsDB] '+name;
-		gapi.client.sheets.spreadsheets.create({
+		return gapi.client.sheets.spreadsheets.create({
 			properties: {
 			title: name
 			}
 		}).then(function(response){
 			getDatabases();
-			return response;
+			return response.rW.result.spreadsheetId;
 	  });
 	}
 }
