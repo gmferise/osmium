@@ -121,7 +121,8 @@ function selectDatabaseId(id){
 /// ***********
 
 // Executes the Google Visualization query then passes the result into the callback function
-function gvzQuery(query, callback){
+function gvzQuery(query, callback, page){
+	if (page == null) { page = "Sheet1"; }
 	var request = new google.visualization.Query('https://docs.google.com/spreadsheets/d/'+databaseId+'/gviz/tq?headers=1&access_token='+encodeURIComponent(GoogleAuth.currentUser.get().getAuthResponse().access_token));
 	request.setQuery(query);
 	request.send(callback);
@@ -129,8 +130,7 @@ function gvzQuery(query, callback){
 
 // Gets the name of a user given their id
 function getName(id){
-	// SQL: SELECT UNIQUE name WHERE id = ?
-	gvzQuery("SELECT B, COUNT(B) WHERE A = "+id+" GROUP BY B", catchName);
+	
 }
 
 function catchName(response){
@@ -158,10 +158,10 @@ function catchId(response){
 // Gets the latest status of a user given their id
 function getStatus(id){
 	// SQL: SELECT event WHERE id = ? ORDER BY date DESC LIMIT 1
-	gvzQuery("SELECT C WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatus);
+	gvzQuery("SELECT A, B, C, D WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatus);
 }
 
 function catchStatus(response){
 	if (response == null){ console.log("getStatus Query Failed"); return; }
-	console.log(response.getDataTable().getDistinctValues(0)[0]);
+	console.log(response.getDataTable().getDistinctValues(0));
 }
