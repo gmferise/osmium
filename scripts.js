@@ -34,13 +34,13 @@ function initClient() {
 		"scope":"https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets"
 	}).then(function() {
 		GoogleAuth = gapi.auth2.getAuthInstance();
-		GoogleAuth.isSignedIn.listen(updateAuthButton);
-		updateAuthButton();
+		GoogleAuth.isSignedIn.listen(updateAuthStatus);
+		updateAuthStatus();
 	});
 }
 
 // Updates toggleAuth button status text
-function updateAuthButton() {
+function updateAuthStatus() {
 	var btn = document.getElementById('auth-button');
 	
 	if (GoogleAuth.isSignedIn.get()) {
