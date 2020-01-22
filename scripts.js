@@ -133,7 +133,6 @@ function getName(id){
 	gvzQuery("SELECT B, COUNT(B) WHERE A = "+id+" GROUP BY B", catchName);
 }
 
-// Returns array of possible names
 function catchName(response){
 	console.log(response.getDataTable().getDistinctValues(0));
 }
@@ -141,7 +140,7 @@ function catchName(response){
 // Gets the possible ids of a user given their partial name from the database
 function getId(name){
 	// SQL: SELECT UNIQUE id WHERE name LIKE ?
-	gvzQuery("SELECT  A, B, COUNT(A), COUNT(B) WHERE B CONTAINS "+name+" GROUP BY B, A", catchId);
+	gvzQuery("SELECT  A, B, COUNT(A), COUNT(B) WHERE B CONTAINS '"+name+"' GROUP BY B, A", catchId);
 }
 
 function catchId(response){
