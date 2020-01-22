@@ -64,6 +64,11 @@ function createDatabase(name){
 	}
 }
 
+// Resets a sheet and configures its rows
+function configureDatabase(id){
+	
+}
+
 // Pulls list of [OsDB] sheets from user's Drive to update knownDatabases
 // Returns new knownDatabases
 function getDatabases(){
@@ -99,28 +104,33 @@ function selectDatabaseId(id){
 
 // Executes the Google Visualization query then passes the result into the callback function
 function gvzQuery(query, callback){
-	var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/'+spreadsheetId+'/gviz/tq?headers=1&access_token='+encodeURIComponent(gapi.auth.getToken().access_token));
-	query.setQuery(query);
-	query.send(callback);
+	var request = new google.visualization.Query('https://docs.google.com/spreadsheets/d/'+databaseId+'/gviz/tq?headers=1&access_token='+encodeURIComponent(GoogleAuth.currentUser.get().getAuthResponse().access_token));
+	request.setQuery(query);
+	request.send(callback);
 }
 
 // Gets the name of a user given their id from the database
 function getName(id){
-	// SQL: SELECT name WHERE id = ?
-	gvzQuery("SELECT A WHERE B = "+id, catchName);
+	// SQL: SELECT UNIQUE name WHERE id = ?
+	gvzQuery("SELECT B, COUNT(B) WHERE A = "+id+" GROUP BY B", catchName);
 }
 
-// 
 function catchName(response){
-	console.log(response);
+	console.log(response.getDataTable().getDistinctValues(0));
 }
 
 // Gets the possible ids of a user given their partial name from the database
 function getId(name){
-	// SQL: SELECT id WHERE name LIKE ?
-	gvzQuery("SELECT A, B WHERE A CONTAINS "+name, catchId);
+	// SQL: SELECT UNIQUE id WHERE name LIKE ?
+	gvzQuery("SELECT  A, B, COUNT(A), COUNT(B) WHERE B CONTAINS '"+name+"' GROUP BY B, A", catchId);
 }
 
 function catchId(response){
-	console.log(response);
+	var names = response.getDataTable().getDistinctValues(0);
+	var ids = response.getDataTable().getDistinctValues(1);
+	var assoc = {};
+	for (var i = 0; i < ids.length; i++){
+		assoc[ids[i]] = names[i];
+	}
+	console.log(assoc);
 }
