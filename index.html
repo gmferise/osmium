@@ -17,16 +17,47 @@
 	<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
 	
   </head>
-  <body class='bigbody'>
+  <body id='auth-body' class='bigbody'>
+	<div style=style="position: absolute; left:0;top:0;">
+		<a onclick="document.getElementById('auth-body').classList.toggle('authenticated')">toggle auth</a>
+		<a onclick="document.getElementById('auth-body').classList.toggle('databased')">toggle db</a>
+	</div>
 	<div class='fullsize title-center logotext'>Osmium</div>
-	<button class='row' id="auth-button" onclick="toggleAuth()">Loading...</button>
-		<script async defer src="https://apis.google.com/js/api.js" 
-			onload="this.onload=function(){};loadAuth()" 
-			onreadystatechange="if (this.readyState === 'complete') this.onload()">
-		</script>
-	<button class='row new-tab' onclick="window.open('kiosk.html'+getDatabaseQueryString(),'_blank')">Student Kiosk</button>
-	<button class='row new-tab' onclick="window.open('front-desk.html'+getDatabaseQueryString(),'_blank')">Front Desk</button>
-</body>
+	<div class='tbl'>
+		<div class='tbl-row'>
+		<div class='tbl-pad'>
+			<button class='big row' id="auth-button" onclick="toggleAuth()"></button>
+			<script async defer src="https://apis.google.com/js/api.js" 
+				onload="this.onload=function(){};loadAuth()" 
+				onreadystatechange="if (this.readyState === 'complete') this.onload()">
+			</script>
+		</div>
+		</div>
+		<div class='tbl-row'>
+			<div class='tbl-pad'>
+				<div class='dropdown auth-required'>
+				  Select a database:
+				  <div class='dropdown-content'>
+					<p>a</p>
+					<p>a</p>
+					<p>a</p>
+				  </div>
+				</div>
+				<button class="new auth-required">New</button>
+			</div>
+		</div>
+		<div class='tbl-row'>
+			<div class='tbl-pad'>
+				<button class='big row new-tab db-required' onclick="window.open('kiosk.html'+getDatabaseQueryString(),'_blank')">Student Kiosk</button>
+			</div>
+		</div>
+		<div class='tbl-row'>
+			<div class='tbl-pad'>
+				<button class='big row new-tab db-required' onclick="window.open('front-desk.html'+getDatabaseQueryString(),'_blank')">Front Desk</button>
+			</div>
+		</div>
+	</table>
+</body
 </html>
 <script>
 function getDatabaseQueryString() {
@@ -37,4 +68,19 @@ function getDatabaseQueryString() {
 	}
 }
 
+// Updates toggleAuth button status text
+function updateAuthStatus() {
+	var el = document.getElementById('auth-body');
+	
+	if (GoogleAuth.isSignedIn.get()) {
+		if (!(el.classList.contains('authenticated'))) {
+			el.classList.add('authenticated');
+		}
+	}
+	else {
+		if (el.classList.contains('authenticated')) {
+			el.classList.remove('authenticated');
+		}
+	}
+}
 </script>

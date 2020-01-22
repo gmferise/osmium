@@ -218,6 +218,21 @@ html {
 	height: 100%;
 	background: rgba(0,0,0,0.5);
 }
+.card-popup button.close {
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	right: 25px;
+	top: 25px;
+	border-radius: 20px;
+	border: 1px solid rgba(0,0,0,0.2);
+	transition: all 0.1s ease-in-out;
+}
+.card-popup button.close:hover {
+	border: 1px solid rgba(255,0,0,0.5);
+	box-shadow: 0 0 4px rgb(255,0,0), 0 0 0px 3px #fff;
+	cursor: pointer;
+}
 .card-popup-container {
 	position: absolute;
 	left: 40px;
@@ -459,33 +474,137 @@ html {
 }
 
 /* SIMPLE PAGES */
-body.bigbody button {
-	font-size: 3vw;
-	box-shadow: 3px 4px 0px 1px black;
-	text-align: center;
-	border: 1px solid black;
-	margin-top: 10vh;
+/* authentication table */
+body.bigbody div.tbl {
+	display: table;
 	margin-left: 50%;
-	padding-top: 10px;
-	padding-bottom: 10px;
 	transform: translateX(-50%);
-	transition: box-shadow 0.1s ease-in-out,
-				transform 0.1s ease-in-out;
 }
-body.bigbody button:hover {
-	box-shadow: 5px 6px 0px 1px black;
-	transform: translate(calc(-50% - 2px),-2px);
+body.bigbody div.tbl div.tbl-row {
+	display: table-row;
 }
-body.bigbody button:focus {
-	outline: 1px auto white;
+body.bigbody .auth-required, body.bigbody .db-required {
+	visibility: hidden;
 }
-body.bigbody div.logotext {
-	height: 10%;
-	font-size: 5vw;
+body.bigbody.authenticated .auth-required,
+body.bigbody.databased .db-required {
+	visibility: visible;
 }
 body.bigbody .row {
 	width: 25vw;
 }
+body.bigbody div.tbl div.tbl-row div.tbl-pad {
+	padding-top: 5vh;
+}
+/* big text */
+body.bigbody div.logotext {
+	height: 10%;
+	font-size: 5vw;
+}
+/* dropdown */
+body.bigbody div.dropdown {
+	float: left;
+	width: 70%;
+	position: absolute;
+	font-size: 1.5vw;
+	box-shadow: 3px 4px 0px 1px black;
+	text-align: center;
+	border: 1px solid black;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	transition: box-shadow 0.1s ease-in-out,
+				transform 0.1s ease-in-out;
+}
+body.bigbody div.dropdown:after {
+	content: 'keyboard_arrow_down';
+	font-family: "Material Icons";
+	font-size: 80%;
+	float: right;
+	padding-right: 10px;
+	transform: translateY(25%);
+}
+body.bigbody div.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: white;
+	border: 1px solid black;
+	border-top: 1px dashed grey;
+	width: 100%;
+	transform: translateX(-1px);
+	box-shadow: 3px 4px 0px 1px black;
+	margin-top: 8px;
+	z-index: 1;
+}
+body.bigbody div.dropdown-content p {
+	background-color: white;
+	padding: 0;
+	margin: 0;
+	text-align: left;
+}
+body.bigbody div.dropdown-content p:hover {
+	background-color: antiquewhite;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+/* new db button */
+body.bigbody button.new {
+	float: right;
+	text-align: center;
+	margin-top: 10px;
+	
+	font-size: 1vw;
+	box-shadow: 3px 4px 0px 1px black;
+	border: 1px solid black;
+	transition: box-shadow 0.1s ease-in-out,
+				transform 0.1s ease-in-out;
+	padding-right: 20px;
+	height: 40px;
+	width: 25%;
+	float: right;
+	border-radius: 20px;
+	transition: box-shadow 0.1s ease-in-out,
+				transform 0.1s ease-in-out;
+}
+body.bigbody button.new:before {
+	display: inline;
+	content: 'add';
+	font-size: 80%;
+	float: left;
+	padding-left: 5px;
+	padding-right: 5px;
+	transform: translateY(25%);
+	font-family: "Material Icons";
+}
+body.bigbody button.new:hover {
+	box-shadow: 5px 6px 0px 1px black;
+	border: 1px solid rgba(0,255,0,0.5);
+	transform: translate(-2px,-2px);
+	cursor: pointer;
+}
+body.bigbody button.new:focus {
+	outline: 0;
+}
+/* big buttons */
+body.bigbody button.big {
+	background-color: whitesmoke;
+	font-size: 3vw;
+	box-shadow: 3px 4px 0px 1px black;
+	text-align: center;
+	border: 1px solid black;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	transition: box-shadow 0.1s ease-in-out,
+				transform 0.1s ease-in-out;
+}
+body.bigbody button.big:hover {
+	box-shadow: 5px 6px 0px 1px black;
+	transform: translate(-2px,-2px);
+}
+body.bigbody button.big:focus {
+	outline: 1px auto white;
+}
+/* show newtab icon */
 button.new-tab:after {
 	content: 'open_in_new';
 	font-family: "Material Icons";
@@ -493,6 +612,14 @@ button.new-tab:after {
 	float: right;
 	padding-right: 10px;
 	transform: translateY(25%);
+}
+/* auth button */
+body.bigbody #auth-button:after {
+	visibility: visible;
+	content: 'Sign In';
+}
+body.bigbody.authenticated #auth-button:after {
+	content: 'Sign Out';
 }
 
 /* GENERAL ELEMENT STYLING */
@@ -620,23 +747,6 @@ div.half-pair .right {
 	padding-left: 1em;
 	width: 50%;
 	display: table-cell;
-}
-
-/* close button */
-button.close {
-	width: 40px;
-	height: 40px;
-	position: absolute;
-	right: 25px;
-	top: 25px;
-	border-radius: 20px;
-	border: 1px solid rgba(0,0,0,0.2);
-	transition: all 0.1s ease-in-out;
-}
-button.close:hover {
-	border: 1px solid rgba(255,0,0,0.5);
-	box-shadow: 0 0 4px rgb(255,0,0), 0 0 0px 3px #fff;
-	cursor: pointer;
 }
 
 /* toggle switches */
