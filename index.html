@@ -25,10 +25,18 @@
 				onload="this.onload=function(){};loadAuth()" 
 				onreadystatechange="if (this.readyState === 'complete') this.onload()">
 			</script>
-		<button class='row new-tab' onclick="window.open('kiosk.html?id='+databaseId,','_blank')">Student Kiosk</button>
-		<button class='row new-tab' onclick="window.open('front-desk.html','_blank')">Front Desk</button>
+		<button class='row new-tab' onclick="window.open('kiosk.html'+getDatabaseQueryString(),'_blank')">Student Kiosk</button>
+		<button class='row new-tab' onclick="window.open('front-desk.html'+getDatabaseQueryString(),'_blank')">Front Desk</button>
 	</div>
 </body>
 </html>
+<script>
+function getDatabaseQueryString() {
+	if (databaseId == null) {
+		return "";
+	} else {
+		return "?id="+databaseId;
+	}
+}
 
-
+</script>

@@ -461,16 +461,21 @@ html {
 /* SIMPLE PAGES */
 body.bigbody button {
 	font-size: 4em;
-	box-shadow: 3px 3px 0px 2px;
+	box-shadow: 3px 4px 0px 1px black;
 	text-align: center;
 	border: 1px solid black;
 	margin-top: 100px;
 	margin-left: 50%;
 	transform: translateX(-50%);
-	transition: all 0.1s ease-in-out;
+	transition: box-shadow 0.1s ease-in-out,
+				transform 0.1s ease-in-out;
 }
 body.bigbody button:hover {
-	box-shadow: 5px 5px 0px 2px;
+	box-shadow: 5px 6px 0px 1px black;
+	transform: translate(calc(-50% - 2px),-2px);
+}
+body.bigbody button:focus {
+	outline: 1px auto white;
 }
 body.bigbody div.logotext {
 	height: 10%;
