@@ -51,6 +51,7 @@ html {
 	display: table-row; height: 33%;
 }
 
+/* left hand split stuff */
 .middle-wrapper {
 	box-sizing: border-box;
 	height: 50px;
@@ -457,6 +458,40 @@ html {
 	100% {transform:translateX(0%);}
 }
 
+/* SIMPLE PAGES */
+body.bigbody button {
+	font-size: 4em;
+	box-shadow: 3px 3px 0px 2px;
+	text-align: center;
+	border: 1px solid black;
+	margin-top: 100px;
+	margin-left: 50%;
+	transform: translateX(-50%);
+	transition: all 0.1s ease-in-out;
+}
+body.bigbody button:hover {
+	box-shadow: 5px 5px 0px 2px;
+}
+body.bigbody div.logotext {
+	height: 10%;
+}
+body.bigbody .equal-spacing {
+	height: 90%;
+	width: 100%;
+	display: table;
+}
+body.bigbody .equal-spacing .row {
+	display: table-row;
+	width: 25%;
+}
+button.new-tab:after {
+	content: 'open_in_new';
+	font-family: "Material Icons";
+	font-size: 80%;
+	float: right;
+	transform: translateY(25%);
+}
+
 /* GENERAL ELEMENT STYLING */
 
 /* center an element horizontally */
@@ -503,8 +538,6 @@ html {
 .fullsize { /* make title scaled to size */
 	font-size: 4vw;
 }
-
-
 
 /* fontsize labels */
 .large-text {

@@ -17,15 +17,17 @@
 	<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
 	
   </head>
-  <body>
-	<h1>Osmium</h1>
-	<button id="auth-button" onclick="toggleAuth()">Loading...</button>
-	<script async defer src="https://apis.google.com/js/api.js" 
-        onload="this.onload=function(){};handleClientLoad()" 
-        onreadystatechange="if (this.readyState === 'complete') this.onload()">
-	</script>
-	<button width=100% onclick="window.open('kiosk.html','_blank')">A AA AAA KIOSK AAA AA A</button>
-	<button width=100% onclick="window.open('front-desk.html','_blank')">A AA AAA DESK AAA AA A</button>
+  <body class='bigbody'>
+	<div class='fullsize title-center logotext'>Osmium</div>
+	<div class='equal-spacing'>
+		<button class='row' id="auth-button" onclick="toggleAuth()">Loading...</button>
+			<script async defer src="https://apis.google.com/js/api.js" 
+				onload="this.onload=function(){};handleClientLoad()" 
+				onreadystatechange="if (this.readyState === 'complete') this.onload()">
+			</script>
+		<button class='row new-tab' onclick="window.open('kiosk.html','_blank')">Student Kiosk</button>
+		<button class='row new-tab' onclick="window.open('front-desk.html','_blank')">Front Desk</button>
+	</div>
 </body>
 </html>
 
