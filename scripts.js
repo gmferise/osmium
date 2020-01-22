@@ -61,47 +61,54 @@ function updateAuthButton() {
 /// * DATABASE MANAGEMENT *
 /// ***********************
 
-// Dictionary of known databases which is kept up to date using readDatabases()
+// Dictionary of known databases which is kept up to date using getDatabases()
 // Stored as 'Name':'SpreadsheetID'
 var knownDatabases = {}; 
 var databaseId; // Currently selected database in the form of it's spreadsheet id
 
 // Creates new database in user's Drive using given name
+// Returns new database id
 function createDatabase(name){
 	if (name != '' && name != null){
 		name = '[OsDB] '+name;
-		gapi.client.sheets.spreadsheets.create({
+		return gapi.client.sheets.spreadsheets.create({
 			properties: {
 			title: name
 			}
 		}).then(function(response){
-			readDatabases();
+			getDatabases();
+			return response;
 	  });
 	}
 }
 
 // Pulls list of [OsDB] sheets from user's Drive to update knownDatabases
-function readDatabases(){
+// Returns new knownDatabases
+function getDatabases(){
 	// Do not place params directly in the array, must be evaluated beforehand
 	var params = "mimeType='application/vnd.google-apps.spreadsheet' and '"+GoogleAuth.currentUser.get().getBasicProfile().getEmail()+"' in writers and name contains '[OsDB]' and trashed = false";
-	gapi.client.drive.files.list({
+	return gapi.client.drive.files.list({
 		q: params,
 	}).then(function(response) {
 		var dbs = response.result.files
 		for (var i = 0; i < dbs.length; i++){
 			knownDatabases[dbs[i].name] = dbs[i].id;
 		}
+		return knownDatabases;
     },function(err) { console.error("Failed to search Drive for Databases"); });
 }
 
 // Selects a database from knownDatabases given it's name
+// Returns selected database id
 function selectDatabase(name){ 
 	selectDatabaseId(knownDatabases[name]);
 }
 
 // Selects a database from knownDatabases given it's id
+// Returns selected database id
 function selectDatabaseId(id){
 	databaseId = id;
+	return id;
 }
 
 /// ***********
