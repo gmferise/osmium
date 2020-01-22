@@ -39,6 +39,24 @@ function initClient() {
 	});
 }
 
+// Updates toggleAuth button status text
+function updateAuthStatus() {
+	var btn = document.getElementById('auth-button');
+	
+	if (GoogleAuth.isSignedIn.get()) {
+		btn.innerHTML = "Sign Out";
+		if (!(btn.classList.contains('signed-in'))) {
+			btn.classList.add('signed-in');
+		}
+	}
+	else {
+		btn.innerHTML = "Sign In";
+		if (btn.classList.contains('signed-in')) {
+			btn.classList.remove('signed-in');
+		}
+	}
+}
+
 /// ***********************
 /// * DATABASE MANAGEMENT *
 /// ***********************
@@ -116,6 +134,7 @@ function getName(id){
 }
 
 function catchName(response){
+	if (response == null){ console.log("getName Query Failed"); return; };
 	console.log(response.getDataTable().getDistinctValues(0));
 }
 
@@ -126,6 +145,7 @@ function getId(name){
 }
 
 function catchId(response){
+	if (response == null){ console.log("getId Query Failed"); return; };
 	var names = response.getDataTable().getDistinctValues(0);
 	var ids = response.getDataTable().getDistinctValues(1);
 	var assoc = {};
@@ -133,4 +153,13 @@ function catchId(response){
 		assoc[ids[i]] = names[i];
 	}
 	console.log(assoc);
+}
+
+function getStatus(id){
+	// SQL: SELECT C WHERE A = "+id+" ORDER BY D ASC LIMIT 1
+	// SELECT C ORDER BY D LIMIT 1
+	// response.getDataTable().getDistinctValues(0)[0];
+}
+
+function catchStatus(response){
 }
