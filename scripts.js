@@ -1,16 +1,13 @@
-// NOTE: Any relevant information for frontend is
-// located towards the top of each large section header.
-// Button functions & global variables are for you!
-
 /// ******************************
 /// * GOOGLE AUTH API AND CONFIG *
 /// ******************************
 
-var GoogleAuth; // Stores authenticated token
+var GoogleAuth; // Stores auth token and other info
 
 // ***** BUTTON FUNCTIONS *****
 
-function toggleAuth() { // Hangles sign in and out with one press
+// Hangles sign in and out with one press
+function toggleAuth() {
 	if (GoogleAuth.isSignedIn.get()) {
 		GoogleAuth.signOut();
 	}
@@ -21,11 +18,13 @@ function toggleAuth() { // Hangles sign in and out with one press
 
 // ***** INTERNAL FUNCTIONS *****
 
-function handleClientLoad() { // Called from HTML when API loads
+// Called from HTML to finish loading API
+function loadAuth() {
 	gapi.load("client:auth2", initClient);
 }
 
-function initClient() { // Generates auth client instance, stored in GoogleAuth
+// Generates auth client instance, stored in GoogleAuth
+function initClient() {
 	// do not place docs directly in the array, must be evaluated beforehand
 	var docs = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest","https://www.googleapis.com/discovery/v1/apis/sheets/v4/rest"];
 	gapi.client.init({ // Initialize a client with these properties
@@ -40,7 +39,8 @@ function initClient() { // Generates auth client instance, stored in GoogleAuth
 	});
 }
 
-function updateAuthButton() { // Updates button
+// Updates toggleAuth button status text
+function updateAuthButton() {
 	var btn = document.getElementById('auth-button');
 	
 	if (GoogleAuth.isSignedIn.get()) {
@@ -61,10 +61,10 @@ function updateAuthButton() { // Updates button
 /// * DATABASE MANAGEMENT *
 /// ***********************
 
-// Dictionary of known OS Databases, use to populate dropdown
+// Dictionary of known databases which is kept up to date using readDatabases()
 // Stored as 'Name':'SpreadsheetID'
 var knownDatabases = {}; 
-var databaseId; // Currently selected OS Database (Spreadsheet ID)
+var databaseId; // Currently selected database in the form of it's spreadsheet id
 
 // Creates new database in user's Drive using given name
 function createDatabase(name){
@@ -80,7 +80,7 @@ function createDatabase(name){
 	}
 }
 
-// Pulls list of [OsDB] sheets from user's Drive and assigns it into AssocArr knownDatabases
+// Pulls list of [OsDB] sheets from user's Drive to update knownDatabases
 function readDatabases(){
 	// Do not place params directly in the array, must be evaluated beforehand
 	var params = "mimeType='application/vnd.google-apps.spreadsheet' and '"+GoogleAuth.currentUser.get().getBasicProfile().getEmail()+"' in writers and name contains '[OsDB]' and trashed = false";
@@ -94,12 +94,12 @@ function readDatabases(){
     },function(err) { console.error("Failed to search Drive for Databases"); });
 }
 
-// Selects a database given it's name
+// Selects a database from knownDatabases given it's name
 function selectDatabase(name){ 
 	selectDatabaseId(knownDatabases[name]);
 }
 
-// Selects a database given it's id
+// Selects a database from knownDatabases given it's id
 function selectDatabaseId(id){
 	databaseId = id;
 }
@@ -108,22 +108,30 @@ function selectDatabaseId(id){
 /// * QUERIES *
 /// ***********
 
+// Executes the Google Visualization query then passes the result into the callback function
 function gvzQuery(query, callback){
 	var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/'+spreadsheetId+'/gviz/tq?headers=1&access_token='+encodeURIComponent(gapi.auth.getToken().access_token));
 	query.setQuery(query);
 	query.send(callback);
 }
 
+// Gets the name of a user given their id from the database
 function getName(id){
-	// SELECT name WHERE id = ?
-	gvzQuery("SELECT A WHERE B = "+id, getName_response);
+	// SQL: SELECT name WHERE id = ?
+	gvzQuery("SELECT A WHERE B = "+id, catchName);
 }
 
-function getName_response(response){
+// 
+function catchName(response){
 	console.log(response);
-	var tbl = response.getDataTable();
 }
 
-function test(){
-	getName('9923456');
+// Gets the possible ids of a user given their partial name from the database
+function getId(name){
+	// SQL: SELECT id WHERE name LIKE ?
+	gvzQuery("SELECT A, B WHERE A CONTAINS "+name, catchId);
+}
+
+function catchId(response){
+	console.log(response);
 }
