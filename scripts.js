@@ -127,7 +127,7 @@ function gvzQuery(query, callback){
 	request.send(callback);
 }
 
-// Gets the name of a user given their id from the database
+// Gets the name of a user given their id
 function getName(id){
 	// SQL: SELECT UNIQUE name WHERE id = ?
 	gvzQuery("SELECT B, COUNT(B) WHERE A = "+id+" GROUP BY B", catchName);
@@ -138,7 +138,7 @@ function catchName(response){
 	console.log(response.getDataTable().getDistinctValues(0));
 }
 
-// Gets the possible ids of a user given their partial name from the database
+// Gets the possible ids of a user given their partial name
 function getId(name){
 	// SQL: SELECT UNIQUE id WHERE name LIKE ?
 	gvzQuery("SELECT  A, B, COUNT(A), COUNT(B) WHERE B CONTAINS '"+name+"' GROUP BY B, A", catchId);
@@ -155,9 +155,10 @@ function catchId(response){
 	console.log(assoc);
 }
 
+// Gets the latest status of a user given their id
 function getStatus(id){
-	// SELECT event WHERE name 
-	gvzQuery("SELECT C WHERE A = "+id+" ORDER BY D LIMIT 1", catchStatus);
+	// SQL: SELECT event WHERE id = ? ORDER BY date DESC LIMIT 1
+	gvzQuery("SELECT C WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatus);
 }
 
 function catchStatus(response){
