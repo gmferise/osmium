@@ -82,6 +82,11 @@ function createDatabase(name){
 	}
 }
 
+// Resets a sheet and configures its rows
+function configureDatabase(id){
+	
+}
+
 // Pulls list of [OsDB] sheets from user's Drive to update knownDatabases
 // Returns new knownDatabases
 function getDatabases(){
@@ -117,7 +122,7 @@ function selectDatabaseId(id){
 
 // Executes the Google Visualization query then passes the result into the callback function
 function gvzQuery(query, callback){
-	var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/'+spreadsheetId+'/gviz/tq?headers=1&access_token='+encodeURIComponent(gapi.auth.getToken().access_token));
+	var query = new google.visualization.Query('https://docs.google.com/spreadsheets/d/'+databaseId+'/gviz/tq?headers=1&access_token='+encodeURIComponent(gapi.auth.getToken().access_token));
 	query.setQuery(query);
 	query.send(callback);
 }
@@ -125,7 +130,7 @@ function gvzQuery(query, callback){
 // Gets the name of a user given their id from the database
 function getName(id){
 	// SQL: SELECT name WHERE id = ?
-	gvzQuery("SELECT A WHERE B = "+id, catchName);
+	gvzQuery("SELECT UNIQUE A WHERE B = "+id, catchName);
 }
 
 // 
