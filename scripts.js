@@ -75,13 +75,13 @@ function createDatabase(name){
 			title: name
 			}
 		}).then(function(response){
-			getDatabases();
+			readDatabases();
 	  });
 	}
 }
 
 // Pulls list of [OsDB] sheets from user's Drive and assigns it into AssocArr knownDatabases
-function getDatabases(){
+function readDatabases(){
 	// Do not place params directly in the array, must be evaluated beforehand
 	var params = "mimeType='application/vnd.google-apps.spreadsheet' and '"+GoogleAuth.currentUser.get().getBasicProfile().getEmail()+"' in writers and name contains '[OsDB]' and trashed = false";
 	gapi.client.drive.files.list({
@@ -92,7 +92,6 @@ function getDatabases(){
 			knownDatabases[dbs[i].name] = dbs[i].id;
 		}
     },function(err) { console.error("Failed to search Drive for Databases"); });
-	
 }
 
 // Selects a database given it's name
