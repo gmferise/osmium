@@ -87,7 +87,7 @@ function createDatabase(name){
 function getDatabases(){
 	// Do not place params directly in the array, must be evaluated beforehand
 	var params = "mimeType='application/vnd.google-apps.spreadsheet' and '"+GoogleAuth.currentUser.get().getBasicProfile().getEmail()+"' in writers and name contains '[OsDB]' and trashed = false";
-	return gapi.client.drive.files.list({
+	gapi.client.drive.files.list({
 		q: params,
 	}).then(function(response) {
 		var dbs = response.result.files
