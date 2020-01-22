@@ -460,12 +460,14 @@ html {
 
 /* SIMPLE PAGES */
 body.bigbody button {
-	font-size: 4em;
+	font-size: 3vw;
 	box-shadow: 3px 4px 0px 1px black;
 	text-align: center;
 	border: 1px solid black;
-	margin-top: 100px;
+	margin-top: 10vh;
 	margin-left: 50%;
+	padding-top: 10px;
+	padding-bottom: 10px;
 	transform: translateX(-50%);
 	transition: box-shadow 0.1s ease-in-out,
 				transform 0.1s ease-in-out;
@@ -479,21 +481,17 @@ body.bigbody button:focus {
 }
 body.bigbody div.logotext {
 	height: 10%;
+	font-size: 5vw;
 }
-body.bigbody .equal-spacing {
-	height: 90%;
-	width: 100%;
-	display: table;
-}
-body.bigbody .equal-spacing .row {
-	display: table-row;
-	width: 25%;
+body.bigbody .row {
+	width: 25vw;
 }
 button.new-tab:after {
 	content: 'open_in_new';
 	font-family: "Material Icons";
 	font-size: 80%;
 	float: right;
+	padding-right: 10px;
 	transform: translateY(25%);
 }
 
