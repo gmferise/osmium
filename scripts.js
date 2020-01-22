@@ -77,7 +77,7 @@ function createDatabase(name){
 			}
 		}).then(function(response){
 			getDatabases();
-			return response;
+			return response.rW.result.spreadsheetId;
 	  });
 	}
 }
@@ -94,8 +94,8 @@ function getDatabases(){
 		for (var i = 0; i < dbs.length; i++){
 			knownDatabases[dbs[i].name] = dbs[i].id;
 		}
-		return knownDatabases;
     },function(err) { console.error("Failed to search Drive for Databases"); });
+	return knownDatabases;
 }
 
 // Selects a database from knownDatabases given it's name
