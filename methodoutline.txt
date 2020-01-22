@@ -1,0 +1,37 @@
+public Event[] search(int StudentID)
+	give student id
+	getStatus of studentid
+	return single Event object in array
+
+public Event[] search(String PartialName)
+	give partial name
+	collect ids of people whose names are near partial name
+	collect most recent Event (getStatus) for each of these ids into array
+	return Event objects array
+
+public Event[] getHistory(int StudentID)
+	give studentID
+	collect all events with that student id into array
+	return Event objects in array
+
+public boolean setNotes(String notes, int studentid, Date date)
+	give notes and studentid + time
+	set notes for that event in the database
+	return true if success
+	
+public boolean sendToTech int studentid, Date date)
+	give studentid + time
+	set event type to TECH-IN
+	return true if success
+	
+public Event[] getTodaysEvents(Date timestamp)
+	collect all events OLDER than this timestamp for today
+	
+		EVENT (read)
+		EVENT (read)
+		EVENT (read) <-lastClientUpdateTime is stored on my page and sent to you
+		EVENT (new) |
+		EVENT (new) |--send these
+		EVENT (new) |
+	
+	return Event objects in array
