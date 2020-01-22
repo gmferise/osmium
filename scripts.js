@@ -134,7 +134,7 @@ function getName(id){
 }
 
 function catchName(response){
-	if (response == null){ console.log("getName Query Failed"); return; };
+	if (response == null){ console.log("getName Query Failed"); return; }
 	console.log(response.getDataTable().getDistinctValues(0));
 }
 
@@ -145,7 +145,7 @@ function getId(name){
 }
 
 function catchId(response){
-	if (response == null){ console.log("getId Query Failed"); return; };
+	if (response == null){ console.log("getId Query Failed"); return; }
 	var names = response.getDataTable().getDistinctValues(0);
 	var ids = response.getDataTable().getDistinctValues(1);
 	var assoc = {};
@@ -156,10 +156,11 @@ function catchId(response){
 }
 
 function getStatus(id){
-	// SQL: SELECT C WHERE A = "+id+" ORDER BY D ASC LIMIT 1
-	// SELECT C ORDER BY D LIMIT 1
-	// response.getDataTable().getDistinctValues(0)[0];
+	// SELECT event WHERE name 
+	gvzQuery("SELECT C WHERE A = "+id+" ORDER BY D LIMIT 1", catchStatus);
 }
 
 function catchStatus(response){
+	if (response == null){ console.log("getStatus Query Failed"); return; }
+	console.log(response.getDataTable().getDistinctValues(0)[0]);
 }
