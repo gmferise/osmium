@@ -22,10 +22,10 @@
 	<div class='equal-spacing'>
 		<button class='row' id="auth-button" onclick="toggleAuth()">Loading...</button>
 			<script async defer src="https://apis.google.com/js/api.js" 
-				onload="this.onload=function(){};handleClientLoad()" 
+				onload="this.onload=function(){};loadAuth()" 
 				onreadystatechange="if (this.readyState === 'complete') this.onload()">
 			</script>
-		<button class='row new-tab' onclick="window.open('kiosk.html','_blank')">Student Kiosk</button>
+		<button class='row new-tab' onclick="window.open('kiosk.html?id='+databaseId,','_blank')">Student Kiosk</button>
 		<button class='row new-tab' onclick="window.open('front-desk.html','_blank')">Front Desk</button>
 	</div>
 </body>
