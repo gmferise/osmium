@@ -100,7 +100,7 @@ function updateAuthStatus() {
 	if (GoogleAuth.isSignedIn.get()) {
 		if (!(el.classList.contains('authenticated'))) {
 			el.classList.add('authenticated');
-			document.getElementById('google-profilepic').src = GoogleAuth.currentUser.get().getBasicProfile().getImageURL();
+			document.getElementById('google-profilepic').src = GoogleAuth.currentUser.get().getBasicProfile().getImageUrl();
 			document.getElementById('google-userinfo').innerHTML = "Signed in as "+GoogleAuth.currentUser.get().getBasicProfile().getEmail();
 		}
 	}
