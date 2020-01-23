@@ -79,12 +79,12 @@ function createDatabase(name){
 		getDatabases();
 		id = response.result.spreadsheetId;
 		
-		// Format db
+		// Format database columns
 		var requests = [];
 		requests.push({
 			"repeatCell": {
 				"range": {
-					"startRowIndex":0,
+					"startRowIndex": 0,
 					"startColumnIndex": 0,
 					"endColumnIndex": 1
 				},
@@ -102,7 +102,7 @@ function createDatabase(name){
 		requests.push({
 			"repeatCell": {
 				"range": {
-					"startRowIndex":0,
+					"startRowIndex": 0,
 					"startColumnIndex": 1,
 					"endColumnIndex": 2
 				},
@@ -120,7 +120,7 @@ function createDatabase(name){
 		requests.push({
 			"repeatCell": {
 				"range": {
-					"startRowIndex":0,
+					"startRowIndex": 0,
 					"startColumnIndex": 2,
 					"endColumnIndex": 3
 				},
@@ -138,7 +138,7 @@ function createDatabase(name){
 		requests.push({
 			"repeatCell": {
 				"range": {
-					"startRowIndex":0,
+					"startRowIndex": 0,
 					"startColumnIndex": 3,
 					"endColumnIndex": 4
 				},
@@ -153,6 +153,12 @@ function createDatabase(name){
 				"fields": "userEnteredFormat.numberFormat"
 			}
 		});
+		
+		// Give database columns headers		
+		var values = ["id","name","event","timestamp"];
+		var body = {values: values};
+		requests.push({values: values});
+		
 		var batch = {requests: requests};
 		gapi.client.sheets.spreadsheets.batchUpdate({
 			spreadsheetId: id,
