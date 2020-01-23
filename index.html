@@ -111,7 +111,7 @@ function submitCreateDatabase() {
 		document.getElementById("newdb").value = "";
 		var db = createDatabase(name);
 		console.log("created "+db);
-		selectDatabase(db);
+		selectDatabaseId(db);
 		showNewDB(false);
 	}
 }
