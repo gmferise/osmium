@@ -156,8 +156,20 @@ function createDatabase(name){
 		
 		// Give database columns headers		
 		requests.push({
-			"valueInputOption": "RAW",
-			"data": ["id","name","event","timestamp"]
+			"updateCells": {
+				"rows": [{
+					"values": [{
+						"userEnteredValue": "id",
+						"userEnteredValue": "name",
+						"userEnteredValue": "event",
+						"userEnteredValue": "timestamp"
+					}]
+				}],
+				"start": {
+					"rowIndex": 0,
+					"columnIndex": 0
+				}
+			}
 		});
 		
 		var batch = {requests: requests};
