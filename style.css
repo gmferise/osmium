@@ -218,7 +218,7 @@ html {
 	height: 100%;
 	background: rgba(0,0,0,0.5);
 }
-.card-popup button.close {
+button.close {
 	width: 40px;
 	height: 40px;
 	position: absolute;
@@ -228,7 +228,7 @@ html {
 	border: 1px solid rgba(0,0,0,0.2);
 	transition: all 0.1s ease-in-out;
 }
-.card-popup button.close:hover {
+button.close:hover {
 	border: 1px solid rgba(255,0,0,0.5);
 	box-shadow: 0 0 4px rgb(255,0,0), 0 0 0px 3px #fff;
 	cursor: pointer;
@@ -592,9 +592,20 @@ body.bigbody button.new:focus {
     background: rgba(0,0,0,0.5);
 }
 #newdb-popup .content {
-	
+	position: absolute;
+	width: 70%;
+	left: 15%;
+	height: 30%;
+	top: 35%;
+	background: white;	
+	box-shadow: 3px 4px 0px 1px black;
 }
-/* big buttons */
+#newdb-popup .content input{
+	box-shadow: 3px 4px 0px 1px black;
+	width: 70%;
+	height: 50%;
+}
+/* big buttons and other inputs */
 body.bigbody button.big {
 	display: block;
 	width: 480px;
@@ -642,6 +653,46 @@ body.bigbody #auth-button svg {
 	display: inline-block;
 	float: right;
 	transform: translate(-50%, 50%);
+}
+body.bigbody #auth-button img {
+	width: 8%;
+	float: right;
+	transform: translate(-50%, 50%);
+	display: none;
+	border-radius: 100%;
+}
+body.bigbody.authenticated #auth-button svg {
+	display: none;
+}
+body.bigbody.authenticated #auth-button img {
+	display: inline-block;
+}
+
+body.bigbody.authenticated #auth-button .tooltip {
+	visibility: hidden;
+	width: 120px;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	padding: 5px 0;
+	border-radius: 6px;
+
+	/* Position the tooltip text - see examples below! */
+	position: absolute;
+	z-index: 1;
+}
+body.bigbody.authenticated #auth-button:hover .tooltip {
+	visibility: visible;
+}
+body.bigbody.authenticated #auth-button .tooltip::after {
+	content: " ";
+	position: absolute;
+	bottom: 100%;  /* At the top of the tooltip */
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: transparent transparent black transparent;
 }
 
 /* GENERAL ELEMENT STYLING */
