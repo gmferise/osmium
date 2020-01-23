@@ -159,10 +159,10 @@ function createDatabase(name){
 			"updateCells": {
 				"rows": [{
 					"values": [{
-						"userEnteredValue": "id",
-						"userEnteredValue": "name",
-						"userEnteredValue": "event",
-						"userEnteredValue": "timestamp"
+						"userEnteredValue": {"stringValue": "id"},
+						"userEnteredValue": {"stringValue": "name"},
+						"userEnteredValue": {"stringValue": "event"},
+						"userEnteredValue": {"stringValue": "timestamp"}
 					}]
 				}],
 				"start": {
