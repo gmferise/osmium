@@ -208,7 +208,7 @@ function getDatabases(){
 // Selects a database from knownDatabases given it's name
 // Returns selected database id
 function selectDatabase(name){ 
-	selectDatabaseId(knownDatabases[name]);
+	return selectDatabaseId(knownDatabases[name]);
 }
 
 // Selects a database from knownDatabases given it's id
@@ -232,7 +232,7 @@ function gvzQuery(query, callback, page){
 
 // Gets the name of a user given their id
 function getName(id){
-	
+	// TODO
 }
 
 function catchName(response){
@@ -261,10 +261,10 @@ function catchId(response){
 function getStatusById(id){
 	// SQL: SELECT event WHERE id = ? ORDER BY date DESC LIMIT 1
 	gvzQuery("SELECT A, B, C, D WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatus);
-	
 }
 
 function catchStatus(response){
+	if (response == null){ console.log("getStatus Query Failed"); return; }
 	console.log(response.J.wg);
 }
 
@@ -273,6 +273,7 @@ function getStatusByName(name){
 }
 
 function catchStatusIds(response){
+	if (response == null){ console.log("getStatusByName Query Failed"); return; }
 	var ids = response.getDataTable().getDistinctValues(0);
 	if (response == null){ console.log("getStatus Query Failed"); return; }
 	var rows = [];
