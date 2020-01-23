@@ -218,7 +218,7 @@ html {
 	height: 100%;
 	background: rgba(0,0,0,0.5);
 }
-button.close {
+.card-popup button.close {
 	width: 40px;
 	height: 40px;
 	position: absolute;
@@ -228,7 +228,7 @@ button.close {
 	border: 1px solid rgba(0,0,0,0.2);
 	transition: all 0.1s ease-in-out;
 }
-button.close:hover {
+.card-popup button.close:hover {
 	border: 1px solid rgba(255,0,0,0.5);
 	box-shadow: 0 0 4px rgb(255,0,0), 0 0 0px 3px #fff;
 	cursor: pointer;
@@ -486,9 +486,9 @@ body.bigbody.databased .db-required {
 body.bigbody div.logotext {
 	font-size: 88px;
 }
-body.bigbody {
+body.bigbody div.pretty-scrollbar-dark {
 	overflow-y: auto;
-	height: auto;
+	height: 100%;
 }
 /* dropdown */
 body.bigbody div.dropdown {
@@ -549,6 +549,7 @@ body.bigbody button.new {
 	margin-top: 12px;
 	
 	text-align: center;
+	background-color: whitesmoke;
 	font-size: 1.5em;
 	box-shadow: 3px 4px 0px 1px black;
 	border: 1px solid black;
@@ -595,15 +596,70 @@ body.bigbody button.new:focus {
 	position: absolute;
 	width: 70%;
 	left: 15%;
-	height: 30%;
+	height: 6.5em;
 	top: 35%;
 	background: white;	
 	box-shadow: 3px 4px 0px 1px black;
+	box-sizing: border-box;
 }
-#newdb-popup .content input{
-	box-shadow: 3px 4px 0px 1px black;
-	width: 70%;
-	height: 50%;
+#newdb-popup .content input {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	border: 0;
+	border-bottom: 5px solid rgba(0,0,0,0.3);
+	width: calc(100% - 263px);
+	margin-left: 68px;
+	margin-bottom: 20px;
+	padding-left: 10px;
+	
+	font-size: 3em;
+}
+#newdb-popup .content input:focus {
+	outline: 0;
+}
+#newdb-popup .content i {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	border: 0;
+	border-bottom: 5px solid rgba(0,0,0,0.3);
+	margin-left: 20px;
+	margin-bottom: 20px;
+	padding-bottom: 5px;
+	
+	font-size: 3em;
+}
+#newdb-popup .content button.ok {
+	width: fit-content;
+	outline: 0;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	border-radius: 10px;
+	margin-right: 78px;
+	margin-bottom: 20px;
+	padding-bottom: 5px;
+	
+	font-size: 3em;
+}
+#newdb-popup .content button.ok:hover {
+	border: 1px solid limegreen;
+}
+#newdb-popup .content button.cancel {
+	width: fit-content;
+	outline: 0;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	border-radius: 10px;
+	margin-bottom: 20px;
+	padding-bottom: 5px;
+	
+	font-size: 3em;
+}
+#newdb-popup .content button.cancel:hover {
+	border: 1px solid red;
 }
 /* big buttons and other inputs */
 body.bigbody button.big {

@@ -39,24 +39,6 @@ function initClient() {
 	});
 }
 
-// Updates toggleAuth button status text
-function updateAuthStatus() {
-	var btn = document.getElementById('auth-button');
-	
-	if (GoogleAuth.isSignedIn.get()) {
-		btn.innerHTML = "Sign Out";
-		if (!(btn.classList.contains('signed-in'))) {
-			btn.classList.add('signed-in');
-		}
-	}
-	else {
-		btn.innerHTML = "Sign In";
-		if (btn.classList.contains('signed-in')) {
-			btn.classList.remove('signed-in');
-		}
-	}
-}
-
 /// ***********************
 /// * DATABASE MANAGEMENT *
 /// ***********************

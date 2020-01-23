@@ -17,7 +17,7 @@
 	<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
 	
   </head>
-  <body id='auth-body' class='bigbody pretty-scrollbar-dark'>
+  <body id='auth-body' class='bigbody'>
 	<div style="position: fixed; left:0;top:0;">
 		<a onclick="
 		document.getElementById('auth-body').classList.toggle('authenticated');
@@ -26,53 +26,58 @@
 		">toggle auth</a>
 		<a onclick="document.getElementById('auth-body').classList.toggle('databased')">toggle db</a>
 	</div>
-	<div class='fullsize title-center logotext'>Osmium</div>
-	<div id="newdb-popup">
-		<div class="content">
-		<button class="close material-icons" onclick='showNewDB(false);'>close</button>
-		<input id="newdb" type="text" placeholder="Database Name"></input>
-		</div>
-	</div>	
-	<div class='smallish-spacer'></div>
-	
-	<button class='big' id="auth-button" onclick="toggleAuth()">
-		<svg viewBox="0 0 30 30">
-                    <path d="M29.4 15.34c0-1.063-.095-2.085-.273-3.067H15v5.802h8.073c-.348 1.875-1.405 3.464-2.993 4.527v3.764h4.847c2.837-2.61 4.473-6.457 4.473-11.025z" fill="#4285F4"></path>
-                    <path d="M15 30c4.05 0 7.445-1.343 9.927-3.634l-4.847-3.764c-1.344.9-3.062 1.432-5.08 1.432-3.907 0-7.214-2.64-8.393-6.184H1.595v3.886C4.065 26.64 9.135 30 15 30z" fill="#34A853"></path>
-                    <path d="M6.607 17.85c-.3-.9-.47-1.86-.47-2.85s.17-1.95.47-2.85V8.264H1.595C.58 10.29 0 12.58 0 15s.58 4.71 1.595 6.736l5.012-3.886z" fill="#FBBC05"></path>
-                    <path d="M15 5.966c2.202 0 4.18.757 5.734 2.243l4.302-4.303C22.44 1.487 19.043 0 15 0 9.136 0 4.064 3.36 1.595 8.264l5.012 3.886C7.787 8.605 11.093 5.966 15 5.966z" fill="#EA4335"></path>
-        </svg>
-		<img id='google-profilepic'></img>
-		<span class='tooltip' id='google-userinfo'>
+	<div class='pretty-scrollbar-dark'>
+		<div class='fullsize title-center logotext'>Osmium</div>
+		<div id="newdb-popup">
+			<div class="content">
+				<button class="big material-icons cancel" onclick='showNewDB(false);document.getElementById("newdb").value = "";'>close</button>
+				<div>
+					<i class="material-icons">storage</i>
+					<input id="newdb" type="text" placeholder="Database Name"></input>
+					<button class="material-icons big ok" onclick="submitCreateDatabase();">done</button>
+				</div>
+			</div>
+		</div>	
+		<div class='smallish-spacer'></div>
 		
-		</span>
-	</button>
-	<script async defer src="https://apis.google.com/js/api.js" 
-		onload="this.onload=function(){};loadAuth()" 
-		onreadystatechange="if (this.readyState === 'complete') this.onload()">
-	</script>
-	<div class='smallish-spacer'></div>
-	
-	<div class='dropdown auth-required'>
-	  Select a database:
-	  <div class='dropdown-content'>
-		<p>a</p>
-		<p>b</p>
-		<p>c</p>
-		<p>d</p>
-		<p>e</p>
-	  </div>
-	</div>
-	<button class="new auth-required" onclick="showNewDB(true);">New</button>
-	<div class='medium-spacer'></div>
-	
-	<button class='big new-tab db-required' onclick="window.open('kiosk.html'+getDatabaseQueryString(),'_blank')">Student Kiosk</button>
-	<div class='smallish-spacer'></div>
-	
-	<button class='big new-tab db-required' onclick="window.open('front-desk.html'+getDatabaseQueryString(),'_blank')">Front Desk</button>
-	<div class='smallish-spacer'></div>
-	
-	</table>
+		<button class='big' id="auth-button" onclick="toggleAuth()">
+			<svg viewBox="0 0 30 30">
+						<path d="M29.4 15.34c0-1.063-.095-2.085-.273-3.067H15v5.802h8.073c-.348 1.875-1.405 3.464-2.993 4.527v3.764h4.847c2.837-2.61 4.473-6.457 4.473-11.025z" fill="#4285F4"></path>
+						<path d="M15 30c4.05 0 7.445-1.343 9.927-3.634l-4.847-3.764c-1.344.9-3.062 1.432-5.08 1.432-3.907 0-7.214-2.64-8.393-6.184H1.595v3.886C4.065 26.64 9.135 30 15 30z" fill="#34A853"></path>
+						<path d="M6.607 17.85c-.3-.9-.47-1.86-.47-2.85s.17-1.95.47-2.85V8.264H1.595C.58 10.29 0 12.58 0 15s.58 4.71 1.595 6.736l5.012-3.886z" fill="#FBBC05"></path>
+						<path d="M15 5.966c2.202 0 4.18.757 5.734 2.243l4.302-4.303C22.44 1.487 19.043 0 15 0 9.136 0 4.064 3.36 1.595 8.264l5.012 3.886C7.787 8.605 11.093 5.966 15 5.966z" fill="#EA4335"></path>
+			</svg>
+			<img id='google-profilepic'></img>
+			<span class='tooltip' id='google-userinfo'>
+			
+			</span>
+		</button>
+		<script async defer src="https://apis.google.com/js/api.js" 
+			onload="this.onload=function(){};loadAuth()" 
+			onreadystatechange="if (this.readyState === 'complete') this.onload()">
+		</script>
+		<div class='smallish-spacer'></div>
+		
+		<div id="current-db" class='dropdown auth-required'>
+		  Select a database:
+		  <div class='dropdown-content'>
+			<p>a</p>
+			<p>b</p>
+			<p>c</p>
+			<p>d</p>
+			<p>e</p>
+		  </div>
+		</div>
+		<button class="new auth-required" onclick="showNewDB(true);">New</button>
+		<div class='smallish-spacer'></div>
+		
+		<button class='big new-tab db-required' onclick="window.open('kiosk.html'+getDatabaseQueryString(),'_blank')">Student Kiosk</button>
+		<div class='smallish-spacer'></div>
+		
+		<button class='big new-tab db-required' onclick="window.open('front-desk.html'+getDatabaseQueryString(),'_blank')">Front Desk</button>
+		<div class='smallish-spacer'></div>
+		
+		</div>
 </body>
 </html>
 <script>
@@ -87,11 +92,30 @@ function getDatabaseQueryString() {
 function showNewDB(state) {
 	if (state == true) {
 		document.getElementById('newdb-popup').style = 'visibility: visible';
+		document.getElementById('newdb').focus();
 	} else {
 		document.getElementById('newdb-popup').style = '';
 		
 	}
 }
+
+document.getElementById('newdb').addEventListener("keydown", function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    submitCreateDatabase();
+  }
+});
+function submitCreateDatabase() {
+	var name = document.getElementById('newdb').value;
+	if (name != "") {
+		document.getElementById("newdb").value = "";
+		var db = createDatabase(name);
+		console.log("created "+db);
+		selectDatabase(db);
+		showNewDB(false);
+	}
+}
+
 
 // Updates toggleAuth button status text
 function updateAuthStatus() {
