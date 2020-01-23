@@ -77,7 +77,7 @@ function createDatabase(name){
 		}
 	}).then(function(response){
 		getDatabases();
-		id = response.rW.result.spreadsheetId;
+		id = response.result.spreadsheetId;
 		
 		// Format db
 		var requests = [];
@@ -93,6 +93,24 @@ function createDatabase(name){
 						numberFormat: {
 							type: "NUMBER",
 							pattern: "0"
+						}
+					}
+				},
+				fields: "userEnteredFormat.numberFormat"
+			}
+		});
+		requests.push({
+			repeatCell: {
+				range: {
+					sheetId: 0,
+					startColumnIndex: 1,
+					endColumnIndex: 2
+				},
+				cell: {
+					userEnteredFormat: {
+						numberFormat: {
+							type: "DATE",
+							pattern: "HH:MM:SS, ddd mmm dd yyyy"
 						}
 					}
 				},
