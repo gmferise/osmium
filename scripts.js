@@ -59,7 +59,7 @@ function createDatabase(name){
 		}
 	}).then(function(response){
 		getDatabases();
-		id = response.result.spreadsheetId;
+		id = response.result.spreadsheetId.rW;
 		
 		// Format database columns
 		var requests = [];
@@ -128,7 +128,7 @@ function createDatabase(name){
 					"userEnteredFormat": {
 						"numberFormat": {
 							"type": "DATE",
-							"pattern": "HH:MM:SS ddd mmm dd yyyy"
+							"pattern": "HH:MM:SS dd.mm.yyyy"
 						}
 					}
 				},
@@ -140,17 +140,19 @@ function createDatabase(name){
 		requests.push({
 			"updateCells": {
 				"rows": [{
-					"values": [{
-						"userEnteredValue": {"stringValue": "id"},
-						"userEnteredValue": {"stringValue": "name"},
-						"userEnteredValue": {"stringValue": "event"},
-						"userEnteredValue": {"stringValue": "timestamp"}
-					}]
+					"values": [
+						{"userEnteredValue": {"stringValue": "id"}},
+						{"userEnteredValue": {"stringValue": "name"}},
+						{"userEnteredValue": {"stringValue": "event"}},
+						{"userEnteredValue": {"stringValue": "timestamp"}}
+					]
 				}],
+				"fields": "userEnteredValue",
 				"start": {
 					"rowIndex": 0,
 					"columnIndex": 0
-				}
+				},
+				
 			}
 		});
 		
@@ -158,8 +160,6 @@ function createDatabase(name){
 		gapi.client.sheets.spreadsheets.batchUpdate({
 			spreadsheetId: id,
 			resource: batch
-		}).then(function(response){
-			console.log(response);
 		});
 		
 		return id;
@@ -190,7 +190,7 @@ function getDatabases(){
 // Selects a database from knownDatabases given it's name
 // Returns selected database id
 function selectDatabase(name){ 
-	selectDatabaseId(knownDatabases[name]);
+	return selectDatabaseId(knownDatabases[name]);
 }
 
 // Selects a database from knownDatabases given it's id
@@ -214,7 +214,7 @@ function gvzQuery(query, callback, page){
 
 // Gets the name of a user given their id
 function getName(id){
-	
+	// TODO
 }
 
 function catchName(response){
@@ -245,18 +245,22 @@ function getStatusById(id){
 	gvzQuery("SELECT A, B, C, D WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatus);
 }
 
-function getStatusByName(name){
-	gvzQuery("SELECT A, COUNT(A) WHERE B CONTAINS '"+name+"' GROUP BY A ORDER BY D DESC LIMIT 10", catchStatus1);
-}
-
-function catchStatus1(response){
+function catchStatus(response){
 	if (response == null){ console.log("getStatus Query Failed"); return; }
-	var ids = response.getDataTable().getDistinctValues(0);
-	var rows = [];
-	for (id in ids){
-		getStatusById(id);
-	}
+	console.log(response.J.wg);
 }
 
-function catchStatus2(response){
+function getStatusByName(name){
+	gvzQuery("SELECT A, D, COUNT(A), COUNT(D) WHERE B CONTAINS '"+name+"' GROUP BY A, D ORDER BY D DESC LIMIT 10", catchStatusIds);
+}
+
+function catchStatusIds(response){
+	if (response == null){ console.log("getStatusByName Query Failed"); return; }
+	var ids = response.getDataTable().getDistinctValues(0);
+	console.log(ids);
+	var rows = [];
+	for (i in ids){
+		rows.push(getStatusById(ids[i]));
+	}
+	console.log(rows);
 }
