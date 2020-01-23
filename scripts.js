@@ -77,7 +77,7 @@ function createDatabase(name){
 		}
 	}).then(function(response){
 		getDatabases();
-		id = response.result.spreadsheetId;
+		id = response.result.spreadsheetId.rW;
 		
 		// Format database columns
 		var requests = [];
@@ -158,17 +158,19 @@ function createDatabase(name){
 		requests.push({
 			"updateCells": {
 				"rows": [{
-					"values": [{
-						"userEnteredValue": {"stringValue": "id"},
-						"userEnteredValue": {"stringValue": "name"},
-						"userEnteredValue": {"stringValue": "event"},
-						"userEnteredValue": {"stringValue": "timestamp"}
-					}]
+					"values": [
+						{"userEnteredValue": {"stringValue": "id"}},
+						{"userEnteredValue": {"stringValue": "name"}},
+						{"userEnteredValue": {"stringValue": "event"}},
+						{"userEnteredValue": {"stringValue": "timestamp"}}
+					]
 				}],
+				"fields": "userEnteredValue",
 				"start": {
 					"rowIndex": 0,
 					"columnIndex": 0
-				}
+				},
+				
 			}
 		});
 		
@@ -176,8 +178,6 @@ function createDatabase(name){
 		gapi.client.sheets.spreadsheets.batchUpdate({
 			spreadsheetId: id,
 			resource: batch
-		}).then(function(response){
-			console.log(response);
 		});
 		
 		return id;
@@ -261,20 +261,22 @@ function catchId(response){
 function getStatusById(id){
 	// SQL: SELECT event WHERE id = ? ORDER BY date DESC LIMIT 1
 	gvzQuery("SELECT A, B, C, D WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatus);
+	
+}
+
+function catchStatus(response){
+	console.log(response.J.wg);
 }
 
 function getStatusByName(name){
-	gvzQuery("SELECT A, COUNT(A) WHERE B CONTAINS '"+name+"' GROUP BY A ORDER BY D DESC LIMIT 10", catchStatus1);
+	gvzQuery("SELECT A, COUNT(A) WHERE B CONTAINS '"+name+"' GROUP BY A ORDER BY D DESC LIMIT 10", catchStatusIds);
 }
 
-function catchStatus1(response){
-	if (response == null){ console.log("getStatus Query Failed"); return; }
+function catchStatusIds(response){
 	var ids = response.getDataTable().getDistinctValues(0);
+	if (response == null){ console.log("getStatus Query Failed"); return; }
 	var rows = [];
 	for (id in ids){
 		getStatusById(id);
 	}
-}
-
-function catchStatus2(response){
 }
