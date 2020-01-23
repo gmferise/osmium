@@ -71,39 +71,43 @@ var databaseId; // Currently selected database in the form of it's spreadsheet i
 function createDatabase(name){
 	if (name == '' || name == null){ return null; }
 	name = '[OsDB] '+name;
-	var id = gapi.client.sheets.spreadsheets.create({
+	return gapi.client.sheets.spreadsheets.create({
 		properties: {
 		title: name
 		}
 	}).then(function(response){
 		getDatabases();
-		return response.rW.result.spreadsheetId;
-	});
-	var requests = [];
-	requests.push({
-		repeatCell: {
-			range: {
-				sheetId: "Sheet1",
-				startColumnIndex: 0,
-				endColumnIndex: 1
-			},
-			cell: {
-				userEnteredFormat: {
-					numberFormat: {
-						type: "NUMBER",
-						pattern: "0"
+		id = response.rW.result.spreadsheetId;
+		
+		// Format db
+		var requests = [];
+		requests.push({
+			repeatCell: {
+				range: {
+					sheetId: 0,
+					startColumnIndex: 0,
+					endColumnIndex: 1
+				},
+				cell: {
+					userEnteredFormat: {
+						numberFormat: {
+							type: "NUMBER",
+							pattern: "0"
+						}
 					}
-				}
-			},
-			fields: "userEnteredFormat.numberFormat"
-		}
-	});
-	var batch = {requests: requests};
-	gapi.client.sheets.spreadsheets.batchUpdate({
-		spreadsheetId: id,
-		resource: batch
-	}).then(function(response){
-		console.log(response);
+				},
+				fields: "userEnteredFormat.numberFormat"
+			}
+		});
+		var batch = {requests: requests};
+		gapi.client.sheets.spreadsheets.batchUpdate({
+			spreadsheetId: id,
+			resource: batch
+		}).then(function(response){
+			console.log(response);
+		});
+		
+		return id;
 	});
 }
 
