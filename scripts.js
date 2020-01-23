@@ -206,10 +206,18 @@ function selectDatabaseId(id){
 
 // Executes the Google Visualization query then passes the result into the callback function
 function gvzQuery(query, callback, page){
-	if (page == null) { page = "Sheet1"; }
+	if (page == null) { page = "0"; }
 	var request = new google.visualization.Query('https://docs.google.com/spreadsheets/d/'+databaseId+'/gviz/tq?headers=1&access_token='+encodeURIComponent(GoogleAuth.currentUser.get().getAuthResponse().access_token));
 	request.setQuery(query);
 	request.send(callback);
+}
+
+function gvzGeneric(query, page){
+	return gvzQuery(query, function(response){return response;}, page);
+}
+
+function gvzCatch(response){
+	console.log(response);
 }
 
 // Gets the name of a user given their id
