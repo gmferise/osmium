@@ -69,17 +69,42 @@ var databaseId; // Currently selected database in the form of it's spreadsheet i
 // Creates new database in user's Drive using given name
 // Returns new database id
 function createDatabase(name){
-	if (name != '' && name != null){
-		name = '[OsDB] '+name;
-		return gapi.client.sheets.spreadsheets.create({
-			properties: {
-			title: name
-			}
-		}).then(function(response){
-			getDatabases();
-			return response.rW.result.spreadsheetId;
-	  });
-	}
+	if (name == '' || name == null){ return null; }
+	name = '[OsDB] '+name;
+	var id = gapi.client.sheets.spreadsheets.create({
+		properties: {
+		title: name
+		}
+	}).then(function(response){
+		getDatabases();
+		return response.rW.result.spreadsheetId;
+	});
+	var requests = [];
+	requests.push({
+		repeatCell: {
+			range: {
+				sheetId: "Sheet1",
+				startColumnIndex: 0,
+				endColumnIndex: 1
+			},
+			cell: {
+				userEnteredFormat: {
+					numberFormat: {
+						type: "NUMBER",
+						pattern: "0"
+					}
+				}
+			},
+			fields: "userEnteredFormat.numberFormat"
+		}
+	});
+	var batch = {requests: requests};
+	gapi.client.sheets.spreadsheets.batchUpdate({
+		spreadsheetId: id,
+		resource: batch
+	}).then(function(response){
+		console.log(response);
+	});
 }
 
 // Resets a sheet and configures its rows
@@ -141,7 +166,7 @@ function catchName(response){
 // Gets the possible ids of a user given their partial name
 function getId(name){
 	// SQL: SELECT UNIQUE id WHERE name LIKE ?
-	gvzQuery("SELECT  A, B, COUNT(A), COUNT(B) WHERE B CONTAINS '"+name+"' GROUP BY B, A", catchId);
+	gvzQuery("SELECT  A, B, COUNT(A), COUNT(B) WHERE B CONTAINS '"+name+"' GROUP BY A, B", catchId);
 }
 
 function catchId(response){
@@ -156,12 +181,23 @@ function catchId(response){
 }
 
 // Gets the latest status of a user given their id
-function getStatus(id){
+function getStatusById(id){
 	// SQL: SELECT event WHERE id = ? ORDER BY date DESC LIMIT 1
 	gvzQuery("SELECT A, B, C, D WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatus);
 }
 
-function catchStatus(response){
+function getStatusByName(name){
+	gvzQuery("SELECT A, COUNT(A) WHERE B CONTAINS '"+name+"' GROUP BY A ORDER BY D DESC LIMIT 10", catchStatus1);
+}
+
+function catchStatus1(response){
 	if (response == null){ console.log("getStatus Query Failed"); return; }
-	console.log(response.getDataTable().getDistinctValues(0));
+	var ids = response.getDataTable().getDistinctValues(0);
+	var rows = [];
+	for (id in ids){
+		getStatusById(id);
+	}
+}
+
+function catchStatus2(response){
 }
