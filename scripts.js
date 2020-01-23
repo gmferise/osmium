@@ -212,13 +212,6 @@ function gvzQuery(query, callback, page){
 	request.send(callback);
 }
 
-function gvzGeneric(query, page){
-	return gvzQuery(query, function(response){return response;}, page);
-}
-
-function gvzCatch(response){
-	console.log(response);
-}
 
 // Gets the name of a user given their id
 function getName(id){
