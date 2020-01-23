@@ -683,7 +683,7 @@ body.bigbody button.big:hover {
 	transform: translate(calc(-50% + -2px),-2px);
 }
 body.bigbody button.big:focus {
-	outline: 1px auto white;
+	outline: 0;
 }
 /* show newtab icon */
 button.new-tab:after {
