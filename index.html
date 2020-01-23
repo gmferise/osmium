@@ -23,6 +23,11 @@
 		<a onclick="document.getElementById('auth-body').classList.toggle('databased')">toggle db</a>
 	</div>
 	<div class='fullsize title-center logotext'>Osmium</div>
+	<div id="newdb-popup">
+		<div class="content">
+		
+		</div>
+	</div>
 	<div class='tbl'>
 		<div class='tbl-row'>
 		<div class='tbl-pad'>
@@ -43,7 +48,7 @@
 					<p>a</p>
 				  </div>
 				</div>
-				<button class="new auth-required">New</button>
+				<button class="new auth-required" onclick="document.getElementById('newdb-popup').style = 'visibility:visible';">New</button>
 			</div>
 		</div>
 		<div class='tbl-row'>
