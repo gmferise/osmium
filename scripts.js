@@ -82,39 +82,39 @@ function createDatabase(name){
 		// Format db
 		var requests = [];
 		requests.push({
-			repeatCell: {
-				range: {
-					sheetId: 0,
-					startColumnIndex: 0,
-					endColumnIndex: 1
+			"repeatCell": {
+				"range": {
+					"startRowIndex":0,
+					"startColumnIndex": 0,
+					"endColumnIndex": 1
 				},
-				cell: {
-					userEnteredFormat: {
-						numberFormat: {
-							type: "NUMBER",
-							pattern: "0"
+				"cell": {
+					"userEnteredFormat": {
+						"numberFormat": {
+							"type": "NUMBER",
+							"pattern": "0"
 						}
 					}
 				},
-				fields: "userEnteredFormat.numberFormat"
+				"fields": "userEnteredFormat.numberFormat"
 			}
 		});
 		requests.push({
-			repeatCell: {
-				range: {
-					sheetId: 0,
-					startColumnIndex: 1,
-					endColumnIndex: 2
+			"repeatCell": {
+				"range": {
+					"startRowIndex":0,
+					"startColumnIndex": 1,
+					"endColumnIndex": 2
 				},
-				cell: {
-					userEnteredFormat: {
-						numberFormat: {
-							type: "DATE",
-							pattern: "HH:MM:SS, ddd mmm dd yyyy"
+				"cell": {
+					"userEnteredFormat": {
+						"numberFormat": {
+							"type": "DATE",
+							"pattern": "HH:MM:SS ddd mmm dd yyyy"
 						}
 					}
 				},
-				fields: "userEnteredFormat.numberFormat"
+				"fields": "userEnteredFormat.numberFormat"
 			}
 		});
 		var batch = {requests: requests};
