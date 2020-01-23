@@ -668,18 +668,19 @@ body.bigbody.authenticated #auth-button img {
 	display: inline-block;
 }
 
-body.bigbody.authenticated #auth-button .tooltip {
+body.bigbody #auth-button .tooltip {
 	visibility: hidden;
-	width: 120px;
 	background-color: black;
 	color: #fff;
 	text-align: center;
-	padding: 5px 0;
+	padding: 5px;
 	border-radius: 6px;
-
-	/* Position the tooltip text - see examples below! */
+	
 	position: absolute;
-	z-index: 1;
+	z-index: 2;
+	width: fit-content;
+	top: 36%;
+	left: 96%;
 }
 body.bigbody.authenticated #auth-button:hover .tooltip {
 	visibility: visible;
@@ -687,12 +688,12 @@ body.bigbody.authenticated #auth-button:hover .tooltip {
 body.bigbody.authenticated #auth-button .tooltip::after {
 	content: " ";
 	position: absolute;
-	bottom: 100%;  /* At the top of the tooltip */
-	left: 50%;
-	margin-left: -5px;
+	top: 50%;
+	right: 100%; /* To the left of the tooltip */
+	margin-top: -5px;
 	border-width: 5px;
 	border-style: solid;
-	border-color: transparent transparent black transparent;
+	border-color: transparent black transparent transparent;
 }
 
 /* GENERAL ELEMENT STYLING */
