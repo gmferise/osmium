@@ -475,14 +475,6 @@ html {
 
 /* SIMPLE PAGES */
 /* authentication table */
-body.bigbody div.tbl {
-	display: table;
-	margin-left: 50%;
-	transform: translateX(-50%);
-}
-body.bigbody div.tbl div.tbl-row {
-	display: table-row;
-}
 body.bigbody .auth-required, body.bigbody .db-required {
 	visibility: hidden;
 }
@@ -490,23 +482,22 @@ body.bigbody.authenticated .auth-required,
 body.bigbody.databased .db-required {
 	visibility: visible;
 }
-body.bigbody .row {
-	width: 25vw;
-}
-body.bigbody div.tbl div.tbl-row div.tbl-pad {
-	padding-top: 5vh;
-}
 /* big text */
 body.bigbody div.logotext {
-	height: 10%;
-	font-size: 5vw;
+	font-size: 88px;
+}
+body.bigbody {
+	overflow-y: auto;
+	height: auto;
 }
 /* dropdown */
 body.bigbody div.dropdown {
-	float: left;
-	width: 70%;
 	position: absolute;
-	font-size: 1.5vw;
+	display: inline-block;
+	margin-left: calc(50% - 241px);
+	width: 338px;
+	display: block;
+	font-size: 2em;
 	box-shadow: 3px 4px 0px 1px black;
 	text-align: center;
 	border: 1px solid black;
@@ -531,15 +522,17 @@ body.bigbody div.dropdown-content {
 	border-top: 1px dashed grey;
 	width: 100%;
 	transform: translateX(-1px);
-	box-shadow: 3px 4px 0px 1px black;
+	box-shadow: 3px 4px 0px 1px black, 
+	20px 20px 15px 0px white,
+	-20px 20px 15px 0px white;
 	margin-top: 8px;
-	z-index: 1;
+	z-index: 10;
 }
 body.bigbody div.dropdown-content p {
 	background-color: white;
 	padding: 0;
 	padding-left: 5px;
-	font-size: x-large;
+	font-size: 130%;
 	margin: 0;
 	text-align: left;
 }
@@ -551,19 +544,19 @@ body.bigbody div.dropdown-content p:hover {
 }
 /* new db button */
 body.bigbody button.new {
-	float: right;
-	text-align: center;
-	margin-top: 10px;
+	display: inline-block;
+	margin-left: calc(50% + 110px);
+	margin-top: 12px;
 	
-	font-size: 1vw;
+	text-align: center;
+	font-size: 1.5em;
 	box-shadow: 3px 4px 0px 1px black;
 	border: 1px solid black;
 	transition: box-shadow 0.1s ease-in-out,
 				transform 0.1s ease-in-out;
 	padding-right: 20px;
 	height: 40px;
-	width: 25%;
-	float: right;
+	width: 120px;
 	border-radius: 20px;
 	transition: box-shadow 0.1s ease-in-out,
 				transform 0.1s ease-in-out;
@@ -589,7 +582,7 @@ body.bigbody button.new:focus {
 }
 /* newdb popup */
 #newdb-popup {
-	z-index: 100;
+	z-index: 100;	
 	visibility: hidden;
 	position: absolute;
 	top: 0;
@@ -603,8 +596,12 @@ body.bigbody button.new:focus {
 }
 /* big buttons */
 body.bigbody button.big {
+	display: block;
+	width: 480px;
+	margin-left: 50%;
+	transform: translateX(-50%);
 	background-color: whitesmoke;
-	font-size: 3vw;
+	font-size: 3.6em;
 	box-shadow: 3px 4px 0px 1px black;
 	text-align: center;
 	border: 1px solid black;
@@ -616,7 +613,7 @@ body.bigbody button.big {
 }
 body.bigbody button.big:hover {
 	box-shadow: 5px 6px 0px 1px black;
-	transform: translate(-2px,-2px);
+	transform: translate(calc(-50% + -2px),-2px);
 }
 body.bigbody button.big:focus {
 	outline: 1px auto white;
@@ -715,6 +712,10 @@ body.bigbody.authenticated #auth-button:after {
 
 .medium-spacer {
 	height: 100px;
+}
+
+.smallish-spacer {
+	height: 50px;
 }
 
 .small-spacer {

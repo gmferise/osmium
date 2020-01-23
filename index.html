@@ -17,8 +17,8 @@
 	<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
 	
   </head>
-  <body id='auth-body' class='bigbody'>
-	<div style="position: absolute; left:0;top:0;">
+  <body id='auth-body' class='bigbody pretty-scrollbar-dark'>
+	<div style="position: fixed; left:0;top:0;">
 		<a onclick="document.getElementById('auth-body').classList.toggle('authenticated')">toggle auth</a>
 		<a onclick="document.getElementById('auth-body').classList.toggle('databased')">toggle db</a>
 	</div>
@@ -27,40 +27,36 @@
 		<div class="content">
 		
 		</div>
+	</div>	
+	<div class='smallish-spacer'></div>
+	
+	<button class='big' id="auth-button" onclick="toggleAuth()"></button>
+	<script async defer src="https://apis.google.com/js/api.js" 
+		onload="this.onload=function(){};loadAuth()" 
+		onreadystatechange="if (this.readyState === 'complete') this.onload()">
+	</script>
+
+	<div class='smallish-spacer'></div>
+	
+	<div class='dropdown auth-required'>
+	  Select a database:
+	  <div class='dropdown-content'>
+		<p>a</p>
+		<p>b</p>
+		<p>c</p>
+		<p>d</p>
+		<p>e</p>
+	  </div>
 	</div>
-	<div class='tbl'>
-		<div class='tbl-row'>
-		<div class='tbl-pad'>
-			<button class='big row' id="auth-button" onclick="toggleAuth()"></button>
-			<script async defer src="https://apis.google.com/js/api.js" 
-				onload="this.onload=function(){};loadAuth()" 
-				onreadystatechange="if (this.readyState === 'complete') this.onload()">
-			</script>
-		</div>
-		</div>
-		<div class='tbl-row'>
-			<div class='tbl-pad'>
-				<div class='dropdown auth-required'>
-				  Select a database:
-				  <div class='dropdown-content'>
-					<p>a</p>
-					<p>a</p>
-					<p>a</p>
-				  </div>
-				</div>
-				<button class="new auth-required" onclick="document.getElementById('newdb-popup').style = 'visibility:visible';">New</button>
-			</div>
-		</div>
-		<div class='tbl-row'>
-			<div class='tbl-pad'>
-				<button class='big row new-tab db-required' onclick="window.open('kiosk.html'+getDatabaseQueryString(),'_blank')">Student Kiosk</button>
-			</div>
-		</div>
-		<div class='tbl-row'>
-			<div class='tbl-pad'>
-				<button class='big row new-tab db-required' onclick="window.open('front-desk.html'+getDatabaseQueryString(),'_blank')">Front Desk</button>
-			</div>
-		</div>
+	<button class="new auth-required" onclick="document.getElementById('newdb-popup').style = 'visibility:visible';">New</button>
+	<div class='medium-spacer'></div>
+	
+	<button class='big new-tab db-required' onclick="window.open('kiosk.html'+getDatabaseQueryString(),'_blank')">Student Kiosk</button>
+	<div class='smallish-spacer'></div>
+	
+	<button class='big new-tab db-required' onclick="window.open('front-desk.html'+getDatabaseQueryString(),'_blank')">Front Desk</button>
+	<div class='smallish-spacer'></div>
+	
 	</table>
 </body>
 </html>
