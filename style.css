@@ -628,12 +628,20 @@ button.new-tab:after {
 	transform: translateY(25%);
 }
 /* auth button */
-body.bigbody #auth-button:after {
+body.bigbody #auth-button:before {
 	visibility: visible;
 	content: 'Sign In';
+	display: inline-block;
+	text-align: left;
 }
-body.bigbody.authenticated #auth-button:after {
+body.bigbody.authenticated #auth-button:before {
 	content: 'Sign Out';
+}
+body.bigbody #auth-button svg {
+	width: 8%;
+	display: inline-block;
+	float: right;
+	transform: translate(-50%, 50%);
 }
 
 /* GENERAL ELEMENT STYLING */

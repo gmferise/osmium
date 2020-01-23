@@ -30,7 +30,14 @@
 	</div>	
 	<div class='smallish-spacer'></div>
 	
-	<button class='big' id="auth-button" onclick="toggleAuth()"></button>
+	<button class='big' id="auth-button" onclick="toggleAuth()">
+		<svg id="google-multicolor" viewBox="0 0 30 30">
+                    <path d="M29.4 15.34c0-1.063-.095-2.085-.273-3.067H15v5.802h8.073c-.348 1.875-1.405 3.464-2.993 4.527v3.764h4.847c2.837-2.61 4.473-6.457 4.473-11.025z" fill="#4285F4"></path>
+                    <path d="M15 30c4.05 0 7.445-1.343 9.927-3.634l-4.847-3.764c-1.344.9-3.062 1.432-5.08 1.432-3.907 0-7.214-2.64-8.393-6.184H1.595v3.886C4.065 26.64 9.135 30 15 30z" fill="#34A853"></path>
+                    <path d="M6.607 17.85c-.3-.9-.47-1.86-.47-2.85s.17-1.95.47-2.85V8.264H1.595C.58 10.29 0 12.58 0 15s.58 4.71 1.595 6.736l5.012-3.886z" fill="#FBBC05"></path>
+                    <path d="M15 5.966c2.202 0 4.18.757 5.734 2.243l4.302-4.303C22.44 1.487 19.043 0 15 0 9.136 0 4.064 3.36 1.595 8.264l5.012 3.886C7.787 8.605 11.093 5.966 15 5.966z" fill="#EA4335"></path>
+                </svg>
+	</button>
 	<script async defer src="https://apis.google.com/js/api.js" 
 		onload="this.onload=function(){};loadAuth()" 
 		onreadystatechange="if (this.readyState === 'complete') this.onload()">
