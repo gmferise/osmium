@@ -155,9 +155,10 @@ function createDatabase(name){
 		});
 		
 		// Give database columns headers		
-		var values = ["id","name","event","timestamp"];
-		var body = {values: values};
-		requests.push({values: values});
+		requests.push({
+			"valueInputOption": "RAW",
+			"data": ["id","name","event","timestamp"]
+		});
 		
 		var batch = {requests: requests};
 		gapi.client.sheets.spreadsheets.batchUpdate({
