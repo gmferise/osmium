@@ -146,7 +146,7 @@ function createDatabase(name){
 					"userEnteredFormat": {
 						"numberFormat": {
 							"type": "DATE",
-							"pattern": "HH:MM:SS ddd mmm dd yyyy"
+							"pattern": "HH:MM:SS dd.mm.yyyy"
 						}
 					}
 				},
@@ -269,15 +269,16 @@ function catchStatus(response){
 }
 
 function getStatusByName(name){
-	gvzQuery("SELECT A, COUNT(A) WHERE B CONTAINS '"+name+"' GROUP BY A ORDER BY D DESC LIMIT 10", catchStatusIds);
+	gvzQuery("SELECT A, D, COUNT(A), COUNT(D) WHERE B CONTAINS '"+name+"' GROUP BY A, D ORDER BY D DESC LIMIT 10", catchStatusIds);
 }
 
 function catchStatusIds(response){
 	if (response == null){ console.log("getStatusByName Query Failed"); return; }
 	var ids = response.getDataTable().getDistinctValues(0);
-	if (response == null){ console.log("getStatus Query Failed"); return; }
+	console.log(ids);
 	var rows = [];
-	for (id in ids){
-		getStatusById(id);
+	for (i in ids){
+		rows.push(getStatusById(ids[i]));
 	}
+	console.log(rows);
 }
