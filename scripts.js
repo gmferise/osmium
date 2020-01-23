@@ -109,6 +109,42 @@ function createDatabase(name){
 				"cell": {
 					"userEnteredFormat": {
 						"numberFormat": {
+							"type": "TEXT",
+							"pattern": ""
+						}
+					}
+				},
+				"fields": "userEnteredFormat.numberFormat"
+			}
+		});
+		requests.push({
+			"repeatCell": {
+				"range": {
+					"startRowIndex":0,
+					"startColumnIndex": 2,
+					"endColumnIndex": 3
+				},
+				"cell": {
+					"userEnteredFormat": {
+						"numberFormat": {
+							"type": "TEXT",
+							"pattern": ""
+						}
+					}
+				},
+				"fields": "userEnteredFormat.numberFormat"
+			}
+		});
+		requests.push({
+			"repeatCell": {
+				"range": {
+					"startRowIndex":0,
+					"startColumnIndex": 3,
+					"endColumnIndex": 4
+				},
+				"cell": {
+					"userEnteredFormat": {
+						"numberFormat": {
 							"type": "DATE",
 							"pattern": "HH:MM:SS ddd mmm dd yyyy"
 						}
