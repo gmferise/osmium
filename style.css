@@ -643,6 +643,21 @@ body.bigbody button.new:focus {
 	
 	font-size: 3em;
 }
+#newdb-popup .content button.ok:after {
+	font-size: inherit;
+	font-family: inherit;
+	content: 'done';
+}
+#newdb-popup .content button.ok.loading:after {
+	font-size: inherit;
+	font-family: inherit;
+	content: 'sync';
+	display: inline-block;
+	animation: loading 1s infinite ease-in-out;
+} @keyframes loading {
+	0% {transform: rotate(0deg);}
+	100% {transform: rotate(360deg);}
+}
 #newdb-popup .content button.ok:hover {
 	border: 1px solid limegreen;
 }

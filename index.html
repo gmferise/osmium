@@ -30,12 +30,10 @@
 		<div class='fullsize title-center logotext'>Osmium</div>
 		<div id="newdb-popup">
 			<div class="content">
-				<button class="big material-icons cancel" onclick='showNewDB(false);document.getElementById("newdb").value = "";'>close</button>
-				<div>
-					<i class="material-icons">storage</i>
-					<input id="newdb" type="text" placeholder="Database Name"></input>
-					<button class="material-icons big ok" onclick="submitCreateDatabase();">done</button>
-				</div>
+				<i class="material-icons">storage</i>
+				<input id="newdb" type="text" placeholder="Database Name"></input>
+				<button id='newdb-loading' class="material-icons big ok" onclick="createDatabaseSender();"></button>
+				<button class="material-icons big cancel" onclick='showNewDB(false);document.getElementById("newdb").value = "";'>close</button>
 			</div>
 		</div>	
 		<div class='smallish-spacer'></div>
@@ -95,27 +93,58 @@ function showNewDB(state) {
 		document.getElementById('newdb').focus();
 	} else {
 		document.getElementById('newdb-popup').style = '';
-		
+		document.getElementById("newdb").value = "";
+		document.getElementById('newdb-loading').classList.remove('loading');
+		databaseSenderState = 0;
 	}
 }
 
 document.getElementById('newdb').addEventListener("keydown", function(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
-    submitCreateDatabase();
+    createDatabaseSender();
   }
 });
-function submitCreateDatabase() {
-	var name = document.getElementById('newdb').value;
-	if (name != "") {
-		document.getElementById("newdb").value = "";
-		var db = createDatabase(name);
-		console.log("created "+db);
-		selectDatabaseId(db);
+
+/// BACKEND LINKAGE
+
+// states for UI callbacks
+// 0 - not active / user closed UI
+// 1 - sending query / awaiting response
+
+//createDatabase
+var databaseSenderState = 0;
+function createDatabaseSender() {
+	if (databaseSenderState == 0) { //prevent double submission
+		var name = document.getElementById('newdb').value;
+		if (name != "") {
+			document.getElementById('newdb-loading').classList.add('loading');
+			//var db = createDatabase(name);
+			//console.log("created "+db);
+			//selectDatabaseId(db);
+			databaseSenderState = 1;
+			setTimeout(createDatabaseCallback,2500);
+		}
+	}
+}
+function createDatabaseCallback() {
+	//handle response
+	if (databaseSenderState == 1) { //don't touch UI if already closed
 		showNewDB(false);
 	}
 }
 
+//selectDatabase
+function selectDatabaseSender(dbindex) {
+	//selectDatabaseId(databases[dbindex]);
+}
+function selectDatabaseCallback(db,success) {
+	if (success) {
+		document.getElementById('current-db').innerText = "[OsDb] Databname";
+	} else {
+		console.log("oops");
+	}
+}
 
 // Updates toggleAuth button status text
 function updateAuthStatus() {
