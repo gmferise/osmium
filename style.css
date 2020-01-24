@@ -487,7 +487,7 @@ body.bigbody div.logotext {
 	font-size: 88px;
 }
 body.bigbody div.pretty-scrollbar-dark {
-	overflow-y: auto;
+	overflow: auto;
 	height: 100%;
 }
 /* dropdown */
@@ -580,8 +580,8 @@ body.bigbody button.new:hover {
 body.bigbody button.new:focus {
 	outline: 0;
 }
-/* newdb popup */
-#newdb-popup {
+/* popups */
+div.bigpopup {
 	z-index: 100;	
 	visibility: hidden;
 	position: absolute;
@@ -591,7 +591,7 @@ body.bigbody button.new:focus {
 	height: 100%;
     background: rgba(0,0,0,0.5);
 }
-#newdb-popup .content {
+div.bigpopup div.content {
 	position: absolute;
 	width: 70%;
 	left: 15%;
@@ -601,7 +601,7 @@ body.bigbody button.new:focus {
 	box-shadow: 3px 4px 0px 1px black;
 	box-sizing: border-box;
 }
-#newdb-popup .content input {
+div.bigpopup div.content input {
 	position: absolute;
 	bottom: 0;
 	left: 0;
@@ -614,10 +614,10 @@ body.bigbody button.new:focus {
 	
 	font-size: 3em;
 }
-#newdb-popup .content input:focus {
+div.bigpopup div.content input:focus {
 	outline: 0;
 }
-#newdb-popup .content i {
+div.bigpopup div.content i {
 	position: absolute;
 	bottom: 0;
 	left: 0;
@@ -629,7 +629,7 @@ body.bigbody button.new:focus {
 	
 	font-size: 3em;
 }
-#newdb-popup .content button.ok {
+div.bigpopup div.content button.ok {
 	width: fit-content;
 	outline: 0;
 	position: absolute;
@@ -642,12 +642,12 @@ body.bigbody button.new:focus {
 	
 	font-size: 3em;
 }
-#newdb-popup .content button.ok:after {
+div.bigpopup div.content button.ok:after {
 	font-size: inherit;
 	font-family: inherit;
 	content: 'done';
 }
-#newdb-popup .content button.ok.loading:after {
+div.bigpopup div.content button.ok.loading:after {
 	font-size: inherit;
 	font-family: inherit;
 	content: 'sync';
@@ -657,10 +657,10 @@ body.bigbody button.new:focus {
 	0% {transform: rotate(0deg);}
 	100% {transform: rotate(360deg);}
 }
-#newdb-popup .content button.ok:hover {
+div.bigpopup div.content button.ok:hover {
 	border: 1px solid limegreen;
 }
-#newdb-popup .content button.cancel {
+div.bigpopup div.content button.cancel {
 	width: fit-content;
 	outline: 0;
 	position: absolute;
@@ -672,9 +672,11 @@ body.bigbody button.new:focus {
 	
 	font-size: 3em;
 }
-#newdb-popup .content button.cancel:hover {
+div.bigpopup div.content button.cancel:hover {
 	border: 1px solid red;
 }
+/* check out popup in particular */
+
 /* big buttons and other inputs */
 body.bigbody button.big {
 	display: block;
@@ -717,7 +719,7 @@ button.check-in:after {
 	transform: translateY(25%);
 }
 button.check-out:after {
-	content: 'backspace';
+	content: 'indeterminate_check_box';
 	font-family: "Material Icons";
 	font-size: 80%;
 	float: right;

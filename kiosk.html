@@ -1,17 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-	<title>Osmium</title>
-	<link href="favicon.ico" rel="icon" type="image/png">
-	
-	<!-- Vue Styling -->
-	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
-	<link href="style.css" rel="stylesheet" type ="text/css"/>
-  </head>
+	<head>
+		<title>Osmium</title>
+		<link href="favicon.ico" rel="icon" type="image/png">
 
-  <body>
-  
-  </body>
+	<!-- Vue Styling -->
+		<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
+		<link href="style.css" rel="stylesheet" type ="text/css"/>
+	</head>
+
+	<body class="bigbody">
+		
+		<div id="check-in-popup" class="bigpopup pretty-scrollbar-light">
+			<div class="content">
+				<div class="title-center fullsize fullwidth">Check In to Library</div>
+				<i class="material-icons">perm_identity</i>
+				<input id="check-in-id" type="text" placeholder="Student ID"></input>
+				<button id='check-in-loading' class="material-icons big ok" onclick=""></button>
+				<button class="material-icons big cancel" onclick='showCheckIn(false);'>close</button>
+			</div>
+		</div>
+		<div id="check-out-popup" class="bigpopup pretty-scrollbar-light">
+			<div class="content">
+				<div class="title-center fullsize fullwidth">Check Out of Library</div>
+				<i class="material-icons">perm_identity</i>
+				<input id="check-out-id" type="text" placeholder="Student ID"></input>
+				<button id='check-out-loading' class="material-icons big ok" onclick="createDatabaseSender();"></button>
+				<button class="material-icons big cancel" onclick='showCheckOut(false);'>close</button>
+			</div>
+		</div>
+		
+		<div class='pretty-scrollbar-dark'>
+			<div class='fullsize title-center logotext'>Welcome to the Library</div>
+			<div class='medium-spacer'></div>
+			<button class="check-in big" onclick="showCheckIn(true);">Check In</button>
+			<div class='medium-spacer'></div>
+			<button class="check-out big" onclick="showCheckOut(true);">Check Out</button>
+		</div>
+	
+	</body>
 </html>
+
+<script>
+function showCheckIn(state) {
+	if (state == true) {
+		document.getElementById('check-in-popup').style = 'visibility: visible';
+		document.getElementById('check-in-id').focus();
+	} else {
+		document.getElementById('check-in-popup').style = '';
+		document.getElementById("check-in-id").value = "";
+		document.getElementById('check-in-loading').classList.remove('loading');
+		databaseSenderState = 0;
+	}
+}
+function showCheckOut(state) {
+	if (state == true) {
+		document.getElementById('check-out-popup').style = 'visibility: visible';
+		document.getElementById('check-out-id').focus();
+	} else {
+		document.getElementById('check-out-popup').style = '';
+		document.getElementById("check-out-id").value = "";
+		document.getElementById('check-out-loading').classList.remove('loading');
+		databaseSenderState = 0;
+	}
+}
+</script>

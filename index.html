@@ -26,13 +26,13 @@
 		">toggle auth</a>
 		<a onclick="document.getElementById('auth-body').classList.toggle('databased')">toggle db</a>
 	</div>
-	<div id="newdb-popup" class="pretty-scrollbar-light">
+	<div id="newdb-popup" class="bigpopup pretty-scrollbar-light">
 		<div class="content">
 			<div class="title-center fullsize fullwidth">Create New Database</div>
 			<i class="material-icons">storage</i>
 			<input id="newdb" type="text" placeholder="Database Name"></input>
 			<button id='newdb-loading' class="material-icons big ok" onclick="createDatabaseSender();"></button>
-			<button class="material-icons big cancel" onclick='showNewDB(false);document.getElementById("newdb").value = "";'>close</button>
+			<button class="material-icons big cancel" onclick='showNewDB(false);'>close</button>
 		</div>
 	</div>
 	<div class='pretty-scrollbar-dark'>
