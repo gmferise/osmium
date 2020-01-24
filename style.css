@@ -675,8 +675,94 @@ div.bigpopup div.content button.cancel {
 div.bigpopup div.content button.cancel:hover {
 	border: 1px solid red;
 }
-/* check out popup in particular */
-
+/* ipad styling */
+body.bigbody.ipad button.big {
+	width: 620px;
+	font-size: 6em;
+}
+body.bigbody.ipad div.bigpopup {
+	background: lightblue;
+}
+body.bigbody.ipad div.bigpopup div.content {
+	height: 11em;
+	top: 10%;
+}
+body.bigbody.ipad #check-out-popup div.content {
+	height: 24em;
+	top: 30%;
+}
+.numpad {
+	position: absolute;
+	left: 0;
+	margin-left: 22%;
+	top: 35%;
+	height: 65%;
+	width: fit-content;
+}
+.numpad button {
+	position: absolute;
+	height: 100px;
+	width: 100px;
+	font-size: 3em;
+	border-radius: 10px;
+	background-color: whitesmoke;
+	box-shadow: 3px 4px 0px 1px black;
+	text-align: center;
+	border: 1px solid black;
+	cursor: pointer;
+	transition: box-shadow 0.1s ease-in-out,
+				transform 0.1s ease-in-out;
+}
+.numpad button:hover {
+	box-shadow: 5px 6px 0px 1px black;
+	transform: translate(-2px,-2px);
+}
+.numpad button.num7 {
+	left: 0px;
+	top: 0px;
+}
+.numpad button.num8 {
+	left: 110px;
+	top: 0px;
+}
+.numpad button.num9 {
+	left: 220px;
+	top: 0px;
+}
+.numpad button.num4 {
+	left: 0px;
+	top: 110px;
+}
+.numpad button.num5 {
+	left: 110px;
+	top: 110px;
+}
+.numpad button.num6 {
+	left: 220px;
+	top: 110px;
+}
+.numpad button.num1 {
+	left: 0px;
+	top: 220px;
+}
+.numpad button.num2 {
+	left: 110px;
+	top: 220px;
+}
+.numpad button.num3 {
+	left: 220px;
+	top: 220px;
+}
+.numpad button.num0 {
+	left: 0px;
+	top: 330px;
+	width: 210px;
+}
+.numpad button.numbs {
+	left: 220px;
+	top: 330px;
+	font-family: 'Material Icons';
+}
 /* big buttons and other inputs */
 body.bigbody button.big {
 	display: block;
