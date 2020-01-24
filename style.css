@@ -492,11 +492,10 @@ body.bigbody div.pretty-scrollbar-dark {
 }
 /* dropdown */
 body.bigbody div.dropdown {
-	position: absolute;
+	position: relative;
 	display: inline-block;
-	margin-left: calc(50% - 241px);
+	margin-left: calc(50% - 240px);
 	width: 338px;
-	display: block;
 	font-size: 2em;
 	box-shadow: 3px 4px 0px 1px black;
 	text-align: center;
@@ -545,7 +544,7 @@ body.bigbody div.dropdown-content p:hover {
 /* new db button */
 body.bigbody button.new {
 	display: inline-block;
-	margin-left: calc(50% + 110px);
+	margin-left: 10px;
 	margin-top: 12px;
 	
 	text-align: center;
@@ -596,7 +595,7 @@ body.bigbody button.new:focus {
 	position: absolute;
 	width: 70%;
 	left: 15%;
-	height: 6.5em;
+	height: 14em;
 	top: 35%;
 	background: white;	
 	box-shadow: 3px 4px 0px 1px black;
@@ -709,6 +708,22 @@ button.new-tab:after {
 	padding-right: 10px;
 	transform: translateY(25%);
 }
+button.check-in:after {
+	content: 'add_box';
+	font-family: "Material Icons";
+	font-size: 80%;
+	float: right;
+	padding-right: 10px;
+	transform: translateY(25%);
+}
+button.check-out:after {
+	content: 'backspace';
+	font-family: "Material Icons";
+	font-size: 80%;
+	float: right;
+	padding-right: 10px;
+	transform: translateY(25%);
+}
 /* auth button */
 body.bigbody #auth-button:before {
 	visibility: visible;
@@ -784,13 +799,23 @@ body.bigbody.authenticated #auth-button .tooltip::after {
 	left: 50%;
 	text-align: center;
 }
-.title-center:after { /* title underline */
+.title-center:not(.fullwidth):after { /* title underline */
 	content: "";
 	border-bottom: 2px solid black;
 	opacity: 0.10;
 	width: 80%;
 	margin-left: 10%;
 	margin-right: 10%;
+	position: relative;
+	display: block;
+}
+.title-center.fullwidth:after { /* full width underline */
+	content: "";
+	border-bottom: 2px solid black;
+	opacity: 0.10;
+	width: 100%;
+	margin-left: 0;
+	margin-right: 0;
 	position: relative;
 	display: block;
 }
