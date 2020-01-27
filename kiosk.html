@@ -17,38 +17,38 @@
 			<div class="content">
 				<div class="title-center fullsize fullwidth">Check In to Library</div>
 				<i class="material-icons">perm_identity</i>
-				<input id="check-in-id" type="text" placeholder="Student ID"></input>
+				<input disabled id="check-in-id" type="text" placeholder="Student ID"></input>
 				<button id='check-in-loading' class="material-icons big ok" onclick=""></button>
 				<button class="material-icons big cancel" onclick='showCheckIn(false);'>close</button>
 			</div>
 			<div class="content-extra">
 				<label class="checkbox-container">I need tech help
-					<input type="checkbox" checked="checked">
+					<input type="checkbox">
 					<span class="checkmark"></span>
 				</label>
 			</div>
 			<div class="numpad">
-				<button class="num7">7</button>
-				<button class="num8">8</button>
-				<button class="num9">9</button>
+				<button class="num7" onclick="numpadInput('check-in-id',this.innerText);">7</button>
+				<button class="num8" onclick="numpadInput('check-in-id',this.innerText);">8</button>
+				<button class="num9" onclick="numpadInput('check-in-id',this.innerText);">9</button>
 				
-				<button class="num4">4</button>
-				<button class="num5">5</button>
-				<button class="num6">6</button>
+				<button class="num4" onclick="numpadInput('check-in-id',this.innerText);">4</button>
+				<button class="num5" onclick="numpadInput('check-in-id',this.innerText);">5</button>
+				<button class="num6" onclick="numpadInput('check-in-id',this.innerText);">6</button>
 				
-				<button class="num1">1</button>
-				<button class="num2">2</button>
-				<button class="num3">3</button>
+				<button class="num1" onclick="numpadInput('check-in-id',this.innerText);">1</button>
+				<button class="num2" onclick="numpadInput('check-in-id',this.innerText);">2</button>
+				<button class="num3" onclick="numpadInput('check-in-id',this.innerText);">3</button>
 				
-				<button class="num0">0</button>
-				<button class="numbs">backspace</button>
+				<button class="num0" onclick="numpadInput('check-in-id',this.innerText);">0</button>
+				<button class="numbs" onclick="numpadInput('check-in-id',this.innerText);">backspace</button>
 			</div>
 		</div>
 		<div id="check-out-popup" class="bigpopup pretty-scrollbar-light">
 			<div class="content">
 				<div class="title-center fullsize fullwidth">Check Out of Library</div>
 				<i class="material-icons">perm_identity</i>
-				<input id="check-out-id" type="text" placeholder="Student ID"></input>
+				<input disabled id="check-out-id" type="text" placeholder="Student ID"></input>
 				<button id='check-out-loading' class="material-icons big ok" onclick="createDatabaseSender();"></button>
 				<button class="material-icons big cancel" onclick='showCheckOut(false);'>close</button>
 			</div>
@@ -58,20 +58,20 @@
 				</div>
 			</div>
 			<div class="numpad">
-				<button class="num7">7</button>
-				<button class="num8">8</button>
-				<button class="num9">9</button>
+				<button class="num7" onclick="numpadInput('check-out-id',this.innerText);">7</button>
+				<button class="num8" onclick="numpadInput('check-out-id',this.innerText);">8</button>
+				<button class="num9" onclick="numpadInput('check-out-id',this.innerText);">9</button>
 				
-				<button class="num4">4</button>
-				<button class="num5">5</button>
-				<button class="num6">6</button>
+				<button class="num4" onclick="numpadInput('check-out-id',this.innerText);">4</button>
+				<button class="num5" onclick="numpadInput('check-out-id',this.innerText);">5</button>
+				<button class="num6" onclick="numpadInput('check-out-id',this.innerText);">6</button>
 				
-				<button class="num1">1</button>
-				<button class="num2">2</button>
-				<button class="num3">3</button>
+				<button class="num1" onclick="numpadInput('check-out-id',this.innerText);">1</button>
+				<button class="num2" onclick="numpadInput('check-out-id',this.innerText);">2</button>
+				<button class="num3" onclick="numpadInput('check-out-id',this.innerText);">3</button>
 				
-				<button class="num0">0</button>
-				<button class="numbs">backspace</button>
+				<button class="num0" onclick="numpadInput('check-out-id',this.innerText);">0</button>
+				<button class="numbs" onclick="numpadInput('check-out-id',this.innerText);">backspace</button>
 			</div>
 		</div>
 		
@@ -90,7 +90,7 @@
 function showCheckIn(state) {
 	if (state == true) {
 		document.getElementById('check-in-popup').style = 'visibility: visible';
-		document.getElementById('check-in-id').focus();
+		//document.getElementById('check-in-id').focus();
 	} else {
 		document.getElementById('check-in-popup').style = '';
 		document.getElementById("check-in-id").value = "";
@@ -101,12 +101,23 @@ function showCheckIn(state) {
 function showCheckOut(state) {
 	if (state == true) {
 		document.getElementById('check-out-popup').style = 'visibility: visible';
-		document.getElementById('check-out-id').focus();
+		//document.getElementById('check-out-id').focus();
 	} else {
 		document.getElementById('check-out-popup').style = '';
 		document.getElementById("check-out-id").value = "";
 		document.getElementById('check-out-loading').classList.remove('loading');
 		databaseSenderState = 0;
+	}
+}
+
+function numpadInput(targetid,value) {
+	var target = document.getElementById(targetid);
+	if (value == "backspace") {
+		if (target.value.length > 0) {
+			target.value = target.value.substring(0,target.value.length-1);
+		}
+	} else if (target.value.length < 6) {
+		target.value += value;
 	}
 }
 </script>

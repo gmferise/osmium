@@ -614,6 +614,10 @@ div.bigpopup div.content input {
 	
 	font-size: 3em;
 }
+div.bigpopup div.content input:disabled {
+	color: black;
+	background-color: white;
+}
 div.bigpopup div.content input:focus {
 	outline: 0;
 }
@@ -709,17 +713,73 @@ body.bigbody.ipad div.bigpopup div.content-extra {
 	background: white;	
 	box-shadow: 3px 4px 0px 1px black;
 	box-sizing: border-box;
-	padding: 10px;
+	padding: 20px;
 }
 body.bigbody.ipad div.bigpopup div.content-extra div.large-text {
 	font-weight: 300;
+	font-size: 380%;
 	text-align: center;
 	position: relative;
 	top: 50%;
 	transform: translateY(-50%);
 }
 
+/* Customize the label (the container) */
+.checkbox-container {
+	display: block;
+	position: relative;
+	padding-left: 55px;
+	padding-top: 5px;
+	margin-bottom: 12px;
+	cursor: pointer;
+	font-size: xx-large;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
 
+/* Hide the browser's default checkbox */
+.checkbox-container input {
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+	height: 0;
+	width: 0;
+}
+
+/* Create a custom checkbox */
+.checkbox-container .checkmark {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 50px;
+	width: 50px;
+}
+
+/* On mouse-over*/
+.checkbox-container:hover input ~ .checkmark {
+	
+}
+
+/* checkbox is checked */
+.checkbox-container input:checked ~ .checkmark {
+	
+}
+
+/* checkmark/indicator (hidden when not checked) */
+.checkbox-container .checkmark:after {
+	content: "check_box_outline_blank";
+	font-family: "Material Icons";
+	font-size: xxx-large;
+	position: absolute;
+	display: block;
+}
+
+/* Show the checkmark when checked */
+.checkbox-container input:checked ~ .checkmark:after {
+	content: "check_box";
+}
 
 .numpad {
 	position: absolute;
