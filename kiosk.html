@@ -1,163 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-	<title>Osmium</title>
-	<link href="favicon.ico" rel="icon" type="image/png">
-	
-	<!-- Vue Styling -->
-	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
-	<link href="style.css" rel="stylesheet" type ="text/css"/>
-  </head>
+	<head>
+		<title>Osmium</title>
+		<link href="favicon.ico" rel="icon" type="image/png">
 
-  <body id='auth-body' class='bigbody pretty-scrollbar-dark'>	
-	  <div id="welcome">
-		<h1><strong>Welcome</strong></h1>
-	</div>
-	<div id="buttons">
-		<button id="checkinBtn" class="big" onclick="window.checkinDialog.show(); toggleCheck();"><b>Check In</b></button> <br>
-		<div id="checkinDiv">
-			<dialog id="checkinDialog"> 
-				<div id="title"><b>Check In</b></div>
-				<form id="checkinForm">
-					<div class="margin-bottom:2px">Enter your ID: </div> <br>
-					<input type="number" name="id" style="margin-bottom: 20px"> <br>
-					<input type="checkbox" id="techHelp" onclick="frontDesk();" style="margin-bottom: 15px">I need tech help</button> <br>
-					<div id="frontDeskDialog" style="display: none; margin-bottom:15px">Go to the Front Desk</div>
-					<button id="close" onclick="window.checkinDialog.close(); toggleCheck();" style="margin-bottom: 12px; margin-right: 5px"> Close </button>
-					<button  id="submit">Submit</button>
-				</form>
-			</dialog>
+	<!-- Vue Styling -->
+		<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
+		<link href="style.css" rel="stylesheet" type ="text/css"/>
+	</head>
+
+	<body class="bigbody ipad">
+		
+		<div id="check-in-popup" class="bigpopup pretty-scrollbar-light">
+			<div class="content">
+				<div class="title-center fullsize fullwidth">Check In to Library</div>
+				<i class="material-icons">perm_identity</i>
+				<input disabled id="check-in-id" type="text" placeholder="Student ID"></input>
+				<button id='check-in-loading' class="material-icons big ok" onclick=""></button>
+				<button class="material-icons big cancel" onclick='showCheckIn(false);'>close</button>
+			</div>
+			<div class="content-extra">
+				<label class="checkbox-container">I need tech help
+					<input type="checkbox">
+					<span class="checkmark"></span>
+				</label>
+			</div>
+			<div class="numpad">
+				<button class="num7" onclick="numpadInput('check-in-id',this.innerText);">7</button>
+				<button class="num8" onclick="numpadInput('check-in-id',this.innerText);">8</button>
+				<button class="num9" onclick="numpadInput('check-in-id',this.innerText);">9</button>
+				
+				<button class="num4" onclick="numpadInput('check-in-id',this.innerText);">4</button>
+				<button class="num5" onclick="numpadInput('check-in-id',this.innerText);">5</button>
+				<button class="num6" onclick="numpadInput('check-in-id',this.innerText);">6</button>
+				
+				<button class="num1" onclick="numpadInput('check-in-id',this.innerText);">1</button>
+				<button class="num2" onclick="numpadInput('check-in-id',this.innerText);">2</button>
+				<button class="num3" onclick="numpadInput('check-in-id',this.innerText);">3</button>
+				
+				<button class="num0" onclick="numpadInput('check-in-id',this.innerText);">0</button>
+				<button class="numbs" onclick="numpadInput('check-in-id',this.innerText);">backspace</button>
+			</div>
+		</div>
+		<div id="check-out-popup" class="bigpopup pretty-scrollbar-light">
+			<div class="content">
+				<div class="title-center fullsize fullwidth">Check Out of Library</div>
+				<i class="material-icons">perm_identity</i>
+				<input disabled id="check-out-id" type="text" placeholder="Student ID"></input>
+				<button id='check-out-loading' class="material-icons big ok" onclick="createDatabaseSender();"></button>
+				<button class="material-icons big cancel" onclick='showCheckOut(false);'>close</button>
+			</div>
+			<div class="content-extra">
+				<div class='large-text'>
+				Thanks for visiting!
+				</div>
+			</div>
+			<div class="numpad">
+				<button class="num7" onclick="numpadInput('check-out-id',this.innerText);">7</button>
+				<button class="num8" onclick="numpadInput('check-out-id',this.innerText);">8</button>
+				<button class="num9" onclick="numpadInput('check-out-id',this.innerText);">9</button>
+				
+				<button class="num4" onclick="numpadInput('check-out-id',this.innerText);">4</button>
+				<button class="num5" onclick="numpadInput('check-out-id',this.innerText);">5</button>
+				<button class="num6" onclick="numpadInput('check-out-id',this.innerText);">6</button>
+				
+				<button class="num1" onclick="numpadInput('check-out-id',this.innerText);">1</button>
+				<button class="num2" onclick="numpadInput('check-out-id',this.innerText);">2</button>
+				<button class="num3" onclick="numpadInput('check-out-id',this.innerText);">3</button>
+				
+				<button class="num0" onclick="numpadInput('check-out-id',this.innerText);">0</button>
+				<button class="numbs" onclick="numpadInput('check-out-id',this.innerText);">backspace</button>
+			</div>
 		</div>
 		
-		<button id="checkoutBtn" class="big" onclick="window.checkoutDialog.show(); toggleCheck();"><b>Check Out</b></button> 
-		<div id="checkoutDiv">
-			<dialog id="checkoutDialog"> 
-				<div id="title"><b>Check Out</b></div>
-				<form id="checkoutForm">
-						<div class="margin-bottom:2px">Enter your ID: </div> <br>
-						<input type="number" name="id" style="margin-bottom: 20px"> <br>
-						<button id="close" onclick="window.checkoutDialog.close(); toggleCheck();" style="margin-bottom: 12px; margin-right: 5px"> Close </button>
-					<button id="submit">Submit</button>
-				</form>
-			</dialog>
+		<div class='pretty-scrollbar-dark'>
+			<div class='fullsize title-center logotext'>Welcome to the Library</div>
+			<div class='medium-spacer'></div>
+			<button class="check-in big" onclick="showCheckIn(true);">Check In</button>
+			<div class='medium-spacer'></div>
+			<button class="check-out big" onclick="showCheckOut(true);">Check Out</button>
 		</div>
-	</div>
 	
-	
-
-  </body>
+	</body>
 </html>
 
 <script>
-function toggleCheck() {
-  var x = document.getElementById("checkinBtn");
-  var y = document.getElementById("checkoutBtn");
-
-  if (x.style.display === "none") {
-	x.style.display = "block";
-  } else {
-	x.style.display = "none";
-  }
-
-  if (y.style.display === "none") {
-    y.style.display = "block";
-  } else {
-    y.style.display = "none";
-  }
+function showCheckIn(state) {
+	if (state == true) {
+		document.getElementById('check-in-popup').style = 'visibility: visible';
+		//document.getElementById('check-in-id').focus();
+	} else {
+		document.getElementById('check-in-popup').style = '';
+		document.getElementById("check-in-id").value = "";
+		document.getElementById('check-in-loading').classList.remove('loading');
+		databaseSenderState = 0;
+	}
 }
-// var z = document.getElementById("title");
-//   if (z.style.display === "none") {
-//     z.style.display = "block";
-//   } else {
-//     z.style.display = "none";
-//   }
-function frontDesk(){
-var x = document.getElementById("frontDeskDialog");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } 
-	else {
-    x.style.display = "none";
-  }
+function showCheckOut(state) {
+	if (state == true) {
+		document.getElementById('check-out-popup').style = 'visibility: visible';
+		//document.getElementById('check-out-id').focus();
+	} else {
+		document.getElementById('check-out-popup').style = '';
+		document.getElementById("check-out-id").value = "";
+		document.getElementById('check-out-loading').classList.remove('loading');
+		databaseSenderState = 0;
+	}
+}
+
+function numpadInput(targetid,value) {
+	var target = document.getElementById(targetid);
+	if (value == "backspace") {
+		if (target.value.length > 0) {
+			target.value = target.value.substring(0,target.value.length-1);
+		}
+	} else if (target.value.length < 6) {
+		target.value += value;
+	}
 }
 </script>
-<style>
-	html, body {
-    height: 100%;
-}
-
-html {
-    display: table;
-    margin: auto;
-}
-
-body {
-    display: table-cell;
-	vertical-align: middle;
-	text-align: center;
-}
-#welcome{
-	margin-bottom: 50px;
-	margin-top: 30px;
-	text-decoration: underline;
-	font-size: 30px;
-}
-/* #checkinBtn{
-	background-color: rgb(22, 141, 215);
-	margin-bottom: 100px;
-	padding-top: 50px;
-	padding-bottom: 50px;
-	padding-right: 157px;
-	padding-left: 157px;
-}
-#checkoutBtn{
-	background-color: rgb(22, 141, 215);
-	margin-bottom: 100px;
-	padding-top: 50px;
-	padding-bottom: 50px;
-	padding-right: 150px;
-	padding-left: 150px;
-} */
-#checkoutDialog{
-	padding-bottom:50px;
-	padding-top:50px;
-	padding-right:100px;
-	padding-left:100px;
-	position: absolute;
-	top:50%;
-	left:50%;
-	-ms-transform: translate(-50%, -50%);
-  	transform: translate(-50%, -50%);
-	background-color:lightskyblue;
-}
-#checkinDialog{
-	padding-bottom:50px;
-	padding-top:50px;
-	padding-right:100px;
-	padding-left:100px;
-	position: absolute;
-	top:50%;
-	left:50%;
-	-ms-transform: translate(-50%, -50%);
-  	transform: translate(-50%, -50%);
-	background-color:lightskyblue;
-}
-#checkinDiv{
-	position: relative;
-}
-#checkoutDiv{
-	position: relative;
-}
-#title{
-	size: 25px;
-	text-align: center;
-	text-decoration: underline;
-	text-transform: uppercase;
-	margin:20px;
-}
-#checkinForm{
-	text-align:center;
-}
-</style>

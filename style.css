@@ -487,16 +487,15 @@ body.bigbody div.logotext {
 	font-size: 88px;
 }
 body.bigbody div.pretty-scrollbar-dark {
-	overflow-y: auto;
+	overflow: auto;
 	height: 100%;
 }
 /* dropdown */
 body.bigbody div.dropdown {
-	position: absolute;
+	position: relative;
 	display: inline-block;
-	margin-left: calc(50% - 241px);
+	margin-left: calc(50% - 240px);
 	width: 338px;
-	display: block;
 	font-size: 2em;
 	box-shadow: 3px 4px 0px 1px black;
 	text-align: center;
@@ -545,7 +544,7 @@ body.bigbody div.dropdown-content p:hover {
 /* new db button */
 body.bigbody button.new {
 	display: inline-block;
-	margin-left: calc(50% + 110px);
+	margin-left: 10px;
 	margin-top: 12px;
 	
 	text-align: center;
@@ -581,8 +580,8 @@ body.bigbody button.new:hover {
 body.bigbody button.new:focus {
 	outline: 0;
 }
-/* newdb popup */
-#newdb-popup {
+/* popups */
+div.bigpopup {
 	z-index: 100;	
 	visibility: hidden;
 	position: absolute;
@@ -592,17 +591,17 @@ body.bigbody button.new:focus {
 	height: 100%;
     background: rgba(0,0,0,0.5);
 }
-#newdb-popup .content {
+div.bigpopup div.content {
 	position: absolute;
 	width: 70%;
 	left: 15%;
-	height: 6.5em;
+	height: 14em;
 	top: 35%;
 	background: white;	
 	box-shadow: 3px 4px 0px 1px black;
 	box-sizing: border-box;
 }
-#newdb-popup .content input {
+div.bigpopup div.content input {
 	position: absolute;
 	bottom: 0;
 	left: 0;
@@ -615,10 +614,14 @@ body.bigbody button.new:focus {
 	
 	font-size: 3em;
 }
-#newdb-popup .content input:focus {
+div.bigpopup div.content input:disabled {
+	color: black;
+	background-color: white;
+}
+div.bigpopup div.content input:focus {
 	outline: 0;
 }
-#newdb-popup .content i {
+div.bigpopup div.content i {
 	position: absolute;
 	bottom: 0;
 	left: 0;
@@ -630,7 +633,7 @@ body.bigbody button.new:focus {
 	
 	font-size: 3em;
 }
-#newdb-popup .content button.ok {
+div.bigpopup div.content button.ok {
 	width: fit-content;
 	outline: 0;
 	position: absolute;
@@ -643,12 +646,12 @@ body.bigbody button.new:focus {
 	
 	font-size: 3em;
 }
-#newdb-popup .content button.ok:after {
+div.bigpopup div.content button.ok:after {
 	font-size: inherit;
 	font-family: inherit;
 	content: 'done';
 }
-#newdb-popup .content button.ok.loading:after {
+div.bigpopup div.content button.ok.loading:after {
 	font-size: inherit;
 	font-family: inherit;
 	content: 'sync';
@@ -658,10 +661,10 @@ body.bigbody button.new:focus {
 	0% {transform: rotate(0deg);}
 	100% {transform: rotate(360deg);}
 }
-#newdb-popup .content button.ok:hover {
+div.bigpopup div.content button.ok:hover {
 	border: 1px solid limegreen;
 }
-#newdb-popup .content button.cancel {
+div.bigpopup div.content button.cancel {
 	width: fit-content;
 	outline: 0;
 	position: absolute;
@@ -673,8 +676,183 @@ body.bigbody button.new:focus {
 	
 	font-size: 3em;
 }
-#newdb-popup .content button.cancel:hover {
+div.bigpopup div.content button.cancel:hover {
 	border: 1px solid red;
+}
+/* ipad styling */
+/* format for body so that it's always ipad sized */
+body.bigbody.ipad {
+	width: 1024px;
+	height: 768px;
+	outline: 1px dashed blue;
+	margin-left: 50%;
+	transform: translateX(-50%);
+}
+body.bigbody.ipad button.big {
+	width: 620px;
+	font-size: 6em;
+}
+body.bigbody.ipad div.bigpopup {
+	background: lightblue;
+}
+body.bigbody.ipad div.bigpopup div.content {
+	height: 11em;
+	top: 10%;
+}
+body.bigbody.ipad #check-in-popup div.content {
+}
+body.bigbody.ipad .title-center.fullsize {
+	font-size: 300%;
+}
+body.bigbody.ipad div.bigpopup div.content-extra {
+	position: absolute;
+	width: 35%;
+	left: 50%;
+	height: 55%;
+	top: 38%;
+	background: white;	
+	box-shadow: 3px 4px 0px 1px black;
+	box-sizing: border-box;
+	padding: 20px;
+}
+body.bigbody.ipad div.bigpopup div.content-extra div.large-text {
+	font-weight: 300;
+	font-size: 380%;
+	text-align: center;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+/* Customize the label (the container) */
+.checkbox-container {
+	display: block;
+	position: relative;
+	padding-left: 55px;
+	padding-top: 5px;
+	margin-bottom: 12px;
+	cursor: pointer;
+	font-size: xx-large;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.checkbox-container input {
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+	height: 0;
+	width: 0;
+}
+
+/* Create a custom checkbox */
+.checkbox-container .checkmark {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 50px;
+	width: 50px;
+}
+
+/* On mouse-over*/
+.checkbox-container:hover input ~ .checkmark {
+	
+}
+
+/* checkbox is checked */
+.checkbox-container input:checked ~ .checkmark {
+	
+}
+
+/* checkmark/indicator (hidden when not checked) */
+.checkbox-container .checkmark:after {
+	content: "check_box_outline_blank";
+	font-family: "Material Icons";
+	font-size: xxx-large;
+	position: absolute;
+	display: block;
+}
+
+/* Show the checkmark when checked */
+.checkbox-container input:checked ~ .checkmark:after {
+	content: "check_box";
+}
+
+.numpad {
+	position: absolute;
+	left: 0;
+	margin-left: 15%;
+	top: 37%;
+	height: 65%;
+	width: fit-content;
+}
+.numpad button {
+	position: absolute;
+	height: 100px;
+	width: 100px;
+	outline: 0;
+	font-size: 3em;
+	border-radius: 10px;
+	background-color: whitesmoke;
+	box-shadow: 3px 4px 0px 1px black;
+	text-align: center;
+	border: 1px solid black;
+	cursor: pointer;
+	transition: box-shadow 0.1s ease-in-out,
+				transform 0.1s ease-in-out;
+}
+.numpad button:hover {
+	box-shadow: 5px 6px 0px 1px black;
+	transform: translate(-2px,-2px);
+}
+.numpad button.num7 {
+	left: 0px;
+	top: 0px;
+}
+.numpad button.num8 {
+	left: 110px;
+	top: 0px;
+}
+.numpad button.num9 {
+	left: 220px;
+	top: 0px;
+}
+.numpad button.num4 {
+	left: 0px;
+	top: 110px;
+}
+.numpad button.num5 {
+	left: 110px;
+	top: 110px;
+}
+.numpad button.num6 {
+	left: 220px;
+	top: 110px;
+}
+.numpad button.num1 {
+	left: 0px;
+	top: 220px;
+}
+.numpad button.num2 {
+	left: 110px;
+	top: 220px;
+}
+.numpad button.num3 {
+	left: 220px;
+	top: 220px;
+}
+.numpad button.num0 {
+	left: 0px;
+	top: 330px;
+	width: 210px;
+}
+.numpad button.numbs {
+	left: 220px;
+	top: 330px;
+	font-family: 'Material Icons';
 }
 /* big buttons and other inputs */
 body.bigbody button.big {
@@ -703,6 +881,22 @@ body.bigbody button.big:focus {
 /* show newtab icon */
 button.new-tab:after {
 	content: 'open_in_new';
+	font-family: "Material Icons";
+	font-size: 80%;
+	float: right;
+	padding-right: 10px;
+	transform: translateY(25%);
+}
+button.check-in:after {
+	content: 'add_box';
+	font-family: "Material Icons";
+	font-size: 80%;
+	float: right;
+	padding-right: 10px;
+	transform: translateY(25%);
+}
+button.check-out:after {
+	content: 'indeterminate_check_box';
 	font-family: "Material Icons";
 	font-size: 80%;
 	float: right;
@@ -784,13 +978,23 @@ body.bigbody.authenticated #auth-button .tooltip::after {
 	left: 50%;
 	text-align: center;
 }
-.title-center:after { /* title underline */
+.title-center:not(.fullwidth):after { /* title underline */
 	content: "";
 	border-bottom: 2px solid black;
 	opacity: 0.10;
 	width: 80%;
 	margin-left: 10%;
 	margin-right: 10%;
+	position: relative;
+	display: block;
+}
+.title-center.fullwidth:after { /* full width underline */
+	content: "";
+	border-bottom: 2px solid black;
+	opacity: 0.10;
+	width: 100%;
+	margin-left: 0;
+	margin-right: 0;
 	position: relative;
 	display: block;
 }
