@@ -15,7 +15,7 @@
 		
 		<div id="check-in-popup" class="bigpopup pretty-scrollbar-light">
 			<div class="content">
-				<div class="title-center fullsize fullwidth">Check In to Library</div>
+				<div class="title-center fullsize fullwidth">Sign In to the Library</div>
 				<i class="material-icons">perm_identity</i>
 				<input disabled id="check-in-id" type="text" placeholder="Student ID"></input>
 				<button id='check-in-loading' class="material-icons big ok" onclick=""></button>
@@ -23,7 +23,7 @@
 			</div>
 			<div class="content-extra">
 				<label class="checkbox-container">I need tech help
-					<input type="checkbox">
+					<input id='tech-help-checkbox' type="checkbox">
 					<span class="checkmark"></span>
 				</label>
 			</div>
@@ -46,7 +46,7 @@
 		</div>
 		<div id="check-out-popup" class="bigpopup pretty-scrollbar-light">
 			<div class="content">
-				<div class="title-center fullsize fullwidth">Check Out of Library</div>
+				<div class="title-center fullsize fullwidth">Sign Out of the Library</div>
 				<i class="material-icons">perm_identity</i>
 				<input disabled id="check-out-id" type="text" placeholder="Student ID"></input>
 				<button id='check-out-loading' class="material-icons big ok" onclick="createDatabaseSender();"></button>
@@ -78,9 +78,9 @@
 		<div class='pretty-scrollbar-dark'>
 			<div class='fullsize title-center logotext'>Welcome to the Library</div>
 			<div class='medium-spacer'></div>
-			<button class="check-in big" onclick="showCheckIn(true);">Check In</button>
+			<button class="check-in big" onclick="showCheckIn(true);">Sign In</button>
 			<div class='medium-spacer'></div>
-			<button class="check-out big" onclick="showCheckOut(true);">Check Out</button>
+			<button class="check-out big" onclick="showCheckOut(true);">Sign Out</button>
 		</div>
 	
 	</body>
@@ -94,6 +94,7 @@ function showCheckIn(state) {
 	} else {
 		document.getElementById('check-in-popup').style = '';
 		document.getElementById("check-in-id").value = "";
+		document.getElementById('tech-help-checkbox').checked = false;
 		document.getElementById('check-in-loading').classList.remove('loading');
 		databaseSenderState = 0;
 	}
