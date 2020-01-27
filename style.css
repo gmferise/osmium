@@ -676,6 +676,14 @@ div.bigpopup div.content button.cancel:hover {
 	border: 1px solid red;
 }
 /* ipad styling */
+/* format for body so that it's always ipad sized */
+body.bigbody.ipad {
+	width: 1024px;
+	height: 768px;
+	outline: 1px dashed blue;
+	margin-left: 50%;
+	transform: translateX(-50%);
+}
 body.bigbody.ipad button.big {
 	width: 620px;
 	font-size: 6em;
@@ -687,15 +695,37 @@ body.bigbody.ipad div.bigpopup div.content {
 	height: 11em;
 	top: 10%;
 }
-body.bigbody.ipad #check-out-popup div.content {
-	height: 24em;
-	top: 30%;
+body.bigbody.ipad #check-in-popup div.content {
 }
+body.bigbody.ipad .title-center.fullsize {
+	font-size: 300%;
+}
+body.bigbody.ipad div.bigpopup div.content-extra {
+	position: absolute;
+	width: 35%;
+	left: 50%;
+	height: 55%;
+	top: 38%;
+	background: white;	
+	box-shadow: 3px 4px 0px 1px black;
+	box-sizing: border-box;
+	padding: 10px;
+}
+body.bigbody.ipad div.bigpopup div.content-extra div.large-text {
+	font-weight: 300;
+	text-align: center;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+
+
 .numpad {
 	position: absolute;
 	left: 0;
-	margin-left: 22%;
-	top: 35%;
+	margin-left: 15%;
+	top: 37%;
 	height: 65%;
 	width: fit-content;
 }
@@ -703,6 +733,7 @@ body.bigbody.ipad #check-out-popup div.content {
 	position: absolute;
 	height: 100px;
 	width: 100px;
+	outline: 0;
 	font-size: 3em;
 	border-radius: 10px;
 	background-color: whitesmoke;
