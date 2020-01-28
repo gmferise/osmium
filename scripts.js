@@ -53,7 +53,7 @@ var databaseId; // Currently selected database in the form of it's spreadsheet i
 function createDatabase(name, callback){
 	if (name == '' || name == null){ return null; }
 	name = '[OsDB] '+name;
-	return gapi.client.sheets.spreadsheets.create({
+	gapi.client.sheets.spreadsheets.create({
 		properties: {
 		title: name
 		}
