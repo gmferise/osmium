@@ -70,8 +70,10 @@ function createDatabase(name, callback){
 		requests.push({
 			"updateSheetProperties": {
 				"properties": {
-					"title":"DATABASE"
-				}
+					"sheetId": 0,
+					"title": "DATABASE",
+				},
+            "fields": "title",
 			}
 		});
 		
