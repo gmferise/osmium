@@ -60,11 +60,22 @@ function createDatabase(name, callback){
 		}
 	}).then(function(response){
 		console.log("Created new database. Configuring...");
+		var id = response.result.spreadsheetId;
 		getDatabases();
-		id = response.result.spreadsheetId;
+		callback(id);	
+		
+		var requests = [];
+		
+		// Rename first page
+		requests.push({
+			"updateSheetProperties": {
+				"properties": {
+					"title":"DATABASE"
+				}
+			}
+		});
 		
 		// Format database columns
-		var requests = [];
 		requests.push({
 			"repeatCell": {
 				"range": {
@@ -158,20 +169,108 @@ function createDatabase(name, callback){
 			}
 		});
 		
+		// Make second page
+		requests.push({
+			"addSheet": {
+				"properties": {
+					"title":"ID_REFERENCE"
+				}
+			}
+		});
+		
+		// Do requests
 		var batch = {requests: requests};
 		gapi.client.sheets.spreadsheets.batchUpdate({
 			spreadsheetId: id,
 			resource: batch
 		}).then(function(response){
-			if (response.status != 200){
-				throw new Error("Failed to configure the spreadsheet");
-			}
-			else {
-				console.log("Configured the spreadsheet.");
-			}
+			// Request to get new sheet gid
+			var id = response.result.spreadsheetId;
+			
+			gapi.client.sheets.spreadsheets.get({
+				spreadsheetId: id
+			}).then(function(response){
+				var id = response.result.spreadsheetId;
+				var pageId = response.result.sheets[1].properties.sheetId;
+				
+				// Third round of requests
+				var requests = [];
+				
+				// Format database columns
+				requests.push({
+					"repeatCell": {
+						"range": {
+							"sheetId": pageId,
+							"startRowIndex": 0,
+							"startColumnIndex": 0,
+							"endColumnIndex": 1
+						},
+						"cell": {
+							"userEnteredFormat": {
+								"numberFormat": {
+									"type": "NUMBER",
+									"pattern": "0"
+								}
+							}
+						},
+						"fields": "userEnteredFormat.numberFormat"
+					}
+				});
+				requests.push({
+					"repeatCell": {
+						"range": {
+							"sheetId": pageId,
+							"startRowIndex": 0,
+							"startColumnIndex": 1,
+							"endColumnIndex": 2
+						},
+						"cell": {
+							"userEnteredFormat": {
+								"numberFormat": {
+									"type": "TEXT",
+									"pattern": ""
+								}
+							}
+						},
+						"fields": "userEnteredFormat.numberFormat"
+					}
+				});
+			
+				// Give database columns headers		
+				requests.push({
+				"updateCells": {
+					"rows": [{
+						"values": [
+							{"userEnteredValue": {"stringValue": "id"}},
+							{"userEnteredValue": {"stringValue": "name"}},
+						]
+					}],
+					"fields": "userEnteredValue",
+					"start": {
+						"sheetId": pageId,
+						"rowIndex": 0,
+						"columnIndex": 0
+					},
+					
+				}
+			});
+				
+				// Do requests
+				var batch = {requests: requests};
+				gapi.client.sheets.spreadsheets.batchUpdate({
+					spreadsheetId: id,
+					
+					resource: batch
+				}).then(function(response){
+					if (response.status != 200){
+						throw new Error("Failed to configure the spreadsheet");
+					}
+					else {
+						console.log("Configured the spreadsheet .");
+					}
+				});
+			});
 		});
-		
-		callback(id);
 	});
 }
 
