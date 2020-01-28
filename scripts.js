@@ -50,7 +50,7 @@ var databaseId; // Currently selected database in the form of it's spreadsheet i
 
 // Creates new database in user's Drive using given name
 // Returns new database id
-function createDatabase(name){
+function createDatabase(name, callback){
 	if (name == '' || name == null){ return null; }
 	name = '[OsDB] '+name;
 	return gapi.client.sheets.spreadsheets.create({
@@ -59,7 +59,7 @@ function createDatabase(name){
 		}
 	}).then(function(response){
 		getDatabases();
-		id = response.result.spreadsheetId.rW;
+		id = response.result.spreadsheetId;
 		
 		// Format database columns
 		var requests = [];
@@ -162,13 +162,8 @@ function createDatabase(name){
 			resource: batch
 		});
 		
-		return id;
+		callback(id);
 	});
-}
-
-// Resets a sheet and configures its rows
-function configureDatabase(id){
-	
 }
 
 // Pulls list of [OsDB] sheets from user's Drive to update knownDatabases
@@ -204,6 +199,20 @@ function selectDatabaseId(id){
 /// * QUERIES *
 /// ***********
 
+class Event {
+	constructor(id, name, type, datetime){
+		this.id = parseInt(id)|0;
+		this.name = toString(name);
+		this.type = toString(type);
+		this.datetime = datetime;
+	}
+	
+	getId() { return this.id; }
+	getName() { return this.name; }
+	getType() { return this.type; }
+	getTime() { return this.datetime; }
+}
+
 // Executes the Google Visualization query then passes the result into the callback function
 function gvzQuery(query, callback, page){
 	if (page == null) { page = "0"; }
@@ -237,7 +246,7 @@ function catchId(response){
 	for (var i = 0; i < ids.length; i++){
 		assoc[ids[i]] = names[i];
 	}
-	console.log(assoc);
+	console.log(assoc); // Associative array of {id:name}
 }
 
 // Gets the latest status of a user given their id
@@ -248,7 +257,7 @@ function getStatusById(id){
 
 function catchStatus(response){
 	if (response == null){ console.log("getStatus Query Failed"); return; }
-	console.log(response.J.wg);
+	console.log(response.J.wg); // Array of [id, name, status, timestamp]
 }
 
 function getStatusByName(name){
@@ -258,10 +267,9 @@ function getStatusByName(name){
 function catchStatusIds(response){
 	if (response == null){ console.log("getStatusByName Query Failed"); return; }
 	var ids = response.getDataTable().getDistinctValues(0);
-	console.log(ids);
 	var rows = [];
 	for (i in ids){
 		rows.push(getStatusById(ids[i]));
 	}
-	console.log(rows);
+	console.log(rows); // 
 }
