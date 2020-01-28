@@ -51,7 +51,8 @@ var databaseId; // Currently selected database in the form of it's spreadsheet i
 // Creates new database in user's Drive using given name
 // Returns new database id
 function createDatabase(name, callback){
-	if (name == '' || name == null){ return null; }
+	if (name == '' || name == null){ throw new Error("Please provide a valid name"); }
+	if (typeof(callback) != 'function'){ throw new Error("Provide a valid callback function for the new id"); }
 	name = '[OsDB] '+name;
 	gapi.client.sheets.spreadsheets.create({
 		properties: {
