@@ -9,7 +9,6 @@
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
 		<link href="style.css" rel="stylesheet" type ="text/css"/>
-		<meta name="viewport" content="width=device-width, user-scalable=no" />
 	</head>
 
 	<body class="bigbody ipad">
@@ -122,4 +121,11 @@ function numpadInput(targetid,value) {
 		target.value += value;
 	}
 }
+function disableZooms() {
+	var numpads = document.getElementsByClassName('numpad');
+	for (var i=0; i<numpads.length; i++) {
+		numpads[i].addEventListener("click", event => {});
+	}
+}
+disableZooms();
 </script>
