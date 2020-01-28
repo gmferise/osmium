@@ -59,6 +59,7 @@ function createDatabase(name, callback){
 		title: name
 		}
 	}).then(function(response){
+		console.log("Created new database. Configuring...");
 		getDatabases();
 		id = response.result.spreadsheetId;
 		
@@ -161,6 +162,13 @@ function createDatabase(name, callback){
 		gapi.client.sheets.spreadsheets.batchUpdate({
 			spreadsheetId: id,
 			resource: batch
+		}).then(function(response){
+			if (response.status != 200){
+				throw new Error("Failed to configure the spreadsheet");
+			}
+			else {
+				console.log("Configured the spreadsheet.");
+			}
 		});
 		
 		callback(id);
