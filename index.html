@@ -57,8 +57,8 @@
 		</script>
 		<div class='smallish-spacer'></div>
 		
-		<div id="current-db" class='dropdown auth-required'>
-		  Select a database:
+		<div class='dropdown auth-required'>
+		  <span id="current-db">Select a database:</span>
 		  <div id="db-list" class='dropdown-content'>
 			<p>a</p>
 			<p>b</p>
@@ -142,6 +142,7 @@ function catchSelectDatabase(dbname) {
 }
 
 function catchGetDatabases(response){
+	console.log("caught getdb: "+response);
 	var dblist = document.getElementById('db-list');
 	dblist.innerHTML = '';
 	for (var db in response) {

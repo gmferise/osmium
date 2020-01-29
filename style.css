@@ -505,6 +505,9 @@ body.bigbody div.dropdown {
 	transition: box-shadow 0.1s ease-in-out,
 				transform 0.1s ease-in-out;
 }
+body.bigbody div.dropdown span {
+	font-size: inherit;
+}
 body.bigbody div.dropdown:after {
 	content: 'keyboard_arrow_down';
 	font-family: "Material Icons";
