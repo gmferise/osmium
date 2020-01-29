@@ -331,8 +331,10 @@ function catchPageId(response){
 
 // Assigns databaseId a database from knownDatabases given it's name
 // Returns selected database id
-function selectDatabase(name){ 
-	return selectDatabaseId(knownDatabases[name]);
+function selectDatabaseName(name){ 
+	var id = knownDatabases[name]
+	selectDatabaseId(id);
+	return id;
 }
 
 // Assigns databaseId a database from knownDatabases given it's id
