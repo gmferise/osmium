@@ -63,8 +63,7 @@ function createDatabase(name){
 	}).then(function(response){
 		console.log("Created new database. Configuring...");
 		var id = response.result.spreadsheetId;
-		getDatabases();
-		catchCreateDatabase(id);	
+		getDatabases(id);
 		
 		var requests = [];
 		
@@ -298,7 +297,7 @@ function createDatabase(name){
 
 // Pulls list of [OsDB] sheets from user's Drive to update knownDatabases
 // Returns new knownDatabases through catch
-function getDatabases(){
+function getDatabases(newDatabase){
 	// Do not place params directly in the array, must be evaluated beforehand
 	var params = "mimeType='application/vnd.google-apps.spreadsheet' and '"+GoogleAuth.currentUser.get().getBasicProfile().getEmail()+"' in writers and name contains '[OsDB]' and trashed = false";
 	gapi.client.drive.files.list({
@@ -308,6 +307,7 @@ function getDatabases(){
 		for (var i = 0; i < dbs.length; i++){
 			knownDatabases[dbs[i].name] = dbs[i].id;
 		}
+		if (newDatabase != undefined) { catchCreateDatabase(newDatabase); }
 		catchGetDatabases(knownDatabases);
     },function(err) { console.error("Failed to search Drive for Databases"); });
 }
