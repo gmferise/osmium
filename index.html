@@ -115,7 +115,7 @@ document.getElementById('newdb').addEventListener("keydown", function(event) {
 
 //createDatabase
 var createDatabaseHTMLSTATE = 0;
-function throwNewDatabase() {
+function throwCreateDatabase() {
 	if (createDatabaseHTMLSTATE == 0) { //prevent double submission
 		var name = document.getElementById('newdb').value;
 		if (name != "") {
@@ -125,7 +125,7 @@ function throwNewDatabase() {
 		}
 	}
 }
-function catchNewDatabase(response){
+function catchCreateDatabase(response){
 	console.log("caught newdb: "+response); // New database id
 	catchSelectDatabase(selectDatabase(response));
 	if (createDatabaseHTMLSTATE == 1) { //don't touch UI if already closed

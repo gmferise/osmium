@@ -64,7 +64,7 @@ function createDatabase(name){
 		console.log("Created new database. Configuring...");
 		var id = response.result.spreadsheetId;
 		getDatabases();
-		catchNewDatabase(id);	
+		catchCreateDatabase(id);	
 		
 		var requests = [];
 		
