@@ -50,9 +50,8 @@ var databaseId; // Currently selected database in the form of it's spreadsheet i
 
 // Creates new database in user's Drive using given name
 // Returns new database id
-function createDatabase(name, callback){
+function createDatabase(name){
 	if (name == '' || name == null){ throw new Error("Please provide a valid name"); }
-	if (typeof(callback) != 'function'){ throw new Error("Provide a valid callback function for the new id"); }
 	name = '[OsDB] '+name;
 	gapi.client.sheets.spreadsheets.create({
 		properties: {
@@ -62,7 +61,7 @@ function createDatabase(name, callback){
 		console.log("Created new database. Configuring...");
 		var id = response.result.spreadsheetId;
 		getDatabases();
-		callback(id);	
+		catchNewDatabase(id);	
 		
 		var requests = [];
 		
@@ -261,19 +260,22 @@ function createDatabase(name, callback){
 				var batch = {requests: requests};
 				gapi.client.sheets.spreadsheets.batchUpdate({
 					spreadsheetId: id,
-					
 					resource: batch
 				}).then(function(response){
 					if (response.status != 200){
 						throw new Error("Failed to configure the spreadsheet");
 					}
 					else {
-						console.log("Configured the spreadsheet .");
+						console.log("Configured the spreadsheet.");
 					}
 				});
 			});
 		});
 	});
+}
+
+function catchNewDatabase(id){
+	console.log(id);
 }
 
 // Pulls list of [OsDB] sheets from user's Drive to update knownDatabases
