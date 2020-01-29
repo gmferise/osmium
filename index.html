@@ -127,7 +127,7 @@ function throwNewDatabase() {
 }
 function catchNewDatabase(response){
 	console.log("caught newdb: "+response); // New database id
-	catchSelectDatabase(selectDatabase(response)));
+	catchSelectDatabase(selectDatabase(response));
 	if (databaseSenderState == 1) { //don't touch UI if already closed
 		showNewDB(false);
 	}
