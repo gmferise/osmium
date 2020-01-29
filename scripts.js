@@ -149,6 +149,24 @@ function createDatabase(name){
 				"fields": "userEnteredFormat.numberFormat"
 			}
 		});
+		requests.push({
+			"repeatCell": {
+				"range": {
+					"startRowIndex": 0,
+					"startColumnIndex": 4,
+					"endColumnIndex": 5
+				},
+				"cell": {
+					"userEnteredFormat": {
+						"numberFormat": {
+							"type": "TEXT",
+							"pattern": ""
+						}
+					}
+				},
+				"fields": "userEnteredFormat.numberFormat"
+			}
+		});
 		
 		// Give database columns headers		
 		requests.push({
@@ -158,7 +176,8 @@ function createDatabase(name){
 						{"userEnteredValue": {"stringValue": "id"}},
 						{"userEnteredValue": {"stringValue": "name"}},
 						{"userEnteredValue": {"stringValue": "event"}},
-						{"userEnteredValue": {"stringValue": "timestamp"}}
+						{"userEnteredValue": {"stringValue": "timestamp"}},
+						{"userEnteredValue": {"stringValue": "comments"}}
 					]
 				}],
 				"fields": "userEnteredValue",
@@ -311,6 +330,7 @@ function selectDatabaseId(id){
 /// * QUERIES *
 /// ***********
 
+/*
 class Event {
 	constructor(id, name, type, datetime){
 		this.id = parseInt(id)|0;
@@ -324,6 +344,7 @@ class Event {
 	getType() { return this.type; }
 	getTime() { return this.datetime; }
 }
+*/
 
 // Executes the Google Visualization query then passes the result into the callback function
 function gvzQuery(query, callback, page){
@@ -332,7 +353,6 @@ function gvzQuery(query, callback, page){
 	request.setQuery(query);
 	request.send(callback);
 }
-
 
 // Gets the name of a user given their id
 function getName(id){
@@ -364,7 +384,7 @@ function catchId(response){
 // Gets the latest status of a user given their id
 function getStatusById(id){
 	// SQL: SELECT event WHERE id = ? ORDER BY date DESC LIMIT 1
-	gvzQuery("SELECT A, B, C, D WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatus);
+	gvzQuery("SELECT A, B, C, D, E WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatus);
 }
 
 function catchStatus(response){
