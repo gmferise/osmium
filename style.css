@@ -679,66 +679,105 @@ div.bigpopup div.content button.cancel {
 div.bigpopup div.content button.cancel:hover {
 	border: 1px solid red;
 }
-/* ipad styling */
-/* format for body so that it's always ipad sized */
-body.bigbody.ipad {
-	width: 1024px;
-	height: 768px;
+/* kiosk styling */
+/* format for body so that it's always equally sized */
+body.bigbody.fixedratio {
+	width: 100vh;
+	height: 100vh;
 	outline: 1px dashed blue;
 	margin-left: 50%;
 	transform: translateX(-50%);
 }
-body.bigbody.ipad button.big {
-	width: 620px;
-	font-size: 6em;
+body.bigbody.fixedratio div.medium-spacer {
+	height: 15vh;
 }
-body.bigbody.ipad div.bigpopup {
+body.bigbody.fixedratio button.big {
+	width: 70vh;
+	font-size: 12vh;
+}
+body.bigbody.fixedratio div.bigpopup {
 	background: lightblue;
 }
-body.bigbody.ipad div.bigpopup div.content {
-	height: 11em;
-	top: 10%;
+body.bigbody.fixedratio div.bigpopup div.content {
+	height: 20vh;
+	top: 5vh;
+	width: 90vh;
+	left: 5vh;
 }
-body.bigbody.ipad #check-in-popup div.content {
+body.bigbody.fixedratio div.bigpopup input {
+	font-size: 5vh;
+	margin-bottom: 2vh;
+	width: calc(100% - 32vh);
+	margin-left: 7.5vh;
 }
-body.bigbody.ipad .title-center.fullsize {
-	font-size: 300%;
+body.bigbody.fixedratio div.bigpopup i {
+	margin-right: 0;
+	margin-bottom: 2vh;
+	font-size: 6vh;
+	margin-left: 2vh;
+	padding-bottom: 0.5vh;
 }
-body.bigbody.ipad div.bigpopup div.content-extra {
+body.bigbody.fixedratio div.bigpopup button.big.ok {
+	margin-right: 0;
+	margin-bottom: 2vh;
+	font-size: 6vh;
+	right: 12vh;
+	margin-left: 0;
+	transform: none;
+	padding-bottom: 0.5vh;
+}
+body.bigbody.fixedratio div.bigpopup button.big.ok:hover,
+body.bigbody.fixedratio div.bigpopup button.big.cancel:hover {
+	transform: translate(-2px, -2px);
+}
+body.bigbody.fixedratio div.bigpopup button.big.cancel {
+	margin-bottom: 2vh;
+	font-size: 6vh;
+	right: 2vh;
+	margin-left: 0;
+	transform: none;
+	padding-bottom: 0.5vh;
+}
+body.bigbody.fixedratio .title-center.fullsize {
+	font-size: 6vh;
+}
+body.bigbody.fixedratio div.bigpopup div.content-extra {
 	position: absolute;
-	width: 35%;
-	left: 50%;
-	height: 55%;
-	top: 38%;
+	width: 47vh;
+	right: 5vh;
+	height: 55vh;
+	top: 30vh;
 	background: white;	
 	box-shadow: 3px 4px 0px 1px black;
 	box-sizing: border-box;
-	padding: 20px;
+	padding: 3vh;
+	font-size: 3.5vh
 }
-body.bigbody.ipad div.bigpopup div.content-extra div.large-text {
+body.bigbody.fixedratio div.bigpopup div.content-extra div.large-text {
 	font-weight: 300;
-	font-size: 380%;
+	font-size: 10vh;
 	text-align: center;
 	position: relative;
 	top: 50%;
 	transform: translateY(-50%);
 }
 
-/* Customize the label (the container) */
+/* checkbox */
 .checkbox-container {
 	display: block;
 	position: relative;
-	padding-left: 55px;
-	padding-top: 5px;
+	padding-left: 5.5vh;
 	margin-bottom: 12px;
 	cursor: pointer;
-	font-size: xx-large;
+	font-size: 4.5vh;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
 }
-
+.checkbox-container span {
+	font-size: 5vh;
+}
 /* Hide the browser's default checkbox */
 .checkbox-container input {
 	position: absolute;
@@ -747,35 +786,26 @@ body.bigbody.ipad div.bigpopup div.content-extra div.large-text {
 	height: 0;
 	width: 0;
 }
-
 /* Create a custom checkbox */
 .checkbox-container .checkmark {
 	position: absolute;
 	top: 0;
 	left: 0;
-	height: 50px;
-	width: 50px;
+	height: 5vh;
+	width: 5vh;
 }
-
 /* On mouse-over*/
 .checkbox-container:hover input ~ .checkmark {
 	
 }
-
-/* checkbox is checked */
-.checkbox-container input:checked ~ .checkmark {
-	
-}
-
 /* checkmark/indicator (hidden when not checked) */
 .checkbox-container .checkmark:after {
 	content: "check_box_outline_blank";
 	font-family: "Material Icons";
-	font-size: xxx-large;
+	font-size: 5vh;
 	position: absolute;
 	display: block;
 }
-
 /* Show the checkmark when checked */
 .checkbox-container input:checked ~ .checkmark:after {
 	content: "check_box";
@@ -784,17 +814,18 @@ body.bigbody.ipad div.bigpopup div.content-extra div.large-text {
 .numpad {
 	position: absolute;
 	left: 0;
-	margin-left: 15%;
-	top: 37%;
-	height: 65%;
+	margin-left: 5vh;
+	top: 30vh;
+	height: fit-content;
 	width: fit-content;
+	font-size: 8.6vh;
 }
 .numpad button {
 	position: absolute;
-	height: 100px;
-	width: 100px;
+	height: 2em;
+	width: 2em;
 	outline: 0;
-	font-size: 3em;
+	font-size: 0.75em;
 	border-radius: 10px;
 	background-color: whitesmoke;
 	box-shadow: 3px 4px 0px 1px black;
@@ -809,49 +840,65 @@ body.bigbody.ipad div.bigpopup div.content-extra div.large-text {
 	transform: translate(-2px,-2px);
 }
 .numpad button.num7 {
-	left: 0px;
-	top: 0px;
+	left: 0em;
+	top: 0em;
 }
 .numpad button.num8 {
-	left: 110px;
-	top: 0px;
+	margin-left: 10px;
+	left: 2em;
+	top: 0em;
 }
 .numpad button.num9 {
-	left: 220px;
-	top: 0px;
+	margin-left: 20px;
+	left: 4em;
+	top: 0em;
 }
 .numpad button.num4 {
-	left: 0px;
-	top: 110px;
+	left: 0em;
+	top: 2em;
+	margin-top: 10px;
 }
 .numpad button.num5 {
-	left: 110px;
-	top: 110px;
+	margin-left: 10px;
+	left: 2em;
+	top: 2em;
+	margin-top: 10px;
 }
 .numpad button.num6 {
-	left: 220px;
-	top: 110px;
+	margin-left: 20px;
+	left: 4em;
+	top: 2em;
+	margin-top: 10px;
 }
 .numpad button.num1 {
-	left: 0px;
-	top: 220px;
+	left: 0vh;
+	top: 4em;
+	margin-top: 20px;
 }
 .numpad button.num2 {
-	left: 110px;
-	top: 220px;
+	margin-left: 10px;
+	left: 2em;
+	top: 4em;
+	margin-top: 20px;
 }
 .numpad button.num3 {
-	left: 220px;
-	top: 220px;
+	margin-left: 20px;
+	left: 4em;
+	top: 4em;
+	margin-top: 20px;
 }
 .numpad button.num0 {
-	left: 0px;
-	top: 330px;
-	width: 210px;
+	margin-left: 0px;
+	left: 0em;
+	top: 6em;
+	margin-top: 30px;
+	width: calc(4em + 10px);
 }
 .numpad button.numbs {
-	left: 220px;
-	top: 330px;
+	margin-left: 20px;
+	left: 4em;
+	top: 6em;
+	margin-top: 30px;
 	font-family: 'Material Icons';
 }
 /* big buttons and other inputs */
