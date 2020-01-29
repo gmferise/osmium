@@ -96,14 +96,14 @@ function showNewDB(state) {
 		document.getElementById('newdb-popup').style = '';
 		document.getElementById("newdb").value = "";
 		document.getElementById('newdb-loading').classList.remove('loading');
-		databaseSenderState = 0;
+		createDatabaseHTMLSTATE = 0;
 	}
 }
 
 document.getElementById('newdb').addEventListener("keydown", function(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
-    createDatabaseSender();
+    throwCreateDatabase();
   }
 });
 
@@ -114,21 +114,21 @@ document.getElementById('newdb').addEventListener("keydown", function(event) {
 // 1 - sending query / awaiting response
 
 //createDatabase
-var databaseSenderState = 0;
+var createDatabaseHTMLSTATE = 0;
 function throwNewDatabase() {
-	if (databaseSenderState == 0) { //prevent double submission
+	if (createDatabaseHTMLSTATE == 0) { //prevent double submission
 		var name = document.getElementById('newdb').value;
 		if (name != "") {
 			document.getElementById('newdb-loading').classList.add('loading');
 			createDatabase(name);
-			databaseSenderState = 1;
+			createDatabaseHTMLSTATE = 1;
 		}
 	}
 }
 function catchNewDatabase(response){
 	console.log("caught newdb: "+response); // New database id
 	catchSelectDatabase(selectDatabase(response));
-	if (databaseSenderState == 1) { //don't touch UI if already closed
+	if (createDatabaseHTMLSTATE == 1) { //don't touch UI if already closed
 		showNewDB(false);
 	}
 }
@@ -138,6 +138,7 @@ function throwSelectDatabase(name) {
 	catchSelectDatabase(selectDatabase(knownDatabases[name]));
 }
 function catchSelectDatabase(dbname) {
+	console.log("caught selectdb: "+dbname); // New database id
 	document.getElementById('current-db').innerText = dbname;
 }
 
@@ -147,8 +148,9 @@ function catchGetDatabases(response){
 	dblist.innerHTML = '';
 	for (var db in response) {
 		var el = document.createElement('p')
-		el.innerText = db;
-		el.setAttribute('onclick','throwSelectDatabase(this.innerText);');
+			el.innerText = db;
+			el.setAttribute('onclick','throwSelectDatabase(this.innerText);');
+		dblist.appendChild(el);
 	}
 }
 
