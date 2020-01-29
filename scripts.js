@@ -336,9 +336,14 @@ function selectDatabase(name){
 }
 
 // Assigns databaseId a database from knownDatabases given it's id
-// Returns selected database id
+// Returns selected database name
 function selectDatabaseId(id){
 	databaseId = id;
+	for (var db in knownDatabases) {
+		if (knownDatabases[db] == id) {
+			return db;
+		}
+	}
 	return id;
 }
 
