@@ -135,7 +135,7 @@ function catchNewDatabase(response){
 
 //selectDatabase
 function throwSelectDatabase(name) {
-	catchSelectDatabase(selectDatabase(knownDatabases[name])));
+	catchSelectDatabase(selectDatabase(knownDatabases[name]));
 }
 function catchSelectDatabase(dbname) {
 	document.getElementById('current-db').innerText = dbname;
