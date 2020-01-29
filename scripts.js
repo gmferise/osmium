@@ -4,7 +4,7 @@
 
 var GoogleAuth; // Stores auth token and other info
 
-// ***** BUTTON FUNCTIONS *****
+/// ***** BUTTON FUNCTIONS *****
 
 // Hangles sign in and out with one press
 function toggleAuth() {
@@ -16,7 +16,7 @@ function toggleAuth() {
 	}
 }
 
-// ***** INTERNAL FUNCTIONS *****
+/// ***** INTERNAL FUNCTIONS *****
 
 // Called from HTML to finish loading API
 function loadAuth() {
@@ -46,10 +46,13 @@ function initClient() {
 // Dictionary of known databases which is kept up to date using getDatabases()
 // Stored as 'Name':'SpreadsheetID'
 var knownDatabases = {}; 
-var databaseId; // Currently selected database in the form of it's spreadsheet id
+var databaseId; // Currently selected database in the form of it's spreadsheet id1
+var pageId; // Second page of spreadsheet
+
+/// ***** ASYNC FUNCTIONS *****
 
 // Creates new database in user's Drive using given name
-// Returns new database id
+// Returns new database id through catch
 function createDatabase(name){
 	if (name == '' || name == null){ throw new Error("Please provide a valid name"); }
 	name = '[OsDB] '+name;
@@ -293,12 +296,12 @@ function createDatabase(name){
 	});
 }
 
-function catchNewDatabase(id){
-	console.log(id);
+function catchNewDatabase(response){
+	console.log(response); // New database id
 }
 
 // Pulls list of [OsDB] sheets from user's Drive to update knownDatabases
-// Returns new knownDatabases
+// Returns new knownDatabases through catch
 function getDatabases(){
 	// Do not place params directly in the array, must be evaluated beforehand
 	var params = "mimeType='application/vnd.google-apps.spreadsheet' and '"+GoogleAuth.currentUser.get().getBasicProfile().getEmail()+"' in writers and name contains '[OsDB]' and trashed = false";
@@ -309,17 +312,38 @@ function getDatabases(){
 		for (var i = 0; i < dbs.length; i++){
 			knownDatabases[dbs[i].name] = dbs[i].id;
 		}
+		catchDatabases(knownDatabases);
     },function(err) { console.error("Failed to search Drive for Databases"); });
-	return knownDatabases;
 }
 
-// Selects a database from knownDatabases given it's name
+function catchDatabases(response){
+	console.log(response); // New database ids
+}
+
+// Gets second page id of currently selected database
+// Returns through catch
+function getPageId(){
+	return gapi.client.sheets.spreadsheets.get({
+			spreadsheetId: id
+	}).then(function(response){
+		pageId = response.result.sheets[1].properties.sheetId;
+		catchPageId(pageId);
+	});
+}
+
+function catchPageId(response){
+	console.log(response); // New reference id
+}
+
+/// ***** STANDARD FUNCTIONS *****
+
+// Assigns databaseId a database from knownDatabases given it's name
 // Returns selected database id
 function selectDatabase(name){ 
 	return selectDatabaseId(knownDatabases[name]);
 }
 
-// Selects a database from knownDatabases given it's id
+// Assigns databaseId a database from knownDatabases given it's id
 // Returns selected database id
 function selectDatabaseId(id){
 	databaseId = id;
@@ -330,21 +354,7 @@ function selectDatabaseId(id){
 /// * QUERIES *
 /// ***********
 
-/*
-class Event {
-	constructor(id, name, type, datetime){
-		this.id = parseInt(id)|0;
-		this.name = toString(name);
-		this.type = toString(type);
-		this.datetime = datetime;
-	}
-	
-	getId() { return this.id; }
-	getName() { return this.name; }
-	getType() { return this.type; }
-	getTime() { return this.datetime; }
-}
-*/
+/// ***** INTERNAL FUNCTIONS *****
 
 // Executes the Google Visualization query then passes the result into the callback function
 function gvzQuery(query, callback, page){
@@ -354,20 +364,26 @@ function gvzQuery(query, callback, page){
 	request.send(callback);
 }
 
-// Gets the name of a user given their id
+/// ***** ASYNC FUNCTIONS *****
+
+// Queries the reference page for the name of a user given their id
+// Returns through catch
 function getName(id){
-	// TODO
+	if (pageId == 0) { throw new Error("Page must not be first page of sheet"); }
+	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE A = "+id+" GROUP BY A, B LIMIT 1", catchName, pageId);
 }
 
 function catchName(response){
 	if (response == null){ console.log("getName Query Failed"); return; }
-	console.log(response.getDataTable().getDistinctValues(0));
+	console.log(response.getDataTable().getDistinctValues(0)); // [id, name, count(id), count(name)]
 }
 
-// Gets the possible ids of a user given their partial name
-function getId(name){
+// Queries the reference page for the possible ids of a user given their partial name
+// Returns through catch
+function getId(name, page){
+	if (pageId == 0) { throw new Error("Page must not be first page of sheet"); }
 	// SQL: SELECT UNIQUE id WHERE name LIKE ?
-	gvzQuery("SELECT  A, B, COUNT(A), COUNT(B) WHERE B CONTAINS '"+name+"' GROUP BY A, B", catchId);
+	gvzQuery("SELECT  A, B, COUNT(A), COUNT(B) WHERE B CONTAINS '"+name+"' GROUP BY A, B", catchId, pageId);
 }
 
 function catchId(response){
@@ -381,7 +397,8 @@ function catchId(response){
 	console.log(assoc); // Associative array of {id:name}
 }
 
-// Gets the latest status of a user given their id
+// Gets the latest status of a user given their id from main database
+// Returns through catch
 function getStatusById(id){
 	// SQL: SELECT event WHERE id = ? ORDER BY date DESC LIMIT 1
 	gvzQuery("SELECT A, B, C, D, E WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatus);
@@ -389,9 +406,11 @@ function getStatusById(id){
 
 function catchStatus(response){
 	if (response == null){ console.log("getStatus Query Failed"); return; }
-	console.log(response.J.wg); // Array of [id, name, status, timestamp]
+	console.log(response.J.wg); // Array of [id, name, status, timestamp, comments]
 }
 
+// Gets list of 10 statuses that most closely match the given name
+// Returns through catch
 function getStatusByName(name){
 	gvzQuery("SELECT A, D, COUNT(A), COUNT(D) WHERE B CONTAINS '"+name+"' GROUP BY A, D ORDER BY D DESC LIMIT 10", catchStatusIds);
 }
@@ -403,5 +422,5 @@ function catchStatusIds(response){
 	for (i in ids){
 		rows.push(getStatusById(ids[i]));
 	}
-	console.log(rows); // 
+	console.log(rows); // Array of 10 statuses [id, name, status, timestamp, comments]
 }
