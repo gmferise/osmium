@@ -146,7 +146,7 @@ function catchGetDatabases(response){
 	dblist.innerHTML = '';
 	for (var db in response) {
 		var el = document.createElement('p')
-		el.innerText = key;
+		el.innerText = db;
 		el.setAttribute('onclick','throwSelectDatabase(this.innerText);');
 	}
 }
