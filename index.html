@@ -31,7 +31,7 @@
 			<div class="title-center fullsize fullwidth">Create New Database</div>
 			<i class="material-icons">storage</i>
 			<input id="newdb" type="text" placeholder="Database Name"></input>
-			<button id='newdb-loading' class="material-icons big ok" onclick="createDatabaseSender();"></button>
+			<button id='newdb-loading' class="material-icons big ok" onclick="throwNewDatabase();"></button>
 			<button class="material-icons big cancel" onclick='showNewDB(false);'>close</button>
 		</div>
 	</div>
@@ -59,7 +59,7 @@
 		
 		<div id="current-db" class='dropdown auth-required'>
 		  Select a database:
-		  <div class='dropdown-content'>
+		  <div id="db-list" class='dropdown-content'>
 			<p>a</p>
 			<p>b</p>
 			<p>c</p>
@@ -115,35 +115,39 @@ document.getElementById('newdb').addEventListener("keydown", function(event) {
 
 //createDatabase
 var databaseSenderState = 0;
-function createDatabaseSender() {
+function throwNewDatabase() {
 	if (databaseSenderState == 0) { //prevent double submission
 		var name = document.getElementById('newdb').value;
 		if (name != "") {
 			document.getElementById('newdb-loading').classList.add('loading');
-			//var db = createDatabase(name);
-			//console.log("created "+db);
-			//selectDatabaseId(db);
+			createDatabase(name);
 			databaseSenderState = 1;
-			setTimeout(createDatabaseCallback,2500);
 		}
 	}
 }
-function createDatabaseCallback() {
-	//handle response
+function catchNewDatabase(response){
+	console.log("caught newdb: "+response); // New database id
+	catchSelectDatabase(selectDatabase(response)));
 	if (databaseSenderState == 1) { //don't touch UI if already closed
 		showNewDB(false);
 	}
 }
 
 //selectDatabase
-function selectDatabaseSender(dbindex) {
-	//selectDatabaseId(databases[dbindex]);
+function throwSelectDatabase(name) {
+	catchSelectDatabase(selectDatabase(knownDatabases[name])));
 }
-function selectDatabaseCallback(db,success) {
-	if (success) {
-		document.getElementById('current-db').innerText = "[OsDb] Databname";
-	} else {
-		console.log("oops");
+function catchSelectDatabase(dbname) {
+	document.getElementById('current-db').innerText = dbname;
+}
+
+function catchGetDatabases(response){
+	var dblist = document.getElementById('db-list');
+	dblist.innerHTML = '';
+	for (var db in response) [
+		var el = document.createElement('p')
+		el.innerText = key;
+		el.setAttribute('onclick','throwSelectDatabase(this.innerText);');
 	}
 }
 
@@ -156,6 +160,7 @@ function updateAuthStatus() {
 			el.classList.add('authenticated');
 			document.getElementById('google-profilepic').src = GoogleAuth.currentUser.get().getBasicProfile().getImageUrl();
 			document.getElementById('google-userinfo').innerHTML = "Signed in as "+GoogleAuth.currentUser.get().getBasicProfile().getEmail();
+			getDatabases();
 		}
 	}
 	else {

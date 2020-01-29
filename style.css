@@ -684,7 +684,6 @@ div.bigpopup div.content button.cancel:hover {
 body.bigbody.fixedratio {
 	width: 100vh;
 	height: 100vh;
-	outline: 1px dashed blue;
 	margin-left: 50%;
 	transform: translateX(-50%);
 }

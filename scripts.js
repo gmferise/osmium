@@ -296,10 +296,6 @@ function createDatabase(name){
 	});
 }
 
-function catchNewDatabase(response){
-	console.log(response); // New database id
-}
-
 // Pulls list of [OsDB] sheets from user's Drive to update knownDatabases
 // Returns new knownDatabases through catch
 function getDatabases(){
@@ -312,12 +308,8 @@ function getDatabases(){
 		for (var i = 0; i < dbs.length; i++){
 			knownDatabases[dbs[i].name] = dbs[i].id;
 		}
-		catchDatabases(knownDatabases);
+		catchGetDatabases(knownDatabases);
     },function(err) { console.error("Failed to search Drive for Databases"); });
-}
-
-function catchDatabases(response){
-	console.log(response); // New database ids
 }
 
 // Gets second page id of currently selected database
