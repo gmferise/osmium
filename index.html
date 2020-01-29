@@ -144,7 +144,7 @@ function catchSelectDatabase(dbname) {
 function catchGetDatabases(response){
 	var dblist = document.getElementById('db-list');
 	dblist.innerHTML = '';
-	for (var db in response) [
+	for (var db in response) {
 		var el = document.createElement('p')
 		el.innerText = key;
 		el.setAttribute('onclick','throwSelectDatabase(this.innerText);');
