@@ -60,11 +60,7 @@
 		<div class='dropdown auth-required'>
 		  <span id="current-db">Select a database:</span>
 		  <div id="db-list" class='dropdown-content'>
-			<p>a</p>
-			<p>b</p>
-			<p>c</p>
-			<p>d</p>
-			<p>e</p>
+			<p>Loading databases...</p>
 		  </div>
 		</div>
 		<button class="new auth-required" onclick="showNewDB(true);">New</button>
@@ -141,16 +137,24 @@ function throwSelectDatabase(name) {
 function catchSelectDatabase(dbname) {
 	console.log("caught selectdb: "+dbname); // New database id
 	document.getElementById('current-db').innerText = dbname;
+	document.getElementById('auth-body').classList.add('databased');
 }
 
 function catchGetDatabases(response){
 	console.log("caught getdb: "+response);
 	var dblist = document.getElementById('db-list');
 	dblist.innerHTML = '';
-	for (var db in response) {
+	if (response.length > 0) {
+		for (var db in response) {
+			var el = document.createElement('p')
+				el.innerText = db;
+				el.setAttribute('onclick','throwSelectDatabase(this.innerText);');
+			dblist.appendChild(el);
+		}
+	} else {
 		var el = document.createElement('p')
-			el.innerText = db;
-			el.setAttribute('onclick','throwSelectDatabase(this.innerText);');
+			el.innerText = "No databases found";
+			el.setAttribute('onclick','showNewDB(true);');
 		dblist.appendChild(el);
 	}
 }
