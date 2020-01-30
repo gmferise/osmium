@@ -131,7 +131,7 @@ function catchCreateDatabase(response){
 
 //selectDatabase
 function throwSelectDatabase(name) {
-	catchSelectDatabase(selectDatabaseName(knownDatabases[name]));
+	catchSelectDatabase(selectDatabaseName(name));
 }
 function catchSelectDatabase(dbname) {
 	console.log("caught selectdb: "+databaseId); // New database id
