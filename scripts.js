@@ -349,9 +349,24 @@ function selectDatabaseId(id){
 	return id;
 }
 
-/// ***********
-/// * QUERIES *
-/// ***********
+/// ******************
+/// * UPDATE QUERIES *
+/// ******************
+
+/// ***** ASYNC FUNCTIONS *****
+
+function pushEvent(uid, type){
+	// Get name from uid
+	gapi.client.sheets.spreadsheets.batchUpdate({
+		spreadsheetId: databaseId,
+		resource: batch
+	}).then(function(response){
+	});
+}
+
+/// ******************
+/// * SELECT QUERIES *
+/// ******************
 
 /// ***** INTERNAL FUNCTIONS *****
 
@@ -375,25 +390,6 @@ function getName(id){
 function catchName(response){
 	if (response == null){ console.log("getName Query Failed"); return; }
 	console.log(response.getDataTable().getDistinctValues(0)); // [id, name, count(id), count(name)]
-}
-
-// Queries the reference page for the possible ids of a user given their partial name
-// Returns through catch
-function getId(name, page){
-	if (pageId == 0) { throw new Error("Page must not be first page of sheet"); }
-	// SQL: SELECT UNIQUE id WHERE name LIKE ?
-	gvzQuery("SELECT  A, B, COUNT(A), COUNT(B) WHERE B CONTAINS '"+name+"' GROUP BY A, B", catchId, pageId);
-}
-
-function catchId(response){
-	if (response == null){ console.log("getId Query Failed"); return; }
-	var names = response.getDataTable().getDistinctValues(0);
-	var ids = response.getDataTable().getDistinctValues(1);
-	var assoc = {};
-	for (var i = 0; i < ids.length; i++){
-		assoc[ids[i]] = names[i];
-	}
-	console.log(assoc); // Associative array of {id:name}
 }
 
 // Gets the latest status of a user given their id from main database
