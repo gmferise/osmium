@@ -131,11 +131,10 @@ function catchCreateDatabase(response){
 
 //selectDatabase
 function throwSelectDatabase(name) {
-	selectDatabaseName(knownDatabases[name]);
-	catchSelectDatabase(name);
+	catchSelectDatabase(selectDatabaseName(knownDatabases[name]));
 }
 function catchSelectDatabase(dbname) {
-	console.log("caught selectdb: "+dbname); // New database id
+	console.log("caught selectdb: "+databaseId); // New database id
 	document.getElementById('current-db').innerText = dbname;
 	document.getElementById('auth-body').classList.add('databased');
 }
