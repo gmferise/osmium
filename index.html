@@ -69,7 +69,7 @@
 		<button class='big new-tab db-required' onclick="window.open('kiosk.html'+getDatabaseQueryString(),'_blank')">Student Kiosk</button>
 		<div class='smallish-spacer'></div>
 		
-		<button class='big new-tab db-required' onclick="window.open('front-desk.html'+getDatabaseQueryString(),'_blank')">Front Desk</button>
+		<button class='big new-tab db-required' onclick="window.open('library-desk.html'+getDatabaseQueryString(),'_blank')">Library Desk</button>
 		<div class='smallish-spacer'></div>
 		
 		</div>
@@ -152,7 +152,7 @@ function catchGetDatabases(response){
 			el.setAttribute('onclick','throwSelectDatabase(this.innerText);');
 		dblist.appendChild(el);
 	}
-	if (i < 1){
+	if (i < 1) {
 		var el = document.createElement('p')
 			el.innerText = "No databases found";
 			el.setAttribute('onclick','showNewDB(true);');
