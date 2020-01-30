@@ -144,14 +144,15 @@ function catchGetDatabases(response){
 	console.log("caught getdb: "+response);
 	var dblist = document.getElementById('db-list');
 	dblist.innerHTML = '';
-	if (response.length > 0) {
-		for (var db in response) {
-			var el = document.createElement('p')
-				el.innerText = db;
-				el.setAttribute('onclick','throwSelectDatabase(this.innerText);');
-			dblist.appendChild(el);
-		}
-	} else {
+	var i = 0;
+	for (var db in response) {
+		i++;
+		var el = document.createElement('p')
+			el.innerText = db;
+			el.setAttribute('onclick','throwSelectDatabase(this.innerText);');
+		dblist.appendChild(el);
+	}
+	if (i < 1){
 		var el = document.createElement('p')
 			el.innerText = "No databases found";
 			el.setAttribute('onclick','showNewDB(true);');
