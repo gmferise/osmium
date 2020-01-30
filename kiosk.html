@@ -19,7 +19,7 @@
 			<div class="content">
 				<div class="title-center fullsize fullwidth">Sign In to the Library</div>
 				<i class="material-icons">perm_identity</i>
-				<input disabled id="check-in-id" type="text" placeholder="Student ID"></input>
+				<input id="check-in-id" type="text" placeholder="Student ID"></input>
 				<button id='check-in-loading' class="material-icons big ok" onclick=""></button>
 				<button class="material-icons big cancel" onclick='showCheckIn(false);'>close</button>
 			</div>
@@ -50,7 +50,7 @@
 			<div class="content">
 				<div class="title-center fullsize fullwidth">Sign Out of the Library</div>
 				<i class="material-icons">perm_identity</i>
-				<input disabled id="check-out-id" type="text" placeholder="Student ID"></input>
+				<input id="check-out-id" type="text" placeholder="Student ID"></input>
 				<button id='check-out-loading' class="material-icons big ok" onclick="createDatabaseSender();"></button>
 				<button class="material-icons big cancel" onclick='showCheckOut(false);'>close</button>
 			</div>
@@ -89,10 +89,19 @@
 </html>
 
 <script>
+document.getElementById('check-in-id').addEventListener("keydown", function(event) {
+    event.preventDefault();
+    numpadInput('check-in-id',event.key.toLowerCase());
+});
+document.getElementById('check-out-id').addEventListener("keydown", function(event) {
+    event.preventDefault();
+    numpadInput('check-out-id',event.key.toLowerCase());
+});
+
 function showCheckIn(state) {
 	if (state == true) {
 		document.getElementById('check-in-popup').style = 'visibility: visible';
-		//document.getElementById('check-in-id').focus();
+		document.getElementById('check-in-id').focus();
 	} else {
 		document.getElementById('check-in-popup').style = '';
 		document.getElementById("check-in-id").value = "";
@@ -104,7 +113,7 @@ function showCheckIn(state) {
 function showCheckOut(state) {
 	if (state == true) {
 		document.getElementById('check-out-popup').style = 'visibility: visible';
-		//document.getElementById('check-out-id').focus();
+		document.getElementById('check-out-id').focus();
 	} else {
 		document.getElementById('check-out-popup').style = '';
 		document.getElementById("check-out-id").value = "";
@@ -112,14 +121,13 @@ function showCheckOut(state) {
 		databaseSenderState = 0;
 	}
 }
-
 function numpadInput(targetid,value) {
 	var target = document.getElementById(targetid);
 	if (value == "backspace") {
 		if (target.value.length > 0) {
 			target.value = target.value.substring(0,target.value.length-1);
 		}
-	} else if (target.value.length < 6) {
+	} else if ((isNaN(value) == false)&&(target.value.length < 6)) {
 		target.value += value;
 	}
 }
