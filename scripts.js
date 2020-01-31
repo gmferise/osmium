@@ -396,7 +396,7 @@ function catchName(response){
 // Returns through catch
 function getStatusById(id){
 	// SQL: SELECT event WHERE id = ? ORDER BY date DESC LIMIT 1
-	gvzQuery("SELECT A, B, C, D, E WHERE A = "+id+" ORDER BY D ASC LIMIT 1", catchStatus);
+	gvzQuery("SELECT A, B, C, D, E WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatus);
 }
 
 function catchStatus(response){
