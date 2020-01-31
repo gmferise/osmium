@@ -2,19 +2,24 @@
 <html lang="en">
 	<head>
 		<title>Osmium</title>
-		<link href="favicon.ico" rel="icon" type="image/png">
-
-	<!-- Vue Styling -->
-		<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-		<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
 		<link href="style.css" rel="stylesheet" type ="text/css"/>
+		<link href="favicon.ico" rel="icon" type="image/png">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="scripts.js"></script> 
 		<script src="https://www.gstatic.com/charts/loader.js"></script>
+		<script>
+			google.charts.load('current');
+		</script>
+		<script async defer src="https://apis.google.com/js/api.js" 
+			onload="this.onload=function(){};loadAuth()" 
+			onreadystatechange="if (this.readyState === 'complete') this.onload()">
+		</script>
+		<!-- Vue Styling -->
+		<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
-
 	<body class="bigbody fixedratio">
 		
 		<div id="check-in-popup" class="bigpopup pretty-scrollbar-light">

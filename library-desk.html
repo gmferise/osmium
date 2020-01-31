@@ -1,99 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-	<title>Osmium</title>
-	<link href="favicon.ico" rel="icon" type="image/png">
-	
-	<!-- Vue Styling -->
-	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Round"
-rel="stylesheet"/>
-	<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
-	<link href="style.css" rel="stylesheet" type ="text/css"/>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="scripts.js"></script> 
-	<script src="https://www.gstatic.com/charts/loader.js"></script>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-  </head>
-  <body class="color-bg-main">
-	<!-- testing element -->
-	<button class="center-h" style="position: absolute;left:0;top:0;z-index:10000;" onclick="test()">test: Press to add :)</button>
-	<!-- end test-->
-	
-	<div class="split-left pretty-scrollbar-dark">
-		<div class="small-spacer"></div>
-		<div class='middle-wrapper'>
-			<div id='searchbar'>
-				<i class="material-icons">search</i>
-				<input type='text' id='searchfield' placeholder="Search"></input>
+	<head>
+		<title>Osmium</title>
+		<link href="style.css" rel="stylesheet" type ="text/css"/>
+		<link href="favicon.ico" rel="icon" type="image/png">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="scripts.js"></script> 
+		<script src="https://www.gstatic.com/charts/loader.js"></script>
+		<script>
+			google.charts.load('current');
+		</script>
+		<script async defer src="https://apis.google.com/js/api.js" 
+			onload="this.onload=function(){};loadAuth()" 
+			onreadystatechange="if (this.readyState === 'complete') this.onload()">
+		</script>
+		<!-- Vue Styling -->
+		<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body class="color-bg-main">
+		<!-- testing element -->
+		<button class="center-h" style="position: absolute;left:0;top:0;z-index:10000;" onclick="test()">test: Press to add :)</button>
+		<!-- end test-->
+		
+		<div class="split-left pretty-scrollbar-dark">
+			<div class="small-spacer"></div>
+			<div class='middle-wrapper'>
+				<div id='searchbar'>
+					<i class="material-icons">search</i>
+					<input type='text' id='searchfield' placeholder="Search"></input>
+				</div>
+			</div>
+			<div class='middle-wrapper'>
+				<div id='sortbar' class='sort-time-down'>
+					<div id='sort-name' class="tablecell">
+						<button onclick="toggleSort('sort-name');">
+							<div class="sortfield">Name</div>
+							<div class="updown">
+							</div>
+						</button>
+					</div>
+					<div id='sort-time' class="tablecell">
+						<button onclick="toggleSort('sort-time');">
+							<div class="sortfield">Time</div>
+							<div class="updown">
+							</div>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div id='cards-wrapper'>
+				<div class="null-spacer" id="insert-cards"></div>
 			</div>
 		</div>
-		<div class='middle-wrapper'>
-			<div id='sortbar' class='sort-time-down'>
-				<div id='sort-name' class="tablecell">
-					<button onclick="toggleSort('sort-name');">
-						<div class="sortfield">Name</div>
-						<div class="updown">
+		
+		<div class="split-right">
+			<div id="overview-table">
+				<div class="tablerow">
+					<div id="todays-date" class="title-center">
+						<div class="center-h medium-text"></div>
+						<div class="center-h medium-text"></div>
+						<div class="center-h medium-text" style="padding-bottom:10px;"></div>
+					</div>
+				</div>
+				
+				<div class="tablerow">
+					<div class="title-center medium-text">In the Library</div>
+					<div class="half-pair">
+						<div class="left">
+							<div class="large-text">10</div>
+							<div class="small-text">Checked In</div>
 						</div>
-					</button>
-				</div>
-				<div id='sort-time' class="tablecell">
-					<button onclick="toggleSort('sort-time');">
-						<div class="sortfield">Time</div>
-						<div class="updown">
+						<div class="middle"></div>
+						<div class="right">
+							<div class="large-text">2</div>
+							<div class="small-text">In Tech</div>
 						</div>
-					</button>
-				</div>
-			</div>
-		</div>
-		<div id='cards-wrapper'>
-			<div class="null-spacer" id="insert-cards"></div>
-		</div>
-	</div>
-	
-	<div class="split-right">
-		<div id="overview-table">
-			<div class="tablerow">
-				<div id="todays-date" class="title-center">
-					<div class="center-h medium-text"></div>
-					<div class="center-h medium-text"></div>
-					<div class="center-h medium-text" style="padding-bottom:10px;"></div>
-				</div>
-			</div>
-			
-			<div class="tablerow">
-				<div class="title-center medium-text">In the Library</div>
-				<div class="half-pair">
-					<div class="left">
-						<div class="large-text">10</div>
-						<div class="small-text">Checked In</div>
-					</div>
-					<div class="middle"></div>
-					<div class="right">
-						<div class="large-text">2</div>
-						<div class="small-text">In Tech</div>
 					</div>
 				</div>
-			</div>
-			
-			<div class="tablerow">
-				<div class="title-center medium-text">Today's Traffic</div>
-				<div class="half-pair">
-					<div class="left">
-						<div class="large-text">23</div>
-						<div class="small-text">Students</div>
-					</div>
-					<div class="middle"></div>
-					<div class="right">
-						<div class="large-text">5</div>
-						<div class="small-text">Tech Issues</div>
+				
+				<div class="tablerow">
+					<div class="title-center medium-text">Today's Traffic</div>
+					<div class="half-pair">
+						<div class="left">
+							<div class="large-text">23</div>
+							<div class="small-text">Students</div>
+						</div>
+						<div class="middle"></div>
+						<div class="right">
+							<div class="large-text">5</div>
+							<div class="small-text">Tech Issues</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-  </body>
+	</body>
 </html>
 
 <script>
