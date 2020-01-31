@@ -389,7 +389,7 @@ function getName(id){
 
 function catchName(response){
 	if (response == null){ console.log("getName Query Failed"); return; }
-	console.log(response.getDataTable().getDistinctValues(0)); // [id, name, count(id), count(name)]
+	console.log(response.getDataTable().getDistinctValues(1)); // [id, name, count(id), count(name)]
 }
 
 // Gets the latest status of a user given their id from main database
@@ -401,7 +401,11 @@ function getStatusById(id){
 
 function catchStatus(response){
 	if (response == null){ console.log("getStatus Query Failed"); return; }
-	console.log(response.J.wg); // Array of [id, name, status, timestamp, comments]
+	var a = [];
+	for (var i=0; i<response.J.wg[0]['c'].length; i++) {
+		a.push(response.J.wg[0]['c'][i]['v']);
+	}
+	console.log(a); // Array of [id, name, status, timestamp, comments]
 }
 
 // Gets list of 10 statuses that most closely match the given name
@@ -415,7 +419,7 @@ function catchStatusIds(response){
 	var ids = response.getDataTable().getDistinctValues(0);
 	var rows = [];
 	for (i in ids){
-		rows.push(getStatusById(ids[i]));
+		rows.push(getStatusById(ids[i])); //< getStatusById is async so that doesn't work
 	}
 	console.log(rows); // Array of 10 statuses [id, name, status, timestamp, comments]
 }
