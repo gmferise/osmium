@@ -14,207 +14,290 @@ rel="stylesheet"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
   </head>
-  <script>
+  <body class="color-bg-main">
+	<!-- testing element -->
+	<button class="center-h" style="position: absolute;left:0;top:0;z-index:10000;" onclick="test()">test: Press to add :)</button>
+	<!-- end test-->
 	
-	function get12time(date) {
-		var hours = date.getHours();
-		var minutes = date.getMinutes();
-		var ampm = hours >= 12 ? 'pm' : 'am';
-		hours = hours % 12;
-		hours = hours ? hours : 12; // the hour '0' should be '12'
-		minutes = minutes < 10 ? '0'+minutes : minutes;
-		var strTime = hours + ':' + minutes + ' ' + ampm;
-		return strTime;
+	<div class="split-left pretty-scrollbar-dark">
+		<div class="small-spacer"></div>
+		<div class='middle-wrapper'>
+			<div id='searchbar'>
+				<i class="material-icons">search</i>
+				<input type='text' id='searchfield' placeholder="Search"></input>
+			</div>
+		</div>
+		<div class='middle-wrapper'>
+			<div id='sortbar' class='sort-time-down'>
+				<div id='sort-name' class="tablecell">
+					<button onclick="toggleSort('sort-name');">
+						<div class="sortfield">Name</div>
+						<div class="updown">
+						</div>
+					</button>
+				</div>
+				<div id='sort-time' class="tablecell">
+					<button onclick="toggleSort('sort-time');">
+						<div class="sortfield">Time</div>
+						<div class="updown">
+						</div>
+					</button>
+				</div>
+			</div>
+		</div>
+		<div id='cards-wrapper'>
+			<div class="null-spacer" id="insert-cards"></div>
+		</div>
+	</div>
+	
+	<div class="split-right">
+		<div id="overview-table">
+			<div class="tablerow">
+				<div id="todays-date" class="title-center">
+					<div class="center-h medium-text"></div>
+					<div class="center-h medium-text"></div>
+					<div class="center-h medium-text" style="padding-bottom:10px;"></div>
+				</div>
+			</div>
+			
+			<div class="tablerow">
+				<div class="title-center medium-text">In the Library</div>
+				<div class="half-pair">
+					<div class="left">
+						<div class="large-text">10</div>
+						<div class="small-text">Checked In</div>
+					</div>
+					<div class="middle"></div>
+					<div class="right">
+						<div class="large-text">2</div>
+						<div class="small-text">In Tech</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="tablerow">
+				<div class="title-center medium-text">Today's Traffic</div>
+				<div class="half-pair">
+					<div class="left">
+						<div class="large-text">23</div>
+						<div class="small-text">Students</div>
+					</div>
+					<div class="middle"></div>
+					<div class="right">
+						<div class="large-text">5</div>
+						<div class="small-text">Tech Issues</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+  </body>
+</html>
+
+<script>
+var databaseId = new URLSearchParams(window.location.search).get('id');
+if (databaseId == null) {
+	console.log("ERROR: no database selected");
+}
+function get12time(date) {
+	var hours = date.getHours();
+	var minutes = date.getMinutes();
+	var ampm = hours >= 12 ? 'pm' : 'am';
+	hours = hours % 12;
+	hours = hours ? hours : 12; // the hour '0' should be '12'
+	minutes = minutes < 10 ? '0'+minutes : minutes;
+	var strTime = hours + ':' + minutes + ' ' + ampm;
+	return strTime;
 }
 	
-	function getColorClassFromStatus(statusName, isSentToTech) {
-		if (isSentToTech == true) {
-			return "tech"+statusName;
-		} else {
-			return statusName;
-		}
+function getColorClassFromStatus(statusName, isSentToTech) {
+	if (isSentToTech == true) {
+		return "tech"+statusName;
+	} else {
+		return statusName;
 	}
+}
 	
-	var cards = [];
-	function cardObjectFromElement(element,numParents) {
-		var el = element;
-		if (numParents == null) {
-			numParents = 0;
-		}
-		for (var i=0; i<numParents; i++) {
-			el = el.parentElement;
-		}
-		return cards[Array.from(el.parentElement.children).indexOf(el)-1];
+var cards = [];
+function cardObjectFromElement(element,numParents) {
+	var el = element;
+	if (numParents == null) {
+		numParents = 0;
 	}
+	for (var i=0; i<numParents; i++) {
+		el = el.parentElement;
+	}
+	return cards[Array.from(el.parentElement.children).indexOf(el)-1];
+}
+
+//OBJECT - Card
+function new_Card(studentName, timeStamp, statusName, isSentToTech) {
+	const obj = {};
+	obj.name = studentName;
+	obj.time = timeStamp;
+	obj.status = statusName;
+	obj.tech = isSentToTech
 	
-	//OBJECT - Card
-	function new_Card(studentName, timeStamp, statusName, isSentToTech) {
-		const obj = {};
-		obj.name = studentName;
-		obj.time = timeStamp;
-		obj.status = statusName;
-		obj.tech = isSentToTech
-		
-		//create card
-		var wrap = document.createElement('div');
-			wrap.classList.add('check-card');
-			var btn = document.createElement('button');
-				btn.setAttribute('onclick','cardObjectFromElement(this,1).clickAction();');
+	//create card
+	var wrap = document.createElement('div');
+		wrap.classList.add('check-card');
+		var btn = document.createElement('button');
+			btn.setAttribute('onclick','cardObjectFromElement(this,1).clickAction();');
+			var hover = document.createElement('div');
+				hover.classList.add('tooltip');
+			btn.appendChild(hover);
+		wrap.appendChild(btn);
+		var txtwrap = document.createElement('div');
+			txtwrap.classList.add('text-holder');
+			var txtmed = document.createElement('div');
+				txtmed.classList.add('medium-text');
+				txtmed.innerHTML = obj.name;
 				var hover = document.createElement('div');
 					hover.classList.add('tooltip');
-				btn.appendChild(hover);
-			wrap.appendChild(btn);
-			var txtwrap = document.createElement('div');
-				txtwrap.classList.add('text-holder');
-				var txtmed = document.createElement('div');
-					txtmed.classList.add('medium-text');
-					txtmed.innerHTML = obj.name;
-					var hover = document.createElement('div');
-						hover.classList.add('tooltip');
-					txtmed.appendChild(hover);
-				txtwrap.appendChild(txtmed);
-				var txtsml = document.createElement('div');
-					txtsml.classList.add('small-text');
-					txtsml.innerHTML = get12time(obj.time);
-				txtwrap.appendChild(txtsml);
-			wrap.appendChild(txtwrap);
-			
-		obj.card = wrap;
+				txtmed.appendChild(hover);
+			txtwrap.appendChild(txtmed);
+			var txtsml = document.createElement('div');
+				txtsml.classList.add('small-text');
+				txtsml.innerHTML = get12time(obj.time);
+			txtwrap.appendChild(txtsml);
+		wrap.appendChild(txtwrap);
 		
-		//provide status name ("in"|"out") and tech status (true|false) to update proper styling and object's properties
-		obj.updateStatusAndColor = function(statusName, isSentToTech) {
-			var newcolor = getColorClassFromStatus(statusName, isSentToTech);
-			obj.card.classList = "";
-			obj.card.classList.add('check-card');
-			obj.card.classList.add("color-card-"+newcolor);
-			obj.status = statusName;
-			obj.tech = isSentToTech;
-		}
-		obj.updateStatusAndColor(obj.status,obj.tech);
-		
-		obj.showComments = function() {
-			var popup = document.createElement('div');
-				popup.classList.add('card-popup');
-				var container = document.createElement('div');
-				container.classList.add('card-popup-container','color-bg-main');
-					var close = document.createElement('button');
-						close.classList.add('close','material-icons');
-						close.innerHTML = 'close';
-						close.setAttribute('onclick','this.parentElement.parentElement.remove()');
-					container.appendChild(close);
-					var header = document.createElement('div');
-						header.classList.add('title-center');
-						header.innerHTML = obj.name;
-					container.appendChild(header);
-					var center = document.createElement('div');
-						center.classList.add('middle-wrapper');
-						var leftside = document.createElement('div');
-							leftside.classList.add('left');
+	obj.card = wrap;
+	
+	//provide status name ("in"|"out") and tech status (true|false) to update proper styling and object's properties
+	obj.updateStatusAndColor = function(statusName, isSentToTech) {
+		var newcolor = getColorClassFromStatus(statusName, isSentToTech);
+		obj.card.classList = "";
+		obj.card.classList.add('check-card');
+		obj.card.classList.add("color-card-"+newcolor);
+		obj.status = statusName;
+		obj.tech = isSentToTech;
+	}
+	obj.updateStatusAndColor(obj.status,obj.tech);
+	
+	obj.showComments = function() {
+		var popup = document.createElement('div');
+			popup.classList.add('card-popup');
+			var container = document.createElement('div');
+			container.classList.add('card-popup-container','color-bg-main');
+				var close = document.createElement('button');
+					close.classList.add('close','material-icons');
+					close.innerHTML = 'close';
+					close.setAttribute('onclick','this.parentElement.parentElement.remove()');
+				container.appendChild(close);
+				var header = document.createElement('div');
+					header.classList.add('title-center');
+					header.innerHTML = obj.name;
+				container.appendChild(header);
+				var center = document.createElement('div');
+					center.classList.add('middle-wrapper');
+					var leftside = document.createElement('div');
+						leftside.classList.add('left');
+						
+							var leftlabel = document.createElement('div');
+								leftlabel.classList.add('title-left');
+								leftlabel.innerHTML = "Student History";
+							leftside.appendChild(leftlabel);
 							
-								var leftlabel = document.createElement('div');
-									leftlabel.classList.add('title-left');
-									leftlabel.innerHTML = "Student History";
-								leftside.appendChild(leftlabel);
+							var historylist = document.createElement('div');
+								historylist.classList.add('pretty-scrollbar-dark');
+							
+								//[ [day, [time,type],[time,type],[time,type]...],[...] ]
+								var data = [
+								[new Date(2020,0,2),[new Date(new Date().setMinutes(0)),"Checked In"],[new Date(new Date().setMinutes(10)),"Sent to Tech"],[new Date(new Date().setMinutes(20)),"Checked Out"]],
+								[new Date(2020,0,1),[new Date(new Date().setMinutes(2)),"Checked In"],[new Date(new Date().setMinutes(12)),"Checked Out"],[new Date(new Date().setMinutes(20)),"Checked In"],[new Date(new Date().setMinutes(26)),"Sent to Tech"],[new Date(new Date().setMinutes(38)),"Checked Out"]]
+								]
+								//todo pull person data
 								
-								var historylist = document.createElement('div');
-									historylist.classList.add('pretty-scrollbar-dark');
-								
-									//[ [day, [time,type],[time,type],[time,type]...],[...] ]
-									var data = [
-									[new Date(2020,0,2),[new Date(new Date().setMinutes(0)),"Checked In"],[new Date(new Date().setMinutes(10)),"Sent to Tech"],[new Date(new Date().setMinutes(20)),"Checked Out"]],
-									[new Date(2020,0,1),[new Date(new Date().setMinutes(2)),"Checked In"],[new Date(new Date().setMinutes(12)),"Checked Out"],[new Date(new Date().setMinutes(20)),"Checked In"],[new Date(new Date().setMinutes(26)),"Sent to Tech"],[new Date(new Date().setMinutes(38)),"Checked Out"]]
-									]
-									//todo pull person data
-									
-									for (var i=0; i<data.length; i++) {
-										var eachdate = document.createElement('div');
-										eachdate.classList.add('timeline-date');
-										eachdate.innerHTML = data[i][0].toLocaleString('en-US',{weekday:'long',month:'long',day:'numeric'});
-										for (var j=1; j<data[i].length; j++) {
-											var eachtime = document.createElement('div');
-											eachtime.innerHTML = get12time(data[i][j][0])+" - "+data[i][j][1];
-											eachdate.appendChild(eachtime);
-										}
-										historylist.appendChild(eachdate);
+								for (var i=0; i<data.length; i++) {
+									var eachdate = document.createElement('div');
+									eachdate.classList.add('timeline-date');
+									eachdate.innerHTML = data[i][0].toLocaleString('en-US',{weekday:'long',month:'long',day:'numeric'});
+									for (var j=1; j<data[i].length; j++) {
+										var eachtime = document.createElement('div');
+										eachtime.innerHTML = get12time(data[i][j][0])+" - "+data[i][j][1];
+										eachdate.appendChild(eachtime);
 									}
-									var t = document.createElement('div')
-									t.classList.add('TEST-scroll');
-									historylist.appendChild(t);
-								leftside.appendChild(historylist)
-								
-						center.appendChild(leftside);
-						var rightside = document.createElement('div');
-							rightside.classList.add('right');
-							var rightlabel = document.createElement('div');
-								rightlabel.classList.add('title-center');
-								rightlabel.innerHTML = "Notes for Event";
-							rightside.appendChild(rightlabel);
-							var commentsbox = document.createElement('textarea');
-								commentsbox.setAttribute('placeholder','Click to add notes');
-							rightside.appendChild(commentsbox);
-						center.appendChild(rightside);
-					container.appendChild(center);
-				popup.appendChild(container);
-			document.body.appendChild(popup);
-		}
-		
-		//click the card's button - uses card's properties to determine action
-		obj.clickAction = function() {
-			if (!(obj.tech) && (obj.status=="in")) {
-				//todo send "moved to tech" query
-				obj.updateStatusAndColor("in",true);
-				obj.playRefreshAnimation();
-			} else {
-				obj.showComments();
-			}
-		}
-		
-		obj.playRefreshAnimation = function() {
-			obj.card.classList.add('anim-refresh');
-			setTimeout(function() {
-				obj.card.classList.remove('anim-refresh');
-			},500);
-		}
-		
-		obj.playInsertAnimation = function() {
-			obj.card.classList.add('anim-in');
-			setTimeout(function() {
-				obj.card.classList.remove('anim-in');
-			},500);
-		}
-		
-		//insert into cards list at top
-		obj.insertIntoCards = function() {
-			document.getElementById("insert-cards").insertAdjacentElement('afterEnd',obj.card);
-		};
-		
-		return obj;
+									historylist.appendChild(eachdate);
+								}
+								var t = document.createElement('div')
+								t.classList.add('TEST-scroll');
+								historylist.appendChild(t);
+							leftside.appendChild(historylist)
+							
+					center.appendChild(leftside);
+					var rightside = document.createElement('div');
+						rightside.classList.add('right');
+						var rightlabel = document.createElement('div');
+							rightlabel.classList.add('title-center');
+							rightlabel.innerHTML = "Notes for Event";
+						rightside.appendChild(rightlabel);
+						var commentsbox = document.createElement('textarea');
+							commentsbox.setAttribute('placeholder','Click to add notes');
+						rightside.appendChild(commentsbox);
+					center.appendChild(rightside);
+				container.appendChild(center);
+			popup.appendChild(container);
+		document.body.appendChild(popup);
 	}
 	
-	var testnames = ["Marissa Hansen","Lynda Richmond","Roberto Brennan","Dwain Owens","Omer Mcintyre","Martina Grant","Bertram Weber","Milan Bryant","Louise Vincent","Margarita Guerra","Dorothea Sharp","Bertha Howell","Mable Gillespie","Marisa Mills","Lesley Ramirez","Burt Austin","Kathryn Weaver","Harrison Ferguson","Alonzo Zamora","Jean Munoz","Brain Wood","Osvaldo Berger","Debra Hayes","Luke Sheppard","Elisabeth Dougherty","Trey Velez","Edgardo Macias","Javier Carpenter","Rene Simon","Cassandra Osborne","Wilford Finley","Heriberto Odonnell","Beau Terry","Miquel Mendez","Garry Tyler","Anita Tapia","Kim Campos","Dane Griffith","Liliana Blackwell","Pamela Sims","Owen Cook","Joel Gomez","Marshall Carson","Bernadette Poole","Hiram Mcclain","Amanda Walters","Monte Ball","Toney Yoder","Brett Choi","Elsa Jones"];
-	function test() {
-		for (var i=0; i<parseInt(Math.random() * 5)+1; i++) {
-		if (parseInt(Math.random() * 2) == 0) {
-			var card = new_Card(testnames[parseInt(Math.random() * 50)],randomDate(),"in",parseInt(Math.random()*2));
-			cards.unshift(card); //unshift pushes to start instead of end... weirdname.
-			card.playInsertAnimation();
+	//click the card's button - uses card's properties to determine action
+	obj.clickAction = function() {
+		if (!(obj.tech) && (obj.status=="in")) {
+			//todo send "moved to tech" query
+			obj.updateStatusAndColor("in",true);
+			obj.playRefreshAnimation();
 		} else {
-			var card = new_Card(testnames[parseInt(Math.random() * 50)],randomDate(),"out",parseInt(Math.random()*2));
-			cards.unshift(card);
-			card.playInsertAnimation();
+			obj.showComments();
 		}
-		}
-		cards = quickSort(cards, 0, cards.length-1, false);
-		repackCards();
 	}
 	
-	function randomDate() {
-		var now = new Date();
-		now.setHours(parseInt(Math.random()*24));
-		now.setMinutes(parseInt(Math.random()*60));
-		now.setSeconds(parseInt(Math.random()*60));
-		return now;
+	obj.playRefreshAnimation = function() {
+		obj.card.classList.add('anim-refresh');
+		setTimeout(function() {
+			obj.card.classList.remove('anim-refresh');
+		},500);
 	}
+	
+	obj.playInsertAnimation = function() {
+		obj.card.classList.add('anim-in');
+		setTimeout(function() {
+			obj.card.classList.remove('anim-in');
+		},500);
+	}
+	
+	//insert into cards list at top
+	obj.insertIntoCards = function() {
+		document.getElementById("insert-cards").insertAdjacentElement('afterEnd',obj.card);
+	};
+	
+	return obj;
+}
+
+var testnames = ["Marissa Hansen","Lynda Richmond","Roberto Brennan","Dwain Owens","Omer Mcintyre","Martina Grant","Bertram Weber","Milan Bryant","Louise Vincent","Margarita Guerra","Dorothea Sharp","Bertha Howell","Mable Gillespie","Marisa Mills","Lesley Ramirez","Burt Austin","Kathryn Weaver","Harrison Ferguson","Alonzo Zamora","Jean Munoz","Brain Wood","Osvaldo Berger","Debra Hayes","Luke Sheppard","Elisabeth Dougherty","Trey Velez","Edgardo Macias","Javier Carpenter","Rene Simon","Cassandra Osborne","Wilford Finley","Heriberto Odonnell","Beau Terry","Miquel Mendez","Garry Tyler","Anita Tapia","Kim Campos","Dane Griffith","Liliana Blackwell","Pamela Sims","Owen Cook","Joel Gomez","Marshall Carson","Bernadette Poole","Hiram Mcclain","Amanda Walters","Monte Ball","Toney Yoder","Brett Choi","Elsa Jones"];
+function test() {
+	for (var i=0; i<parseInt(Math.random() * 5)+1; i++) {
+	if (parseInt(Math.random() * 2) == 0) {
+		var card = new_Card(testnames[parseInt(Math.random() * 50)],randomDate(),"in",parseInt(Math.random()*2));
+		cards.unshift(card); //unshift pushes to start instead of end... weirdname.
+		card.playInsertAnimation();
+	} else {
+		var card = new_Card(testnames[parseInt(Math.random() * 50)],randomDate(),"out",parseInt(Math.random()*2));
+		cards.unshift(card);
+		card.playInsertAnimation();
+	}
+	}
+	cards = quickSort(cards, 0, cards.length-1, false);
+	repackCards();
+}
+
+function randomDate() {
+	var now = new Date();
+	now.setHours(parseInt(Math.random()*24));
+	now.setMinutes(parseInt(Math.random()*60));
+	now.setSeconds(parseInt(Math.random()*60));
+	return now;
+}
 	
 function toggleSort(toggle) {
 	var el = document.getElementById('sortbar');
@@ -329,86 +412,5 @@ function updateTodaysDate() {
 	var now = new Date();
 	setTimeout(function(){updateTodaysDate();},60000-((now.getSeconds()*1000)+now.getMilliseconds())); //timeout to refresh on next minute
 }
-	</script>
-  <body class="color-bg-main">
-	<!-- testing element -->
-	<button class="center-h" style="position: absolute;left:0;top:0;z-index:10000;" onclick="test()">test: Press to add :)</button>
-	<!-- end test-->
-	
-	<div class="split-left pretty-scrollbar-dark">
-		<div class="small-spacer"></div>
-		<div class='middle-wrapper'>
-			<div id='searchbar'>
-				<i class="material-icons">search</i>
-				<input type='text' id='searchfield' placeholder="Search"></input>
-			</div>
-		</div>
-		<div class='middle-wrapper'>
-			<div id='sortbar' class='sort-time-down'>
-				<div id='sort-name' class="tablecell">
-					<button onclick="toggleSort('sort-name');">
-						<div class="sortfield">Name</div>
-						<div class="updown">
-						</div>
-					</button>
-				</div>
-				<div id='sort-time' class="tablecell">
-					<button onclick="toggleSort('sort-time');">
-						<div class="sortfield">Time</div>
-						<div class="updown">
-						</div>
-					</button>
-				</div>
-			</div>
-		</div>
-		<div id='cards-wrapper'>
-			<div class="null-spacer" id="insert-cards"></div>
-		</div>
-	</div>
-	
-	<div class="split-right">
-		<div id="overview-table">
-			<div class="tablerow">
-				<div id="todays-date" class="title-center">
-					<div class="center-h medium-text"></div>
-					<div class="center-h medium-text"></div>
-					<div class="center-h medium-text" style="padding-bottom:10px;"></div>
-				</div>
-			</div>
-			
-			<div class="tablerow">
-				<div class="title-center medium-text">In the Library</div>
-				<div class="half-pair">
-					<div class="left">
-						<div class="large-text">10</div>
-						<div class="small-text">Checked In</div>
-					</div>
-					<div class="middle"></div>
-					<div class="right">
-						<div class="large-text">2</div>
-						<div class="small-text">In Tech</div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="tablerow">
-				<div class="title-center medium-text">Today's Traffic</div>
-				<div class="half-pair">
-					<div class="left">
-						<div class="large-text">23</div>
-						<div class="small-text">Students</div>
-					</div>
-					<div class="middle"></div>
-					<div class="right">
-						<div class="large-text">5</div>
-						<div class="small-text">Tech Issues</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-  </body>
-</html>
-<script>
-updateTodaysDate();	
+updateTodaysDate();
 </script>

@@ -89,6 +89,11 @@
 </html>
 
 <script>
+var databaseId = new URLSearchParams(window.location.search).get('id');
+if (databaseId == null) {
+	console.log("ERROR: no database selected");
+}
+
 document.getElementById('check-in-id').addEventListener("keydown", function(event) {
     event.preventDefault();
     numpadInput('check-in-id',event.key.toLowerCase());
