@@ -79,7 +79,7 @@ function createDatabase(name){
 		});
 		
 		// Format database columns
-		requests.push({ // int id
+		requests.push({ // int id (>= 0)
 			"repeatCell": {
 				"range": {
 					"startRowIndex": 1,
@@ -91,13 +91,19 @@ function createDatabase(name){
 						"numberFormat": {
 							"type": "NUMBER",
 							"pattern": "0"
+						},
+					},
+					"dataValidation": {
+						"condition": { "type": "NUMBER_GREATER_THAN_EQ" },,
+						"strict": true,
+						"values": [{"userEnteredValue": 0}]
 						}
 					}
 				},
-				"fields": "userEnteredFormat.numberFormat"
+				"fields": "userEnteredFormat.numberFormat dataValidation"
 			}
 		});
-		requests.push({ // str name
+		requests.push({ // str name (not empty)
 			"repeatCell": {
 				"range": {
 					"startRowIndex": 1,
@@ -110,12 +116,16 @@ function createDatabase(name){
 							"type": "TEXT",
 							"pattern": ""
 						}
+					},
+					"dataValidation": {
+						"condition": { "type": "NOT_BLANK" },
+						"strict": true
 					}
 				},
-				"fields": "userEnteredFormat.numberFormat"
+				"fields": "userEnteredFormat.numberFormat dataValidation"
 			}
 		});
-		requests.push({ // str event
+		requests.push({ // str event (not empty)
 			"repeatCell": {
 				"range": {
 					"startRowIndex": 1,
@@ -128,12 +138,16 @@ function createDatabase(name){
 							"type": "TEXT",
 							"pattern": ""
 						}
+					},
+					"dataValidation": {
+						"condition": { "type": "NOT_BLANK" },
+						"strict": true
 					}
 				},
-				"fields": "userEnteredFormat.numberFormat"
+				"fields": "userEnteredFormat.numberFormat dataValidation"
 			}
 		});
-		requests.push({ // DateTime timestamp
+		requests.push({ // DateTime timestamp (valid date)
 			"repeatCell": {
 				"range": {
 					"startRowIndex": 1,
@@ -146,12 +160,16 @@ function createDatabase(name){
 							"type": "DATE",
 							"pattern": "HH:MM:SS dd.mm.yyyy"
 						}
+					},
+					"dataValidation": {
+						"condition": { "type": "DATE_IS_VALID" },
+						"strict": true
 					}
 				},
-				"fields": "userEnteredFormat.numberFormat"
+				"fields": "userEnteredFormat.numberFormat dataValidation"
 			}
 		});
-		requests.push({ // str comments
+		requests.push({ // str comments (not empty)
 			"repeatCell": {
 				"range": {
 					"startRowIndex": 1,
@@ -164,12 +182,16 @@ function createDatabase(name){
 							"type": "TEXT",
 							"pattern": ""
 						}
+					},
+					"dataValidation": {
+						"condition": { "type": "NOT_BLANK" },
+						"strict": true
 					}
 				},
-				"fields": "userEnteredFormat.numberFormat"
+				"fields": "userEnteredFormat.numberFormat dataValidation"
 			}
 		});
-		requests.push({ // bool studying
+		requests.push({ // bool studying (strict)
 			"repeatCell": {
 				"range": {
 					"startRowIndex": 1,
@@ -186,7 +208,7 @@ function createDatabase(name){
 				"fields": "dataValidation"
 			}
 		});
-		requests.push({ // bool technology
+		requests.push({ // bool technology (strict)
 			"repeatCell": {
 				"range": {
 					"startRowIndex": 1,
@@ -203,7 +225,7 @@ function createDatabase(name){
 				"fields": "dataValidation"
 			}
 		});
-		requests.push({ // bool printing
+		requests.push({ // bool printing (strict)
 			"repeatCell": {
 				"range": {
 					"startRowIndex": 1,
@@ -212,9 +234,9 @@ function createDatabase(name){
 				},
 				"cell": {
 					"dataValidation": {
-						"condition": {
-							"type": "BOOLEAN"
-						}
+						"condition": { "type": "BOOLEAN" },
+						"strict": true,
+						"showCustomUi": true
 					}
 				},
 				"fields": "dataValidation"
