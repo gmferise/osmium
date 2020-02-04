@@ -94,7 +94,7 @@ function createDatabase(name){
 						},
 					},
 					"dataValidation": {
-						"condition": { "type": "NUMBER_GREATER_THAN_EQ" },,
+						"condition": { "type": "NUMBER_GREATER_THAN_EQ" },
 						"strict": true,
 						"values": [{"userEnteredValue": 0}]
 						}
