@@ -101,7 +101,7 @@ function createDatabase(name){
 				"fields": "userEnteredFormat.numberFormat,dataValidation"
 			}
 		});
-		requests.push({ // str name (not empty)
+		requests.push({ // str name (no validation)
 			"repeatCell": {
 				"range": {
 					"startRowIndex": 1,
@@ -114,16 +114,12 @@ function createDatabase(name){
 							"type": "TEXT",
 							"pattern": ""
 						}
-					},
-					"dataValidation": {
-						"condition": { "type": "NOT_BLANK" },
-						"strict": true
 					}
 				},
-				"fields": "userEnteredFormat.numberFormat,dataValidation"
+				"fields": "userEnteredFormat.numberFormat"
 			}
 		});
-		requests.push({ // str event (not empty)
+		requests.push({ // str event (no validation)
 			"repeatCell": {
 				"range": {
 					"startRowIndex": 1,
@@ -136,13 +132,9 @@ function createDatabase(name){
 							"type": "TEXT",
 							"pattern": ""
 						}
-					},
-					"dataValidation": {
-						"condition": { "type": "NOT_BLANK" },
-						"strict": true
 					}
 				},
-				"fields": "userEnteredFormat.numberFormat,dataValidation"
+				"fields": "userEnteredFormat.numberFormat"
 			}
 		});
 		requests.push({ // DateTime timestamp (valid date)
@@ -167,7 +159,7 @@ function createDatabase(name){
 				"fields": "userEnteredFormat.numberFormat,dataValidation"
 			}
 		});
-		requests.push({ // str comments (not empty)
+		requests.push({ // str comments (no validation)
 			"repeatCell": {
 				"range": {
 					"startRowIndex": 1,
@@ -180,13 +172,9 @@ function createDatabase(name){
 							"type": "TEXT",
 							"pattern": ""
 						}
-					},
-					"dataValidation": {
-						"condition": { "type": "NOT_BLANK" },
-						"strict": true
 					}
 				},
-				"fields": "userEnteredFormat.numberFormat,dataValidation"
+				"fields": "userEnteredFormat.numberFormat"
 			}
 		});
 		requests.push({ // bool studying (strict)
