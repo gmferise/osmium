@@ -94,11 +94,11 @@ function createDatabase(name){
 						},
 					},
 					"dataValidation": {
-						"condition": { "type": "NUMBER_GREATER_THAN_EQ", "values": [{"userEnteredValue": 0}] },
+						"condition": { "type": "NUMBER_GREATER_THAN_EQ", "values": [{"userEnteredValue": "0"}] },
 						"strict": true
 					}
 				},
-				"fields": "userEnteredFormat.numberFormat dataValidation"
+				"fields": "userEnteredFormat.numberFormat,dataValidation"
 			}
 		});
 		requests.push({ // str name (not empty)
@@ -120,7 +120,7 @@ function createDatabase(name){
 						"strict": true
 					}
 				},
-				"fields": "userEnteredFormat.numberFormat dataValidation"
+				"fields": "userEnteredFormat.numberFormat,dataValidation"
 			}
 		});
 		requests.push({ // str event (not empty)
@@ -142,7 +142,7 @@ function createDatabase(name){
 						"strict": true
 					}
 				},
-				"fields": "userEnteredFormat.numberFormat dataValidation"
+				"fields": "userEnteredFormat.numberFormat,dataValidation"
 			}
 		});
 		requests.push({ // DateTime timestamp (valid date)
@@ -164,7 +164,7 @@ function createDatabase(name){
 						"strict": true
 					}
 				},
-				"fields": "userEnteredFormat.numberFormat dataValidation"
+				"fields": "userEnteredFormat.numberFormat,dataValidation"
 			}
 		});
 		requests.push({ // str comments (not empty)
@@ -186,7 +186,7 @@ function createDatabase(name){
 						"strict": true
 					}
 				},
-				"fields": "userEnteredFormat.numberFormat dataValidation"
+				"fields": "userEnteredFormat.numberFormat,dataValidation"
 			}
 		});
 		requests.push({ // bool studying (strict)
