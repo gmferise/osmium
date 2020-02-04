@@ -79,10 +79,10 @@ function createDatabase(name){
 		});
 		
 		// Format database columns
-		requests.push({
+		requests.push({ // int id
 			"repeatCell": {
 				"range": {
-					"startRowIndex": 0,
+					"startRowIndex": 1,
 					"startColumnIndex": 0,
 					"endColumnIndex": 1
 				},
@@ -97,10 +97,10 @@ function createDatabase(name){
 				"fields": "userEnteredFormat.numberFormat"
 			}
 		});
-		requests.push({
+		requests.push({ // str name
 			"repeatCell": {
 				"range": {
-					"startRowIndex": 0,
+					"startRowIndex": 1,
 					"startColumnIndex": 1,
 					"endColumnIndex": 2
 				},
@@ -115,10 +115,10 @@ function createDatabase(name){
 				"fields": "userEnteredFormat.numberFormat"
 			}
 		});
-		requests.push({
+		requests.push({ // str event
 			"repeatCell": {
 				"range": {
-					"startRowIndex": 0,
+					"startRowIndex": 1,
 					"startColumnIndex": 2,
 					"endColumnIndex": 3
 				},
@@ -133,10 +133,10 @@ function createDatabase(name){
 				"fields": "userEnteredFormat.numberFormat"
 			}
 		});
-		requests.push({
+		requests.push({ // DateTime timestamp
 			"repeatCell": {
 				"range": {
-					"startRowIndex": 0,
+					"startRowIndex": 1,
 					"startColumnIndex": 3,
 					"endColumnIndex": 4
 				},
@@ -151,10 +151,10 @@ function createDatabase(name){
 				"fields": "userEnteredFormat.numberFormat"
 			}
 		});
-		requests.push({
+		requests.push({ // str comments
 			"repeatCell": {
 				"range": {
-					"startRowIndex": 0,
+					"startRowIndex": 1,
 					"startColumnIndex": 4,
 					"endColumnIndex": 5
 				},
@@ -169,6 +169,57 @@ function createDatabase(name){
 				"fields": "userEnteredFormat.numberFormat"
 			}
 		});
+		requests.push({ // bool studying
+			"repeatCell": {
+				"range": {
+					"startRowIndex": 1,
+					"startColumnIndex": 5,
+					"endColumnIndex": 6
+				},
+				"cell": {
+					"dataValidation": {
+						"condition": {
+							"type": "BOOLEAN"
+						}
+					}
+				},
+				"fields": "dataValidation"
+			}
+		});
+		requests.push({ // bool technology
+			"repeatCell": {
+				"range": {
+					"startRowIndex": 1,
+					"startColumnIndex": 6,
+					"endColumnIndex": 7
+				},
+				"cell": {
+					"dataValidation": {
+						"condition": {
+							"type": "BOOLEAN"
+						}
+					}
+				},
+				"fields": "dataValidation"
+			}
+		});
+		requests.push({ // bool printing
+			"repeatCell": {
+				"range": {
+					"startRowIndex": 1,
+					"startColumnIndex": 7,
+					"endColumnIndex": 8
+				},
+				"cell": {
+					"dataValidation": {
+						"condition": {
+							"type": "BOOLEAN"
+						}
+					}
+				},
+				"fields": "dataValidation"
+			}
+		});
 		
 		// Give database columns headers		
 		requests.push({
@@ -179,7 +230,10 @@ function createDatabase(name){
 						{"userEnteredValue": {"stringValue": "name"}},
 						{"userEnteredValue": {"stringValue": "event"}},
 						{"userEnteredValue": {"stringValue": "timestamp"}},
-						{"userEnteredValue": {"stringValue": "comments"}}
+						{"userEnteredValue": {"stringValue": "comments"}},
+						{"userEnteredValue": {"stringValue": "studying"}},
+						{"userEnteredValue": {"stringValue": "technology"}},
+						{"userEnteredValue": {"stringValue": "printing"}}
 					]
 				}],
 				"fields": "userEnteredValue",
