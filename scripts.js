@@ -459,10 +459,22 @@ function catchName(response){
 }
 
 // Gets the latest status of a user given their id from main database
+// Returns 2 events to check for tech status
+// possible scenarios... (event, event = status, doTechColor)
+	// check-in, check-in = in, false (assume was check-in > forgot to check out > checked in later)
+	// check-out, check-in = in, false (excpected check-out > check-in)
+	// sent-tech, check-in = in, false (assume was check-in > sent-tech > forgot to check out > checked in later)
+	// check-in, check-out = out, false (expected check-in > check-out)
+	// check-out, check-out = out, false (assume checked out twice or something idk)
+	// sent-tech, check-out = out, true (assume was check-in > sent-tech > check-out)
+	// check-in, sent-tech = in, true (expected check-in > sent-tech > check out)
+	// check-out, sent-tech = out, true (assume forgot to send to tech before student left)
+	// sent-tech, sent-tech = THROW ERROR, sent-tech pushEvent should not write if most recent status ends is sent-tech
+// 
 // Returns through catch
 function getStatusById(id){
-	// SQL: SELECT TOP 1 * WHERE id = ? ORDER BY date DESC
-	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatus);
+	// SQL: SELECT TOP 2 * WHERE id = ? ORDER BY date DESC
+	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+id+" ORDER BY D DESC LIMIT 2", catchStatus);
 }
 
 function catchStatus(response){
