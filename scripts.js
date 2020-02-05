@@ -79,10 +79,10 @@ function createDatabase(name){
 		});
 		
 		// Format database columns
-		requests.push({
+		requests.push({ // int id (>= 0)
 			"repeatCell": {
 				"range": {
-					"startRowIndex": 0,
+					"startRowIndex": 1,
 					"startColumnIndex": 0,
 					"endColumnIndex": 1
 				},
@@ -91,16 +91,20 @@ function createDatabase(name){
 						"numberFormat": {
 							"type": "NUMBER",
 							"pattern": "0"
-						}
+						},
+					},
+					"dataValidation": {
+						"condition": { "type": "NUMBER_GREATER_THAN_EQ", "values": [{"userEnteredValue": "0"}] },
+						"strict": true
 					}
 				},
-				"fields": "userEnteredFormat.numberFormat"
+				"fields": "userEnteredFormat.numberFormat,dataValidation"
 			}
 		});
-		requests.push({
+		requests.push({ // str name (no validation)
 			"repeatCell": {
 				"range": {
-					"startRowIndex": 0,
+					"startRowIndex": 1,
 					"startColumnIndex": 1,
 					"endColumnIndex": 2
 				},
@@ -115,10 +119,10 @@ function createDatabase(name){
 				"fields": "userEnteredFormat.numberFormat"
 			}
 		});
-		requests.push({
+		requests.push({ // str event (no validation)
 			"repeatCell": {
 				"range": {
-					"startRowIndex": 0,
+					"startRowIndex": 1,
 					"startColumnIndex": 2,
 					"endColumnIndex": 3
 				},
@@ -133,10 +137,10 @@ function createDatabase(name){
 				"fields": "userEnteredFormat.numberFormat"
 			}
 		});
-		requests.push({
+		requests.push({ // DateTime timestamp (valid date)
 			"repeatCell": {
 				"range": {
-					"startRowIndex": 0,
+					"startRowIndex": 1,
 					"startColumnIndex": 3,
 					"endColumnIndex": 4
 				},
@@ -146,15 +150,19 @@ function createDatabase(name){
 							"type": "DATE",
 							"pattern": "HH:MM:SS dd.mm.yyyy"
 						}
+					},
+					"dataValidation": {
+						"condition": { "type": "DATE_IS_VALID" },
+						"strict": true
 					}
 				},
-				"fields": "userEnteredFormat.numberFormat"
+				"fields": "userEnteredFormat.numberFormat,dataValidation"
 			}
 		});
-		requests.push({
+		requests.push({ // str comments (no validation)
 			"repeatCell": {
 				"range": {
-					"startRowIndex": 0,
+					"startRowIndex": 1,
 					"startColumnIndex": 4,
 					"endColumnIndex": 5
 				},
@@ -169,6 +177,57 @@ function createDatabase(name){
 				"fields": "userEnteredFormat.numberFormat"
 			}
 		});
+		requests.push({ // bool studying (strict)
+			"repeatCell": {
+				"range": {
+					"startRowIndex": 1,
+					"startColumnIndex": 5,
+					"endColumnIndex": 6
+				},
+				"cell": {
+					"dataValidation": {
+						"condition": {
+							"type": "BOOLEAN"
+						}
+					}
+				},
+				"fields": "dataValidation"
+			}
+		});
+		requests.push({ // bool technology (strict)
+			"repeatCell": {
+				"range": {
+					"startRowIndex": 1,
+					"startColumnIndex": 6,
+					"endColumnIndex": 7
+				},
+				"cell": {
+					"dataValidation": {
+						"condition": {
+							"type": "BOOLEAN"
+						}
+					}
+				},
+				"fields": "dataValidation"
+			}
+		});
+		requests.push({ // bool printing (strict)
+			"repeatCell": {
+				"range": {
+					"startRowIndex": 1,
+					"startColumnIndex": 7,
+					"endColumnIndex": 8
+				},
+				"cell": {
+					"dataValidation": {
+						"condition": { "type": "BOOLEAN" },
+						"strict": true,
+						"showCustomUi": true
+					}
+				},
+				"fields": "dataValidation"
+			}
+		});
 		
 		// Give database columns headers		
 		requests.push({
@@ -179,7 +238,10 @@ function createDatabase(name){
 						{"userEnteredValue": {"stringValue": "name"}},
 						{"userEnteredValue": {"stringValue": "event"}},
 						{"userEnteredValue": {"stringValue": "timestamp"}},
-						{"userEnteredValue": {"stringValue": "comments"}}
+						{"userEnteredValue": {"stringValue": "comments"}},
+						{"userEnteredValue": {"stringValue": "studying"}},
+						{"userEnteredValue": {"stringValue": "technology"}},
+						{"userEnteredValue": {"stringValue": "printing"}}
 					]
 				}],
 				"fields": "userEnteredValue",
@@ -355,7 +417,11 @@ function selectDatabaseId(id){
 
 /// ***** ASYNC FUNCTIONS *****
 
-function pushEvent(uid, type){
+  //--------//
+ /// TODO ///
+//--------//
+
+function pushEvent(uid, type){ 
 	// Get name from uid
 	gapi.client.sheets.spreadsheets.batchUpdate({
 		spreadsheetId: databaseId,
@@ -388,38 +454,44 @@ function getName(id){
 }
 
 function catchName(response){
-	if (response == null){ console.log("getName Query Failed"); return; }
+	if (response == undefined){ console.log("getName Query Failed"); return; }
 	console.log(response.getDataTable().getDistinctValues(1)[0]); // [id, name, count(id), count(name)]
 }
 
 // Gets the latest status of a user given their id from main database
 // Returns through catch
 function getStatusById(id){
-	// SQL: SELECT event WHERE id = ? ORDER BY date DESC LIMIT 1
-	gvzQuery("SELECT A, B, C, D, E WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatus);
+	// SQL: SELECT TOP 1 * WHERE id = ? ORDER BY date DESC
+	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatus);
 }
 
 function catchStatus(response){
-	if (response == null){ console.log("getStatus Query Failed"); return; }
-	var a = [];
-	for (var i=0; i<response.J.wg[0]['c'].length; i++) {
-		a.push(response.J.wg[0]['c'][i]['v']);
-	}
-	console.log(a); // Array of [id, name, status, timestamp, comments]
+	if (response == undefined){ console.log("getStatus Query Failed"); return; }
+	console.log(response.getDataTable().getDistinctValues(0)); // Array of [id, name, status, timestamp, comments]
 }
 
 // Gets list of 10 statuses that most closely match the given name
 // Returns through catch
 function getStatusByName(name){
-	gvzQuery("SELECT A, D, COUNT(A), COUNT(D) WHERE B CONTAINS '"+name+"' GROUP BY A, D ORDER BY D DESC LIMIT 10", catchStatusIds);
+	// SELECT TOP 10 DISTINCT NAME WHERE NAME LIKE ?
+	gvzQuery("SELECT A, D, COUNT(A), COUNT(D) WHERE B CONTAINS '"+name+"' GROUP BY A, D ORDER BY D DESC LIMIT 10", catchStatusIds, pageId);
 }
 
 function catchStatusIds(response){
-	if (response == null){ console.log("getStatusByName Query Failed"); return; }
+	if (response == undefined){ console.log("getStatusByName Query Failed"); return; }
 	var ids = response.getDataTable().getDistinctValues(0);
 	var rows = [];
 	for (i in ids){
-		rows.push(getStatusById(ids[i])); //< getStatusById is async so that doesn't work
+		getStatusByIdBatch(ids[i]);
 	}
-	console.log(rows); // Array of 10 statuses [id, name, status, timestamp, comments]
+}
+
+function getStatusByIdBatch(id){
+	// SQL: SELECT TOP 1 * WHERE id = ? ORDER BY date DESC 
+	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatusBatch);
+}
+
+function catchStatusBatch(response){
+	// Recieves individual statuses
+	console.log(response.getDataTable().getDistinctValues(0));
 }
