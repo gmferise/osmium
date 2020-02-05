@@ -459,16 +459,17 @@ function catchName(response){
 }
 
 // Gets the latest status of a user given their id from main database
-// Returns 2 events to check for tech status
-// possible scenarios... (event, event = status, doTechColor)
+// Returns 2 events to check for tech status... [most recent, 2nd most recent]
+// so read these right to left for time-wise order
+// possible scenarios... (event(newer), event(older) = status, doTechColor)
 	// check-in, check-in = in, false (assume was check-in > forgot to check out > checked in later)
-	// check-out, check-in = in, false (excpected check-out > check-in)
-	// sent-tech, check-in = in, false (assume was check-in > sent-tech > forgot to check out > checked in later)
-	// check-in, check-out = out, false (expected check-in > check-out)
+	// check-in, check-out = in, false (excpected check-out > check-in)
+	// check-in, sent-tech = in, false (assume was check-in > sent-tech > forgot to check out > checked in later)
+	// check-out, check-in = out, false (expected check-in > check-out)
 	// check-out, check-out = out, false (assume checked out twice or something idk)
-	// sent-tech, check-out = out, true (assume was check-in > sent-tech > check-out)
-	// check-in, sent-tech = in, true (expected check-in > sent-tech > check out)
-	// check-out, sent-tech = out, true (assume forgot to send to tech before student left)
+	// check-out, sent-tech = out, true (assume was check-in > sent-tech > check-out)
+	// sent-tech, check-in = in, true (expected check-in > sent-tech > check out)
+	// sent-tech, check-out = out, true (assume forgot to send to tech before student left)
 	// sent-tech, sent-tech = THROW ERROR, sent-tech pushEvent should not write if most recent status ends is sent-tech
 // 
 // Returns through catch
