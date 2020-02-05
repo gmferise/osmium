@@ -712,7 +712,7 @@ body.bigbody.fixedratio div.bigpopup input {
 	width: calc(100% - 32vh);
 	margin-left: 7.5vh;
 }
-body.bigbody.fixedratio div.bigpopup i {
+body.bigbody.fixedratio div.bigpopup div.content i {
 	margin-right: 0;
 	margin-bottom: 2vh;
 	font-size: 6vh;
@@ -775,13 +775,21 @@ body.bigbody.fixedratio div.bigpopup div.content-extra div.large-text {
 	display: block;
 	position: relative;
 	padding-left: 5.5vh;
-	margin-bottom: 12px;
+	margin-bottom: 15px;
+	padding-top: 0.5vh;
 	cursor: pointer;
-	font-size: 4.5vh;
+	font-size: 3.5vh;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+}
+.checkbox-container i {
+	font-size: 100%;
+	vertical-align: bottom;
+	padding-bottom: 0.5vh;
+	float: right;
+	
 }
 .checkbox-container span {
 	font-size: 5vh;
