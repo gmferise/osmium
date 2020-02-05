@@ -455,6 +455,16 @@ function catchName(response){
 }
 
 // Returns through catch
+// Date format is a string: "dd/mm/yyyy"
+function getDailyEntries(date){
+	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D = date '"+date, catchDailyEntries);
+}
+
+function catchDailyEntries(response){
+	console.log(response);
+}
+
+// Returns through catch
 function getStatusById(id){
 	// SQL: SELECT TOP 2 * WHERE id = ? ORDER BY date DESC
 	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+id+" ORDER BY D DESC LIMIT 2", catchStatus);
