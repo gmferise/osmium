@@ -417,11 +417,23 @@ function selectDatabaseId(id){
  /// TODO ///
 //--------//
 
-function pushEvent(uid, type){ 
+// Input: id, event name, comments, bool[](studying, technology, printing)
+function pushEvent(uid, type, comments, flags){ 
 	// Get name from uid
-	gapi.client.sheets.spreadsheets.batchUpdate({
-		spreadsheetId: databaseId,
-		resource: batch
+	// Update values
+	gapi.client.sheets.spreadsheets.values.append({
+		"spreadsheetId": databaseId,
+		"range": 'A:H',
+		"values": [
+			{"userEnteredValue": {"stringValue": uid}},
+			{"userEnteredValue": {"stringValue": name}},
+			{"userEnteredValue": {"stringValue": type}},
+			{"userEnteredValue": {"stringValue": "=TODAY()"}},
+			{"userEnteredValue": {"stringValue": comments}},
+			{"userEnteredValue": {"stringValue": flags[0]}},
+			{"userEnteredValue": {"stringValue": flags[1]}},
+			{"userEnteredValue": {"stringValue": flags[2]}}
+		]
 	}).then(function(response){
 	});
 }
@@ -452,6 +464,25 @@ function getName(id){
 function catchName(response){
 	if (response == undefined){ console.log("getName Query Failed"); return; }
 	console.log(response.getDataTable().getDistinctValues(1)[0]); // [id, name, count(id), count(name)]
+}
+
+// Returns through catch
+// Date format is a string: "YYYY-MM-DD"
+function getDailyEntries(date){
+	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D = date '"+date+"' ORDER BY D DESC", catchDailyEntries);
+}
+
+function catchDailyEntries(response){
+	console.log(response.getDataTable());
+}
+
+// Returns through catch
+function getStudentHistory(id){
+	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+id+" ORDER BY D DESC", catchDailyEntries);
+}
+
+function catchStudentHistory(response){
+	console.log(response.getDataTable());
 }
 
 // Returns through catch
