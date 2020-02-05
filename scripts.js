@@ -137,7 +137,7 @@ function createDatabase(name){
 				"fields": "userEnteredFormat.numberFormat"
 			}
 		});
-		requests.push({ // DateTime timestamp (valid date)
+		requests.push({ // DateTime timestamp (no validation)
 			"repeatCell": {
 				"range": {
 					"startRowIndex": 1,
@@ -150,13 +150,9 @@ function createDatabase(name){
 							"type": "DATE",
 							"pattern": "HH:MM:SS dd.mm.yyyy"
 						}
-					},
-					"dataValidation": {
-						"condition": { "type": "DATE_IS_VALID" },
-						"strict": true
 					}
 				},
-				"fields": "userEnteredFormat.numberFormat,dataValidation"
+				"fields": "userEnteredFormat.numberFormat"
 			}
 		});
 		requests.push({ // str comments (no validation)
@@ -472,9 +468,10 @@ function catchStatus(response){
 
 // Gets list of 10 statuses that most closely match the given name
 // Returns through catch
-function getStatusByName(name){
-	// SELECT TOP 10 DISTINCT NAME WHERE NAME LIKE ?
-	gvzQuery("SELECT A, D, COUNT(A), COUNT(D) WHERE B CONTAINS '"+name+"' GROUP BY A, D ORDER BY D DESC LIMIT 10", catchStatusIds, pageId);
+function getStatusByName(name, count){
+	// SELECT TOP ? DISTINCT NAME WHERE NAME LIKE ?
+	if (typeof(count) != "number"){ throw new TypeError; }
+	gvzQuery("SELECT A, D, COUNT(A), COUNT(D) WHERE B CONTAINS '"+name+"' GROUP BY A, D ORDER BY D DESC LIMIT "+count|0, catchStatusIds, pageId);
 }
 
 function catchStatusIds(response){
