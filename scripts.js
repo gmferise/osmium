@@ -417,7 +417,11 @@ function selectDatabaseId(id){
 
 /// ***** ASYNC FUNCTIONS *****
 
-function pushEvent(uid, type){
+  //--------//
+ /// TODO ///
+//--------//
+
+function pushEvent(uid, type){ 
 	// Get name from uid
 	gapi.client.sheets.spreadsheets.batchUpdate({
 		spreadsheetId: databaseId,
@@ -450,38 +454,44 @@ function getName(id){
 }
 
 function catchName(response){
-	if (response == null){ console.log("getName Query Failed"); return; }
+	if (response == undefined){ console.log("getName Query Failed"); return; }
 	console.log(response.getDataTable().getDistinctValues(1)[0]); // [id, name, count(id), count(name)]
 }
 
 // Gets the latest status of a user given their id from main database
 // Returns through catch
 function getStatusById(id){
-	// SQL: SELECT event WHERE id = ? ORDER BY date DESC LIMIT 1
-	gvzQuery("SELECT A, B, C, D, E WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatus);
+	// SQL: SELECT TOP 1 * WHERE id = ? ORDER BY date DESC
+	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatus);
 }
 
 function catchStatus(response){
-	if (response == null){ console.log("getStatus Query Failed"); return; }
-	var a = [];
-	for (var i=0; i<response.J.wg[0]['c'].length; i++) {
-		a.push(response.J.wg[0]['c'][i]['v']);
-	}
-	console.log(a); // Array of [id, name, status, timestamp, comments]
+	if (response == undefined){ console.log("getStatus Query Failed"); return; }
+	console.log(response.getDataTable().getDistinctValues(0)); // Array of [id, name, status, timestamp, comments]
 }
 
 // Gets list of 10 statuses that most closely match the given name
 // Returns through catch
 function getStatusByName(name){
-	gvzQuery("SELECT A, D, COUNT(A), COUNT(D) WHERE B CONTAINS '"+name+"' GROUP BY A, D ORDER BY D DESC LIMIT 10", catchStatusIds);
+	// SELECT TOP 10 DISTINCT NAME WHERE NAME LIKE ?
+	gvzQuery("SELECT A, D, COUNT(A), COUNT(D) WHERE B CONTAINS '"+name+"' GROUP BY A, D ORDER BY D DESC LIMIT 10", catchStatusIds, pageId);
 }
 
 function catchStatusIds(response){
-	if (response == null){ console.log("getStatusByName Query Failed"); return; }
+	if (response == undefined){ console.log("getStatusByName Query Failed"); return; }
 	var ids = response.getDataTable().getDistinctValues(0);
 	var rows = [];
 	for (i in ids){
-		rows.push(getStatusById(ids[i])); //< getStatusById is async so that doesn't work
+		getStatusByIdBatch(ids[i]);
 	}
-	console.log(rows); // Array of 10 statuses [id, name, status, timestamp, comments]
+}
+
+function getStatusByIdBatch(id){
+	// SQL: SELECT TOP 1 * WHERE id = ? ORDER BY date DESC 
+	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatusBatch);
+}
+
+function catchStatusBatch(response){
+	// Recieves individual statuses
+	console.log(response.getDataTable().getDistinctValues(0));
 }
