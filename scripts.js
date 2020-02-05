@@ -454,10 +454,17 @@ function catchName(response){
 	console.log(response.getDataTable().getDistinctValues(1)[0]); // [id, name, count(id), count(name)]
 }
 
-// Gets the latest status of a user given their id from main database
-// Returns 2 events to check for tech status... [most recent, 2nd most recent]
-// so read these right to left for time-wise order
-// possible scenarios... (event(newer), event(older) = status, doTechColor)
+// Returns through catch
+function getStatusById(id){
+	// SQL: SELECT TOP 2 * WHERE id = ? ORDER BY date DESC
+	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+id+" ORDER BY D DESC LIMIT 2", catchStatus);
+}
+
+function catchStatus(response){
+	// Gets the latest status of a user given their id from main database
+	// Returns 2 events to check for tech status... [most recent, 2nd most recent]
+	// so read these right to left for time-wise order
+	// possible scenarios... (event(newer), event(older) = status, doTechColor)
 	// check-in, check-in = in, false (assume was check-in > forgot to check out > checked in later)
 	// check-in, check-out = in, false (excpected check-out > check-in)
 	// check-in, sent-tech = in, false (assume was check-in > sent-tech > forgot to check out > checked in later)
@@ -467,14 +474,6 @@ function catchName(response){
 	// sent-tech, check-in = in, true (expected check-in > sent-tech > check out)
 	// sent-tech, check-out = out, true (assume forgot to send to tech before student left)
 	// sent-tech, sent-tech = THROW ERROR, sent-tech pushEvent should not write if most recent status ends is sent-tech
-// 
-// Returns through catch
-function getStatusById(id){
-	// SQL: SELECT TOP 2 * WHERE id = ? ORDER BY date DESC
-	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+id+" ORDER BY D DESC LIMIT 2", catchStatus);
-}
-
-function catchStatus(response){
 	if (response == undefined){ console.log("getStatus Query Failed"); return; }
 	console.log(response.getDataTable().getDistinctValues(0)); // Array of [id, name, status, timestamp, comments]
 }
