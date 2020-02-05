@@ -34,21 +34,21 @@
 				<div class="medium-text title-left">I'm here to...</div>
 				<label class="checkbox-container">
 					Work/Study/Read
-					<i class='material-icons'>menu_book</i>
 					<input id='work-checkbox' type="checkbox">
 					<span class="checkmark"></span>
+					<i class='material-icons'>menu_book</i>
 				</label>
 				<label class="checkbox-container">
 					Get Tech Help
-					<i class='material-icons'>phonelink</i>
 					<input id='tech-help-checkbox' type="checkbox">
 					<span class="checkmark"></span>
+					<i class='material-icons'>phonelink</i>
 				</label>
 				<label class="checkbox-container">
 					Print Documents
-					<i class='material-icons'>print</i>
 					<input id='print-checkbox' type="checkbox">
 					<span class="checkmark"></span>
+					<i class='material-icons'>print</i>
 				</label>
 			</div>
 			<div class="numpad">
@@ -132,7 +132,9 @@ function showCheckIn(state) {
 	} else {
 		document.getElementById('check-in-popup').style = '';
 		document.getElementById("check-in-id").value = "";
+		document.getElementById('work-checkbox').checked = false;
 		document.getElementById('tech-help-checkbox').checked = false;
+		document.getElementById('print-checkbox').checked = false;
 		document.getElementById('check-in-loading').classList.remove('loading');
 		databaseSenderState = 0;
 	}
