@@ -427,9 +427,9 @@ function pushEvent(id, type, comments, flags){
 			"spreadsheetId": databaseId,
 			"range": 'A:H',
 			"resource": {
-				"values": {[ 
+				"values": [ 
 				[id, name, type, "=TODAY()", comments, flags[0], flags[1], flags[2]]
-				]}
+				]
 			},
 			"optionalArgs": {"valueInputUption": "USER_ENTERED"}
 		}).then(function(response){
