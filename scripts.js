@@ -430,9 +430,9 @@ function pushEvent(id, type, comments, flags){
 			"resource": {
 				"values": [
 				[id, name, type,
-				new Date().toLocaleString("en-GB-u-hc-h24",
+				new Date().toLocaleString("en-CA-u-hc-h24",
 				{day:"2-digit", month:"2-digit", year:"numeric",
-				hour:"2-digit", minute:"2-digit", second:"2-digit"}),
+				hour:"2-digit", minute:"2-digit", second:"2-digit"}).replace(",",""),
 				comments, flags[0], flags[1], flags[2]]
 				]
 			},
@@ -470,7 +470,10 @@ function getName(id, callback){
 // Returns through catch
 // Easy use: getEventsAfter(new Date()) does Date() = Now()
 function getEventsAfter(dateObject){
-	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D > date '"+dateObject.toISOString()+"' ORDER BY D DESC", catchEventsAfter);
+	var dateString = dateObject.toLocaleString("en-CA-u-hc-h24",
+				{day:"2-digit", month:"2-digit", year:"numeric",
+				hour:"2-digit", minute:"2-digit", second:"2-digit"}).replace(",","");
+	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D > datetime '"+dateString+"' ORDER BY D DESC", catchEventsAfter);
 }
 
 function catchEventsAfter(response){
