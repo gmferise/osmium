@@ -431,7 +431,7 @@ function pushEvent(id, type, comments, flags){
 				[id, name, type, "=TODAY()", comments, flags[0], flags[1], flags[2]]
 				]
 			},
-			"valueInputUption": "USER_ENTERED"
+			"valueInputOption": "USER_ENTERED"
 		}).then(function(response){
 			console.log(response);
 		});	
