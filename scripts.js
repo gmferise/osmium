@@ -148,7 +148,7 @@ function createDatabase(name){
 					"userEnteredFormat": {
 						"numberFormat": {
 							"type": "DATE",
-							"pattern": "HH:MM:SS dd-mm-yyyy"
+							"pattern": "dd/mm/yyyy, HH:MM:SS"
 						}
 					}
 				},
@@ -428,7 +428,11 @@ function pushEvent(id, type, comments, flags){
 			"range": "A:H",
 			"resource": {
 				"values": [
-				[id, name, type, "=TODAY()", comments, flags[0], flags[1], flags[2]]
+				[id, name, type,
+				new Date().toLocaleString("en-GB-u-hc-h24",
+				{day:"2-digit", month:"2-digit", year:"numeric",
+				hour:"2-digit", minute:"2-digit", second:"2-digit"}),
+				comments, flags[0], flags[1], flags[2]]
 				]
 			},
 			"valueInputOption": "USER_ENTERED"
