@@ -443,6 +443,7 @@ function pushEvent(uid, type, comments, flags){
 		});	
 	}
 	getName(id, cb, pageId);
+}
 
 function pushEvent(
 
