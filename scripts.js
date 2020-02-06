@@ -420,23 +420,31 @@ function selectDatabaseId(id){
 // Input: id, event name, comments, bool[](studying, technology, printing)
 function pushEvent(uid, type, comments, flags){ 
 	// Get name from uid
-	// Update values
-	gapi.client.sheets.spreadsheets.values.append({
-		"spreadsheetId": databaseId,
-		"range": 'A:H',
-		"values": [
-			{"userEnteredValue": {"stringValue": uid}},
-			{"userEnteredValue": {"stringValue": name}},
-			{"userEnteredValue": {"stringValue": type}},
-			{"userEnteredValue": {"stringValue": "=TODAY()"}},
-			{"userEnteredValue": {"stringValue": comments}},
-			{"userEnteredValue": {"stringValue": flags[0]}},
-			{"userEnteredValue": {"stringValue": flags[1]}},
-			{"userEnteredValue": {"stringValue": flags[2]}}
-		]
-	}).then(function(response){
-	});
-}
+	var cb = function(response){
+		name = response.getDataTable().getDistinctValues(1)[0];
+		// Update values
+		gapi.client.sheets.spreadsheets.values.append({
+			"spreadsheetId": databaseId,
+			"body": {
+				"range": 'A:H',
+				"values": [
+					{"stringValue": uid},
+					{"stringValue": name},
+					{"stringValue": type},
+					{"stringValue": "=TODAY()"},
+					{"stringValue": comments},
+					{"stringValue": flags[0]},
+					{"stringValue": flags[1]},
+					{"stringValue": flags[2]}
+				]
+			}
+		}).then(function(response){
+			console.log(response);
+		});	
+	}
+	getName(id, cb, pageId);
+
+function pushEvent(
 
 /// ******************
 /// * SELECT QUERIES *
@@ -456,14 +464,9 @@ function gvzQuery(query, callback, page){
 
 // Queries the reference page for the name of a user given their id
 // Returns through catch
-function getName(id){
+function getName(id, callback){
 	if (pageId == 0) { throw new Error("Page must not be first page of sheet"); }
-	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE A = "+id+" GROUP BY A, B LIMIT 1", catchName, pageId);
-}
-
-function catchName(response){
-	if (response == undefined){ console.log("getName Query Failed"); return; }
-	console.log(response.getDataTable().getDistinctValues(1)[0]); // [id, name, count(id), count(name)]
+	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE A = "+id+" GROUP BY A, B LIMIT 1", callback, pageId);
 }
 
 // Returns through catch
