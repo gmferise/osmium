@@ -425,13 +425,13 @@ function pushEvent(id, type, comments, flags){
 		// Update values
 		gapi.client.sheets.spreadsheets.values.append({
 			"spreadsheetId": databaseId,
-			"range": 'A:H',
+			"range": "A:H",
 			"resource": {
-				"values": [ 
+				"values": [
 				[id, name, type, "=TODAY()", comments, flags[0], flags[1], flags[2]]
 				]
 			},
-			"optionalArgs": {"valueInputUption": "USER_ENTERED"}
+			"valueInputUption": "USER_ENTERED"
 		}).then(function(response){
 			console.log(response);
 		});	
