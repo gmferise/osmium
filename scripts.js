@@ -422,7 +422,7 @@ function pushEvent(id, type, comments, flags){
 	// Get name from uid 
 	getName(id, function(response){
 		name = response.getDataTable().getDistinctValues(1)[0];
-		if (name == undefined) { console.log("pushEvent() WARN: No name found for id "+id)}
+		if (name == "undefined") { console.log("pushEvent() WARN: No name found for id "+id); }
 		// Update values
 		gapi.client.sheets.spreadsheets.values.append({
 			"spreadsheetId": databaseId,
@@ -438,7 +438,12 @@ function pushEvent(id, type, comments, flags){
 			},
 			"valueInputOption": "USER_ENTERED"
 		}).then(function(response){
-			console.log(response);
+			if (response.status != 200){
+				throw new Error("Failed to add new rows.");
+			}
+			else {
+				console.log("Rows successfully added.");
+			}
 		});	
 	}, pageId);
 }
