@@ -148,7 +148,7 @@ function createDatabase(name){
 					"userEnteredFormat": {
 						"numberFormat": {
 							"type": "DATE",
-							"pattern": "dd/mm/yyyy, HH:MM:SS"
+							"pattern": "yyyy-mm-dd HH:MM:SS"
 						}
 					}
 				},
