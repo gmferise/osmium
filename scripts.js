@@ -422,6 +422,7 @@ function pushEvent(id, type, comments, flags){
 	// Get name from uid 
 	getName(id, function(response){
 		name = response.getDataTable().getDistinctValues(1)[0];
+		if (name == undefined) { console.log("pushEvent() WARN: No name found for id "+id)}
 		// Update values
 		gapi.client.sheets.spreadsheets.values.append({
 			"spreadsheetId": databaseId,
@@ -467,15 +468,12 @@ function getName(id, callback){
 }
 
 // Returns through catch
-// Easy use: getEntriesAfter(new Date()) does Date() = Now()
-function getEntriesAfter(dateObject){
-	dateString = dateObject.toLocaleString("en-GB-u-hc-h24",
-				{day:"2-digit", month:"2-digit", year:"numeric",
-				hour:"2-digit", minute:"2-digit", second:"2-digit"});
-	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D = date '"+date+"' ORDER BY D DESC", catchEntriesAfter);
+// Easy use: getEventsAfter(new Date()) does Date() = Now()
+function getEventsAfter(dateObject){
+	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D > date '"+dateObject.toISOString()+"' ORDER BY D DESC", catchEventsAfter);
 }
 
-function catchEntriesAfter(response){
+function catchEventsAfter(response){
 	console.log(response.getDataTable());
 	var dt = response.getDataTable()
 	var uniqueids = [];
