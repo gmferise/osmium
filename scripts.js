@@ -420,26 +420,29 @@ function selectDatabaseId(id){
 // Input: id, event name, comments, bool[](studying, technology, printing)
 function pushEvent(uid, type, comments, flags){ 
 	// Get name from uid
-	getName(id, function(response){
+	var cb = function(response){
 		name = response.getDataTable().getDistinctValues(1)[0];
 		// Update values
 		gapi.client.sheets.spreadsheets.values.append({
 			"spreadsheetId": databaseId,
-			"range": 'A:H',
-			"values": [
-				{"userEnteredValue": {"stringValue": uid}},
-				{"userEnteredValue": {"stringValue": name}},
-				{"userEnteredValue": {"stringValue": type}},
-				{"userEnteredValue": {"stringValue": "=TODAY()"}},
-				{"userEnteredValue": {"stringValue": comments}},
-				{"userEnteredValue": {"stringValue": flags[0]}},
-				{"userEnteredValue": {"stringValue": flags[1]}},
-				{"userEnteredValue": {"stringValue": flags[2]}}
-			]
+			"body": {
+				"range": 'A:H',
+				"values": [
+					{"stringValue": uid},
+					{"stringValue": name},
+					{"stringValue": type},
+					{"stringValue": "=TODAY()"},
+					{"stringValue": comments},
+					{"stringValue": flags[0]},
+					{"stringValue": flags[1]},
+					{"stringValue": flags[2]}
+				]
+			}
 		}).then(function(response){
 			console.log(response);
 		});	
-	}, pageId);
+	}
+	getName(id, cb, pageId);
 
 function pushEvent(
 
