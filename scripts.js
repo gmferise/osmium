@@ -418,31 +418,26 @@ function selectDatabaseId(id){
 //--------//
 
 // Input: id, event name, comments, bool[](studying, technology, printing)
-function pushEvent(uid, type, comments, flags){ 
+function pushEvent(id, type, comments, flags){ 
 	// Get name from uid 
 	getName(id, function(response){
 		name = response.getDataTable().getDistinctValues(1)[0];
 		// Update values
 		gapi.client.sheets.spreadsheets.values.append({
 			"spreadsheetId": databaseId,
-			"body": {
-				"range": 'A:H',
-				"values": [
-					{"stringValue": uid},
-					{"stringValue": name},
-					{"stringValue": type},
-					{"stringValue": "=TODAY()"},
-					{"stringValue": comments},
-					{"stringValue": flags[0]},
-					{"stringValue": flags[1]},
-					{"stringValue": flags[2]}
-				]
-			}
+			"range": 'A:H',
+			"resource": {
+				"values": {[ 
+				[id, name, type, "=TODAY()", comments, flags[0], flags[1], flags[2]]
+				]}
+			},
+			"optionalArgs": {"valueInputUption": "USER_ENTERED"}
 		}).then(function(response){
 			console.log(response);
 		});	
 	}, pageId);
 }
+
 
 /// ******************
 /// * SELECT QUERIES *
