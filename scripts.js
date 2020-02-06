@@ -470,6 +470,23 @@ function getDailyEntries(date){
 
 function catchDailyEntries(response){
 	console.log(response.getDataTable());
+	var dt = response.getDataTable()
+	var uniqueids = [];
+	var events = [];
+	for (var i=0; i<dt.length; i++) {
+		var row = dt.getDistinctValues(i);
+		var index = uniqueids.indexOf(row[0]);
+		if (index == -1) {
+			uniqueids.push(row[0]);
+			events.push([row]);
+		} else {
+			events[index].push(row);
+		}
+		
+	}
+	for (i=0; i<uniqueids.length; i++) {
+		
+	}
 }
 
 // Returns through catch
