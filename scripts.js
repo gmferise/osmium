@@ -419,8 +419,8 @@ function selectDatabaseId(id){
 
 // Input: id, event name, comments, bool[](studying, technology, printing)
 function pushEvent(uid, type, comments, flags){ 
-	// Get name from uid
-	var cb = function(response){
+	// Get name from uid 
+	getName(id, function(response){
 		name = response.getDataTable().getDistinctValues(1)[0];
 		// Update values
 		gapi.client.sheets.spreadsheets.values.append({
@@ -441,11 +441,8 @@ function pushEvent(uid, type, comments, flags){
 		}).then(function(response){
 			console.log(response);
 		});	
-	}
-	getName(id, cb, pageId);
+	}, pageId);
 }
-
-function pushEvent(
 
 /// ******************
 /// * SELECT QUERIES *
