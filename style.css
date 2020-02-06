@@ -789,6 +789,7 @@ body.bigbody.fixedratio div.bigpopup div.content-extra div.large-text {
 	top: 0;
 	right: 0;
 	position: absolute;
+	/* TODO unchecked icon styling */
 }
 .checkbox-container span {
 	font-size: 5vh;
@@ -825,7 +826,7 @@ body.bigbody.fixedratio div.bigpopup div.content-extra div.large-text {
 .checkbox-container input:checked ~ .checkmark:after {
 	content: "check_box";
 }
-.checkbox-container input:checked ~ i.material-icons:after {
+.checkbox-container input:checked ~ i.material-icons {
 	/* TODO checked icon styling */
 }
 
