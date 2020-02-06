@@ -426,7 +426,7 @@ function pushEvent(id, type, comments, flags){
 		gapi.client.sheets.spreadsheets.values.append({
 			"spreadsheetId": databaseId,
 			"range": "A:H",
-			"resource": {
+			resource: {
 				"values": [
 				[id, name, type, "=TODAY()", comments, flags[0], flags[1], flags[2]]
 				]
