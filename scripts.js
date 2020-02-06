@@ -467,12 +467,15 @@ function getName(id, callback){
 }
 
 // Returns through catch
-// Date format is a string: "YYYY-MM-DD"
-function getDailyEntries(date){
-	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D = date '"+date+"' ORDER BY D DESC", catchDailyEntries);
+// Easy use: getEntriesAfter(new Date()) does Date() = Now()
+function getEntriesAfter(dateObject){
+	dateString = dateObject.toLocaleString("en-GB-u-hc-h24",
+				{day:"2-digit", month:"2-digit", year:"numeric",
+				hour:"2-digit", minute:"2-digit", second:"2-digit"});
+	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D = date '"+date+"' ORDER BY D DESC", catchEntriesAfter);
 }
 
-function catchDailyEntries(response){
+function catchEntriesAfter(response){
 	console.log(response.getDataTable());
 	var dt = response.getDataTable()
 	var uniqueids = [];
