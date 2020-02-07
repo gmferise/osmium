@@ -54,7 +54,7 @@ var pageId; // Second page of spreadsheet
 // Creates new database in user's Drive using given name
 // Returns new database id through catch
 function createDatabase(name){
-	if (name == '' || name == null){ throw new Error("Please provide a valid name"); }
+	if ((name == '') || (name == null)){ throw new Error("Please provide a valid name"); }
 	name = '[OsDB] '+name;
 	gapi.client.sheets.spreadsheets.create({
 		properties: {
