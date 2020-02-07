@@ -136,7 +136,7 @@ function showSignIn(state) {
 		document.getElementById('tech-help-checkbox').checked = false;
 		document.getElementById('print-checkbox').checked = false;
 		document.getElementById('sign-in-loading').classList.remove('loading');
-		databaseSenderState = 0;
+		signInHTMLSTATE = 0;
 	}
 }
 // states for UI callbacks
@@ -168,7 +168,7 @@ function showSignOut(state) {
 		document.getElementById('sign-out-popup').style = '';
 		document.getElementById("sign-out-id").value = "";
 		document.getElementById('sign-out-loading').classList.remove('loading');
-		databaseSenderState = 0;
+		signOutHTMLSTATE = 0;
 	}
 }
 // states for UI callbacks
