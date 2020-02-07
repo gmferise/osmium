@@ -443,7 +443,6 @@ function pushEvent(id, type, comments, flags) {
 			}
 			else {
 				console.log("Rows successfully added.");
-				console.log(response);
 			}
 		});	
 	}, pageId);

@@ -148,7 +148,7 @@ function throwSignIn() {
 		var studentid = document.getElementById('sign-in-id').value;
 		if ((studentid.length > 0)&&(studentid.length <= 6)) {
 			document.getElementById('sign-in-loading').classList.add('loading');
-			pushEvent(studentid, 'sign-in', '', [document.getElementById('work-checkbox').value, document.getElementById('tech-help-checkbox').value, document.getElementById('print-checkbox').value]);
+			pushEvent(studentid, 'sign-in', '', [document.getElementById('work-checkbox').checked, document.getElementById('tech-help-checkbox').checked, document.getElementById('print-checkbox').checked]);
 			signInHTMLSTATE = 1;
 		}
 	}
