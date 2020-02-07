@@ -400,12 +400,12 @@ function selectDatabaseName(name){
 // Returns selected database name
 function selectDatabaseId(id){
 	databaseId = id;
+	getPageId();
 	for (var db in knownDatabases) {
 		if (knownDatabases[db] == id) {
 			return db;
 		}
 	}
-	getPageId();
 	return id;
 }
 function selectDatabaseIdFromUrl() {
@@ -422,10 +422,6 @@ function selectDatabaseIdFromUrl() {
 /// ******************
 
 /// ***** ASYNC FUNCTIONS *****
-
-  //--------//
- /// TODO ///
-//--------//
 
 // Input: id, event name, comments, bool[](studying, technology, printing)
 function pushEvent(id, type, comments, flags) { 
