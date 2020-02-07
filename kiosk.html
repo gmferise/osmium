@@ -114,6 +114,8 @@
 var databaseId = new URLSearchParams(window.location.search).get('id');
 if (databaseId == null) {
 	console.log("ERROR: no database selected");
+} else {
+	getPageId();
 }
 
 document.getElementById('sign-in-id').addEventListener("keydown", function(event) {
