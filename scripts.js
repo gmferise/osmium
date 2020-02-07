@@ -419,7 +419,7 @@ function selectDatabaseId(id){
 //--------//
 
 // Input: id, event name, comments, bool[](studying, technology, printing)
-function pushEvent(id, type, comments, flags){ 
+function pushEvent(id, type, comments, flags) { 
 	// Get name from uid 
 	getName(id, function(response){
 		name = response.getDataTable().getDistinctValues(1)[0];

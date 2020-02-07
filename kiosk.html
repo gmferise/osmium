@@ -22,13 +22,13 @@
 	</head>
 	<body class="bigbody fixedratio">
 		
-		<div id="check-in-popup" class="bigpopup pretty-scrollbar-light">
+		<div id="sign-in-popup" class="bigpopup pretty-scrollbar-light">
 			<div class="content">
 				<div class="title-center fullsize fullwidth">Sign In to the Library</div>
 				<i class="material-icons">perm_identity</i>
-				<input id="check-in-id" type="text" placeholder="Student ID"></input>
-				<button id='check-in-loading' class="material-icons big ok" onclick=""></button>
-				<button class="material-icons big cancel" onclick='showCheckIn(false);'>close</button>
+				<input id="sign-in-id" type="text" placeholder="Student ID"></input>
+				<button id='sign-in-loading' class="material-icons big ok" onclick="throwSignIn()"></button>
+				<button class="material-icons big cancel" onclick='showSignIn(false);'>close</button>
 			</div>
 			<div class="content-extra">
 				<div class="medium-text title-left">I'm here to...</div>
@@ -52,29 +52,29 @@
 				</label>
 			</div>
 			<div class="numpad">
-				<button class="num7" onclick="numpadInput('check-in-id',this.innerText);">7</button>
-				<button class="num8" onclick="numpadInput('check-in-id',this.innerText);">8</button>
-				<button class="num9" onclick="numpadInput('check-in-id',this.innerText);">9</button>
+				<button class="num7" onclick="numpadInput('sign-in-id',this.innerText);">7</button>
+				<button class="num8" onclick="numpadInput('sign-in-id',this.innerText);">8</button>
+				<button class="num9" onclick="numpadInput('sign-in-id',this.innerText);">9</button>
 				
-				<button class="num4" onclick="numpadInput('check-in-id',this.innerText);">4</button>
-				<button class="num5" onclick="numpadInput('check-in-id',this.innerText);">5</button>
-				<button class="num6" onclick="numpadInput('check-in-id',this.innerText);">6</button>
+				<button class="num4" onclick="numpadInput('sign-in-id',this.innerText);">4</button>
+				<button class="num5" onclick="numpadInput('sign-in-id',this.innerText);">5</button>
+				<button class="num6" onclick="numpadInput('sign-in-id',this.innerText);">6</button>
 				
-				<button class="num1" onclick="numpadInput('check-in-id',this.innerText);">1</button>
-				<button class="num2" onclick="numpadInput('check-in-id',this.innerText);">2</button>
-				<button class="num3" onclick="numpadInput('check-in-id',this.innerText);">3</button>
+				<button class="num1" onclick="numpadInput('sign-in-id',this.innerText);">1</button>
+				<button class="num2" onclick="numpadInput('sign-in-id',this.innerText);">2</button>
+				<button class="num3" onclick="numpadInput('sign-in-id',this.innerText);">3</button>
 				
-				<button class="num0" onclick="numpadInput('check-in-id',this.innerText);">0</button>
-				<button class="numbs" onclick="numpadInput('check-in-id',this.innerText);">backspace</button>
+				<button class="num0" onclick="numpadInput('sign-in-id',this.innerText);">0</button>
+				<button class="numbs" onclick="numpadInput('sign-in-id',this.innerText);">backspace</button>
 			</div>
 		</div>
-		<div id="check-out-popup" class="bigpopup pretty-scrollbar-light">
+		<div id="sign-out-popup" class="bigpopup pretty-scrollbar-light">
 			<div class="content">
 				<div class="title-center fullsize fullwidth">Sign Out of the Library</div>
 				<i class="material-icons">perm_identity</i>
-				<input id="check-out-id" type="text" placeholder="Student ID"></input>
-				<button id='check-out-loading' class="material-icons big ok" onclick="createDatabaseSender();"></button>
-				<button class="material-icons big cancel" onclick='showCheckOut(false);'>close</button>
+				<input id="sign-out-id" type="text" placeholder="Student ID"></input>
+				<button id='sign-out-loading' class="material-icons big ok" onclick="throwSignOut()"></button>
+				<button class="material-icons big cancel" onclick='showSignOut(false);'>close</button>
 			</div>
 			<div class="content-extra">
 				<div class='large-text'>
@@ -82,29 +82,29 @@
 				</div>
 			</div>
 			<div class="numpad">
-				<button class="num7" onclick="numpadInput('check-out-id',this.innerText);">7</button>
-				<button class="num8" onclick="numpadInput('check-out-id',this.innerText);">8</button>
-				<button class="num9" onclick="numpadInput('check-out-id',this.innerText);">9</button>
+				<button class="num7" onclick="numpadInput('sign-out-id',this.innerText);">7</button>
+				<button class="num8" onclick="numpadInput('sign-out-id',this.innerText);">8</button>
+				<button class="num9" onclick="numpadInput('sign-out-id',this.innerText);">9</button>
 				
-				<button class="num4" onclick="numpadInput('check-out-id',this.innerText);">4</button>
-				<button class="num5" onclick="numpadInput('check-out-id',this.innerText);">5</button>
-				<button class="num6" onclick="numpadInput('check-out-id',this.innerText);">6</button>
+				<button class="num4" onclick="numpadInput('sign-out-id',this.innerText);">4</button>
+				<button class="num5" onclick="numpadInput('sign-out-id',this.innerText);">5</button>
+				<button class="num6" onclick="numpadInput('sign-out-id',this.innerText);">6</button>
 				
-				<button class="num1" onclick="numpadInput('check-out-id',this.innerText);">1</button>
-				<button class="num2" onclick="numpadInput('check-out-id',this.innerText);">2</button>
-				<button class="num3" onclick="numpadInput('check-out-id',this.innerText);">3</button>
+				<button class="num1" onclick="numpadInput('sign-out-id',this.innerText);">1</button>
+				<button class="num2" onclick="numpadInput('sign-out-id',this.innerText);">2</button>
+				<button class="num3" onclick="numpadInput('sign-out-id',this.innerText);">3</button>
 				
-				<button class="num0" onclick="numpadInput('check-out-id',this.innerText);">0</button>
-				<button class="numbs" onclick="numpadInput('check-out-id',this.innerText);">backspace</button>
+				<button class="num0" onclick="numpadInput('sign-out-id',this.innerText);">0</button>
+				<button class="numbs" onclick="numpadInput('sign-out-id',this.innerText);">backspace</button>
 			</div>
 		</div>
 		
 		<div class='pretty-scrollbar-dark'>
 			<div class='fullsize title-center logotext'>Welcome to the Library</div>
 			<div class='medium-spacer'></div>
-			<button class="check-in big" onclick="showCheckIn(true);">Sign In</button>
+			<button class="sign-in big" onclick="showSignIn(true);">Sign In</button>
 			<div class='medium-spacer'></div>
-			<button class="check-out big" onclick="showCheckOut(true);">Sign Out</button>
+			<button class="sign-out big" onclick="showSignOut(true);">Sign Out</button>
 		</div>
 	
 	</body>
@@ -116,38 +116,79 @@ if (databaseId == null) {
 	console.log("ERROR: no database selected");
 }
 
-document.getElementById('check-in-id').addEventListener("keydown", function(event) {
+document.getElementById('sign-in-id').addEventListener("keydown", function(event) {
     event.preventDefault();
-    numpadInput('check-in-id',event.key.toLowerCase());
+    numpadInput('sign-in-id',event.key.toLowerCase());
 });
-document.getElementById('check-out-id').addEventListener("keydown", function(event) {
+document.getElementById('sign-out-id').addEventListener("keydown", function(event) {
     event.preventDefault();
-    numpadInput('check-out-id',event.key.toLowerCase());
+    numpadInput('sign-out-id',event.key.toLowerCase());
 });
 
-function showCheckIn(state) {
+function showSignIn(state) {
 	if (state == true) {
-		document.getElementById('check-in-popup').style = 'visibility: visible';
-		document.getElementById('check-in-id').focus();
+		document.getElementById('sign-in-popup').style = 'visibility: visible';
+		document.getElementById('sign-in-id').focus();
 	} else {
-		document.getElementById('check-in-popup').style = '';
-		document.getElementById("check-in-id").value = "";
+		document.getElementById('sign-in-popup').style = '';
+		document.getElementById("sign-in-id").value = "";
 		document.getElementById('work-checkbox').checked = false;
 		document.getElementById('tech-help-checkbox').checked = false;
 		document.getElementById('print-checkbox').checked = false;
-		document.getElementById('check-in-loading').classList.remove('loading');
-		databaseSenderState = 0;
+		document.getElementById('sign-in-loading').classList.remove('loading');
+		signInHTMLSTATE = 0;
 	}
 }
-function showCheckOut(state) {
+// states for UI callbacks
+// 0 - not active / user closed UI
+// 1 - sending query / awaiting response
+var signInHTMLSTATE = 0;
+function throwSignIn() {
+	if (signInHTMLSTATE == 0) { //prevent double submission
+		var studentid = document.getElementById('sign-in-id').value;
+		if ((studentid.length > 0)&&(studentid.length <= 6)) {
+			document.getElementById('sign-in-loading').classList.add('loading');
+			pushEvent(studentid, 'sign-in', '', [document.getElementById('work-checkbox').checked, document.getElementById('tech-help-checkbox').checked, document.getElementById('print-checkbox').checked]);
+			signInHTMLSTATE = 1;
+		}
+	}
+}
+function catchSignIn(response){
+	console.log("caught signin: "+response);
+	if (signInHTMLSTATE == 1) { //don't touch UI if already closed
+		showSignIn(false);
+	}
+}
+
+function showSignOut(state) {
 	if (state == true) {
-		document.getElementById('check-out-popup').style = 'visibility: visible';
-		document.getElementById('check-out-id').focus();
+		document.getElementById('sign-out-popup').style = 'visibility: visible';
+		document.getElementById('sign-out-id').focus();
 	} else {
-		document.getElementById('check-out-popup').style = '';
-		document.getElementById("check-out-id").value = "";
-		document.getElementById('check-out-loading').classList.remove('loading');
-		databaseSenderState = 0;
+		document.getElementById('sign-out-popup').style = '';
+		document.getElementById("sign-out-id").value = "";
+		document.getElementById('sign-out-loading').classList.remove('loading');
+		signOutHTMLSTATE = 0;
+	}
+}
+// states for UI callbacks
+// 0 - not active / user closed UI
+// 1 - sending query / awaiting response
+var signOutHTMLSTATE = 0;
+function throwSignOut() {
+	if (signOutHTMLSTATE == 0) { //prevent double submission
+		var studentid = document.getElementById('sign-out-id').value;
+		if ((studentid.length > 0)&&(studentid.length <= 6)) {
+			document.getElementById('sign-out-loading').classList.add('loading');
+			pushEvent(studentid, 'sign-out', '', [false,false,false]);
+			signOutHTMLSTATE = 1;
+		}
+	}
+}
+function catchSignOut(response){
+	console.log("caught signout: "+response);
+	if (signOutHTMLSTATE == 1) { //don't touch UI if already closed
+		showSignOut(false);
 	}
 }
 function numpadInput(targetid,value) {
