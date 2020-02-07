@@ -400,12 +400,12 @@ function selectDatabaseName(name){
 // Returns selected database name
 function selectDatabaseId(id){
 	databaseId = id;
+	getPageId();
 	for (var db in knownDatabases) {
 		if (knownDatabases[db] == id) {
 			return db;
 		}
 	}
-	getPageId();
 	return id;
 }
 function selectDatabaseIdFromUrl() {
@@ -422,10 +422,6 @@ function selectDatabaseIdFromUrl() {
 /// ******************
 
 /// ***** ASYNC FUNCTIONS *****
-
-  //--------//
- /// TODO ///
-//--------//
 
 // Input: id, event name, comments, bool[](studying, technology, printing)
 function pushEvent(id, type, comments, flags) { 
@@ -467,8 +463,8 @@ function pushEvent(id, type, comments, flags) {
 
 // Executes the Google Visualization query then passes the result into the callback function
 function gvzQuery(query, callback, page){
-	if (page == null) { page = "0"; }
-	var request = new google.visualization.Query('https://docs.google.com/spreadsheets/d/'+databaseId+'/gviz/tq?headers=1&access_token='+encodeURIComponent(GoogleAuth.currentUser.get().getAuthResponse().access_token));
+	if (page == undefined) { page = "0"; }
+	var request = new google.visualization.Query('https://docs.google.com/spreadsheets/d/'+databaseId+'/gviz/tq?headers=1&gid='+page+'&access_token='+encodeURIComponent(GoogleAuth.currentUser.get().getAuthResponse().access_token));
 	request.setQuery(query);
 	request.send(callback);
 }

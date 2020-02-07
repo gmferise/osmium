@@ -116,6 +116,16 @@ function showError(errorname) {
 		case 'no-url-database':
 			throw new Error("CRITICAL ERROR: No database selected.");
 			break;
+		case 'auth-lost':
+			throw new Error("CRITICAL ERROR: Authentication lost.");
+			break;
+	}
+}
+function updateAuthStatus() {
+	if (GoogleAuth.isSignedIn.get()) {
+		console.log("Authenticated! :)");
+	} else {
+		showError('auth-lost');
 	}
 }
 
