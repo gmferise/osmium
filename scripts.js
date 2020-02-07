@@ -469,7 +469,7 @@ function gvzQuery(query, callback, page){
 // Queries the reference page for the name of a user given their id
 // Returns through catch
 function getName(id, callback){
-	if (pageId == 0 || pageId = undefined) { throw new Error("Page must not be first page of sheet"); }
+	if ((pageId == 0) || (pageId == undefined)) { throw new Error("Page must not be first page of sheet"); }
 	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE A = "+id+" GROUP BY A, B LIMIT 1", callback, pageId);
 }
 
