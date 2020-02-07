@@ -74,6 +74,13 @@
 	</body>
 </html>
 <script>
+function showError(errorname) {
+	switch (errorname) {
+		case 'no-url-database':
+			break;
+	}
+}
+
 function getDatabaseQueryString() {
 	if (databaseId == null) {
 		return "";

@@ -101,12 +101,14 @@
 </html>
 
 <script>
-var databaseId = new URLSearchParams(window.location.search).get('id');
-if (databaseId == null) {
-	console.log("ERROR: no database selected");
-} else {
-	getPageId();
+function showError(errorname) {
+	switch (errorname) {
+		case 'no-url-database':
+			throw new Error("CRITICAL ERROR: No database selected.");
+			break;
+	}
 }
+
 function get12time(date) {
 	var hours = date.getHours();
 	var minutes = date.getMinutes();

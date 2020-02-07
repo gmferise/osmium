@@ -407,6 +407,15 @@ function selectDatabaseId(id){
 	getPageId();
 	return id;
 }
+function selectDatabaseIdFromUrl() {
+	var url = new URLSearchParams(window.location.search).get('id');
+	if (url != null) {
+		selectDatabaseId(url);
+	} else {
+		showError('no-url-database');
+	}
+}
+selectDatabaseIdFromUrl();
 
 /// ******************
 /// * UPDATE QUERIES *
