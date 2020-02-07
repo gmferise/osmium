@@ -479,33 +479,15 @@ function getName(id, callback){
 }
 
 // Returns through catch
-// Easy use: getEventsAfter(new Date()) does Date() = Now()
 function getEventsAfter(dateObject){
 	var dateString = dateObject.toLocaleString("en-CA-u-hc-h24",
 				{day:"2-digit", month:"2-digit", year:"numeric",
 				hour:"2-digit", minute:"2-digit", second:"2-digit"}).replace(",","");
-	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D < datetime '"+dateString+"' ORDER BY D DESC", catchEventsAfter);
+	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D > datetime '"+dateString+"' ORDER BY D DESC", catchEventsAfter);
 }
 
 function catchEventsAfter(response){
 	console.log(response.getDataTable());
-	var dt = response.getDataTable()
-	var uniqueids = [];
-	var events = [];
-	for (var i=0; i<dt.length; i++) {
-		var row = dt.getDistinctValues(i);
-		var index = uniqueids.indexOf(row[0]);
-		if (index == -1) {
-			uniqueids.push(row[0]);
-			events.push([row]);
-		} else {
-			events[index].push(row);
-		}
-		
-	}
-	for (i=0; i<uniqueids.length; i++) {
-		
-	}
 }
 
 // Returns through catch
