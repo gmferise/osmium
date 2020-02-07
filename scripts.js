@@ -478,6 +478,7 @@ function getName(id, callback){
 	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE A = "+id+" GROUP BY A, B LIMIT 1", callback, pageId);
 }
 
+// Gets all table rows later than the given time
 // Returns through catch
 function getEventsAfter(dateObject){
 	var dateString = dateObject.toLocaleString("en-CA-u-hc-h24",
@@ -490,6 +491,7 @@ function catchEventsAfter(response){
 	console.log(response.getDataTable());
 }
 
+// Gets all table rows with a student's id
 // Returns through catch
 function getStudentHistory(id){
 	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+id+" ORDER BY D DESC", catchDailyEntries);
@@ -499,6 +501,7 @@ function catchStudentHistory(response){
 	console.log(response.getDataTable());
 }
 
+// Gets student's latest event by their id
 // Returns through catch
 function getStatusById(id){
 	// SQL: SELECT TOP 2 * WHERE id = ? ORDER BY date DESC
@@ -523,6 +526,8 @@ function catchStatus(response){
 	console.log(response.getDataTable().getDistinctValues(0)); // Array of [id, name, status, timestamp, comments]
 }
 
+
+/// TODO
 // Gets list of 10 statuses that most closely match the given name
 // Returns through catch
 function getStatusByName(name, count){
