@@ -27,7 +27,7 @@
 				<div class="title-center fullsize fullwidth">Sign In to the Library</div>
 				<i class="material-icons">perm_identity</i>
 				<input id="sign-in-id" type="text" placeholder="Student ID"></input>
-				<button id='sign-in-loading' class="material-icons big ok" onclick=""></button>
+				<button id='sign-in-loading' class="material-icons big ok" onclick="throwSignIn()"></button>
 				<button class="material-icons big cancel" onclick='showSignIn(false);'>close</button>
 			</div>
 			<div class="content-extra">
@@ -73,7 +73,7 @@
 				<div class="title-center fullsize fullwidth">Sign Out of the Library</div>
 				<i class="material-icons">perm_identity</i>
 				<input id="sign-out-id" type="text" placeholder="Student ID"></input>
-				<button id='sign-out-loading' class="material-icons big ok" onclick="createDatabaseSender();"></button>
+				<button id='sign-out-loading' class="material-icons big ok" onclick="throwSignOut()"></button>
 				<button class="material-icons big cancel" onclick='showSignOut(false);'>close</button>
 			</div>
 			<div class="content-extra">
