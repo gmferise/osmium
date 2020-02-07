@@ -47,7 +47,7 @@ function initClient() {
 // Stored as 'Name':'SpreadsheetID'
 var knownDatabases = {}; 
 var databaseId; // Currently selected database in the form of it's spreadsheet id1
-var pageId; // Second page of spreadsheet
+var pageId = 0; // Second page of spreadsheet
 
 /// ***** ASYNC FUNCTIONS *****
 
@@ -147,7 +147,7 @@ function createDatabase(name){
 				"cell": {
 					"userEnteredFormat": {
 						"numberFormat": {
-							"type": "DATE",
+							"type": "DATE_TIME",
 							"pattern": "yyyy-mm-dd HH:MM:SS"
 						}
 					}
@@ -374,7 +374,7 @@ function getDatabases(newDatabase){
 // Returns through catch
 function getPageId(){
 	return gapi.client.sheets.spreadsheets.get({
-			spreadsheetId: id
+			spreadsheetId: databaseId
 	}).then(function(response){
 		pageId = response.result.sheets[1].properties.sheetId;
 		catchPageId(pageId);
@@ -382,7 +382,7 @@ function getPageId(){
 }
 
 function catchPageId(response){
-	console.log(response); // New reference id
+	console.log("New pageId: "+response); // New reference id
 }
 
 /// ***** STANDARD FUNCTIONS *****
@@ -404,6 +404,7 @@ function selectDatabaseId(id){
 			return db;
 		}
 	}
+	getPageId();
 	return id;
 }
 
@@ -468,7 +469,7 @@ function gvzQuery(query, callback, page){
 // Queries the reference page for the name of a user given their id
 // Returns through catch
 function getName(id, callback){
-	if (pageId == 0) { throw new Error("Page must not be first page of sheet"); }
+	if (pageId == 0 || pageId = undefined) { throw new Error("Page must not be first page of sheet"); }
 	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE A = "+id+" GROUP BY A, B LIMIT 1", callback, pageId);
 }
 
@@ -478,7 +479,7 @@ function getEventsAfter(dateObject){
 	var dateString = dateObject.toLocaleString("en-CA-u-hc-h24",
 				{day:"2-digit", month:"2-digit", year:"numeric",
 				hour:"2-digit", minute:"2-digit", second:"2-digit"}).replace(",","");
-	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D > datetime '"+dateString+"' ORDER BY D DESC", catchEventsAfter);
+	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D < datetime '"+dateString+"' ORDER BY D DESC", catchEventsAfter);
 }
 
 function catchEventsAfter(response){
