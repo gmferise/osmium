@@ -448,7 +448,7 @@ function pushEvent(id, type, comments, flags) {
 				throw new Error("Failed to add new rows.");
 			}
 			else {
-				console.log("Rows successfully added. Name="+name);
+				catchPushEvent(name, type, flags);
 			}
 		});	
 	}, pageId);

@@ -584,15 +584,35 @@ body.bigbody button.new:focus {
 	outline: 0;
 }
 /* popups */
+#push-success-popup div.content {
+	top: 50%;
+	transform: translateY(-50%);
+	height: fit-content;
+	padding-bottom: 50px;
+}
 div.bigpopup {
 	z-index: 100;	
-	visibility: hidden;
 	position: absolute;
-	top: 0;
+	opacity: 0;
+	visibility: hidden;
 	left: 0;
 	width: 100%;
 	height: 100%;
     background: rgba(0,0,0,0.5);
+}
+div.bigpopup.animate {
+	transition: all 0.25s ease-in-out;
+}
+div.bigpopup.fromtop {
+	top: -100vh;
+}
+div.bigpopup.frombot {
+	top: 100vh;
+}
+div.bigpopup.visible {
+	opacity: 1;
+	visibility: visible;
+	top: 0;
 }
 div.bigpopup div.content {
 	position: absolute;
@@ -603,6 +623,15 @@ div.bigpopup div.content {
 	background: white;	
 	box-shadow: 3px 4px 0px 1px black;
 	box-sizing: border-box;
+}
+div.bigpopup div.content div.medium-text {
+	font-size: 3em;
+	font-weight: 300;
+}
+div.bigpopup div.content div.large-text {
+	font-size: 3em;
+	color: royalblue;
+	font-weight: 400;
 }
 div.bigpopup div.content input {
 	position: absolute;
@@ -637,7 +666,7 @@ div.bigpopup div.content i {
 	font-size: 3em;
 }
 div.bigpopup div.content button.ok {
-	width: fit-content;
+	width: fit-content !important;
 	outline: 0;
 	position: absolute;
 	bottom: 0;
@@ -668,7 +697,7 @@ div.bigpopup div.content button.ok:hover {
 	border: 1px solid limegreen;
 }
 div.bigpopup div.content button.cancel {
-	width: fit-content;
+	width: fit-content !important;
 	outline: 0;
 	position: absolute;
 	bottom: 0;
@@ -684,42 +713,42 @@ div.bigpopup div.content button.cancel:hover {
 }
 /* kiosk styling */
 /* format for body so that it's always equally sized */
-body.bigbody.fixedratio {
+body.bigbody div.fixedratio {
 	width: 100vh;
 	height: 100vh;
 	margin-left: 50%;
 	transform: translateX(-50%);
 }
-body.bigbody.fixedratio div.medium-spacer {
+body.bigbody div.fixedratio div.medium-spacer {
 	height: 15vh;
 }
-body.bigbody.fixedratio button.big {
+body.bigbody div.fixedratio button.big {
 	width: 70vh;
 	font-size: 12vh;
 }
-body.bigbody.fixedratio div.bigpopup {
+body.bigbody div.fixedratio div.bigpopup {
 	background: lightblue;
 }
-body.bigbody.fixedratio div.bigpopup div.content {
+body.bigbody div.fixedratio div.bigpopup div.content {
 	height: 20vh;
 	top: 5vh;
 	width: 90vh;
 	left: 5vh;
 }
-body.bigbody.fixedratio div.bigpopup input {
+body.bigbody div.fixedratio div.bigpopup input {
 	font-size: 5vh;
 	margin-bottom: 2vh;
 	width: calc(100% - 32vh);
 	margin-left: 7.5vh;
 }
-body.bigbody.fixedratio div.bigpopup div.content i {
+body.bigbody div.fixedratio div.bigpopup div.content i {
 	margin-right: 0;
 	margin-bottom: 2vh;
 	font-size: 6vh;
 	margin-left: 2vh;
 	padding-bottom: 0.5vh;
 }
-body.bigbody.fixedratio div.bigpopup button.big.ok {
+body.bigbody div.fixedratio div.bigpopup button.big.ok {
 	margin-right: 0;
 	margin-bottom: 2vh;
 	font-size: 6vh;
@@ -728,11 +757,11 @@ body.bigbody.fixedratio div.bigpopup button.big.ok {
 	transform: none;
 	padding-bottom: 0.5vh;
 }
-body.bigbody.fixedratio div.bigpopup button.big.ok:hover,
-body.bigbody.fixedratio div.bigpopup button.big.cancel:hover {
+body.bigbody div.fixedratio div.bigpopup button.big.ok:hover,
+body.bigbody div.fixedratio div.bigpopup button.big.cancel:hover {
 	transform: translate(-2px, -2px);
 }
-body.bigbody.fixedratio div.bigpopup button.big.cancel {
+body.bigbody div.fixedratio div.bigpopup button.big.cancel {
 	margin-bottom: 2vh;
 	font-size: 6vh;
 	right: 2vh;
@@ -740,10 +769,10 @@ body.bigbody.fixedratio div.bigpopup button.big.cancel {
 	transform: none;
 	padding-bottom: 0.5vh;
 }
-body.bigbody.fixedratio .title-center.fullsize {
+body.bigbody div.fixedratio .title-center.fullsize {
 	font-size: 6vh;
 }
-body.bigbody.fixedratio div.bigpopup div.content-extra {
+body.bigbody div.fixedratio div.bigpopup div.content-extra {
 	position: absolute;
 	width: 47vh;
 	right: 5vh;
@@ -755,13 +784,13 @@ body.bigbody.fixedratio div.bigpopup div.content-extra {
 	padding: 3vh;
 	font-size: 3.5vh
 }
-body.bigbody.fixedratio div.bigpopup div.content-extra div.title-left {
+body.bigbody div.fixedratio div.bigpopup div.content-extra div.title-left {
 	font-weight: 400;
 	font-size: 4.5vh;
 	margin-top: 0;
 	margin-bottom: 1vw;
 }
-body.bigbody.fixedratio div.bigpopup div.content-extra div.large-text {
+body.bigbody div.fixedratio div.bigpopup div.content-extra div.large-text {
 	font-weight: 300;
 	font-size: 10vh;
 	text-align: center;

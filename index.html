@@ -91,10 +91,10 @@ function getDatabaseQueryString() {
 
 function showNewDB(state) {
 	if (state == true) {
-		document.getElementById('newdb-popup').style = 'visibility: visible';
+		document.getElementById('newdb-popup').classList.add('visible');
 		document.getElementById('newdb').focus();
 	} else {
-		document.getElementById('newdb-popup').style = '';
+		document.getElementById('newdb-popup').classList.remove('visible');
 		document.getElementById("newdb").value = "";
 		document.getElementById('newdb-loading').classList.remove('loading');
 		createDatabaseHTMLSTATE = 0;
