@@ -146,7 +146,7 @@ var signInHTMLSTATE = 0;
 function throwSignIn() {
 	if (signInHTMLSTATE == 0) { //prevent double submission
 		var studentid = document.getElementById('sign-in-id').value;
-		if ((studentid.length > 0)&&(studentid.length <= 6) {
+		if ((studentid.length > 0)&&(studentid.length <= 6)) {
 			document.getElementById('sign-in-loading').classList.add('loading');
 			pushEvent(studentid, 'sign-in', '', [document.getElementById('work-checkbox').value, document.getElementById('tech-help-checkbox').value, document.getElementById('print-checkbox').value]);
 			signInHTMLSTATE = 1;
@@ -178,7 +178,7 @@ var signOutHTMLSTATE = 0;
 function throwSignOut() {
 	if (signOutHTMLSTATE == 0) { //prevent double submission
 		var studentid = document.getElementById('sign-out-id').value;
-		if ((studentid.length > 0)&&(studentid.length <= 6) {
+		if ((studentid.length > 0)&&(studentid.length <= 6)) {
 			document.getElementById('sign-out-loading').classList.add('loading');
 			pushEvent(studentid, 'sign-out', '', [false,false,false]);
 			signOutHTMLSTATE = 1;
