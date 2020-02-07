@@ -36,6 +36,7 @@ function initClient() {
 		GoogleAuth = gapi.auth2.getAuthInstance();
 		GoogleAuth.isSignedIn.listen(updateAuthStatus);
 		updateAuthStatus();
+		selectDatabaseIdFromUrl();
 	});
 }
 
@@ -415,7 +416,6 @@ function selectDatabaseIdFromUrl() {
 		showError('no-url-database');
 	}
 }
-selectDatabaseIdFromUrl();
 
 /// ******************
 /// * UPDATE QUERIES *
