@@ -139,6 +139,26 @@ function showSignIn(state) {
 		databaseSenderState = 0;
 	}
 }
+// states for UI callbacks
+// 0 - not active / user closed UI
+// 1 - sending query / awaiting response
+var signInHTMLSTATE = 0;
+function throwSignIn() {
+	if (signInHTMLSTATE == 0) { //prevent double submission
+		var studentid = document.getElementById('sign-in-id').value;
+		if ((studentid.length > 0)&&(studentid.length <= 6) {
+			document.getElementById('sign-in-loading').classList.add('loading');
+			pushEvent(studentid, 'sign-in', '', [document.getElementById('work-checkbox').value, document.getElementById('tech-help-checkbox').value, document.getElementById('print-checkbox').value]);
+			signInHTMLSTATE = 1;
+		}
+	}
+}
+function catchSignIn(response){
+	console.log("caught signin: "+response);
+	if (signInHTMLSTATE == 1) { //don't touch UI if already closed
+		showSignIn(false);
+	}
+}
 
 function showSignOut(state) {
 	if (state == true) {
@@ -149,6 +169,26 @@ function showSignOut(state) {
 		document.getElementById("sign-out-id").value = "";
 		document.getElementById('sign-out-loading').classList.remove('loading');
 		databaseSenderState = 0;
+	}
+}
+// states for UI callbacks
+// 0 - not active / user closed UI
+// 1 - sending query / awaiting response
+var signOutHTMLSTATE = 0;
+function throwSignOut() {
+	if (signOutHTMLSTATE == 0) { //prevent double submission
+		var studentid = document.getElementById('sign-out-id').value;
+		if ((studentid.length > 0)&&(studentid.length <= 6) {
+			document.getElementById('sign-out-loading').classList.add('loading');
+			pushEvent(studentid, 'sign-out', '', [false,false,false]);
+			signOutHTMLSTATE = 1;
+		}
+	}
+}
+function catchSignOut(response){
+	console.log("caught signout: "+response);
+	if (signOutHTMLSTATE == 1) { //don't touch UI if already closed
+		showSignOut(false);
 	}
 }
 function numpadInput(targetid,value) {
