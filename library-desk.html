@@ -163,7 +163,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 			txtwrap.appendChild(txtmed);
 			var txtsml = document.createElement('div');
 				txtsml.classList.add('small-text');
-				txtsml.innerHTML = get12time(obj.timestamp);
+				txtsml.innerHTML = get12time(obj.time);
 			txtwrap.appendChild(txtsml);
 		wrap.appendChild(txtwrap);
 		
@@ -454,15 +454,17 @@ function catchEventsAfter(response){
 		} else if (row[2] == 'sign-out') {
 			eventset[index].push(row);
 			for (var r in eventset[index]) {
-					newCards.push(new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],eventtech[index]));
-				}
+				newCards.push(new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],eventtech[index]));
+			}
 			eventids.pop(index);
 			eventset.pop(index);
 			eventtech.pop(index);
 		}
 		
 	}
-	newCards.push(new_Card(row[0],row[1],row[2],row[3],row[4],[row[5],row[6],row[7]],eventtech[index]));
+	for (var r in eventset[index]) {
+		newCards.push(new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],eventtech[index]));
+	}
 	eventids.pop(index);
 	eventset.pop(index);
 	eventtech.pop(index);
