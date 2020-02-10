@@ -426,6 +426,7 @@ function catchEventsAfter(response){
 		console.log(row);
 		console.log("^@ index "+index);
 		
+		var last = '';
 		if (index == -1) {
 			console.log("pushed id");
 			eventids.push(row[0]);
@@ -434,10 +435,7 @@ function catchEventsAfter(response){
 			console.log("pushed empty container");
 			eventset.push([]);
 			index = eventset.length-1;
-		}
-		
-		var last = '';
-		if (eventset.length > 1) {
+		} else {
 			last = eventset[index];
 			last = last[last.length-1][2];
 			console.log("found last type: "+last);
