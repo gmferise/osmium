@@ -422,8 +422,9 @@ function catchEventsAfter(response){
 		for (var j=0; j<dt.getNumberOfColumns(); j++) {
 			row.push(dt.getValue(i,j));
 		}
-		console.log(row);
 		var index = eventids.indexOf(row[0]);
+		console.log(row);
+		console.log("^@ index "+index);
 		
 		if (index == -1) {
 			eventids.push(row[0]);
@@ -432,13 +433,15 @@ function catchEventsAfter(response){
 			eventset.push([]);
 		}
 		
-		if (eventset.length > 1){
-			var last = eventset[index];
+		var last = '';
+		if (eventset.length > 1) {
+			last = eventset[index];
 			last = last[last.length-1][2];
 		}
 		if (row[2] == 'sign-in') {
 			if ((last == 'sign-in')||(last == 'sent-tech')) {
 				newCards.push(new_Card(row[0],row[1],row[2],row[3],row[4],[row[5],row[6],row[7]],eventtech[index]));
+				eventids.pop(index);
 				eventset.pop(index);
 				eventtech.pop(index);
 			} else {
@@ -450,12 +453,18 @@ function catchEventsAfter(response){
 		} else if (row[2] == 'sign-out') {
 			eventset[index].push(row);
 			newCards.push(new_Card(row[0],row[1],row[2],row[3],row[4],[row[5],row[6],row[7]],eventtech[index]));
+			eventids.pop(index);
 			eventset.pop(index);
 			eventtech.pop(index);
 		}
 		
 	}
+	newCards.push(new_Card(row[0],row[1],row[2],row[3],row[4],[row[5],row[6],row[7]],eventtech[index]));
+	eventids.pop(index);
+	eventset.pop(index);
+	eventtech.pop(index);
 	console.log(newCards)
+	
 	for (var c in newCards) {
 		cards.unshift(c);
 		c.playInsertAnimation();
