@@ -440,19 +440,22 @@ function catchEventsAfter(response){
 		}
 		if (row[2] == 'sign-in') {
 			if ((last == 'sign-in')||(last == 'sent-tech')) {
-				newCards.push(new_Card(row[0],row[1],row[2],row[3],row[4],[row[5],row[6],row[7]],eventtech[index]));
-				eventids.pop(index);
-				eventset.pop(index);
-				eventtech.pop(index);
+				for (var r in eventset[index]) {
+					newCards.push(new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],eventtech[index]));
+				}
+				//eventids.pop(index); no need
+				eventset[index] = [row];
+				eventtech[index] = false;
 			} else {
 				eventset[index].push(row);
 			}
 		} else if (row[2] == 'sent-tech') {
 			eventtech[index] = true;
-			
 		} else if (row[2] == 'sign-out') {
 			eventset[index].push(row);
-			newCards.push(new_Card(row[0],row[1],row[2],row[3],row[4],[row[5],row[6],row[7]],eventtech[index]));
+			for (var r in eventset[index]) {
+					newCards.push(new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],eventtech[index]));
+				}
 			eventids.pop(index);
 			eventset.pop(index);
 			eventtech.pop(index);
