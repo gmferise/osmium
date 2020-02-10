@@ -163,7 +163,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 			txtwrap.appendChild(txtmed);
 			var txtsml = document.createElement('div');
 				txtsml.classList.add('small-text');
-				txtsml.innerHTML = get12time(obj.time);
+				txtsml.innerHTML = get12time(obj.timestamp);
 			txtwrap.appendChild(txtsml);
 		wrap.appendChild(txtwrap);
 		
@@ -178,10 +178,10 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 		obj.card.classList = "";
 		obj.card.classList.add('check-card');
 		obj.card.classList.add(newcolor);
-		obj.status = statusName;
+		obj.event = statusName;
 		obj.tech = isSentToTech;
 	}
-	obj.updateStatusAndColor(obj.status,obj.tech);
+	obj.updateStatusAndColor(obj.event,obj.tech);
 	
 	obj.showComments = function() {
 		var popup = document.createElement('div');
@@ -253,7 +253,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 	obj.clickAction = function() {
 		if (!(obj.tech) && (obj.status=="in")) {
 			//todo send "moved to tech" query
-			obj.updateStatusAndColor("in",true);
+			obj.updateStatusAndColor("sign-in",true);
 			obj.playRefreshAnimation();
 		} else {
 			obj.showComments();
