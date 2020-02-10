@@ -130,14 +130,6 @@ function get12time(date) {
 	return strTime;
 }
 	
-function getColorClassFromStatus(statusName, isSentToTech) {
-	if (isSentToTech == true) {
-		return "tech"+statusName;
-	} else {
-		return statusName;
-	}
-}
-	
 var cards = [];
 function cardObjectFromElement(element,numParents) {
 	var el = element;
@@ -151,7 +143,7 @@ function cardObjectFromElement(element,numParents) {
 }
 
 //OBJECT - Card
-function new_Card(studentName, timeStamp, statusName, isSentToTech) {
+function new_Card(studentId, studentName, eventName, timestamp, comments, flags) {
 	const obj = {};
 	obj.name = studentName;
 	obj.time = timeStamp;
@@ -186,10 +178,13 @@ function new_Card(studentName, timeStamp, statusName, isSentToTech) {
 	
 	//provide status name ("in"|"out") and tech status (true|false) to update proper styling and object's properties
 	obj.updateStatusAndColor = function(statusName, isSentToTech) {
-		var newcolor = getColorClassFromStatus(statusName, isSentToTech);
+		var newcolor = "color-card_"+statusName;
+		if (isSentToTech) {
+			newcolor += '_tech';
+		}
 		obj.card.classList = "";
 		obj.card.classList.add('check-card');
-		obj.card.classList.add("color-card-"+newcolor);
+		obj.card.classList.add(newcolor);
 		obj.status = statusName;
 		obj.tech = isSentToTech;
 	}
@@ -417,7 +412,12 @@ function quickSort(items, left, right, name) {
     }
     return items;
 }
-	
+
+var lastResultsRefreshTime = new Date();
+lastResultsRefreshTime.setHour(0);
+lastResultsRefreshTime.setMinute(0);
+lastResultsRefreshTime.setSecond(0);
+lastResultsRefreshTime.setMillisecond(0);
 function updateTodaysDate() {
 	//var now = new Date(new Date().getTime()+Math.random()*100000000000)
 	var now = new Date();
@@ -429,8 +429,56 @@ function updateTodaysDate() {
 	for (var i=0; i<d.length; i++) {
 		here.children[i].innerHTML = d[i];
 	}
-	var now = new Date();
+	getEventsAfter(lastResultsRefreshTime);
 	setTimeout(function(){updateTodaysDate();},60000-((now.getSeconds()*1000)+now.getMilliseconds())); //timeout to refresh on next minute
+}
+function catchEventsAfter(response){
+	console.log(response.getDataTable());
+	var dt = response.getDataTable()
+	
+	var newCards = [];
+	
+	var eventids = []
+	var eventtech = []
+	var eventset = []
+	for (var i=0; i<dt.length; i++) {
+		var row = dt.getDistinctValues(i);
+		var index = eventids.indexOf(row[0]);
+		
+		if (index == -1) {
+			eventids.push(row[0]);
+			eventtech.push(false);
+			eventset.push([]);
+		}
+		
+		var last = events[index];
+		last = last[last.length-1][2]
+		if (row[2] == 'sign-in') {
+			if ((last == 'sign-in')||(last == 'sent-tech')) {
+				newCards.push(new_Card(row[0],row[1],row[2],row[3],row[4],[row[5],row[6],row[7]],eventtech[index]));
+				eventset[index] = [row];
+				eventtech[index] = false;
+			} else {
+				events[index].push(row);
+			}
+		} else if (row[2] == 'sent-tech') {
+			eventtech[index] = true;
+			
+		} else if (row[2] == 'sign-out') {
+			events[index].push(row);
+			newCards.push(new_Card(row[0],row[1],row[2],row[3],row[4],[row[5],row[6],row[7]],eventtech[index]));
+			eventset[index] = [row];
+			eventtech[index] = false;
+		}
+		
+	}
+	console.log(newCards)
+	for (var c in newCards) {
+		cards.unshift(c);
+		c.playInsertAnimation();
+	}
+	cards = quickSort(cards, 0, cards.length-1, false);
+	repackCards();
 }
 updateTodaysDate();
 </script>
