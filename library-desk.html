@@ -133,12 +133,15 @@ function cardObjectFromElement(element,numParents) {
 }
 
 //OBJECT - Card
-function new_Card(studentId, studentName, eventName, timestamp, comments, flags) {
+function new_Card(studentId, studentName, eventName, timestamp, comments, flags, isSentToTech) {
 	const obj = {};
+	obj.id = studentId;
 	obj.name = studentName;
-	obj.time = timeStamp;
-	obj.status = statusName;
-	obj.tech = isSentToTech
+	obj.event = eventName;
+	obj.time = timestamp;
+	obj.comments = comments;
+	obj.flags = flags;
+	obj.tech = isSentToTech;
 	
 	//create card
 	var wrap = document.createElement('div');
@@ -406,41 +409,46 @@ function updateTodaysDate() {
 	lastResultsRefreshTime = new Date();
 	setTimeout(function(){updateTodaysDate();},60000-((now.getSeconds()*1000)+now.getMilliseconds())); //timeout to refresh on next minute
 }
-function catchEventsAfter(response){
-	console.log(response);
-	var dt = response.getDataTable()
+function cc(response){
+	var dt = response.getDataTable();
 	
 	var newCards = [];
 	
-	var eventids = []
-	var eventtech = []
-	var eventset = []
-	for (var i=0; i<dt.length; i++) {
-		var row = dt.getDistinctValues(i);
+	var eventids = [];
+	var eventtech = [];
+	var eventset = [];
+	for (var i=0; i<dt.getNumberOfRows(); i++) {
+		var row = [];
+		for (var j=0; j<dt.getNumberOfColumns(); j++) {
+			row.push(dt.getValue(i,j));
+		}
 		console.log(row);
 		var index = eventids.indexOf(row[0]);
 		
 		if (index == -1) {
 			eventids.push(row[0]);
 			eventtech.push(false);
+			index = eventset.length;
 			eventset.push([]);
 		}
 		
-		var last = events[index];
-		last = last[last.length-1][2]
+		if (eventset.length > 1){
+			var last = eventset[index];
+			last = last[last.length-1][2];
+		}
 		if (row[2] == 'sign-in') {
 			if ((last == 'sign-in')||(last == 'sent-tech')) {
 				newCards.push(new_Card(row[0],row[1],row[2],row[3],row[4],[row[5],row[6],row[7]],eventtech[index]));
 				eventset[index] = [row];
 				eventtech[index] = false;
 			} else {
-				events[index].push(row);
+				eventset[index].push(row);
 			}
 		} else if (row[2] == 'sent-tech') {
 			eventtech[index] = true;
 			
 		} else if (row[2] == 'sign-out') {
-			events[index].push(row);
+			eventset[index].push(row);
 			newCards.push(new_Card(row[0],row[1],row[2],row[3],row[4],[row[5],row[6],row[7]],eventtech[index]));
 			eventset[index] = [row];
 			eventtech[index] = false;
