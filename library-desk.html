@@ -441,6 +441,7 @@ function catchEventsAfter(response){
 		if (row[2] == 'sign-in') {
 			if ((last == 'sign-in')||(last == 'sent-tech')) {
 				for (var r in eventset[index]) {
+					console.log(r);
 					newCards.push(new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],eventtech[index]));
 				}
 				//eventids.pop(index); no need
@@ -454,6 +455,7 @@ function catchEventsAfter(response){
 		} else if (row[2] == 'sign-out') {
 			eventset[index].push(row);
 			for (var r in eventset[index]) {
+				console.log(r);
 				newCards.push(new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],eventtech[index]));
 			}
 			eventids.pop(index);
@@ -462,8 +464,10 @@ function catchEventsAfter(response){
 		}
 		
 	}
-	for (var r in eventset[index]) {
-		newCards.push(new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],eventtech[index]));
+	for (var a in eventset) {
+		for var (r in a) {
+			newCards.push(new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],eventtech[index]));
+		}
 	}
 	eventids.pop(index);
 	eventset.pop(index);
