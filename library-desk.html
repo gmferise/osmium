@@ -427,21 +427,26 @@ function catchEventsAfter(response){
 		console.log("^@ index "+index);
 		
 		if (index == -1) {
+			console.log("pushed id");
 			eventids.push(row[0]);
+			console.log("pushed bool");
 			eventtech.push(false);
-			index = eventset.length;
+			console.log("pushed empty container");
 			eventset.push([]);
+			index = eventset.length-1;
 		}
 		
 		var last = '';
 		if (eventset.length > 1) {
 			last = eventset[index];
 			last = last[last.length-1][2];
+			console.log("found last type: "+last);
 		}
 		if (row[2] == 'sign-in') {
 			if ((last == 'sign-in')||(last == 'sent-tech')) {
+				console.log('finished on a '+last+'>sign-in with event set:');
+				console.log(eventset[index]);
 				for (var r in eventset[index]) {
-					console.log(r);
 					newCards.push(new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],eventtech[index]));
 				}
 				//eventids.pop(index); no need
@@ -454,8 +459,9 @@ function catchEventsAfter(response){
 			eventtech[index] = true;
 		} else if (row[2] == 'sign-out') {
 			eventset[index].push(row);
+			console.log('finished on a sign-out with event set:');
+			console.log(eventset[index]);
 			for (var r in eventset[index]) {
-				console.log(r);
 				newCards.push(new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],eventtech[index]));
 			}
 			eventids.pop(index);
