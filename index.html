@@ -74,13 +74,6 @@
 	</body>
 </html>
 <script>
-function showError(errorname) {
-	switch (errorname) {
-		case 'no-url-database':
-			break;
-	}
-}
-
 function getDatabaseQueryString() {
 	if (databaseId == null) {
 		return "";
@@ -166,7 +159,7 @@ function catchGetDatabases(response){
 }
 
 // Updates toggleAuth button status text
-function updateAuthStatus() {
+function updateAuthButton() {
 	var el = document.getElementById('auth-body');
 	
 	if (GoogleAuth.isSignedIn.get()) {
@@ -183,4 +176,9 @@ function updateAuthStatus() {
 		}
 	}
 }
+
+function onAuthUpdate() {
+	updateAuthButton();
+}
+
 </script> 

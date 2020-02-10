@@ -131,13 +131,6 @@ function showError(errorname) {
 			break;
 	}
 }
-function updateAuthStatus() {
-	if (GoogleAuth.isSignedIn.get()) {
-		console.log("Authenticated! :)");
-	} else {
-		showError('auth-lost');
-	}
-}
 
 document.getElementById('sign-in-id').addEventListener("keydown", function(event) {
     event.preventDefault();
@@ -238,4 +231,12 @@ function numpadInput(targetid,value) {
 		target.value += value;
 	}
 }
+
+function onAuthUpdate() {
+	selectDatabaseIdFromUrl();
+	if (!(GoogleAuth.isSignedIn.get())) {
+		showError('auth-lost');
+	}
+}
+
 </script>

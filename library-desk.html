@@ -57,7 +57,7 @@
 			<div id="overview-table">
 				<div class="tablerow">
 					<div id="todays-date" class="title-center">
-						<div class="center-h medium-text"></div>
+						<div class="center-h medium-text">Loading...</div>
 						<div class="center-h medium-text"></div>
 						<div class="center-h medium-text" style="padding-bottom:10px;"></div>
 					</div>
@@ -106,13 +106,6 @@ function showError(errorname) {
 		case 'auth-lost':
 			throw new Error("CRITICAL ERROR: Authentication lost.");
 			break;
-	}
-}
-function updateAuthStatus() {
-	if (GoogleAuth.isSignedIn.get()) {
-		console.log("Authenticated! :)");
-	} else {
-		showError('auth-lost');
 	}
 }
 
@@ -462,5 +455,11 @@ function catchEventsAfter(response){
 	cards = quickSort(cards, 0, cards.length-1, false);
 	repackCards();
 }
-updateTodaysDate();
+function onAuthUpdate() {
+	selectDatabaseIdFromUrl();
+	updateTodaysDate();
+	if (!(GoogleAuth.isSignedIn.get())) {
+		showError('auth-lost');
+	}
+}
 </script>
