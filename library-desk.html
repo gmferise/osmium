@@ -439,8 +439,8 @@ function catchEventsAfter(response){
 		if (row[2] == 'sign-in') {
 			if ((last == 'sign-in')||(last == 'sent-tech')) {
 				newCards.push(new_Card(row[0],row[1],row[2],row[3],row[4],[row[5],row[6],row[7]],eventtech[index]));
-				eventset[index] = [row];
-				eventtech[index] = false;
+				eventset.pop(index);
+				eventtech.pop(index);
 			} else {
 				eventset[index].push(row);
 			}
@@ -450,8 +450,8 @@ function catchEventsAfter(response){
 		} else if (row[2] == 'sign-out') {
 			eventset[index].push(row);
 			newCards.push(new_Card(row[0],row[1],row[2],row[3],row[4],[row[5],row[6],row[7]],eventtech[index]));
-			eventset[index] = [row];
-			eventtech[index] = false;
+			eventset.pop(index);
+			eventtech.pop(index);
 		}
 		
 	}
