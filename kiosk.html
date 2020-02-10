@@ -203,7 +203,6 @@ function throwSignOut() {
 }
 
 function catchPushEvent(name, type, flags) {
-	document.getElementById('push-success-title').innerText = "Welcome, "+name;
 	var message = document.getElementById('push-success-message');
 	var bonus = document.getElementById('push-tech-message');
 	bonus.style = "display: none;";
@@ -215,11 +214,13 @@ function catchPushEvent(name, type, flags) {
 		if (signInHTMLSTATE == 1) { //don't touch UI if already closed
 			showSignIn(false);
 		}
+		document.getElementById('push-success-title').innerText = "Welcome, "+name;
 		message.innerText = "You've been signed in. Enjoy your stay!";
 	} else {
 		if (signOutHTMLSTATE == 1) { //don't touch UI if already closed
 			showSignOut(false);
 		}
+		document.getElementById('push-success-title').innerText = "Goodbye, "+name;
 		message.innerText = "You've been signed out. See you next time!";
 	}
 	document.getElementById('push-success-popup').classList.add('visible');
