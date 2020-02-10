@@ -409,7 +409,7 @@ function updateTodaysDate() {
 	lastResultsRefreshTime = new Date();
 	setTimeout(function(){updateTodaysDate();},60000-((now.getSeconds()*1000)+now.getMilliseconds())); //timeout to refresh on next minute
 }
-function cc(response){
+function catchEventsAfter(response){
 	var dt = response.getDataTable();
 	
 	var newCards = [];
