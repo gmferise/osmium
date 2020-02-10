@@ -481,9 +481,9 @@ function catchEventsAfter(response){
 	eventtech.pop(index);
 	console.log(newCards)
 	
-	for (var c in newCards) {
-		cards.unshift(c);
-		c.playInsertAnimation();
+	for (var i=0; i<newCards.length; i++) {
+		cards.unshift(newCards[i]);
+		newCards[i].playInsertAnimation();
 	}
 	cards = quickSort(cards, 0, cards.length-1, false);
 	repackCards();
