@@ -251,7 +251,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 	
 	//click the card's button - uses card's properties to determine action
 	obj.clickAction = function() {
-		if (!(obj.tech) && (obj.status=="in")) {
+		if (!(obj.tech) && (obj.status=="sign-in")) {
 			//todo send "moved to tech" query
 			obj.updateStatusAndColor("sign-in",true);
 			obj.playRefreshAnimation();
