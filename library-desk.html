@@ -465,7 +465,6 @@ function catchEventsAfter(response){
 		} else {
 			last = ldb_eventset[index];
 			last = last[last.length-1][2];
-			ldb_modified[index] = false; //every old one gets set to 'not modified' until it is;
 		}
 		if (row[2] == 'sign-in') {
 			if ((last == 'sign-in')||(last == 'sent-tech')) {
@@ -498,7 +497,7 @@ function catchEventsAfter(response){
 				var r = ldb_eventset[index][ldb_eventset[index].length-1];
 				var c = new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],ldb_tech[index]);
 				c.playInsertAnimation();
-				ldb_finalcards.push();
+				ldb_finalcards.push(c);
 				//clear eventset out
 				ldb_ids.pop(index);
 				ldb_eventset.pop(index);
@@ -518,9 +517,10 @@ function catchEventsAfter(response){
 			ldb_tmpcards[i] = new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],ldb_tech[i]);
 			ldb_tmpcards[i].playInsertAnimation();
 		} else { //modified card
-			if (ldb_modified[i]) {
+			if (ldb_modified[i] == true) {
 				ldb_tmpcards[i].updateStatusAndColor(r[2],ldb_tech[i],r[3]);
 				ldb_tmpcards[i].playRefreshAnimation();
+				ldb_modified[index] = false;
 			}
 		}
 	}
