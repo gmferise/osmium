@@ -484,12 +484,7 @@ function catchEventsAfter(response){
 			ldb_modified[index] = true;
 		} else if (row[2] == 'sign-out') {
 			//did a sign out... push to final cards
-			if (last == 'sign-out') {
-				//did a sign out but was previously already signed out
-				//toss out (overwrite) the old one. keep tech status doe.
-				ldb_eventset[index][ldb_eventset[index].length-1] = row;
-				ldb_modified[index] = true;
-			} else {
+			if ((last == 'sign-in')||(last == 'sent-tech')) {
 				//did a sign-out.
 				ldb_eventset[index].push(row); //finalize eventset
 				ldb_modified[index] = true;

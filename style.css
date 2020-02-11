@@ -459,8 +459,8 @@ html {
 	100% {transform:rotate(0deg);}
 }
 .check-card.anim-in {
-	animation: bump-left 0.25s ease-in-out forwards;
-} @keyframes bump-left {
+	animation: anim-from-left 0.25s ease-in-out forwards;
+} @keyframes anim-from-left {
 	0% {transform:translateX(-100%);opacity:0;}
 	50% {transform:translateX(-50%);opacity:0;}
 	100% {transform:translateX(0%);opacity:1;}
