@@ -255,6 +255,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 			//todo send "moved to tech" query
 			obj.updateStatusAndColor("sign-in",true);
 			obj.playRefreshAnimation();
+			pushEvent(obj.id, 'sent-tech', '', [false,false,false]);
 		} else {
 			obj.showComments();
 		}
