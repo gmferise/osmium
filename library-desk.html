@@ -520,8 +520,7 @@ function catchEventsAfter(response){
 			}
 		}
 	}
-	cards = ldb_finalcards;
-	cards.concat(ldb_tmpcards);
+	cards = ldb_finalcards.concat(ldb_tmpcards);
 	reSort();
 }
 function onAuthUpdate() {
