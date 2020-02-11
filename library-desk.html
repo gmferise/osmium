@@ -170,11 +170,15 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 	obj.card = wrap;
 	
 	//provide status name ("in"|"out") and tech status (true|false) to update proper styling and object's properties
-	obj.updateStatusAndColor = function(statusName, isSentToTech) {
+	obj.updateStatusAndColor = function(statusName, isSentToTech, timestamp) {
+		if (timestamp != null) {
+			obj.timestamp = timestamp;
+		}
 		var newcolor = "color-card_"+statusName;
 		if (isSentToTech) {
 			newcolor += '_tech';
 		}
+		obj.card.children[1].children[1].textContent = get12time(obj.timestamp)
 		obj.card.classList = "";
 		obj.card.classList.add('check-card');
 		obj.card.classList.add(newcolor);
@@ -290,7 +294,7 @@ function randomDate() {
 	now.setSeconds(parseInt(Math.random()*60));
 	return now;
 }
-	
+
 function toggleSort(toggle) {
 	var el = document.getElementById('sortbar');
 	var current = el.classList[0];
@@ -314,6 +318,24 @@ function toggleSort(toggle) {
 		cards = quickSort(cards, 0, cards.length-1, true);
 		repackCards();
 	}
+}
+function reSort() {
+	var el = document.getElementById('sortbar');
+	var current = el.classList[0];
+	
+	if (curent.substring(0,9) == "sort-time") {
+		cards = quickSort(cards, 0, cards.length-1, false);
+		if (current.substring(10) == "up") {
+			cards = cards.reverse();
+		}
+		repackCards();
+	} else {
+		cards = quickSort(cards, 0, cards.length-1, true);
+		if (current.substring(10) == "up") {
+			cards = cards.reverse();
+		}
+		repackCards();
+	}	
 }
 function repackCards(cardslist) {
 	var el = document.getElementById('cards-wrapper');
@@ -410,78 +432,81 @@ function updateTodaysDate() {
 	lastResultsRefreshTime = new Date();
 	setTimeout(function(){updateTodaysDate();},60000-((now.getSeconds()*1000)+now.getMilliseconds())); //timeout to refresh on next minute
 }
+//local database store of (wip) event sets
+var ldb_ids = [];
+var ldb_tech = [];
+var ldb_eventset = [];
+var ldb_tmpcards = [];
+var ldb_finalcards = [];
 function catchEventsAfter(response){
 	var dt = response.getDataTable();
 	
 	var newCards = [];
 	
-	var eventids = [];
-	var eventtech = [];
-	var eventset = [];
 	for (var i=0; i<dt.getNumberOfRows(); i++) {
 		var row = [];
 		for (var j=0; j<dt.getNumberOfColumns(); j++) {
 			row.push(dt.getValue(i,j));
 		}
-		var index = eventids.indexOf(row[0]);
-		console.log(row);
-		console.log("^@ index "+index);
+		var index = ldb_ids.indexOf(row[0]);
 		
 		var last = '';
 		if (index == -1) {
-			console.log("pushed id");
-			eventids.push(row[0]);
-			console.log("pushed bool");
-			eventtech.push(false);
-			console.log("pushed empty container");
-			eventset.push([]);
-			index = eventset.length-1;
+			ldb_ids.push(row[0]);
+			ldb_tech.push(false);
+			ldb_eventset.push([]);
+			index = ldb_eventset.length-1;
 		} else {
-			last = eventset[index];
+			last = ldb_eventset[index];
 			last = last[last.length-1][2];
-			console.log("found last type: "+last);
 		}
 		if (row[2] == 'sign-in') {
 			if ((last == 'sign-in')||(last == 'sent-tech')) {
-				console.log('finished on a '+last+'>sign-in with event set:');
-				console.log(eventset[index]);
-				var r = eventset[index][eventset[index].length-1];
-				newCards.push(new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],eventtech[index]));
-				//eventids.pop(index); no need
-				eventset[index] = [row];
-				eventtech[index] = false;
+				var r = ldb_eventset[index][ldb_eventset[index].length-1];
+				newCards.push(new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],ldb_tech[index]));
+				//ended on a sign in but was previously something that shouldn't happen
+				//before a sign in... toss out (overwrite) the old one
+				ldb_eventset[index] = [row];
+				ldb_tech[index] = false;
 			} else {
-				eventset[index].push(row);
+				//ended on a sign in... ok, push the row and keep the eventset
+				ldb_eventset[index].push(row);
 			}
 		} else if (row[2] == 'sent-tech') {
-			eventtech[index] = true;
+			//yuh
+			ldb_tech[index] = true;
 		} else if (row[2] == 'sign-out') {
-			eventset[index].push(row);
-			console.log('finished on a sign-out with event set:');
-			console.log(eventset[index]);
-			var r = eventset[index][eventset[index].length-1];
-			newCards.push(new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],eventtech[index]));
-			eventids.pop(index);
-			eventset.pop(index);
-			eventtech.pop(index);
+			//ended on a sign out... close the old eventset (add to perm cards)
+			ldb_eventset[index].push(row);
+			var r = ldb_eventset[index][ldb_eventset[index].length-1];
+			ldb_finalcards.push(new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],ldb_tech[index]));
+			ldb_ids.pop(index);
+			ldb_eventset.pop(index);
+			ldb_tech.pop(index);
 		}
 		
 	}
-	for (var i=0; i<eventset.length; i++) {
-		var r = eventset[i][eventset[i].length-1];
-		newCards.push(new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],eventtech[index]));
+	for (var i=0; i<ldb_eventset.length; i++) {
+		var r = ldb_eventset[i][ldb_eventset[i].length-1];
+		newCards.push(new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],ldb_tech[index]));
 	}
-	eventids.pop(index);
-	eventset.pop(index);
-	eventtech.pop(index);
-	console.log(newCards)
+	ldb_ids.pop(index);
+	ldb_eventset.pop(index);
+	ldb_tech.pop(index);
 	
 	for (var i=0; i<newCards.length; i++) {
-		cards.unshift(newCards[i]);
-		newCards[i].playInsertAnimation();
+		var card = newCards[i];
+		var index = ldb_ids.indexOf(card.id);
+		if (index != -1) {
+			ldb_tmpcards[index].updateStatusAndColor(card.event, card.tech, card.time);
+			ldb_tmpcards[index].playRefreshAnimation();
+		} else {
+			ldb_tmpcards.push(card)
+			card.playInsertAnimation();
+		}
 	}
-	cards = quickSort(cards, 0, cards.length-1, false);
-	repackCards();
+	cards = ldb_tmpcards+[,,]+ldb_finalcards;
+	reSort();
 }
 function onAuthUpdate() {
 	selectDatabaseIdFromUrl();
