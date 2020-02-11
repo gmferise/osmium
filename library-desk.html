@@ -487,7 +487,7 @@ function catchEventsAfter(response){
 			if (last == 'sign-out') {
 				//did a sign out but was previously already signed out
 				//toss out (overwrite) the old one. keep tech status doe.
-				ldb_eventset[index] = [row];
+				ldb_eventset[index][ldb_eventset[index].length-1] = row;
 				ldb_modified[index] = true;
 			} else {
 				//did a sign-out.
