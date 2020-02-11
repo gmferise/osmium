@@ -172,13 +172,13 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 	//provide status name ("in"|"out") and tech status (true|false) to update proper styling and object's properties
 	obj.updateStatusAndColor = function(statusName, isSentToTech, timestamp) {
 		if (timestamp != null) {
-			obj.timestamp = timestamp;
+			obj.time = timestamp;
 		}
 		var newcolor = "color-card_"+statusName;
 		if (isSentToTech) {
 			newcolor += '_tech';
 		}
-		obj.card.children[1].children[1].textContent = get12time(obj.timestamp)
+		obj.card.children[1].children[1].textContent = get12time(obj.time);
 		obj.card.classList = "";
 		obj.card.classList.add('check-card');
 		obj.card.classList.add(newcolor);
