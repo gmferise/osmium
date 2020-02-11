@@ -323,7 +323,7 @@ function reSort() {
 	var el = document.getElementById('sortbar');
 	var current = el.classList[0];
 	
-	if (curent.substring(0,9) == "sort-time") {
+	if (current.substring(0,9) == "sort-time") {
 		cards = quickSort(cards, 0, cards.length-1, false);
 		if (current.substring(10) == "up") {
 			cards = cards.reverse();
