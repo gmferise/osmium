@@ -165,6 +165,7 @@ function showSignIn(state) {
 		document.getElementById('work-checkbox').checked = false;
 		document.getElementById('tech-help-checkbox').checked = false;
 		document.getElementById('print-checkbox').checked = false;
+		document.getElementById('loaner-checkbox').checked = false;
 		document.getElementById('sign-in-loading').classList.remove('loading');
 		signInHTMLSTATE = 0;
 	}
@@ -178,7 +179,7 @@ function throwSignIn() {
 		var studentid = document.getElementById('sign-in-id').value;
 		if ((studentid.length > 0)&&(studentid.length <= 6)) {
 			document.getElementById('sign-in-loading').classList.add('loading');
-			pushEvent(studentid, 'sign-in', '', [document.getElementById('work-checkbox').checked, document.getElementById('tech-help-checkbox').checked, document.getElementById('print-checkbox').checked]);
+			pushEvent(studentid, 'sign-in', '', [document.getElementById('work-checkbox').checked, document.getElementById('tech-help-checkbox').checked, document.getElementById('print-checkbox').checked], document.getElementById('loaner-checkbox').checked]);
 			signInHTMLSTATE = 1;
 		}
 	}
@@ -203,7 +204,7 @@ function throwSignOut() {
 		var studentid = document.getElementById('sign-out-id').value;
 		if ((studentid.length > 0)&&(studentid.length <= 6)) {
 			document.getElementById('sign-out-loading').classList.add('loading');
-			pushEvent(studentid, 'sign-out', '', [false,false,false]);
+			pushEvent(studentid, 'sign-out', '', [false,false,false,false]);
 			signOutHTMLSTATE = 1;
 		}
 	}
