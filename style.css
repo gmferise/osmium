@@ -364,8 +364,10 @@ html {
 	@keyframes loading-shadowed {
 	0% {transform: rotate(0deg);
 	text-shadow: 1px 3px 0 #000;}
-	50% {text-shadow: -1px -3px 0 #000;}
-	100% {transform: rotate(360deg);
+	25% {text-shadow: -3px 1px 0 #000;}
+	50% {text-shadow: -3px -1px 0 #000;}
+	75% {text-shadow: 3px -1px 0 #000;}
+	100% {transform: rotate(-360deg);
 	text-shadow: 1px 3px 0 #000;}
 }
 /* CARD TOOLTIP CONTENT */
@@ -694,7 +696,7 @@ div.bigpopup div.content button.ok.loading:after {
 	animation: loading 1s infinite ease-in-out;
 } @keyframes loading {
 	0% {transform: rotate(0deg);}
-	100% {transform: rotate(360deg);}
+	100% {transform: rotate(-360deg);}
 }
 div.bigpopup div.content button.ok:hover {
 	border: 1px solid limegreen;
