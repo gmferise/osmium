@@ -538,24 +538,21 @@ function catchStatus(response){
 function getStatusByName(name, count){
 	// SELECT TOP ? DISTINCT NAME WHERE NAME LIKE ?
 	if (typeof(count) != "number"){ throw new TypeError; }
-	gvzQuery("SELECT A, D, COUNT(A), COUNT(D) WHERE B CONTAINS '"+name+"' GROUP BY A, D ORDER BY D DESC LIMIT "+count|0, catchStatusIds, pageId);
-}
-
-function catchStatusIds(response){
-	if (response == undefined){ console.log("getStatusByName Query Failed"); return; }
-	var ids = response.getDataTable().getDistinctValues(0);
-	var rows = [];
-	for (i in ids){
-		getStatusByIdBatch(ids[i]);
-	}
-}
-
-function getStatusByIdBatch(id){
-	// SQL: SELECT TOP 1 * WHERE id = ? ORDER BY date DESC 
-	gvzQuery("SELECT A, B, C, D, E, F, G, H, I WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatusBatch);
+	var statuses = [];
+	gvzQuery("SELECT A, D, COUNT(A), COUNT(D) WHERE B CONTAINS '"+name+"' GROUP BY A, D ORDER BY D DESC LIMIT "+count|0,
+	function(response){
+		var ids = response.getDataTable().getDistinctValues(0);
+		var rows = [];
+		for (i in ids){
+			// SQL: SELECT TOP 1 * WHERE id = ? ORDER BY date DESC 
+			gvzQuery("SELECT A, B, C, D, E, F, G, H, I WHERE A = "+ids[i]+" ORDER BY D DESC LIMIT 1", function(response){
+				statuses.push(response.getDataTable().getDistinctValues(0))
+				if (statuses.length >= count){ catchStatusBatch(statuses); }
+			});
+		}
+	}, pageId);
 }
 
 function catchStatusBatch(response){
-	// Recieves individual statuses
-	console.log(response.getDataTable().getDistinctValues(0));
+	console.log(response);
 }
