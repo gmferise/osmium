@@ -74,13 +74,6 @@
 	</body>
 </html>
 <script>
-function showError(errorname) {
-	switch (errorname) {
-		case 'no-url-database':
-			break;
-	}
-}
-
 function getDatabaseQueryString() {
 	if (databaseId == null) {
 		return "";
@@ -91,10 +84,10 @@ function getDatabaseQueryString() {
 
 function showNewDB(state) {
 	if (state == true) {
-		document.getElementById('newdb-popup').style = 'visibility: visible';
+		document.getElementById('newdb-popup').classList.add('visible');
 		document.getElementById('newdb').focus();
 	} else {
-		document.getElementById('newdb-popup').style = '';
+		document.getElementById('newdb-popup').classList.remove('visible');
 		document.getElementById("newdb").value = "";
 		document.getElementById('newdb-loading').classList.remove('loading');
 		createDatabaseHTMLSTATE = 0;
@@ -166,7 +159,7 @@ function catchGetDatabases(response){
 }
 
 // Updates toggleAuth button status text
-function updateAuthStatus() {
+function updateAuthButton() {
 	var el = document.getElementById('auth-body');
 	
 	if (GoogleAuth.isSignedIn.get()) {
@@ -183,4 +176,9 @@ function updateAuthStatus() {
 		}
 	}
 }
+
+function onAuthUpdate() {
+	updateAuthButton();
+}
+
 </script> 

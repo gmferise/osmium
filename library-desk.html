@@ -21,9 +21,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 	<body class="color-bg-main">
-		<!-- testing element -->
-		<button class="center-h" style="position: absolute;left:0;top:0;z-index:10000;" onclick="test()">test: Press to add :)</button>
-		<!-- end test-->
 		
 		<div class="split-left pretty-scrollbar-dark">
 			<div class="small-spacer"></div>
@@ -57,10 +54,10 @@
 		</div>
 		
 		<div class="split-right">
-			<div id="overview-table">
+			<div id="overview-table" onclick="updateTodaysDate()">
 				<div class="tablerow">
 					<div id="todays-date" class="title-center">
-						<div class="center-h medium-text"></div>
+						<div class="center-h medium-text">Loading...</div>
 						<div class="center-h medium-text"></div>
 						<div class="center-h medium-text" style="padding-bottom:10px;"></div>
 					</div>
@@ -111,13 +108,6 @@ function showError(errorname) {
 			break;
 	}
 }
-function updateAuthStatus() {
-	if (GoogleAuth.isSignedIn.get()) {
-		console.log("Authenticated! :)");
-	} else {
-		showError('auth-lost');
-	}
-}
 
 function get12time(date) {
 	var hours = date.getHours();
@@ -128,14 +118,6 @@ function get12time(date) {
 	minutes = minutes < 10 ? '0'+minutes : minutes;
 	var strTime = hours + ':' + minutes + ' ' + ampm;
 	return strTime;
-}
-	
-function getColorClassFromStatus(statusName, isSentToTech) {
-	if (isSentToTech == true) {
-		return "tech"+statusName;
-	} else {
-		return statusName;
-	}
 }
 	
 var cards = [];
@@ -151,12 +133,15 @@ function cardObjectFromElement(element,numParents) {
 }
 
 //OBJECT - Card
-function new_Card(studentName, timeStamp, statusName, isSentToTech) {
+function new_Card(studentId, studentName, eventName, timestamp, comments, flags, isSentToTech) {
 	const obj = {};
+	obj.id = studentId;
 	obj.name = studentName;
-	obj.time = timeStamp;
-	obj.status = statusName;
-	obj.tech = isSentToTech
+	obj.event = eventName;
+	obj.time = timestamp;
+	obj.comments = comments;
+	obj.flags = flags;
+	obj.tech = isSentToTech;
 	
 	//create card
 	var wrap = document.createElement('div');
@@ -185,15 +170,22 @@ function new_Card(studentName, timeStamp, statusName, isSentToTech) {
 	obj.card = wrap;
 	
 	//provide status name ("in"|"out") and tech status (true|false) to update proper styling and object's properties
-	obj.updateStatusAndColor = function(statusName, isSentToTech) {
-		var newcolor = getColorClassFromStatus(statusName, isSentToTech);
+	obj.updateStatusAndColor = function(statusName, isSentToTech, timestamp) {
+		if (timestamp != null) {
+			obj.time = timestamp;
+		}
+		var newcolor = "color-card_"+statusName;
+		if (isSentToTech) {
+			newcolor += '_tech';
+		}
+		obj.card.children[1].children[1].textContent = get12time(obj.time);
 		obj.card.classList = "";
 		obj.card.classList.add('check-card');
-		obj.card.classList.add("color-card-"+newcolor);
-		obj.status = statusName;
+		obj.card.classList.add(newcolor);
+		obj.event = statusName;
 		obj.tech = isSentToTech;
 	}
-	obj.updateStatusAndColor(obj.status,obj.tech);
+	obj.updateStatusAndColor(obj.event,obj.tech);
 	
 	obj.showComments = function() {
 		var popup = document.createElement('div');
@@ -263,10 +255,11 @@ function new_Card(studentName, timeStamp, statusName, isSentToTech) {
 	
 	//click the card's button - uses card's properties to determine action
 	obj.clickAction = function() {
-		if (!(obj.tech) && (obj.status=="in")) {
+		if (!(obj.tech) && (obj.event=="sign-in")) {
 			//todo send "moved to tech" query
-			obj.updateStatusAndColor("in",true);
+			obj.updateStatusAndColor("sign-in",true);
 			obj.playRefreshAnimation();
+			pushEvent(obj.id, 'sent-tech', '', [false,false,false]);
 		} else {
 			obj.showComments();
 		}
@@ -294,23 +287,6 @@ function new_Card(studentName, timeStamp, statusName, isSentToTech) {
 	return obj;
 }
 
-var testnames = ["Marissa Hansen","Lynda Richmond","Roberto Brennan","Dwain Owens","Omer Mcintyre","Martina Grant","Bertram Weber","Milan Bryant","Louise Vincent","Margarita Guerra","Dorothea Sharp","Bertha Howell","Mable Gillespie","Marisa Mills","Lesley Ramirez","Burt Austin","Kathryn Weaver","Harrison Ferguson","Alonzo Zamora","Jean Munoz","Brain Wood","Osvaldo Berger","Debra Hayes","Luke Sheppard","Elisabeth Dougherty","Trey Velez","Edgardo Macias","Javier Carpenter","Rene Simon","Cassandra Osborne","Wilford Finley","Heriberto Odonnell","Beau Terry","Miquel Mendez","Garry Tyler","Anita Tapia","Kim Campos","Dane Griffith","Liliana Blackwell","Pamela Sims","Owen Cook","Joel Gomez","Marshall Carson","Bernadette Poole","Hiram Mcclain","Amanda Walters","Monte Ball","Toney Yoder","Brett Choi","Elsa Jones"];
-function test() {
-	for (var i=0; i<parseInt(Math.random() * 5)+1; i++) {
-	if (parseInt(Math.random() * 2) == 0) {
-		var card = new_Card(testnames[parseInt(Math.random() * 50)],randomDate(),"in",parseInt(Math.random()*2));
-		cards.unshift(card); //unshift pushes to start instead of end... weirdname.
-		card.playInsertAnimation();
-	} else {
-		var card = new_Card(testnames[parseInt(Math.random() * 50)],randomDate(),"out",parseInt(Math.random()*2));
-		cards.unshift(card);
-		card.playInsertAnimation();
-	}
-	}
-	cards = quickSort(cards, 0, cards.length-1, false);
-	repackCards();
-}
-
 function randomDate() {
 	var now = new Date();
 	now.setHours(parseInt(Math.random()*24));
@@ -318,7 +294,7 @@ function randomDate() {
 	now.setSeconds(parseInt(Math.random()*60));
 	return now;
 }
-	
+
 function toggleSort(toggle) {
 	var el = document.getElementById('sortbar');
 	var current = el.classList[0];
@@ -342,6 +318,24 @@ function toggleSort(toggle) {
 		cards = quickSort(cards, 0, cards.length-1, true);
 		repackCards();
 	}
+}
+function reSort() {
+	var el = document.getElementById('sortbar');
+	var current = el.classList[0];
+	
+	if (current.substring(0,9) == "sort-time") {
+		cards = quickSort(cards, 0, cards.length-1, false);
+		if (current.substring(10) == "up") {
+			cards = cards.reverse();
+		}
+		repackCards();
+	} else {
+		cards = quickSort(cards, 0, cards.length-1, true);
+		if (current.substring(10) == "up") {
+			cards = cards.reverse();
+		}
+		repackCards();
+	}	
 }
 function repackCards(cardslist) {
 	var el = document.getElementById('cards-wrapper');
@@ -417,7 +411,12 @@ function quickSort(items, left, right, name) {
     }
     return items;
 }
-	
+
+var lastResultsRefreshTime = new Date();
+lastResultsRefreshTime.setHours(0);
+lastResultsRefreshTime.setMinutes(0);
+lastResultsRefreshTime.setSeconds(0);
+lastResultsRefreshTime.setMilliseconds(0);
 function updateTodaysDate() {
 	//var now = new Date(new Date().getTime()+Math.random()*100000000000)
 	var now = new Date();
@@ -429,8 +428,101 @@ function updateTodaysDate() {
 	for (var i=0; i<d.length; i++) {
 		here.children[i].innerHTML = d[i];
 	}
-	var now = new Date();
+	getEventsAfter(lastResultsRefreshTime);
+	lastResultsRefreshTime = new Date();
 	setTimeout(function(){updateTodaysDate();},60000-((now.getSeconds()*1000)+now.getMilliseconds())); //timeout to refresh on next minute
 }
-updateTodaysDate();
+//local database store of (wip) event sets
+//parallell arrays by id
+var ldb_ids = [];
+var ldb_tech = [];
+var ldb_eventset = [];
+var ldb_tmpcards = [];
+var ldb_modified = [];
+//cards from eventsets that are finished
+var ldb_finalcards = [];
+function catchEventsAfter(response){
+	var dt = response.getDataTable();
+	
+	var newCards = [];
+	
+	for (var i=0; i<dt.getNumberOfRows(); i++) {
+		var row = [];
+		for (var j=0; j<dt.getNumberOfColumns(); j++) {
+			row.push(dt.getValue(i,j));
+		}
+		
+		//get last event group by id
+		var index = ldb_ids.indexOf(row[0]);
+		var last = '';
+		if (index == -1) {
+			ldb_ids.push(row[0]);
+			ldb_tech.push(false);
+			ldb_eventset.push([]);
+			ldb_tmpcards.push(null);
+			ldb_modified.push(false);
+			index = ldb_eventset.length-1;
+		} else {
+			last = ldb_eventset[index];
+			last = last[last.length-1][2];
+			ldb_modified[index] = true;
+		}
+		if (row[2] == 'sign-in') {
+			if ((last == 'sign-in')||(last == 'sent-tech')) {
+				//did a sign in but was previously on sign in or tech, assume forgot sign out
+				//toss out (overwrite) the old one
+				ldb_eventset[index] = [row];
+				ldb_tech[index] = false;
+			} else {
+				//did a sign-in
+				ldb_eventset[index].push(row);
+			}
+		} else if (row[2] == 'sent-tech') {
+			//sent to tech
+			ldb_tech[index] = true;
+		} else if (row[2] == 'sign-out') {
+			//did a sign out... push to final cards
+			if ((last == 'sign-in')||(last == 'sent-tech')) {
+				//did a sign-out.
+				ldb_eventset[index].push(row); //finalize eventset
+				ldb_modified[index] = true;
+				//build and push card
+				var r = ldb_eventset[index][ldb_eventset[index].length-1];
+				var c = new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],ldb_tech[index]);
+				ldb_finalcards.push(c);
+				//clear eventset out
+				ldb_ids.pop(index);
+				ldb_eventset.pop(index);
+				ldb_tech.pop(index);
+				ldb_tmpcards.pop(index);
+				ldb_modified.pop(index);
+			}
+		}
+		
+	}
+	
+	//for all remaining eventssets... those without checkouts yet, build a temp card.
+	for (var i=0; i<ldb_eventset.length; i++) {
+		var r = ldb_eventset[i][ldb_eventset[i].length-1]; //last card of eventset
+		if (ldb_tmpcards[i] == null) { //null card
+			ldb_tmpcards[i] = new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],ldb_tech[i]);
+			ldb_tmpcards[i].playInsertAnimation();
+		} else { //modified card
+			if (ldb_modified[i] == true) {
+				ldb_tmpcards[i].updateStatusAndColor(r[2],ldb_tech[i],r[3]);
+				ldb_tmpcards[i].playRefreshAnimation();
+				ldb_modified[index] = false;
+			}
+		}
+	}
+	cards = ldb_finalcards.concat(ldb_tmpcards);
+	reSort();
+}
+function onAuthUpdate() {
+	selectDatabaseIdFromUrl();
+	updateTodaysDate();
+	if (!(GoogleAuth.isSignedIn.get())) {
+		showError('auth-lost');
+	}
+}
 </script>

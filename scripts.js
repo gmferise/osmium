@@ -34,9 +34,8 @@ function initClient() {
 		"scope":"https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets"
 	}).then(function() {
 		GoogleAuth = gapi.auth2.getAuthInstance();
-		GoogleAuth.isSignedIn.listen(updateAuthStatus);
-		updateAuthStatus();
-		selectDatabaseIdFromUrl();
+		GoogleAuth.isSignedIn.listen(onAuthUpdate);
+		onAuthUpdate();
 	});
 }
 
@@ -448,7 +447,7 @@ function pushEvent(id, type, comments, flags) {
 				throw new Error("Failed to add new rows.");
 			}
 			else {
-				console.log("Rows successfully added. Name="+name);
+				catchPushEvent(name, type, flags);
 			}
 		});	
 	}, pageId);
@@ -484,11 +483,7 @@ function getEventsAfter(dateObject){
 	var dateString = dateObject.toLocaleString("en-CA-u-hc-h24",
 				{day:"2-digit", month:"2-digit", year:"numeric",
 				hour:"2-digit", minute:"2-digit", second:"2-digit"}).replace(",","");
-	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D > datetime '"+dateString+"' ORDER BY D DESC", catchEventsAfter);
-}
-
-function catchEventsAfter(response){
-	console.log(response.getDataTable());
+	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D > datetime '"+dateString+"' ORDER BY D ASC", catchEventsAfter);
 }
 
 // Gets all table rows with a student's id
@@ -509,19 +504,6 @@ function getStatusById(id){
 }
 
 function catchStatus(response){
-	// Gets the latest status of a user given their id from main database
-	// Returns 2 events to check for tech status... [most recent, 2nd most recent]
-	// so read these right to left for time-wise order
-	// possible scenarios... (event(newer), event(older) = status, doTechColor)
-	// check-in, check-in = in, false (assume was check-in > forgot to check out > checked in later)
-	// check-in, check-out = in, false (excpected check-out > check-in)
-	// check-in, sent-tech = in, false (assume was check-in > sent-tech > forgot to check out > checked in later)
-	// check-out, check-in = out, false (expected check-in > check-out)
-	// check-out, check-out = out, false (assume checked out twice or something idk)
-	// check-out, sent-tech = out, true (assume was check-in > sent-tech > check-out)
-	// sent-tech, check-in = in, true (expected check-in > sent-tech > check out)
-	// sent-tech, check-out = out, true (assume forgot to send to tech before student left)
-	// sent-tech, sent-tech = THROW ERROR, sent-tech pushEvent should not write if most recent status ends is sent-tech
 	if (response == undefined){ console.log("getStatus Query Failed"); return; }
 	console.log(response.getDataTable().getDistinctValues(0)); // Array of [id, name, status, timestamp, comments]
 }

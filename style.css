@@ -318,26 +318,26 @@ html {
 }
 
 /* CARD COLORS */
-.color-card-in .text-holder {
+.color-card_sign-in .text-holder {
 	background-color: #46c37e; /* checkedin green */
 }
-.color-card-out .text-holder {
+.color-card_sign-out .text-holder {
 	background-color: #a7d3bb; /* checkedout green */
 }
-.color-card-techin .text-holder {
+.color-card_sign-in_tech .text-holder {
 	background-color: #6d8ce8; /* tech blue */
 }
-.color-card-techout .text-holder {
+.color-card_sign-out_tech .text-holder {
 	background-color: #b0c4dd; /* techout blue */
 }
-.color-card-in button, .color-card-techin button {
+.color-card_sign-in button, .color-card_sign-in_tech button {
 	background-color: royalblue;
 }
-.color-card-out button, .color-card-techout button {
+.color-card_sign-out button, .color-card_sign-out_tech button {
 	background-color: grey;
 }
 /* CARD ICONS */
-.color-card-in button:after {
+.color-card_sign-in button:after {
 	font-family: 'Material Icons Round';
 	content: "send";
 	color: white;
@@ -345,7 +345,7 @@ html {
 	float: right;
 	margin-right: 2px;
 }
-.color-card-out button:after, .color-card-techin button:after, .color-card-techout button:after {
+.color-card_sign-out button:after, .color-card_sign-in_tech button:after, .color-card_sign-out_tech button:after {
 	font-family: 'Material Icons';
 	content: "edit";
 	color: white;
@@ -354,32 +354,32 @@ html {
 	margin-right: 2px;
 }
 /* CARD TOOLTIP CONTENT */
-.color-card-in button div.tooltip:before {
+.color-card_sign-in button div.tooltip:before {
 	content: "Send to Tech";
 	padding-left: 10px;
 	padding-right: 10px;
 }
-.color-card-out button div.tooltip:before, .color-card-techin button div.tooltip:before, .color-card-techout button div.tooltip:before {
+.color-card_sign-out button div.tooltip:before, .color-card_sign-in_tech button div.tooltip:before, .color-card_sign-out_tech button div.tooltip:before {
 	content: "Edit Notes";
 	padding-left: 10px;
 	padding-right: 10px;
 }
-.color-card-in .medium-text div.tooltip:before {
+.color-card_sign-in .medium-text div.tooltip:before {
 	content: "Checked In - Library";
 	padding-left: 10px;
 	padding-right: 10px;
 }
-.color-card-out .medium-text div.tooltip:before {
+.color-card_sign-out .medium-text div.tooltip:before {
 	content: "Checked Out - Library";
 	padding-left: 10px;
 	padding-right: 10px;
 }
-.color-card-techin .medium-text div.tooltip:before {
+.color-card_sign-in_tech .medium-text div.tooltip:before {
 	content: "Checked In - Tech Office";
 	padding-left: 10px;
 	padding-right: 10px;
 }
-.color-card-techout .medium-text div.tooltip:before {
+.color-card_sign-out_tech .medium-text div.tooltip:before {
 	content: "Checked Out - Tech Office";
 	padding-left: 10px;
 	padding-right: 10px;
@@ -459,8 +459,8 @@ html {
 	100% {transform:rotate(0deg);}
 }
 .check-card.anim-in {
-	animation: bump-left 0.25s ease-in-out forwards;
-} @keyframes bump-left {
+	animation: anim-from-left 0.25s ease-in-out forwards;
+} @keyframes anim-from-left {
 	0% {transform:translateX(-100%);opacity:0;}
 	50% {transform:translateX(-50%);opacity:0;}
 	100% {transform:translateX(0%);opacity:1;}
@@ -584,15 +584,23 @@ body.bigbody button.new:focus {
 	outline: 0;
 }
 /* popups */
+#push-success-popup div.content {
+	top: 50%;
+	transform: translateY(-50%);
+	height: fit-content;
+	padding-bottom: 50px;
+}
 div.bigpopup {
 	z-index: 100;	
-	visibility: hidden;
 	position: absolute;
-	top: 0;
+	visibility: hidden;
 	left: 0;
 	width: 100%;
 	height: 100%;
     background: rgba(0,0,0,0.5);
+}
+div.visible {
+	visibility: visible;
 }
 div.bigpopup div.content {
 	position: absolute;
@@ -603,6 +611,15 @@ div.bigpopup div.content {
 	background: white;	
 	box-shadow: 3px 4px 0px 1px black;
 	box-sizing: border-box;
+}
+div.bigpopup div.content div.medium-text {
+	font-size: 3em;
+	font-weight: 300;
+}
+div.bigpopup div.content div.large-text {
+	font-size: 3em;
+	color: royalblue;
+	font-weight: 400;
 }
 div.bigpopup div.content input {
 	position: absolute;
@@ -637,7 +654,7 @@ div.bigpopup div.content i {
 	font-size: 3em;
 }
 div.bigpopup div.content button.ok {
-	width: fit-content;
+	width: fit-content !important;
 	outline: 0;
 	position: absolute;
 	bottom: 0;
@@ -668,7 +685,7 @@ div.bigpopup div.content button.ok:hover {
 	border: 1px solid limegreen;
 }
 div.bigpopup div.content button.cancel {
-	width: fit-content;
+	width: fit-content !important;
 	outline: 0;
 	position: absolute;
 	bottom: 0;
@@ -684,42 +701,42 @@ div.bigpopup div.content button.cancel:hover {
 }
 /* kiosk styling */
 /* format for body so that it's always equally sized */
-body.bigbody.fixedratio {
+body.bigbody div.fixedratio {
 	width: 100vh;
 	height: 100vh;
 	margin-left: 50%;
 	transform: translateX(-50%);
 }
-body.bigbody.fixedratio div.medium-spacer {
+body.bigbody div.fixedratio div.medium-spacer {
 	height: 15vh;
 }
-body.bigbody.fixedratio button.big {
+body.bigbody div.fixedratio button.big {
 	width: 70vh;
 	font-size: 12vh;
 }
-body.bigbody.fixedratio div.bigpopup {
+body.bigbody div.fixedratio div.bigpopup {
 	background: lightblue;
 }
-body.bigbody.fixedratio div.bigpopup div.content {
+body.bigbody div.fixedratio div.bigpopup div.content {
 	height: 20vh;
 	top: 5vh;
 	width: 90vh;
 	left: 5vh;
 }
-body.bigbody.fixedratio div.bigpopup input {
+body.bigbody div.fixedratio div.bigpopup input {
 	font-size: 5vh;
 	margin-bottom: 2vh;
 	width: calc(100% - 32vh);
 	margin-left: 7.5vh;
 }
-body.bigbody.fixedratio div.bigpopup div.content i {
+body.bigbody div.fixedratio div.bigpopup div.content i {
 	margin-right: 0;
 	margin-bottom: 2vh;
 	font-size: 6vh;
 	margin-left: 2vh;
 	padding-bottom: 0.5vh;
 }
-body.bigbody.fixedratio div.bigpopup button.big.ok {
+body.bigbody div.fixedratio div.bigpopup button.big.ok {
 	margin-right: 0;
 	margin-bottom: 2vh;
 	font-size: 6vh;
@@ -728,11 +745,11 @@ body.bigbody.fixedratio div.bigpopup button.big.ok {
 	transform: none;
 	padding-bottom: 0.5vh;
 }
-body.bigbody.fixedratio div.bigpopup button.big.ok:hover,
-body.bigbody.fixedratio div.bigpopup button.big.cancel:hover {
+body.bigbody div.fixedratio div.bigpopup button.big.ok:hover,
+body.bigbody div.fixedratio div.bigpopup button.big.cancel:hover {
 	transform: translate(-2px, -2px);
 }
-body.bigbody.fixedratio div.bigpopup button.big.cancel {
+body.bigbody div.fixedratio div.bigpopup button.big.cancel {
 	margin-bottom: 2vh;
 	font-size: 6vh;
 	right: 2vh;
@@ -740,10 +757,10 @@ body.bigbody.fixedratio div.bigpopup button.big.cancel {
 	transform: none;
 	padding-bottom: 0.5vh;
 }
-body.bigbody.fixedratio .title-center.fullsize {
+body.bigbody div.fixedratio .title-center.fullsize {
 	font-size: 6vh;
 }
-body.bigbody.fixedratio div.bigpopup div.content-extra {
+body.bigbody div.fixedratio div.bigpopup div.content-extra {
 	position: absolute;
 	width: 47vh;
 	right: 5vh;
@@ -755,13 +772,13 @@ body.bigbody.fixedratio div.bigpopup div.content-extra {
 	padding: 3vh;
 	font-size: 3.5vh
 }
-body.bigbody.fixedratio div.bigpopup div.content-extra div.title-left {
+body.bigbody div.fixedratio div.bigpopup div.content-extra div.title-left {
 	font-weight: 400;
 	font-size: 4.5vh;
 	margin-top: 0;
 	margin-bottom: 1vw;
 }
-body.bigbody.fixedratio div.bigpopup div.content-extra div.large-text {
+body.bigbody div.fixedratio div.bigpopup div.content-extra div.large-text {
 	font-weight: 300;
 	font-size: 10vh;
 	text-align: center;
@@ -778,7 +795,7 @@ body.bigbody.fixedratio div.bigpopup div.content-extra div.large-text {
 	margin-bottom: 15px;
 	padding-top: 0.5vh;
 	cursor: pointer;
-	font-size: 3.5vh;
+	font-size: 3vh;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -953,7 +970,7 @@ button.new-tab:after {
 	padding-right: 10px;
 	transform: translateY(25%);
 }
-button.check-in:after {
+button.sign-in:after {
 	content: 'add_box';
 	font-family: "Material Icons";
 	font-size: 80%;
@@ -961,7 +978,7 @@ button.check-in:after {
 	padding-right: 10px;
 	transform: translateY(25%);
 }
-button.check-out:after {
+button.sign-out:after {
 	content: 'indeterminate_check_box';
 	font-family: "Material Icons";
 	font-size: 80%;
