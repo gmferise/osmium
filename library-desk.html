@@ -169,25 +169,6 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 		
 	obj.card = wrap;
 	
-	//provide status name ("in"|"out") and tech status (true|false) to update proper styling and object's properties
-	obj.updateStatusAndColor = function(statusName, isSentToTech, timestamp) {
-		if (timestamp != null) {
-			obj.time = timestamp;
-		}
-		var newcolor = "color-card_"+statusName;
-		if (isSentToTech) {
-			newcolor += '_tech';
-		}
-		obj.card.children[1].children[1].textContent = get12time(obj.time);
-		obj.card.classList = "";
-		obj.card.classList.add('check-card');
-		obj.card.classList.add(newcolor);
-		obj.event = statusName;
-		obj.tech = isSentToTech;
-		obj.playRefreshAnimation();
-	}
-	obj.updateStatusAndColor(obj.event,obj.tech);
-	
 	obj.showComments = function() {
 		var popup = document.createElement('div');
 			popup.classList.add('card-popup');
@@ -279,6 +260,25 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 			obj.card.classList.remove('anim-in');
 		},500);
 	}
+	
+	//provide status name ("in"|"out") and tech status (true|false) to update proper styling and object's properties
+	obj.updateStatusAndColor = function(statusName, isSentToTech, timestamp) {
+		if (timestamp != null) {
+			obj.time = timestamp;
+		}
+		var newcolor = "color-card_"+statusName;
+		if (isSentToTech) {
+			newcolor += '_tech';
+		}
+		obj.card.children[1].children[1].textContent = get12time(obj.time);
+		obj.card.classList = "";
+		obj.card.classList.add('check-card');
+		obj.card.classList.add(newcolor);
+		obj.event = statusName;
+		obj.tech = isSentToTech;
+		obj.playRefreshAnimation();
+	}
+	obj.updateStatusAndColor(obj.event,obj.tech);
 	
 	//insert into cards list at top
 	obj.insertIntoCards = function() {
