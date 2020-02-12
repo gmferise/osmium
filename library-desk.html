@@ -252,7 +252,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 	}
 	
 	obj.playRefreshAnimation = function() {
-		if (obj.isNew()) {
+		if (obj.isNew) {
 			obj.card.classList.add('anim-in');
 			setTimeout(function() {
 				obj.card.classList.remove('anim-in');
