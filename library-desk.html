@@ -520,11 +520,10 @@ function catchEventsAfter(response) {
 
 	for (var i=0; i<tmpcards.length; i++) {
 		if (gotupdate[i]) {
-			tmpcards[i].playRefreshAnimation();
-			gotupdate[i] = false;
+			tmpcards[i].playLeaveAnimation();
 		}
 	}
-	setTimeout(reloadTempCards,250);
+	setTimeout(reloadTempCards,240);
 }
 	
 function reloadTempCards() {
@@ -533,6 +532,10 @@ function reloadTempCards() {
 		var c = precards[i][precards[i].length-1];
 		c = new_Card(c[0],c[1],'sign-in',c[3],c[4],[c[5],c[6],c[7],c[8]],(c[2]=='sent-tech'));
 		tmpcards.push(c);
+		if (gotupdate[i]) {
+			gotupdate[i] = false;
+			c.playInsertAnimation();
+		}
 	}
 	cards = finalcards.concat(tmpcards);
 	repackCards(cards);
