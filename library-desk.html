@@ -446,6 +446,7 @@ function catchPushEvent(name, type, flags) {
 var preids = [];
 var precards = [];
 var finalcards = [];
+var gotupdate = [];
 
 function catchEventsAfter(response) {
 	var dt = response.getDataTable();
@@ -466,11 +467,13 @@ function catchEventsAfter(response) {
 			if (row[2] == 'sign-in') {
 				preids.push(row[0]);
 				precards.push([row]);
+				gotupdate.push(true);
 			}
 		} else {
 			var last = precards[index][precards[index].length-1][2];
 			if (last == 'sign-in') {
 				if (row[2] == 'sent-tech') { //sign-in -> tech
+					gotupdate[index] = true;
 					precards[index].push(row);
 				} else if (row[2] == 'sign-out') { //sign-in -> sign-out
 					var c = row;
@@ -479,25 +482,32 @@ function catchEventsAfter(response) {
 					finalcards.push(c);
 					preids.pop(index);
 					precards.pop(index);
+					gotupdate.pop(index);
 				} else if (row[2] == 'sign-in') { //sign-in -> sign-in (just end the first one);
 					var c = precards[index][precards[index].length-1];
 					c = new_Card(c[0],c[1],'sign-out',c[3],c[4],[c[5],c[6],c[7],c[8]],false);
 					c.playRefreshAnimation();
 					finalcards.push(c);
 					precards[index] = [row];
+					gotupdate[index] = true;
 				}
 			} else if (last == 'sent-tech') {
-				if (row[2] == 'sign-out') {
+				if (row[2] == 'sign-out') { //sign-in -> tech -> sign-out
 					var c = row;
 					c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],true);
 					c.playRefreshAnimation();
 					finalcards.push(c);
 					preids.pop(index);
 					precards.pop(index);
-				} else if (row[2] == 'sign-in') { //tech -> sign-in (end the first);
+					gotupdate.pop(index);
+				} else if (row[2] == 'sign-in') { //sign-in -> tech -> sign-in (end the first);
+					gotupdate[index] = true;
 					var c = precards[index][precards[index].length-1];
-					finalcards.push(new_Card(c[0],c[1],'sign-out',c[3],c[4],[c[5],c[6],c[7],c[8]],true));
+					c = new_Card(c[0],c[1],'sign-out',c[3],c[4],[c[5],c[6],c[7],c[8]],true);
+					c.playRefreshAnimation();
+					finalcards.push(c);
 					precards[index] = [row];
+					gotupdate[index] = true;
 				}
 			}
 		}
@@ -507,7 +517,10 @@ function catchEventsAfter(response) {
 	for (var i=0; i<precards.length; i++) {
 		var c = precards[i][precards[i].length-1];
 		c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],(c[2]=='sent-tech'));
-		c.playRefreshAnimation();
+		if (gotupdate[i]) {
+			gotupdate[i] = false;
+			c.playRefreshAnimation();
+		}
 		tmpcards.push(c);
 	}
 	cards = finalcards.concat(tmpcards);
