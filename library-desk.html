@@ -184,6 +184,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 		obj.card.classList.add(newcolor);
 		obj.event = statusName;
 		obj.tech = isSentToTech;
+		obj.playRefreshAnimation();
 	}
 	obj.updateStatusAndColor(obj.event,obj.tech);
 	
@@ -257,9 +258,9 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 	obj.clickAction = function() {
 		if (!(obj.tech) && (obj.event=="sign-in")) {
 			//todo send "moved to tech" query
-			obj.updateStatusAndColor("sign-in",true);
-			obj.playRefreshAnimation();
+			//obj.updateStatusAndColor("sign-in",true);
 			pushEvent(obj.id, 'sent-tech', '', [false,false,false]);
+			obj.card.classList.add('loading');
 		} else {
 			obj.showComments();
 		}
@@ -432,6 +433,9 @@ function updateTodaysDate() {
 	lastResultsRefreshTime = new Date();
 	setTimeout(function(){updateTodaysDate();},60000-((now.getSeconds()*1000)+now.getMilliseconds())); //timeout to refresh on next minute
 }
+function catchPushEvent(name, type, flags) {
+	updateTodaysDate();
+}
 //local database store of (wip) event sets
 //parallell arrays by id
 var ldb_ids = [];
@@ -521,7 +525,6 @@ function catchEventsAfter(response){
 				console.log("owo? *notices modified card* "+ldb_tmpcards[i]);
 				ldb_tmpcards[i].updateStatusAndColor(r[2],ldb_tech[i],r[3]);
 				console.log("updated to "+r[2]+", "+ldb_tech[3]);
-				ldb_tmpcards[i].playRefreshAnimation();
 				ldb_modified[index] = false;
 			}
 		}

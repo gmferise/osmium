@@ -353,6 +353,10 @@ html {
 	float: right;
 	margin-right: 2px;
 }
+.check-card.loading button:after {
+	content: "sync";
+	animation: loading 1s infinite ease-in-out;
+}
 /* CARD TOOLTIP CONTENT */
 .color-card_sign-in button div.tooltip:before {
 	content: "Send to Tech";
