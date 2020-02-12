@@ -106,6 +106,8 @@ function showError(errorname) {
 		case 'auth-lost':
 			throw new Error("CRITICAL ERROR: Authentication lost.");
 			break;
+		case 'db-get-fail':
+			throw new Error("ERROR: Could not update event list.");
 	}
 }
 
@@ -142,6 +144,8 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 	obj.comments = comments;
 	obj.flags = flags;
 	obj.tech = isSentToTech;
+	
+	obj.isNew = false;
 	
 	//create card
 	var wrap = document.createElement('div');
@@ -248,17 +252,18 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 	}
 	
 	obj.playRefreshAnimation = function() {
-		obj.card.classList.add('anim-refresh');
-		setTimeout(function() {
-			obj.card.classList.remove('anim-refresh');
-		},500);
-	}
-	
-	obj.playInsertAnimation = function() {
-		obj.card.classList.add('anim-in');
-		setTimeout(function() {
-			obj.card.classList.remove('anim-in');
-		},500);
+		if (obj.isNew()) {
+			obj.card.classList.add('anim-in');
+			setTimeout(function() {
+				obj.card.classList.remove('anim-in');
+			},500);
+			isNew = false;
+		} else {
+			obj.card.classList.add('anim-refresh');
+			setTimeout(function() {
+				obj.card.classList.remove('anim-refresh');
+			},500);
+		}
 	}
 	
 	//provide status name ("in"|"out") and tech status (true|false) to update proper styling and object's properties
@@ -267,7 +272,6 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 		console.log(timestamp);
 		if (timestamp != null) {
 			obj.time = timestamp;
-			obj.playRefreshAnimation();
 		}
 		var newcolor = "color-card_"+statusName;
 		if (isSentToTech) {
@@ -438,107 +442,76 @@ function updateTodaysDate() {
 function catchPushEvent(name, type, flags) {
 	updateTodaysDate();
 }
-//local database store of (wip) event sets
-//parallell arrays by id
-var ldb_ids = [];
-var ldb_tech = [];
-var ldb_eventset = [];
-var ldb_tmpcards = [];
-var ldb_modified = [];
-//cards from eventsets that are finished
-var ldb_finalcards = [];
-function catchEventsAfter(response){
+
+var preids = [];
+var precards = [];
+var finalcards = [];
+
+function catchEventsAfter(response) {
 	var dt = response.getDataTable();
 	
-	var newCards = [];
+	if (dt == null) {
+		showError('db-get-fail');
+		return;
+	}
 	
 	for (var i=0; i<dt.getNumberOfRows(); i++) {
 		var row = [];
 		for (var j=0; j<dt.getNumberOfColumns(); j++) {
 			row.push(dt.getValue(i,j));
 		}
-		console.log("got "+row);
 		
-		//get last event group by id
-		var index = ldb_ids.indexOf(row[0]);
-		var last = '';
+		var index = preids.indexOf(row[0]);
 		if (index == -1) {
-			ldb_ids.push(row[0]);
-			ldb_tech.push(false);
-			ldb_eventset.push([]);
-			ldb_tmpcards.push(null);
-			ldb_modified.push(false);
-			index = ldb_eventset.length-1;
-		} else {
-			last = ldb_eventset[index];
-			last = last[last.length-1][2];
-			ldb_modified[index] = true;
-			console.log("> do the bump")
-		}
-		if (row[2] == 'sign-in') {
-			if ((last == 'sign-in')||(last == 'sent-tech')) {
-				//did a sign in but was previously on sign in or tech, assume forgot sign out
-				//toss out (overwrite) the old one
-				console.log("> my event chain had previous scuffing of '"+last+"'")
-				console.log(">> overwrote with me (a sign in)");
-				ldb_eventset[index] = [row];
-				ldb_tech[index] = false;
-			} else {
-				//did a sign-in
-				console.log("> sign-in event");
-				ldb_eventset[index].push(row);
+			if (row[2] == 'sign-in') {
+				preids.push(row[0]);
+				precards.push([row]);
 			}
-		} else if (row[2] == 'sent-tech') {
-			//sent to tech
-			console.log("> am tech event. buffed a "+last);
-			ldb_tech[index] = true;
-		} else if (row[2] == 'sign-out') {
-			//did a sign out... push to final cards
-			if ((last == 'sign-in')||(last == 'sent-tech')) {
-				//did a sign-out.
-				ldb_eventset[index].push(row); //finalize eventset
-				//build and push card
-				var r = ldb_eventset[index][ldb_eventset[index].length-1];
-				var c = new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],ldb_tech[index]);
-				ldb_finalcards.push(c);
-				//clear eventset out
-				ldb_ids.pop(index);
-				ldb_eventset.pop(index);
-				ldb_tech.pop(index);
-				ldb_tmpcards.pop(index);
-				ldb_modified.pop(index);
-			} else {
-				console.log("> my event chain had no prev event ('"+last+"')");
-				console.log(">> dumping my build chain");
-				ldb_ids.pop(index);
-				ldb_eventset.pop(index);
-				ldb_tech.pop(index);
-				ldb_tmpcards.pop(index);
-				ldb_modified.pop(index);
+		} else {
+			var last = precards[index][precards[index].length-1][2];
+			if (last == 'sign-in') {
+				if (row[2] == 'sent-tech') { //sign-in -> tech
+					precards[index].push(row);
+				} else if (row[2] == 'sign-out') { //sign-in -> sign-out
+					var c = row;
+					c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],false);
+					c.playRefreshAnimation();
+					finalcards.push(c);
+					preids.pop(index);
+					precards.pop(index);
+				} else if (row[2] == 'sign-in') { //sign-in -> sign-in (just end the first one);
+					var c = precards[index][precards[index].length-1];
+					c = new_Card(c[0],c[1],'sign-out',c[3],c[4],[c[5],c[6],c[7],c[8]],false);
+					c.playRefreshAnimation();
+					finalcards.push(c);
+					precards[index] = [row];
+				}
+			} else if (last == 'sent-tech') {
+				if (row[2] == 'sign-out') {
+					var c = row;
+					c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],true);
+					c.playRefreshAnimation();
+					finalcards.push(c);
+					preids.pop(index);
+					precards.pop(index);
+				} else if (row[2] == 'sign-in') { //tech -> sign-in (end the first);
+					var c = precards[index][precards[index].length-1];
+					finalcards.push(new_Card(c[0],c[1],'sign-out',c[3],c[4],[c[5],c[6],c[7],c[8]],true));
+					precards[index] = [row];
+				}
 			}
 		}
 		
 	}
-	
-	console.log("processing cards");
-	//for all remaining eventssets... those without checkouts yet, build a temp card.
-	for (var i=0; i<ldb_eventset.length; i++) {
-		var r = ldb_eventset[i][ldb_eventset[i].length-1]; //last card of eventset
-		console.log("adding row "+row);
-		if (ldb_tmpcards[i] == null) { //null card
-			ldb_tmpcards[i] = new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],ldb_tech[i]);
-			console.log("> created new card "+ldb_tmpcards[i]);
-			ldb_tmpcards[i].playInsertAnimation();
-		} else { //modified card
-			if (ldb_modified[i] == true) {
-				console.log("> owo? *notices modified card* "+ldb_tmpcards[i]);
-				ldb_tmpcards[i].updateStatusAndColor(r[2],ldb_tech[i],r[3]);
-				console.log(">> updated to "+r[2]+", "+ldb_tech[3]);
-				ldb_modified[index] = false;
-			}
-		}
+	var tmpcards = [];
+	for (var i=0; i<precards.length; i++) {
+		var c = precards[i][precards[i].length-1];
+		c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],(if c[2]=='sent-tech')));
+		c.playRefreshAnimation();
+		tmpcards.push(c);
 	}
-	cards = ldb_finalcards.concat(ldb_tmpcards);
+	cards = finalcards.concat(tmpcards);
+	repackCards(cards);
 	reSort();
 }
 function onAuthUpdate() {
