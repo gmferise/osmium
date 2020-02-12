@@ -224,6 +224,23 @@ function createDatabase(name){
 				"fields": "dataValidation"
 			}
 		});
+		requests.push({ // bool loaning (strict)
+			"repeatCell": {
+				"range": {
+					"startRowIndex": 1,
+					"startColumnIndex":8,
+					"endColumnIndex": 9
+				},
+				"cell": {
+					"dataValidation": {
+						"condition": { "type": "BOOLEAN" },
+						"strict": true,
+						"showCustomUi": true
+					}
+				},
+				"fields": "dataValidation"
+			}
+		});
 		
 		// Give database columns headers		
 		requests.push({
@@ -238,6 +255,7 @@ function createDatabase(name){
 						{"userEnteredValue": {"stringValue": "studying"}},
 						{"userEnteredValue": {"stringValue": "technology"}},
 						{"userEnteredValue": {"stringValue": "printing"}}
+						{"userEnteredValue": {"stringValue": "loaning"}}
 					]
 				}],
 				"fields": "userEnteredValue",
@@ -258,13 +276,13 @@ function createDatabase(name){
 			}
 		});
 		
-		// Do requests
+		// Do first batch of requests
 		var batch = {requests: requests};
 		gapi.client.sheets.spreadsheets.batchUpdate({
 			spreadsheetId: id,
 			resource: batch
 		}).then(function(response){
-			// Request to get new sheet gid
+			// Then get the second page's id
 			var id = response.result.spreadsheetId;
 			
 			gapi.client.sheets.spreadsheets.get({
@@ -273,10 +291,10 @@ function createDatabase(name){
 				var id = response.result.spreadsheetId;
 				var pageId = response.result.sheets[1].properties.sheetId;
 				
-				// Third round of requests
+				// Third round of requests, configuring the second page
 				var requests = [];
 				
-				// Format database columns
+				// Format reference page columns
 				requests.push({
 					"repeatCell": {
 						"range": {
@@ -316,24 +334,24 @@ function createDatabase(name){
 					}
 				});
 			
-				// Give database columns headers		
+				// Give reference page columns headers		
 				requests.push({
-				"updateCells": {
-					"rows": [{
-						"values": [
-							{"userEnteredValue": {"stringValue": "id"}},
-							{"userEnteredValue": {"stringValue": "name"}},
-						]
-					}],
-					"fields": "userEnteredValue",
-					"start": {
-						"sheetId": pageId,
-						"rowIndex": 0,
-						"columnIndex": 0
-					},
-					
-				}
-			});
+					"updateCells": {
+						"rows": [{
+							"values": [
+								{"userEnteredValue": {"stringValue": "id"}},
+								{"userEnteredValue": {"stringValue": "name"}},
+							]
+						}],
+						"fields": "userEnteredValue",
+						"start": {
+							"sheetId": pageId,
+							"rowIndex": 0,
+							"columnIndex": 0
+						},
+						
+					}
+				});
 				
 				// Do requests
 				var batch = {requests: requests};
@@ -422,8 +440,9 @@ function selectDatabaseIdFromUrl() {
 
 /// ***** ASYNC FUNCTIONS *****
 
-// Input: id, event name, comments, bool[](studying, technology, printing)
-function pushEvent(id, type, comments, flags) { 
+// Input: id, event name, comments, bool[](studying, technology, printing, loaning)
+function pushEvent(id, type, comments, flags) {
+	if (flags.length != 4) { throw new Error("flags array expected 4 values"); }
 	// Get name from uid 
 	getName(id, function(response){
 		name = response.getDataTable().getDistinctValues(1)[0];
@@ -438,7 +457,7 @@ function pushEvent(id, type, comments, flags) {
 				new Date().toLocaleString("en-CA-u-hc-h24",
 				{day:"2-digit", month:"2-digit", year:"numeric",
 				hour:"2-digit", minute:"2-digit", second:"2-digit"}).replace(",",""),
-				comments, flags[0], flags[1], flags[2]]
+				comments, flags[0], flags[1], flags[2], flags[3] ]
 				]
 			},
 			"valueInputOption": "USER_ENTERED"
@@ -447,7 +466,7 @@ function pushEvent(id, type, comments, flags) {
 				throw new Error("Failed to add new rows.");
 			}
 			else {
-				catchPushEvent(name, type, flags);
+				console.log("Rows successfully added. Name="+name);
 			}
 		});	
 	}, pageId);
@@ -483,13 +502,17 @@ function getEventsAfter(dateObject){
 	var dateString = dateObject.toLocaleString("en-CA-u-hc-h24",
 				{day:"2-digit", month:"2-digit", year:"numeric",
 				hour:"2-digit", minute:"2-digit", second:"2-digit"}).replace(",","");
-	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D > datetime '"+dateString+"' ORDER BY D ASC", catchEventsAfter);
+	gvzQuery("SELECT A, B, C, D, E, F, G, H, I WHERE D > datetime '"+dateString+"' ORDER BY D DESC", catchEventsAfter);
+}
+
+function catchEventsAfter(response){
+	console.log(response.getDataTable());
 }
 
 // Gets all table rows with a student's id
 // Returns through catch
 function getStudentHistory(id){
-	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+id+" ORDER BY D DESC", catchDailyEntries);
+	gvzQuery("SELECT A, B, C, D, E, F, G, H, I WHERE A = "+id+" ORDER BY D DESC", catchDailyEntries);
 }
 
 function catchStudentHistory(response){
@@ -500,7 +523,7 @@ function catchStudentHistory(response){
 // Returns through catch
 function getStatusById(id){
 	// SQL: SELECT TOP 2 * WHERE id = ? ORDER BY date DESC
-	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+id+" ORDER BY D DESC LIMIT 2", catchStatus);
+	gvzQuery("SELECT A, B, C, D, E, F, G, H, I WHERE A = "+id+" ORDER BY D DESC LIMIT 2", catchStatus);
 }
 
 function catchStatus(response){
@@ -509,7 +532,7 @@ function catchStatus(response){
 }
 
 
-/// TODO
+/// TODO: REWRITE TO USE LAMBDAS
 // Gets list of 10 statuses that most closely match the given name
 // Returns through catch
 function getStatusByName(name, count){
@@ -529,7 +552,7 @@ function catchStatusIds(response){
 
 function getStatusByIdBatch(id){
 	// SQL: SELECT TOP 1 * WHERE id = ? ORDER BY date DESC 
-	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatusBatch);
+	gvzQuery("SELECT A, B, C, D, E, F, G, H, I WHERE A = "+id+" ORDER BY D DESC LIMIT 1", catchStatusBatch);
 }
 
 function catchStatusBatch(response){
