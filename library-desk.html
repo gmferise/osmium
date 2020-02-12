@@ -516,8 +516,8 @@ function catchEventsAfter(response) {
 				}
 			}
 		}
-		
 	}
+
 	for (var i=0; i<tmpcards.length; i++) {
 		if (gotupdate[i]) {
 			tmpcards[i].playRefreshAnimation();
@@ -525,6 +525,7 @@ function catchEventsAfter(response) {
 		}
 	}
 	setTimeout(reloadTempCards,250);
+}
 	
 function reloadTempCards() {
 	tmpcards = [];
