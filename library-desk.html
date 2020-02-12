@@ -465,7 +465,7 @@ function catchEventsAfter(response){
 		} else {
 			last = ldb_eventset[index];
 			last = last[last.length-1][2];
-			ldb_modified.push(true);
+			ldb_modified[index] = true;
 		}
 		if (row[2] == 'sign-in') {
 			if ((last == 'sign-in')||(last == 'sent-tech')) {

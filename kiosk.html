@@ -140,11 +140,19 @@ function showError(errorname) {
 
 document.getElementById('sign-in-id').addEventListener("keydown", function(event) {
     event.preventDefault();
-    numpadInput('sign-in-id',event.key.toLowerCase());
+	if (event.keyCode === 13) {
+		throwSignIn();
+	} else {
+		numpadInput('sign-in-id',event.key.toLowerCase());
+    }
 });
 document.getElementById('sign-out-id').addEventListener("keydown", function(event) {
     event.preventDefault();
-    numpadInput('sign-out-id',event.key.toLowerCase());
+	if (event.keyCode == 13) {
+		throwSignOut();
+	} else {
+		numpadInput('sign-out-id',event.key.toLowerCase());
+	}
 });
 
 function showSignIn(state) {
