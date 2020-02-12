@@ -524,6 +524,7 @@ function catchEventsAfter(response){
 	//for all remaining eventssets... those without checkouts yet, build a temp card.
 	for (var i=0; i<ldb_eventset.length; i++) {
 		var r = ldb_eventset[i][ldb_eventset[i].length-1]; //last card of eventset
+		console.log("adding row "+row);
 		if (ldb_tmpcards[i] == null) { //null card
 			ldb_tmpcards[i] = new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],ldb_tech[i]);
 			console.log("> created new card "+ldb_tmpcards[i]);
