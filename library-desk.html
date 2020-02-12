@@ -265,9 +265,9 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 	}
 	obj.playLeaveAnimation = function() {
 		obj.card.classList.add('anim-out');
-			setTimeout(function() {
-				obj.card.classList.remove('anim-out');
-			},500);
+		setTimeout(function() {
+			obj.card.classList.remove('anim-out');
+		},500);
 	}
 	
 	//provide status name ("in"|"out") and tech status (true|false) to update proper styling and object's properties

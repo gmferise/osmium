@@ -27,7 +27,7 @@ html {
 	left: 0px;
 	width: 80%;
 	height: 100%;
-	overflow: auto;
+	overflow-y: auto;
 }
 .split-right {
 	position: absolute;
@@ -482,7 +482,7 @@ html {
 }
 .check-card.anim-refresh {
 	animation: anim-right-left 0.5s ease-in-out forwards;
-} @keyframes refresh {
+} @keyframes anim-right-left {
 	0% {transform:translateX(0%);opacity:1;}
 	25% {transform:translateX(50%);opacity:0;}
 	50% {transform:translateX(100%);opacity:0;}
