@@ -263,10 +263,11 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 	
 	//provide status name ("in"|"out") and tech status (true|false) to update proper styling and object's properties
 	obj.updateStatusAndColor = function(statusName, isSentToTech, timestamp) {
+		console.log("updated w/ ts:");
+		console.log(timestamp);
 		if (timestamp != null) {
 			obj.time = timestamp;
 			obj.playRefreshAnimation();
-			console.log("please refresh");
 		}
 		var newcolor = "color-card_"+statusName;
 		if (isSentToTech) {
