@@ -508,6 +508,11 @@ function catchEventsAfter(response){
 			} else {
 				console.log("sign-out event... had previous scuffing of "+last)
 				console.log("ignored");
+				ldb_ids.pop(index);
+				ldb_eventset.pop(index);
+				ldb_tech.pop(index);
+				ldb_tmpcards.pop(index);
+				ldb_modified.pop(index);
 			}
 		}
 		
