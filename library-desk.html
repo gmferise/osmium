@@ -460,11 +460,12 @@ function catchEventsAfter(response){
 			ldb_tech.push(false);
 			ldb_eventset.push([]);
 			ldb_tmpcards.push(null);
-			ldb_modified.push(true);
+			ldb_modified.push(false);
 			index = ldb_eventset.length-1;
 		} else {
 			last = ldb_eventset[index];
 			last = last[last.length-1][2];
+			ldb_modified.push(true);
 		}
 		if (row[2] == 'sign-in') {
 			if ((last == 'sign-in')||(last == 'sent-tech')) {
@@ -472,16 +473,13 @@ function catchEventsAfter(response){
 				//toss out (overwrite) the old one
 				ldb_eventset[index] = [row];
 				ldb_tech[index] = false;
-				ldb_modified[index] = true;
 			} else {
 				//did a sign-in
 				ldb_eventset[index].push(row);
-				ldb_modified[index] = true;
 			}
 		} else if (row[2] == 'sent-tech') {
 			//sent to tech
 			ldb_tech[index] = true;
-			ldb_modified[index] = true;
 		} else if (row[2] == 'sign-out') {
 			//did a sign out... push to final cards
 			if ((last == 'sign-in')||(last == 'sent-tech')) {
@@ -491,7 +489,6 @@ function catchEventsAfter(response){
 				//build and push card
 				var r = ldb_eventset[index][ldb_eventset[index].length-1];
 				var c = new_Card(r[0],r[1],r[2],r[3],r[4],[r[5],r[6],r[7]],ldb_tech[index]);
-				c.playInsertAnimation();
 				ldb_finalcards.push(c);
 				//clear eventset out
 				ldb_ids.pop(index);
@@ -500,7 +497,6 @@ function catchEventsAfter(response){
 				ldb_tmpcards.pop(index);
 				ldb_modified.pop(index);
 			}
-			
 		}
 		
 	}
