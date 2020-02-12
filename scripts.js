@@ -254,7 +254,7 @@ function createDatabase(name){
 						{"userEnteredValue": {"stringValue": "comments"}},
 						{"userEnteredValue": {"stringValue": "studying"}},
 						{"userEnteredValue": {"stringValue": "technology"}},
-						{"userEnteredValue": {"stringValue": "printing"}}
+						{"userEnteredValue": {"stringValue": "printing"}},
 						{"userEnteredValue": {"stringValue": "loaning"}}
 					]
 				}],
