@@ -359,8 +359,14 @@ html {
 }
 .check-card.loading button:hover:after {
 	content: "sync";
-	animation: loading 1s infinite ease-in-out;
-	text-shadow: 1px 3px 0 #000;
+	animation: loading-shadowed 1s infinite ease-in-out;
+}
+	@keyframes loading-shadowed {
+	0% {transform: rotate(0deg);
+	text-shadow: 1px 3px 0 #000;}
+	50% {text-shadow: -1px -3px 0 #000;}
+	100% {transform: rotate(360deg);
+	text-shadow: 1px 3px 0 #000;}
 }
 /* CARD TOOLTIP CONTENT */
 .color-card_sign-in button div.tooltip:before {
