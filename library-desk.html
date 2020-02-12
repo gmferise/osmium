@@ -265,6 +265,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 	obj.updateStatusAndColor = function(statusName, isSentToTech, timestamp) {
 		if (timestamp != null) {
 			obj.time = timestamp;
+			obj.playRefreshAnimation();
 		}
 		var newcolor = "color-card_"+statusName;
 		if (isSentToTech) {
@@ -276,7 +277,6 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 		obj.card.classList.add(newcolor);
 		obj.event = statusName;
 		obj.tech = isSentToTech;
-		obj.playRefreshAnimation();
 	}
 	obj.updateStatusAndColor(obj.event,obj.tech);
 	
