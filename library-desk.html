@@ -240,7 +240,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 		if (!(obj.tech) && (obj.event=="sign-in")) {
 			//todo send "moved to tech" query
 			//obj.updateStatusAndColor("sign-in",true);
-			pushEvent(obj.id, 'sent-tech', '', [false,false,false]);
+			pushEvent(obj.id, 'sent-tech', '', [false,false,false,false]);
 			obj.card.classList.add('loading');
 		} else {
 			obj.showComments();
