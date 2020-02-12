@@ -263,6 +263,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 			obj.card.classList.remove('anim-in');
 		},500);
 	}
+	obj.playInsertAnimation();
 	obj.playLeaveAnimation = function() {
 		obj.card.classList.add('anim-out');
 		setTimeout(function() {
