@@ -473,12 +473,22 @@ html {
 	50% {transform:translateX(-50%);opacity:0;}
 	100% {transform:translateX(0%);opacity:1;}
 }
+.check-card.anim-out {
+	animation: anim-to-right 0.25s ease-in-out forwards;
+} @keyframes anim-to-right {
+	0% {transform:translateX(0%);opacity:1;}
+	50% {transform:translateX(50%);opacity:0;}
+	100% {transform:translateX(100%);opacity:0;}
+}
 .check-card.anim-refresh {
-	animation: refresh 0.25s ease-in-out forwards;
+	animation: anim-right-left 0.5s ease-in-out forwards;
 } @keyframes refresh {
-	0% {transform:translateX(0%);}
-	50% {transform:translateX(-1%);}
-	100% {transform:translateX(0%);}
+	0% {transform:translateX(0%);opacity:1;}
+	25% {transform:translateX(50%);opacity:0;}
+	50% {transform:translateX(100%);opacity:0;}
+	50% {transform:translateX(-100%);opacity:0;}
+	75% {transform:translateX(-50%);opacity:0;}
+	100% {transform:translateX(0%);opacity:1;}
 }
 
 /* SIMPLE PAGES */

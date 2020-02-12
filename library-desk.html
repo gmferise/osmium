@@ -252,18 +252,22 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 	}
 	
 	obj.playRefreshAnimation = function() {
-		if (obj.isNew) {
-			obj.card.classList.add('anim-in');
+		obj.card.classList.add('anim-refresh');
+		setTimeout(function() {
+			obj.card.classList.remove('anim-refresh');
+		},1000);
+	}
+	obj.playInsertAnimation = function() {
+		obj.card.classList.add('anim-in');
+		setTimeout(function() {
+			obj.card.classList.remove('anim-in');
+		},500);
+	}
+	obj.playLeaveAnimation = function() {
+		obj.card.classList.add('anim-out');
 			setTimeout(function() {
-				obj.card.classList.remove('anim-in');
+				obj.card.classList.remove('anim-out');
 			},500);
-			isNew = false;
-		} else {
-			obj.card.classList.add('anim-refresh');
-			setTimeout(function() {
-				obj.card.classList.remove('anim-refresh');
-			},500);
-		}
 	}
 	
 	//provide status name ("in"|"out") and tech status (true|false) to update proper styling and object's properties
@@ -446,6 +450,7 @@ function catchPushEvent(name, type, flags) {
 var preids = [];
 var precards = [];
 var finalcards = [];
+var tmpcards = [];
 var gotupdate = [];
 
 function catchEventsAfter(response) {
@@ -513,14 +518,19 @@ function catchEventsAfter(response) {
 		}
 		
 	}
-	var tmpcards = [];
+	for (var i=0; i<tmpcards.length; i++) {
+		if (gotupdate[i]) {
+			tmpcards[i].playRefreshAnimation();
+			gotupdate[i] = false;
+		}
+	}
+	setTimeout(reloadTempCards,250);
+	
+function reloadTempCards() {
+	tmpcards = [];
 	for (var i=0; i<precards.length; i++) {
 		var c = precards[i][precards[i].length-1];
 		c = new_Card(c[0],c[1],'sign-in',c[3],c[4],[c[5],c[6],c[7],c[8]],(c[2]=='sent-tech'));
-		if (gotupdate[i]) {
-			gotupdate[i] = false;
-			c.playRefreshAnimation();
-		}
 		tmpcards.push(c);
 	}
 	cards = finalcards.concat(tmpcards);
