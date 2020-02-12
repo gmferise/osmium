@@ -354,21 +354,12 @@ html {
 	margin-right: 2px;
 }
 .check-card.loading button:after {
+	font-family: 'Material Icons Round';
 	content: "sync";
+	color: white;
+	font-size: xx-large;
+	float: right;
 	animation: loading 1s infinite ease-in-out;
-}
-.check-card.loading button:hover:after {
-	content: "sync";
-	animation: loading-shadowed 1s infinite ease-in-out;
-}
-	@keyframes loading-shadowed {
-	0% {transform: rotate(0deg);
-	text-shadow: 1px 3px 0 #000;}
-	25% {text-shadow: -3px 1px 0 #000;}
-	50% {text-shadow: -3px -1px 0 #000;}
-	75% {text-shadow: 3px -1px 0 #000;}
-	100% {transform: rotate(-360deg);
-	text-shadow: 1px 3px 0 #000;}
 }
 /* CARD TOOLTIP CONTENT */
 .color-card_sign-in button div.tooltip:before {
@@ -465,7 +456,7 @@ html {
 }
 
 /* CARD ANIMATION */
-.check-card button:hover:after {
+.check-card:not(.loading) button:hover:after {
 	animation: wiggle 0.25s linear forwards;
 	text-shadow: 1px 3px 0 #000;
 } @keyframes wiggle {
