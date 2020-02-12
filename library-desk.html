@@ -273,8 +273,6 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 	
 	//provide status name ("in"|"out") and tech status (true|false) to update proper styling and object's properties
 	obj.updateStatusAndColor = function(statusName, isSentToTech, timestamp) {
-		console.log("updated w/ ts:");
-		console.log(timestamp);
 		if (timestamp != null) {
 			obj.time = timestamp;
 		}
@@ -470,12 +468,13 @@ function catchEventsAfter(response) {
 		
 		var index = preids.indexOf(row[0]);
 		if (index == -1) {
+			console.log(row[1]+" new sign in");
 			if (row[2] == 'sign-in') {
 				preids.push(row[0]);
 				precards.push([row]);
-				gotupdate.push(true);
 			}
 		} else {
+			console.log(row[1]+" chain of "+precards[index][0][2]+">"+precards[index][1][2]+">"+row[2]);
 			var last = precards[index][precards[index].length-1][2];
 			if (last == 'sign-in') {
 				if (row[2] == 'sent-tech') { //sign-in -> tech
