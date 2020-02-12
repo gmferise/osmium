@@ -516,7 +516,7 @@ function catchEventsAfter(response) {
 	var tmpcards = [];
 	for (var i=0; i<precards.length; i++) {
 		var c = precards[i][precards[i].length-1];
-		c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],(c[2]=='sent-tech'));
+		c = new_Card(c[0],c[1],'sign-in',c[3],c[4],[c[5],c[6],c[7],c[8]],(c[2]=='sent-tech'));
 		if (gotupdate[i]) {
 			gotupdate[i] = false;
 			c.playRefreshAnimation();
