@@ -474,7 +474,13 @@ function catchEventsAfter(response) {
 				precards.push([row]);
 			}
 		} else {
-			console.log(row[1]+" chain of "+try{precards[index][0][2]}catch{}+">"+try{precards[index][1][2]}catch{}+">"+row[2]);
+			var i0='(none)';
+			var i1='(none)';
+			try{
+				i0=precards[index][0][2];
+				i1=precards[index][1][2];
+			} catch {}
+			console.log(row[1]+" chain of "+i0+">"+i1+">"+row[2]);
 			var last = precards[index][precards[index].length-1][2];
 			if (last == 'sign-in') {
 				if (row[2] == 'sent-tech') { //sign-in -> tech
