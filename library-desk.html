@@ -248,7 +248,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 			setTimeout(function() {
 				if (pauseUpdate == 2) {
 					pauseUpdate = 0;
-					repackCards();
+					updateTodaysDate();
 				} else {
 					pauseUpdate = 0;
 				}
