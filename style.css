@@ -354,7 +354,7 @@ html {
 	font-size: xx-large;
 	float: right;
 }
-.check-card.loading button:after {
+.color-card_sign-in.loading button:after {
 	font-family: 'Material Icons Round';
 	content: "send";
 	color: white;
@@ -371,6 +371,11 @@ html {
 /* CARD TOOLTIP CONTENT */
 .color-card_sign-in button div.tooltip:before {
 	content: "Send to Tech";
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.color-card_sign-in.loading button div.tooltip:before {
+	content: "Sending...";
 	padding-left: 10px;
 	padding-right: 10px;
 }
