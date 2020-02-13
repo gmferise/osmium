@@ -550,8 +550,7 @@ function catchEventsAfter(response) {
 	for (var i=0; i<tmpcards.length; i++) {
 		switch (animtoplay[i]) {
 			case 'new':
-				tmpcards[i].playInsertAnimation();
-				animtoplay[i] = 'none';
+				animtoplay[i] = 'in';
 				break;
 			case 'both':
 				tmpcards[i].playLeaveAnimation();
