@@ -466,7 +466,6 @@ function catchEventsAfter(response) {
 			row.push(dt.getValue(i,j));
 		}
 		
-		var animOverride = false;
 		var index = preids.indexOf(row[0]);
 		if (index == -1) {
 			console.log(row[1]+" new sign in");
@@ -476,8 +475,7 @@ function catchEventsAfter(response) {
 				var c = row;
 				c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],false);
 				tmpcards.push(c);
-				animtoplay.push('in');
-				animOverride = true; //only play the insert anim on new ones, others get scenario determined
+				animtoplay.push('new'); //overrides other anims;
 			}
 		} else {
 			var i0='(none)';
@@ -492,7 +490,7 @@ function catchEventsAfter(response) {
 				if (row[2] == 'sent-tech') { //sign-in -> tech
 					precards[index].push(row);
 					tmpcards[index].updateStatusAndColor(row[2],true,row[3]);
-					if (!animOverride) {
+					if (animtoplay[index] != 'new') {
 						animtoplay[index] = 'both';
 					}
 				} else if (row[2] == 'sign-out') { //sign-in -> sign-out
@@ -513,8 +511,7 @@ function catchEventsAfter(response) {
 					var c = row;
 					c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],false);
 					tmpcards[index] = c;
-					animtoplay[index] = 'in';
-					animOverride = true;
+					animtoplay[index] = 'new';
 				}
 			} else if (last == 'sent-tech') {
 				if (row[2] == 'sign-out') { //sign-in -> tech -> sign-out
@@ -536,8 +533,7 @@ function catchEventsAfter(response) {
 					var c = row;
 					c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],false);
 					tmpcards[index] = c;
-					animtoplay[index] = 'in';
-					animOverride = true;
+					animtoplay[index] = 'new';
 				}
 			}
 		}
@@ -545,7 +541,7 @@ function catchEventsAfter(response) {
 
 	for (var i=0; i<tmpcards.length; i++) {
 		switch (animtoplay[i]) {
-			case 'in':
+			case 'new':
 				tmpcards[i].playInsertAnimation();
 				animtoplay[i] = 'none';
 				break;
