@@ -255,20 +255,20 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 		obj.card.classList.add('anim-refresh');
 		setTimeout(function() {
 			obj.card.classList.remove('anim-refresh');
-		},1000);
+		},500);
 	}
 	obj.playInsertAnimation = function() {
 		obj.card.classList.add('anim-in');
 		setTimeout(function() {
 			obj.card.classList.remove('anim-in');
-		},500);
+		},250);
 	}
 	obj.playInsertAnimation();
 	obj.playLeaveAnimation = function() {
 		obj.card.classList.add('anim-out');
 		setTimeout(function() {
 			obj.card.classList.remove('anim-out');
-		},500);
+		},250);
 	}
 	
 	//provide status name ("in"|"out") and tech status (true|false) to update proper styling and object's properties
@@ -448,9 +448,10 @@ function catchPushEvent(name, type, flags) {
 
 var preids = [];
 var precards = [];
-var finalcards = [];
 var tmpcards = [];
-var gotupdate = [];
+var animtoplay = [];
+
+var finalcards = [];
 
 function catchEventsAfter(response) {
 	var dt = response.getDataTable();
@@ -472,6 +473,10 @@ function catchEventsAfter(response) {
 			if (row[2] == 'sign-in') {
 				preids.push(row[0]);
 				precards.push([row]);
+				var c = row;
+				c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],false);
+				tmpcards.push(c);
+				animtoplay.push('in');
 			}
 		} else {
 			var i0='(none)';
@@ -484,63 +489,80 @@ function catchEventsAfter(response) {
 			var last = precards[index][precards[index].length-1][2];
 			if (last == 'sign-in') {
 				if (row[2] == 'sent-tech') { //sign-in -> tech
-					gotupdate[index] = true;
 					precards[index].push(row);
+					tmpcards[index].updateStatusAndColor(row[2],true,row[3]);
+					animtoplay[index] = 'both';
 				} else if (row[2] == 'sign-out') { //sign-in -> sign-out
-					var c = row;
-					c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],false);
-					c.playRefreshAnimation();
-					finalcards.push(c);
+					tmpcards[index].updateStatusAndColor(row[2],false,row[3]);
+					tmpcards[index].playRefreshAnimation();
+					finalcards.push(tmpcards.pop(index));
+					
 					preids.pop(index);
 					precards.pop(index);
-					gotupdate.pop(index);
+					animtoplay.pop(index);
 				} else if (row[2] == 'sign-in') { //sign-in -> sign-in (just end the first one);
-					var c = precards[index][precards[index].length-1];
-					c = new_Card(c[0],c[1],'sign-out',c[3],c[4],[c[5],c[6],c[7],c[8]],false);
-					c.playRefreshAnimation();
-					finalcards.push(c);
+					tmpcards[index].updateStatusAndColor('check-out',false,precards[index][precards[index].length-1][3]);
+					tmpcards[index].playRefreshAnimation();
+					finalcards.push(tmpcards[index]);
+					
 					precards[index] = [row];
-					gotupdate[index] = true;
+					var c = row;
+					c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],false);
+					tmpcards[index] = c;
+					animtoplay[index] = 'in';
 				}
 			} else if (last == 'sent-tech') {
 				if (row[2] == 'sign-out') { //sign-in -> tech -> sign-out
 					var c = row;
-					c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],true);
-					c.playRefreshAnimation();
-					finalcards.push(c);
+					tmpcards[index].updateStatusAndColor(row[2],true,row[3]);
+					tmpcards[index].playRefreshAnimation();
+					finalcards.push(tmpcards.pop(index));
+					
 					preids.pop(index);
 					precards.pop(index);
-					gotupdate.pop(index);
+					animtoplay.pop(index);
 				} else if (row[2] == 'sign-in') { //sign-in -> tech -> sign-in (end the first);
-					gotupdate[index] = true;
-					var c = precards[index][precards[index].length-1];
-					c = new_Card(c[0],c[1],'sign-out',c[3],c[4],[c[5],c[6],c[7],c[8]],true);
-					c.playRefreshAnimation();
-					finalcards.push(c);
+					tmpcards[index].updateStatusAndColor('check-out',true,precards[index][precards[index].length-1][3]);
+					tmpcards[index].playRefreshAnimation();
+					finalcards.push(tmpcards[index]);
+					
 					precards[index] = [row];
-					gotupdate[index] = true;
+					var c = row;
+					c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],false);
+					tmpcards[index] = c;
+					animtoplay[index] = 'in';
 				}
 			}
 		}
 	}
 
 	for (var i=0; i<tmpcards.length; i++) {
-		if (gotupdate[i]) {
-			tmpcards[i].playLeaveAnimation();
+		switch (animtoplay[i]) {
+			case 'in':
+				tmpcards[i].playInsertAnimation();
+				animtoplay[i] = 'none';
+				break;
+			case 'out':
+				tmpcards[i].playRefreshAnimation();
+				animtoplay[i] = 'in';
+				break;
 		}
 	}
-	setTimeout(reloadTempCards,240);
+	setTimeout(reloadTempCards,250);
 }
 	
 function reloadTempCards() {
 	tmpcards = [];
-	for (var i=0; i<precards.length; i++) {
-		var c = precards[i][precards[i].length-1];
-		c = new_Card(c[0],c[1],'sign-in',c[3],c[4],[c[5],c[6],c[7],c[8]],(c[2]=='sent-tech'));
-		tmpcards.push(c);
-		if (gotupdate[i]) {
-			gotupdate[i] = false;
-			c.playInsertAnimation();
+	for (var i=0; i<tmpcards.length; i++) {
+		switch (animtoplay[i]) {
+			case 'in':
+				tmpcards[i].playInsertAnimation();
+				animtoplay[i] = 'none';
+				break;
+			case 'out':
+				tmpcards[i].playRefreshAnimation();
+				animtoplay[i] = 'in';
+				break;
 		}
 	}
 	cards = finalcards.concat(tmpcards);
