@@ -244,13 +244,13 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 			//obj.updateStatusAndColor("sign-in",true);
 			pushEvent(obj.id, 'sent-tech', '', [false,false,false,false]);
 			obj.card.classList.add('loading');
-			pauseRepack = 1;
+			pauseUpdate = 1;
 			setTimeout(function() {
-				if (pauseRepack == 2) {
-					pauseRepack = 0;
+				if (pauseUpdate == 2) {
+					pauseUpdate = 0;
 					repackCards();
 				} else {
-					pauseRepack = 0;
+					pauseUpdate = 0;
 				}
 				},2500);
 		} else {
@@ -353,20 +353,15 @@ function reSort() {
 		repackCards();
 	}	
 }
-var pauseRepack = 0;
 function repackCards() {
-	if (pauseRepack == 0) {
-		var el = document.getElementById('cards-wrapper');
-		el.innerHTML = '';
-		var ns = document.createElement('div');
-		ns.classList.add('null-spacer');
-		ns.setAttribute('id','insert-cards');
-		el.appendChild(ns);
-		for (var i=cards.length-1; i>=0; i--) {
-			cards[i].insertIntoCards();
-		}
-	} else {
-		pauseRepack = 2;
+	var el = document.getElementById('cards-wrapper');
+	el.innerHTML = '';
+	var ns = document.createElement('div');
+	ns.classList.add('null-spacer');
+	ns.setAttribute('id','insert-cards');
+	el.appendChild(ns);
+	for (var i=cards.length-1; i>=0; i--) {
+		cards[i].insertIntoCards();
 	}
 }
 
@@ -437,20 +432,25 @@ lastResultsRefreshTime.setHours(0);
 lastResultsRefreshTime.setMinutes(0);
 lastResultsRefreshTime.setSeconds(0);
 lastResultsRefreshTime.setMilliseconds(0);
+var pauseUpdate = 0;
 function updateTodaysDate() {
 	//var now = new Date(new Date().getTime()+Math.random()*100000000000)
-	var now = new Date();
-	var s = now.toLocaleString('en-US',{weekday:'long',month:'long',day:'numeric'});
-	var d = s.split(", ");
-	d[0] += ",";
-	d.push(get12time(now));
-	var here = document.getElementById('todays-date');
-	for (var i=0; i<d.length; i++) {
-		here.children[i].innerHTML = d[i];
+	if (pauseUpdate == 0) {
+		var now = new Date();
+		var s = now.toLocaleString('en-US',{weekday:'long',month:'long',day:'numeric'});
+		var d = s.split(", ");
+		d[0] += ",";
+		d.push(get12time(now));
+		var here = document.getElementById('todays-date');
+		for (var i=0; i<d.length; i++) {
+			here.children[i].innerHTML = d[i];
+		}
+		getEventsAfter(lastResultsRefreshTime);
+		lastResultsRefreshTime = new Date();
+		setTimeout(function(){updateTodaysDate();},60000-((now.getSeconds()*1000)+now.getMilliseconds())); //timeout to refresh on next minute
+	} else {
+		pauseUpdate == 2;
 	}
-	getEventsAfter(lastResultsRefreshTime);
-	lastResultsRefreshTime = new Date();
-	setTimeout(function(){updateTodaysDate();},60000-((now.getSeconds()*1000)+now.getMilliseconds())); //timeout to refresh on next minute
 }
 function catchPushEvent(name, type, flags) {
 	updateTodaysDate();
