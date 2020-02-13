@@ -495,7 +495,9 @@ function catchEventsAfter(response) {
 					}
 				} else if (row[2] == 'sign-out') { //sign-in -> sign-out
 					tmpcards[index].updateStatusAndColor(row[2],false,row[3]);
-					tmpcards[index].playRefreshAnimation(); //activate both for a final
+					if (animtoplay[index] != 'new') {
+						tmpcards[index].playRefreshAnimation(); //activate both for a final
+					}
 					finalcards.push(tmpcards.pop(index));
 					
 					preids.pop(index);
@@ -504,7 +506,9 @@ function catchEventsAfter(response) {
 					animtoplay.pop(index);
 				} else if (row[2] == 'sign-in') { //sign-in -> sign-in (just end the first one);
 					tmpcards[index].updateStatusAndColor('check-out',false,precards[index][precards[index].length-1][3]);
-					tmpcards[index].playRefreshAnimation(); //activate both for a final
+					if (animtoplay[index] != 'new') {
+						tmpcards[index].playRefreshAnimation(); //activate both for a final
+					}
 					finalcards.push(tmpcards[index]);
 					
 					precards[index] = [row];
@@ -517,7 +521,9 @@ function catchEventsAfter(response) {
 				if (row[2] == 'sign-out') { //sign-in -> tech -> sign-out
 					var c = row;
 					tmpcards[index].updateStatusAndColor(row[2],true,row[3]);
-					tmpcards[index].playRefreshAnimation(); //activate both for a final
+					if (animtoplay[index] != 'new') {
+						tmpcards[index].playRefreshAnimation(); //activate both for a final
+					}
 					finalcards.push(tmpcards.pop(index));
 					
 					preids.pop(index);
@@ -526,7 +532,9 @@ function catchEventsAfter(response) {
 					animtoplay.pop(index);
 				} else if (row[2] == 'sign-in') { //sign-in -> tech -> sign-in (end the first);
 					tmpcards[index].updateStatusAndColor('check-out',true,precards[index][precards[index].length-1][3]);
-					tmpcards[index].playRefreshAnimation(); //activate both for a final
+					if (animtoplay[index] != 'new') {
+						tmpcards[index].playRefreshAnimation(); //activate both for a final
+					}
 					finalcards.push(tmpcards[index]);
 					
 					precards[index] = [row];
