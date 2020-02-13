@@ -356,11 +356,17 @@ html {
 }
 .check-card.loading button:after {
 	font-family: 'Material Icons Round';
-	content: "sync";
+	content: "send";
 	color: white;
 	font-size: xx-large;
 	float: right;
-	animation: loading 1s infinite ease-in-out;
+	animation: sending 3s ease-in-out forwards;
+} @keyframes sending {
+	0%{transform: scale(1)}
+	5%{transform: scale(0.9) rotate(0deg) translate(0%, 0%)}
+	25% {transform:scale(0.5) rotate(-4deg) translate(-40%, 40%)}
+	60% {transform:scale(0.5) rotate(-5deg) translate(-47%,46%);}
+	100% {transform:scale(0.5) rotate(-7deg) translate(400%,-250%);}
 }
 /* CARD TOOLTIP CONTENT */
 .color-card_sign-in button div.tooltip:before {
