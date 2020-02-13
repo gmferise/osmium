@@ -146,7 +146,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 	obj.tech = isSentToTech;
 	
 	//create card
-	var wrap = document.createElement('div');
+	var wrap = document.createElement('div');	
 		wrap.classList.add('check-card');
 		var btn = document.createElement('button');
 			btn.setAttribute('onclick','cardObjectFromElement(this,1).clickAction();');
@@ -244,6 +244,14 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 			//obj.updateStatusAndColor("sign-in",true);
 			pushEvent(obj.id, 'sent-tech', '', [false,false,false,false]);
 			obj.card.classList.add('loading');
+			pauseRepack = 1;
+			setTimeout(function() {
+				if (pauseRepack == 2) {
+					pauseRepack = 0;
+					repackCards();
+				} else {
+					pauseRepack = 0;
+				}
 		} else {
 			obj.showComments();
 		}
@@ -344,15 +352,20 @@ function reSort() {
 		repackCards();
 	}	
 }
+var pauseRepack = 0;
 function repackCards(cardslist) {
-	var el = document.getElementById('cards-wrapper');
-	el.innerHTML = '';
-	var ns = document.createElement('div');
-	ns.classList.add('null-spacer');
-	ns.setAttribute('id','insert-cards');
-	el.appendChild(ns);
-	for (var i=cards.length-1; i>=0; i--) {
-		cards[i].insertIntoCards();
+	if (pauseRepack == 0) {
+		var el = document.getElementById('cards-wrapper');
+		el.innerHTML = '';
+		var ns = document.createElement('div');
+		ns.classList.add('null-spacer');
+		ns.setAttribute('id','insert-cards');
+		el.appendChild(ns);
+		for (var i=cards.length-1; i>=0; i--) {
+			cards[i].insertIntoCards();
+		}
+	} else {
+		pauseRepack = 2;
 	}
 	
 }
