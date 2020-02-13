@@ -449,7 +449,7 @@ function updateTodaysDate() {
 		lastResultsRefreshTime = new Date();
 		setTimeout(function(){updateTodaysDate();},60000-((now.getSeconds()*1000)+now.getMilliseconds())); //timeout to refresh on next minute
 	} else {
-		pauseUpdate == 2;
+		pauseUpdate = 2;
 	}
 }
 function catchPushEvent(name, type, flags) {
