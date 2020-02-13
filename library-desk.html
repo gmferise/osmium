@@ -263,7 +263,6 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 			obj.card.classList.remove('anim-in');
 		},250);
 	}
-	obj.playInsertAnimation();
 	obj.playLeaveAnimation = function() {
 		obj.card.classList.add('anim-out');
 		setTimeout(function() {
@@ -467,6 +466,7 @@ function catchEventsAfter(response) {
 			row.push(dt.getValue(i,j));
 		}
 		
+		var animOverride = false;
 		var index = preids.indexOf(row[0]);
 		if (index == -1) {
 			console.log(row[1]+" new sign in");
@@ -477,6 +477,7 @@ function catchEventsAfter(response) {
 				c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],false);
 				tmpcards.push(c);
 				animtoplay.push('in');
+				animOverride = true; //only play the insert anim on new ones, others get scenario determined
 			}
 		} else {
 			var i0='(none)';
@@ -491,18 +492,21 @@ function catchEventsAfter(response) {
 				if (row[2] == 'sent-tech') { //sign-in -> tech
 					precards[index].push(row);
 					tmpcards[index].updateStatusAndColor(row[2],true,row[3]);
-					animtoplay[index] = 'both';
+					if (!animOverride) {
+						animtoplay[index] = 'both';
+					}
 				} else if (row[2] == 'sign-out') { //sign-in -> sign-out
 					tmpcards[index].updateStatusAndColor(row[2],false,row[3]);
-					tmpcards[index].playRefreshAnimation();
+					tmpcards[index].playRefreshAnimation(); //activate both for a final
 					finalcards.push(tmpcards.pop(index));
 					
 					preids.pop(index);
 					precards.pop(index);
+					//tmpcards.pop(index); already done in push
 					animtoplay.pop(index);
 				} else if (row[2] == 'sign-in') { //sign-in -> sign-in (just end the first one);
 					tmpcards[index].updateStatusAndColor('check-out',false,precards[index][precards[index].length-1][3]);
-					tmpcards[index].playRefreshAnimation();
+					tmpcards[index].playRefreshAnimation(); //activate both for a final
 					finalcards.push(tmpcards[index]);
 					
 					precards[index] = [row];
@@ -510,20 +514,22 @@ function catchEventsAfter(response) {
 					c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],false);
 					tmpcards[index] = c;
 					animtoplay[index] = 'in';
+					animOverride = true;
 				}
 			} else if (last == 'sent-tech') {
 				if (row[2] == 'sign-out') { //sign-in -> tech -> sign-out
 					var c = row;
 					tmpcards[index].updateStatusAndColor(row[2],true,row[3]);
-					tmpcards[index].playRefreshAnimation();
+					tmpcards[index].playRefreshAnimation(); //activate both for a final
 					finalcards.push(tmpcards.pop(index));
 					
 					preids.pop(index);
 					precards.pop(index);
+					//tmpcards.pop(index); already done in push
 					animtoplay.pop(index);
 				} else if (row[2] == 'sign-in') { //sign-in -> tech -> sign-in (end the first);
 					tmpcards[index].updateStatusAndColor('check-out',true,precards[index][precards[index].length-1][3]);
-					tmpcards[index].playRefreshAnimation();
+					tmpcards[index].playRefreshAnimation(); //activate both for a final
 					finalcards.push(tmpcards[index]);
 					
 					precards[index] = [row];
@@ -531,6 +537,7 @@ function catchEventsAfter(response) {
 					c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],false);
 					tmpcards[index] = c;
 					animtoplay[index] = 'in';
+					animOverride = true;
 				}
 			}
 		}
@@ -542,8 +549,8 @@ function catchEventsAfter(response) {
 				tmpcards[i].playInsertAnimation();
 				animtoplay[i] = 'none';
 				break;
-			case 'out':
-				tmpcards[i].playRefreshAnimation();
+			case 'both':
+				tmpcards[i].playLeaveAnimation();
 				animtoplay[i] = 'in';
 				break;
 		}
@@ -552,16 +559,11 @@ function catchEventsAfter(response) {
 }
 	
 function reloadTempCards() {
-	tmpcards = [];
 	for (var i=0; i<tmpcards.length; i++) {
 		switch (animtoplay[i]) {
 			case 'in':
 				tmpcards[i].playInsertAnimation();
 				animtoplay[i] = 'none';
-				break;
-			case 'out':
-				tmpcards[i].playRefreshAnimation();
-				animtoplay[i] = 'in';
 				break;
 		}
 	}
