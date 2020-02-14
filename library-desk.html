@@ -242,17 +242,20 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 		if (!(obj.tech) && (obj.event=="sign-in")) {
 			//todo send "moved to tech" query
 			//obj.updateStatusAndColor("sign-in",true);
+			if (!(obj.card.classList.contains('loading'))) {
 			pushEvent(obj.id, 'sent-tech', '', [false,false,false,false]);
-			obj.card.classList.add('loading');
-			pauseUpdate = 1;
-			setTimeout(function() {
-				if (pauseUpdate == 2) {
-					pauseUpdate = 0;
-					updateTodaysDate();
-				} else {
-					pauseUpdate = 0;
-				}
-				},2500);
+				obj.card.classList.add('loading');
+				pauseUpdate = 1;
+				clearTimeout(pauseUpdateTimer);
+				pauseUpdateTimer = setTimeout(function() {
+					if (pauseUpdate == 2) {
+						pauseUpdate = 0;
+						updateTodaysDate();
+					} else {
+						pauseUpdate = 0;
+					}
+					},2500);
+			}
 		} else {
 			obj.showComments();
 		}
@@ -433,6 +436,7 @@ lastResultsRefreshTime.setMinutes(0);
 lastResultsRefreshTime.setSeconds(0);
 lastResultsRefreshTime.setMilliseconds(0);
 var pauseUpdate = 0;
+var pauseUpdateTimer = null;
 function updateTodaysDate() {
 	//var now = new Date(new Date().getTime()+Math.random()*100000000000)
 	if (pauseUpdate == 0) {
@@ -465,99 +469,101 @@ var finalcards = [];
 function catchEventsAfter(response) {
 	var dt = response.getDataTable();
 	
-	if (dt == null) {
+	if (response.isError()) {
 		showError('db-get-fail');
 		return;
 	}
 	
-	for (var i=0; i<dt.getNumberOfRows(); i++) {
-		var row = [];
-		for (var j=0; j<dt.getNumberOfColumns(); j++) {
-			row.push(dt.getValue(i,j));
-		}
-		
-		var index = preids.indexOf(row[0]);
-		if (index == -1) {
-			console.log(row[1]+" new sign in");
-			if (row[2] == 'sign-in') {
-				preids.push(row[0]);
-				precards.push([row]);
-				var c = row;
-				c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],false);
-				tmpcards.push(c);
+	if (dt.length > 0) {
+		for (var i=0; i<dt.getNumberOfRows(); i++) {
+			var row = [];
+			for (var j=0; j<dt.getNumberOfColumns(); j++) {
+				row.push(dt.getValue(i,j));
 			}
-		} else {
-			var i0='(none)';
-			var i1='(none)';
-			try{
-				i0=precards[index][0][2];
-				i1=precards[index][1][2];
-			} catch {}
-			console.log(row[1]+" chain of "+i0+">"+i1+">"+row[2]);
-			var last = precards[index][precards[index].length-1][2];
-			if (last == 'sign-in') {
-				if (row[2] == 'sent-tech') { //sign-in -> tech
-					precards[index].push(row);
-					tmpcards[index].updateStatusAndColor('sign-in',true,row[3]);
-				} else if (row[2] == 'sign-out') { //sign-in -> sign-out
-					tmpcards[index].updateStatusAndColor('sign-out',false,row[3]);
-					finalcards.push(tmpcards.splice(index,1)[0]);
-					
-					preids.splice(index,1)[0];
-					precards.splice(index,1)[0];
-					//tmpcards.splice(index,1)[0]; already done in push
-				} else if (row[2] == 'sign-in') { //sign-in -> sign-in (just end the first one);
-					tmpcards[index].updateStatusAndColor('sign-out',false,precards[index][precards[index].length-1][3]);
-					finalcards.push(tmpcards[index]);
-					
-					precards[index] = [row];
+			
+			var index = preids.indexOf(row[0]);
+			if (index == -1) {
+				console.log(row[1]+" new sign in");
+				if (row[2] == 'sign-in') {
+					preids.push(row[0]);
+					precards.push([row]);
 					var c = row;
 					c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],false);
-					tmpcards[index] = c;
+					tmpcards.push(c);
 				}
-			} else if (last == 'sent-tech') {
-				if (row[2] == 'sign-out') { //sign-in -> tech -> sign-out
-					var c = row;
-					tmpcards[index].updateStatusAndColor('sign-out',true,row[3]);
-					finalcards.push(tmpcards.splice(index,1)[0]);
-					
-					preids.splice(index,1)[0];
-					precards.splice(index,1)[0];
-					//tmpcards.splice(index,1)[0]; already done in push
-				} else if (row[2] == 'sign-in') { //sign-in -> tech -> sign-in (end the first);
-					tmpcards[index].updateStatusAndColor('sign-out',true,precards[index][precards[index].length-1][3]);
-					finalcards.push(tmpcards[index]);
-					
-					precards[index] = [row];
-					var c = row;
-					c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],false);
-					tmpcards[index] = c;
+			} else {
+				var i0='(none)';
+				var i1='(none)';
+				try{
+					i0=precards[index][0][2];
+					i1=precards[index][1][2];
+				} catch {}
+				console.log(row[1]+" chain of "+i0+">"+i1+">"+row[2]);
+				var last = precards[index][precards[index].length-1][2];
+				if (last == 'sign-in') {
+					if (row[2] == 'sent-tech') { //sign-in -> tech
+						precards[index].push(row);
+						tmpcards[index].updateStatusAndColor('sign-in',true,row[3]);
+					} else if (row[2] == 'sign-out') { //sign-in -> sign-out
+						tmpcards[index].updateStatusAndColor('sign-out',false,row[3]);
+						finalcards.push(tmpcards.splice(index,1)[0]);
+						
+						preids.splice(index,1)[0];
+						precards.splice(index,1)[0];
+						//tmpcards.splice(index,1)[0]; already done in push
+					} else if (row[2] == 'sign-in') { //sign-in -> sign-in (just end the first one);
+						tmpcards[index].updateStatusAndColor('sign-out',false,precards[index][precards[index].length-1][3]);
+						finalcards.push(tmpcards[index]);
+						
+						precards[index] = [row];
+						var c = row;
+						c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],false);
+						tmpcards[index] = c;
+					}
+				} else if (last == 'sent-tech') {
+					if (row[2] == 'sign-out') { //sign-in -> tech -> sign-out
+						var c = row;
+						tmpcards[index].updateStatusAndColor('sign-out',true,row[3]);
+						finalcards.push(tmpcards.splice(index,1)[0]);
+						
+						preids.splice(index,1)[0];
+						precards.splice(index,1)[0];
+						//tmpcards.splice(index,1)[0]; already done in push
+					} else if (row[2] == 'sign-in') { //sign-in -> tech -> sign-in (end the first);
+						tmpcards[index].updateStatusAndColor('sign-out',true,precards[index][precards[index].length-1][3]);
+						finalcards.push(tmpcards[index]);
+						
+						precards[index] = [row];
+						var c = row;
+						c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],false);
+						tmpcards[index] = c;
+					}
 				}
 			}
 		}
-	}
-	cards = finalcards.concat(tmpcards);
-	reSort(); //also repacks
-	var signedIns = 0;
-	var signedInTechs = 0;
-	var total = 0;
-	var totalTechs = 0;
-	for (var i=0; i<cards.length; i++) {
-		total++;
-		if (cards[i].event == 'sign-in') {
-			signedIns++;
-			if (cards[i].tech) {
-				signedInTechs++;
+		cards = finalcards.concat(tmpcards);
+		reSort(); //also repacks
+		var signedIns = 0;
+		var signedInTechs = 0;
+		var total = 0;
+		var totalTechs = 0;
+		for (var i=0; i<cards.length; i++) {
+			total++;
+			if (cards[i].event == 'sign-in') {
+				signedIns++;
+				if (cards[i].tech) {
+					signedInTechs++;
+					totalTechs++;
+				}
+			} else if (cards[i].tech) {
 				totalTechs++;
 			}
-		} else if (cards[i].tech) {
-			totalTechs++;
 		}
+		document.getElementById('signed-in-counter').innerText = signedIns;
+		document.getElementById('signed-in-tech-counter').innerText = signedInTechs;
+		document.getElementById('total-counter').innerText = total;
+		document.getElementById('total-tech-counter').innerText = totalTechs;
 	}
-	document.getElementById('signed-in-counter').innerText = signedIns;
-	document.getElementById('signed-in-tech-counter').innerText = signedInTechs;
-	document.getElementById('total-counter').innerText = total;
-	document.getElementById('total-tech-counter').innerText = totalTechs;
 }
 	
 
