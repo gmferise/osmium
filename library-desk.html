@@ -505,14 +505,14 @@ function catchEventsAfter(response) {
 						precards[index].push(row);
 						tmpcards[index].updateStatusAndColor('sign-in',true,row[3]);
 					} else if (row[2] == 'sign-out') { //sign-in -> sign-out
-						tmpcards[index].updateStatusAndColor('sign-out',false,row[3]);
+						tmpcards[index].updateStatusAndColor('sign-out',tmpcards[index].tech,row[3]); //if was tech, keep tech
 						finalcards.push(tmpcards.splice(index,1)[0]);
 						
 						preids.splice(index,1)[0];
 						precards.splice(index,1)[0];
 						//tmpcards.splice(index,1)[0]; already done in push
 					} else if (row[2] == 'sign-in') { //sign-in -> sign-in (just end the first one);
-						tmpcards[index].updateStatusAndColor('sign-out',false,precards[index][precards[index].length-1][3]);
+						tmpcards[index].updateStatusAndColor('sign-out',tmpcards[index].tech,precards[index][precards[index].length-1][3]);//if was tech, keep tech
 						finalcards.push(tmpcards[index]);
 						
 						precards[index] = [row];
@@ -535,7 +535,7 @@ function catchEventsAfter(response) {
 						
 						precards[index] = [row];
 						var c = row;
-						c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],false);
+						c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],c[8]); //if loaner tech true
 						tmpcards[index] = c;
 					}
 				}
