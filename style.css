@@ -625,7 +625,7 @@ body.bigbody button.new:focus {
 	content: 'Please visit the Library Desk for tech help.';
 }
 #push-tech-message.tech .small-text:after {
-	content: "(The big one in the center. Ask for Mrs. Foster or Mrs. Peterson to help you.)";
+	content: "(The big one in the center. Ask for Mrs. Foster or Mrs. Peterson.)";
 }
 #push-tech-message.loaner:before {
 	display: block;
