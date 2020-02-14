@@ -23,10 +23,11 @@
 	<body class="bigbody">
 		<div id="push-success-popup" class="bigpopup pretty-scrollbar-light">
 			<div class="content">
-				<div id="push-success-title" class="title-center fullsize">Welcome, Jonathan Joestar</div>
-				<div id="push-success-message" class="medium-text center-h">You've been checked in. Enjoy your stay!</div>
+				<div id="push-success-title" class="title-center fullsize">Greet, Name</div>
+				<div id="push-success-message" class="medium-text center-h">Status Text</div>
 				<div class="small-spacer"></div>
-				<div id="push-tech-message" class="large-text center-h" style="display: none;">Please visit the library desk for tech help.
+				<div id="push-tech-message" class="large-text center-h" style="display: none;">Bonus Text
+				<div class='small-text center-h'>Mini Text</div>
 				<div class="small-spacer"></div></div>
 				<button class="big" onclick="this.parentElement.parentElement.classList.remove('visible')">Ok</div>
 			</div>
@@ -213,11 +214,19 @@ function throwSignOut() {
 function catchPushEvent(name, type, flags) {
 	var message = document.getElementById('push-success-message');
 	var bonus = document.getElementById('push-tech-message');
+	var mini = bonus.children[0];
 	bonus.style = "display: none;";
 	message.style = "";
 	if (flags[1]) {
+		bonus.innerText = "Please visit the Library Desk for tech help!";
+		mini.innerText = "Ask for Mrs. Foster or Mrs. Peterson to help you."
 		bonus.style = "display: block;";
-	} 
+
+	} else if (flags[3]) {
+		bonus.innerText = "Please visit the Tech Office for loaner laptops!";
+		mini.innerText = "You can head straight there."
+		bonus.style = "display: block;";
+	}
 	if (type == 'sign-in') {
 		if (signInHTMLSTATE == 1) { //don't touch UI if already closed
 			showSignIn(false);
