@@ -88,7 +88,7 @@
 						<div class="middle"></div>
 						<div class="right">
 							<div id='total-tech-counter'class="large-text">?</div>
-							<div class="small-text">Tech Issues</div>
+							<div class="small-text">Tech Visitors</div>
 						</div>
 					</div>
 				</div>
@@ -488,7 +488,7 @@ function catchEventsAfter(response) {
 					preids.push(row[0]);
 					precards.push([row]);
 					var c = row;
-					c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],false);
+					c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],c[8]); //if loaner tech true
 					tmpcards.push(c);
 				}
 			} else {
@@ -517,7 +517,7 @@ function catchEventsAfter(response) {
 						
 						precards[index] = [row];
 						var c = row;
-						c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],false);
+						c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],c[8]); //if loaner tech true
 						tmpcards[index] = c;
 					}
 				} else if (last == 'sent-tech') {
