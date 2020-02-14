@@ -620,14 +620,14 @@ body.bigbody button.new:focus {
 	height: fit-content;
 	padding-bottom: 50px;
 }
-#push-tech-message.tech:after {
+#push-tech-message.tech:before {
 	display: block;
 	content: 'Please visit the Library Desk for tech help!';
 }
 #push-tech-message.tech .small-text:after {
 	content: 'Ask for Mrs. Foster or Mrs. Peterson to help you.';
 }
-#push-tech-message.loaner:after {
+#push-tech-message.loaner:before {
 	display: block;
 	content: 'Please visit the Tech Office for loaner laptops!';
 }
