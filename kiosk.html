@@ -218,27 +218,27 @@ function catchPushEvent(name, type, flags) {
 	bonus.style = "display: none;";
 	message.style = "";
 	if (flags[1]) {
-		bonus.innerText = "Please visit the Library Desk for tech help!";
-		mini.innerText = "Ask for Mrs. Foster or Mrs. Peterson to help you."
+		bonus.textContent = "Please visit the Library Desk for tech help!";
+		mini.textContent = "Ask for Mrs. Foster or Mrs. Peterson to help you."
 		bonus.style = "display: block;";
 
 	} else if (flags[3]) {
-		bonus.innerText = "Please visit the Tech Office for loaner laptops!";
-		mini.innerText = "You can head straight there."
+		bonus.textContent = "Please visit the Tech Office for loaner laptops!";
+		mini.textContent = "You can head straight there."
 		bonus.style = "display: block;";
 	}
 	if (type == 'sign-in') {
 		if (signInHTMLSTATE == 1) { //don't touch UI if already closed
 			showSignIn(false);
 		}
-		document.getElementById('push-success-title').innerText = "Welcome, "+name;
-		message.innerText = "You've been signed in. Enjoy your stay!";
+		document.getElementById('push-success-title').textContent = "Welcome, "+name;
+		message.textContent = "You've been signed in. Enjoy your stay!";
 	} else {
 		if (signOutHTMLSTATE == 1) { //don't touch UI if already closed
 			showSignOut(false);
 		}
-		document.getElementById('push-success-title').innerText = "Goodbye, "+name;
-		message.innerText = "You've been signed out. See you next time!";
+		document.getElementById('push-success-title').textContent = "Goodbye, "+name;
+		message.textContent = "You've been signed out. See you next time!";
 	}
 	document.getElementById('push-success-popup').classList.add('visible');
 	console.log(name+' '+type+' '+flags);
