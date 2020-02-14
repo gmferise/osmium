@@ -622,17 +622,17 @@ body.bigbody button.new:focus {
 }
 #push-tech-message.tech:before {
 	display: block;
-	content: 'Please visit the Library Desk for tech help!';
+	content: 'Please visit the Library Desk for tech help.';
 }
 #push-tech-message.tech .small-text:after {
-	content: 'Ask for Mrs. Foster or Mrs. Peterson to help you.';
+	content: "(The big one in the center. Ask for Mrs. Foster or Mrs. Peterson to help you.)";
 }
 #push-tech-message.loaner:before {
 	display: block;
-	content: 'Please visit the Tech Office for loaner laptops!';
+	content: 'Please visit the Tech Office for loaner laptops.';
 }
 #push-tech-message.loaner .small-text:after {
-	content: "You can head straight there. Let them know you're there for a loaner";
+	content: "(You can head straight there. Let them know you're there to borrow/return a loaner.)";
 }
 div.bigpopup {
 	z-index: 100;	
