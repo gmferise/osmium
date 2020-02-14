@@ -620,6 +620,20 @@ body.bigbody button.new:focus {
 	height: fit-content;
 	padding-bottom: 50px;
 }
+#push-tech-message.tech:after {
+	display: block;
+	content: 'Please visit the Library Desk for tech help!';
+}
+#push-tech-message.tech .small-text:after {
+	content: 'Ask for Mrs. Foster or Mrs. Peterson to help you.';
+}
+#push-tech-message.loaner:after {
+	display: block;
+	content: 'Please visit the Tech Office for loaner laptops!';
+}
+#push-tech-message.loaner .small-text:after {
+	content: "You can head straight there. Let them know you're there for a loaner";
+}
 div.bigpopup {
 	z-index: 100;	
 	position: absolute;
