@@ -67,12 +67,12 @@
 					<div class="title-center medium-text">In the Library</div>
 					<div class="half-pair">
 						<div class="left">
-							<div class="large-text">10</div>
+							<div id='signed-in-counter' class="large-text">?</div>
 							<div class="small-text">Signed In</div>
 						</div>
 						<div class="middle"></div>
 						<div class="right">
-							<div class="large-text">2</div>
+							<div id='signed-in-tech-counter' class="large-text">?</div>
 							<div class="small-text">In Tech</div>
 						</div>
 					</div>
@@ -82,12 +82,12 @@
 					<div class="title-center medium-text">Today's Traffic</div>
 					<div class="half-pair">
 						<div class="left">
-							<div class="large-text">23</div>
+							<div id='total-counter' class="large-text">?</div>
 							<div class="small-text">Students</div>
 						</div>
 						<div class="middle"></div>
 						<div class="right">
-							<div class="large-text">5</div>
+							<div id='total-tech-counter'class="large-text">?</div>
 							<div class="small-text">Tech Issues</div>
 						</div>
 					</div>
@@ -539,6 +539,26 @@ function catchEventsAfter(response) {
 	cards = finalcards.concat(tmpcards);
 	repackCards(cards);
 	reSort();
+	var signedIns = 0;
+	var signedInTechs = 0;
+	var total = 0;
+	var totalTechs = 0;
+	for (var i=0; i<cards.length; i++) {
+		total++;
+		if (card.event = 'sign-in') {
+			signedIns++;
+			if (card.tech) {
+				signedInTechs++;
+				totalTechs++;
+			}
+		} else if (card.tech) {
+			totalTechs++;
+		}
+	}
+	document.getElementById('signed-in-counter').innerText = signedIns;
+	document.getElementById('signed-in-tech-counter').innerText = signedInTechs;
+	document.getElementById('total-counter').innerText = total;
+	document.getElementById('total-tech-counter').innerText = totalTechs;
 }
 	
 
