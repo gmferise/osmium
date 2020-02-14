@@ -545,13 +545,13 @@ function catchEventsAfter(response) {
 	var totalTechs = 0;
 	for (var i=0; i<cards.length; i++) {
 		total++;
-		if (card.event = 'sign-in') {
+		if (cards[i].event = 'sign-in') {
 			signedIns++;
-			if (card.tech) {
+			if (cards[i].tech) {
 				signedInTechs++;
 				totalTechs++;
 			}
-		} else if (card.tech) {
+		} else if (cards[i].tech) {
 			totalTechs++;
 		}
 	}
