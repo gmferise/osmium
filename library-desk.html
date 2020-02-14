@@ -537,15 +537,14 @@ function catchEventsAfter(response) {
 		}
 	}
 	cards = finalcards.concat(tmpcards);
-	repackCards(cards);
-	reSort();
+	reSort(); //also repacks
 	var signedIns = 0;
 	var signedInTechs = 0;
 	var total = 0;
 	var totalTechs = 0;
 	for (var i=0; i<cards.length; i++) {
 		total++;
-		if (cards[i].event = 'sign-in') {
+		if (cards[i].event == 'sign-in') {
 			signedIns++;
 			if (cards[i].tech) {
 				signedInTechs++;
