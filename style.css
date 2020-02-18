@@ -310,7 +310,7 @@ html {
 	width: 100%;
 	cursor: pointer;
 }
-.timeline-date div:selected {
+.timeline-date div.selected {
 	border-left: 2px solid black !important;
 }
 .timeline-date div.selected:after {
