@@ -545,7 +545,7 @@ function fixDatatbaseNameColumn(){
 		for (var i = 0; i < rawtbl.getNumberOfRows(); i++){
 			var row = []
 			for (var j = 0; j < rawtbl.getNumberOfColumns(); j++){
-				row.push(rawtbl.getValue(i,j);
+				row.push(rawtbl.getValue(i,j));
 			}
 			tbl.push(row);
 		}
