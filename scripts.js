@@ -556,7 +556,7 @@ function fixDatatbaseNameColumn(){
 			var rawtbl = response.getDataTable();
 			var ref = {};
 			for (var i = 0; i < rawtbl.getNumberOfRows(); i++){
-				ref[rawtbl.getValue(0)] = rawtbl.getValue(1);
+				ref[rawtbl.getValue(i,0)] = rawtbl.getValue(i,1);
 			}
 			// Update names in table to match dictionary
 			for (var i = 0; i < tbl.length; i++){
