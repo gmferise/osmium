@@ -528,7 +528,7 @@ function updateComment(id, type, dateObject, newComment){
 					throw new Error("Failed to update comments.");
 				}
 				else {
-					console.log("Comments updated.")
+					console.log("Comments updated.") // PUT catchUpdateComment() HERE
 				}
 			});
 		});
@@ -577,7 +577,7 @@ function fixDatatbaseNameColumn(){
 					throw new Error("Failed to perform name fix.");
 				}
 				else {
-					console.log("Names fixed.")
+					console.log("Names fixed.") // PUT catchNameFix() HERE
 				}
 			});
 		}, pageId);
