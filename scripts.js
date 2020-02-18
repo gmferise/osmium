@@ -450,7 +450,7 @@ function pushEvent(id, type, comments, flags) {
 		// Update values
 		gapi.client.sheets.spreadsheets.values.append({
 			"spreadsheetId": databaseId,
-			"range": "A:H",
+			"range": "A:I",
 			"resource": {
 				"values": [
 				[id, name, type,
@@ -470,6 +470,12 @@ function pushEvent(id, type, comments, flags) {
 			}
 		});	
 	}, pageId);
+}
+
+// Input: id, event, timestamp to identify a row
+// Sets the comments column of the given a rowIndex
+function updateComments(id, type, dateObject)[
+	
 }
 
 
@@ -524,11 +530,18 @@ function getStatusById(id){
 
 function catchStatus(response){
 	if (response == undefined){ console.log("getStatus Query Failed"); return; }
-	console.log(response.getDataTable().getDistinctValues(0)); // Array of [id, name, status, timestamp, comments]
+	var rawtbl = response.getDataTable(); // Array of [id, name, status, timestamp, comments]
+	var tbl = []
+	for (var i = 0; i < rawtbl.getNumberOfRows(); i++){
+		var row = []
+		for (var j = 0; j < rawtbl.getNumberOfColumns(); j++){
+			row.append(rawtbl.getValue(i,j);
+		}
+		tbl.append(row);
+	}
+	console.log(tbl);
 }
 
-
-/// TODO: REWRITE TO USE LAMBDAS
 // Gets list of 10 statuses that most closely match the given name
 // Returns through catch
 function getStatusByName(name, count){
