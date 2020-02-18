@@ -565,10 +565,10 @@ function catchStudentHistory(response){
 			if (dstr == lastdate) {
 				eventset[eventset.length-1].push(row);
 			} else {
-				dateset.push(lastdate); //close previous date by pushing it
-				eventset[eventset.length-1].push(row); //also push its row
-				eventset.push([]);		//close prev list by adding a new one		
-				lastdate = dstr;		//remember this new day
+				dateset.push(lastdate); 				//close previous date by pushing it
+				eventset.push([]);						//close prev list by adding a new one	
+				eventset[eventset.length-1].push(row); 	//push new one's row				
+				lastdate = dstr;						//remember this new day
 			}
 			
 		}
