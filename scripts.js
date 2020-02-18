@@ -578,7 +578,7 @@ function updateReferenceName(id, newName){
 }
 
 // Updates the names in the database columns to reflect the new state of the reference page
-function fixDatatbaseNameColumn(){
+function fixDatabaseNameColumn(){
 	// Select the entire database of names and ids column
 	gvzQuery("SELECT A, B",
 	function(response){
