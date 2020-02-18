@@ -566,7 +566,7 @@ function catchStudentHistory(response){
 				lastdate = dstr;
 			}
 			if (dstr == lastdate) {
-				eventset[eventest.length-1].push(row);
+				eventset[eventset.length-1].push(row);
 			} else {
 				dateset.push(lastdate); //close previous date by pushing it
 				eventset.push([]);		//close prev list by adding a new one		
