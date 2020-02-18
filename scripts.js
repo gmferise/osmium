@@ -535,7 +535,7 @@ function catchStatus(response){
 	for (var i = 0; i < rawtbl.getNumberOfRows(); i++){
 		var row = []
 		for (var j = 0; j < rawtbl.getNumberOfColumns(); j++){
-			row.append(rawtbl.getValue(i,j);
+			row.append(rawtbl.getValue(i,j));
 		}
 		tbl.append(row);
 	}
