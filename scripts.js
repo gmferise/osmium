@@ -481,11 +481,11 @@ function updateComment(id, type, dateObject, newComment){
 		hour:"2-digit", minute:"2-digit", second:"2-digit"}).replace(",","");
 	gvzQuery("SELECT COUNT(D) WHERE D <= datetime '"+dateString+"'",
 	function(response){
-		var lteq = response.getDataTable.getDistinctValues(0)[0];
+		var lteq = response.getDataTable().getDistinctValues(0)[0];
 		// Then get the data in any rows with the target date
 		gvzQuery("SELECT A, B, C, D, E, F, G, H, I WHERE D = datetime '"+dateString+"'",
 		function(response){
-			var eq = response.getDataTable.getNumberOfRows();
+			var eq = response.getDataTable().getNumberOfRows();
 			var rawtbl = response.getDataTable();
 			
 			// Process the data into an array
@@ -507,9 +507,9 @@ function updateComment(id, type, dateObject, newComment){
 			
 			// Update the comment for the row with the correct event and id
 			// Any extra rows selected because of matching date are unchanged
-			for (var row in tbl){
-				if (row[0] == id && row[2] == type){
-					row[4] = newComment;
+			for (var i = 0; i < tbl.length; i++){
+				if (tbl[i][0] == id && tbl[i][2] == type){
+					tbl[i][4] = newComment;
 				}
 			}
 			
