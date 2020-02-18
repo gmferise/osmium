@@ -576,7 +576,7 @@ function catchStudentHistory(response){
 		}
 		dateset.push(lastdate); //close last date by pushing it
 		var wrap = document.getElementById('student-history-wrapper');
-		for (var i=0; i<dateset; i++) {
+		for (var i=0; i<dateset.length; i++) {
 			var eachdate = document.createElement('div');
 				eachdate.classList.add('timeline-date');
 				eachdate.innerHTML = dateset[i];
