@@ -515,7 +515,7 @@ function updateComment(id, type, dateObject, newComment){
 			
 			// Now update ALL of the matching date rows in the database
 			// Definitely an ugly workaround for no UPDATE query
-			var a1range = "A"+(2+lteq-eq)+":I"+(1+lteq)
+			var a1range = "A"+(2+lteq-eq)+":I"+(1+lteq);
 			gapi.client.sheets.spreadsheets.values.update({
 				"spreadsheetId": databaseId,
 				"range": a1range,
@@ -535,6 +535,46 @@ function updateComment(id, type, dateObject, newComment){
 	});
 }
 
+function fixDatatbaseNameColumn(){
+	// Select the entire database of names and ids column
+	gvzQuery("SELECT A, B",
+	function(response){
+		// Process the names and ids into a table array
+		var rawtbl = response.getDataTable();
+		var tbl = [];
+		for (var i = 0; i < rawtbl.getNumberOfRows(); i++){
+			var row = []
+			for (var j = 0; j < rawtbl.getNumberOfColumns(); j++){
+				row.push(rawtbl.getValue(i,j);
+			}
+			tbl.push(row);
+		}
+		// Then select the reference names and ids
+		gvzQuery("SELECT A, B",
+		function(response){
+			// Process the names and ids into a dictionary
+			var rawtbl = response.getDataTable();
+			var ref = {};
+			for (var i = 0; i < rawtbl.getNumberOfRows(); i++){
+				ref[rawtbl.getValue(0)] = rawtbl.getValue(1);
+			}
+			// Update names in table to match dictionary
+			for (var i = 0; i < tbl.length; i++){
+				tbl[i][1] = ref[tbl[i][0]];
+			}
+			// Update spreadsheet with new values
+			var a1range = "A2"+":B"+(tbl.length+1);
+			gapi.client.sheets.spreadsheets.values.update({
+				"spreadsheetId": databaseId,
+				"range": a1range,
+				"valueInputOption": "USER_ENTERED",
+				"resource": {
+					"values": tbl
+				}
+			});
+		}, pageId);
+	});
+}
 
 /// ******************
 /// * SELECT QUERIES *
