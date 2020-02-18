@@ -535,6 +535,7 @@ function updateComment(id, type, dateObject, newComment){
 	});
 }
 
+// Updates the names in the database columns to reflect the new state of the reference page
 function fixDatatbaseNameColumn(){
 	// Select the entire database of names and ids column
 	gvzQuery("SELECT A, B",
