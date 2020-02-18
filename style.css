@@ -314,6 +314,7 @@ html {
 	font-family: "Material Icons";
 	font-size: inherit;
 	margin-left: 10px;
+	vertical-align: top;
 	content: 'edit';
 }
 .timeline-date div:hover {

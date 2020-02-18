@@ -608,7 +608,7 @@ function catchStudentHistory(response){
 function selectComments(datenum,timenum) {
 	commentsel = [datenum,timenum];
 	var cbox = document.getElementById('comments-box');
-	cbox.innerText = comments_eventset[datenum][timenum][4];
+	cbox.value = comments_eventset[datenum][timenum][4];
 	var wrap = document.getElementById('student-history-wrapper');
 	for (var i=0; i<wrap.childElementCount; i++) {
 		for (var j=0; j<wrap.children[i].childElementCount; j++) {
