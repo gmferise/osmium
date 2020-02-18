@@ -209,6 +209,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 						rightside.appendChild(rightlabel);
 						var commentsbox = document.createElement('textarea');
 							commentsbox.setAttribute('placeholder','Click to add notes');
+							commentsbox.id = "comments-box";
 						rightside.appendChild(commentsbox);
 					center.appendChild(rightside);
 				container.appendChild(center);
@@ -538,7 +539,9 @@ function catchEventsAfter(response) {
 		document.getElementById('total-tech-counter').innerText = totalTechs;
 	}
 }
-	
+
+var comments_eventset;
+var commentsel = -1;
 function catchStudentHistory(response){
 	var dt = response.getDataTable();
 	
@@ -593,11 +596,18 @@ function catchStudentHistory(response){
 							break;
 					}
 					eachtime.innerHTML = get12time(eventset[i][j][3])+" - "+eventname;
+					eachtime.onclick = "selectComments("+i+","+j")";
 					eachdate.appendChild(eachtime);
 				}
 			wrap.appendChild(eachdate);
 		}
 	}
+	comments_eventset = eventset;
+}
+function selectComments(datenum,timenum) {
+	commentsel = [datenum,timenum];
+	var cbox = document.getElementById('comments-box');
+	cbox.innerText = comments_eventset[datenum][timenum][4];
 }
 
 function onAuthUpdate() {
