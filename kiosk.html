@@ -24,8 +24,6 @@
 		<div id="push-success-popup" class="bigpopup pretty-scrollbar-light">
 			<div class="content">
 				<div id="push-success-title" class="title-center fullsize"></div>
-				<div id="push-success-message" class="medium-text center-h"></div>
-				<div class="small-spacer"></div>
 				<div id="push-tech-message" class="large-text center-h">
 				<div class='small-text center-h'></div>
 				<div class="small-spacer"></div></div>
@@ -212,7 +210,6 @@ function throwSignOut() {
 }
 
 function catchPushEvent(name, type, flags) {
-	var message = document.getElementById('push-success-message');
 	var bonus = document.getElementById('push-tech-message');
 	bonus.classList.remove('tech');
 	bonus.classList.remove('loaner');
@@ -227,13 +224,11 @@ function catchPushEvent(name, type, flags) {
 			showSignIn(false);
 		}
 		document.getElementById('push-success-title').textContent = "Welcome, "+name;
-		message.textContent = "You've been signed in. Enjoy your stay!";
 	} else {
 		if (signOutHTMLSTATE == 1) { //don't touch UI if already closed
 			showSignOut(false);
 		}
 		document.getElementById('push-success-title').textContent = "Goodbye, "+name;
-		message.textContent = "You've been signed out. See you next time!";
 	}
 	document.getElementById('push-success-popup').classList.add('visible');
 	console.log(name+' '+type+' '+flags);
