@@ -535,6 +535,49 @@ function updateComment(id, type, dateObject, newComment){
 	});
 }
 
+function updateReferenceName(id, newName){
+	if (pageId == 0 || pageId == undefined){ throw new Error("pageId must not be 0"); }
+	// Get entire reference page
+	gvzQuery("SELECT A, B",
+	function(response){
+		var rawtbl = response.getDataTable();
+		var tbl = [];
+		for (var i = 0; i < rawtbl.getNumberOfRows(); i++){
+			var row = []
+			for (var j = 0; j < rawtbl.getNumberOfColumns(); j++){
+				row.push(rawtbl.getValue(i,j));
+			}
+			tbl.push(row);
+		}
+		// Update new id with name
+		for (var i = 0; i < tbl.length; i++){
+			if (tbl[i][0] == id){
+				tbl[i][1] = newName
+			}
+		}
+		
+		// Update spreadsheet with new values
+		var a1range = "A2"+":B"+(tbl.length+1);
+		gapi.client.sheets.spreadsheets.values.update({
+			"spreadsheetId": databaseId,
+			"range": a1range,
+			"sheetId": pageId,
+			"valueInputOption": "USER_ENTERED",
+			"resource": {
+				"values": tbl
+			}
+		}).then(function(response){
+			if (response.status != 200){
+				throw new Error("Failed to update name.");
+			}
+			else {
+				console.log("Name updated.") // PUT catchNameUpdate() HERE
+				fixDatabaseNameColumn();
+			}
+		});
+	}, pageId);
+}
+
 // Updates the names in the database columns to reflect the new state of the reference page
 function fixDatatbaseNameColumn(){
 	// Select the entire database of names and ids column
