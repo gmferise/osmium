@@ -580,7 +580,7 @@ function catchStudentHistory(response){
 			var eachdate = document.createElement('div');
 				eachdate.classList.add('timeline-date');
 				eachdate.innerHTML = dateset[i];
-				for (var j=0; j<eventset[i].length; j++) {
+				for (var j=eventset[i].length-1; j>=0; j--) {
 					var eachtime = document.createElement('div');
 					var eventname = 'undefined';
 					switch (eventset[i][j][2]) {
