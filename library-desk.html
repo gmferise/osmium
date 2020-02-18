@@ -615,7 +615,7 @@ function selectComments(datenum,timenum) {
 			wrap.children[i].children[j].classList.remove('selected');
 		}
 	}
-	wrap.children[datenum].children[wrap.children[i].childElementCount-1-timenum].classList.add('selected');
+	wrap.children[datenum].children[wrap.children[datenum].childElementCount-1-timenum].classList.add('selected');
 }
 
 function onAuthUpdate() {
