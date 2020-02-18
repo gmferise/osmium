@@ -557,11 +557,10 @@ function updateReferenceName(id, newName){
 		}
 		
 		// Update spreadsheet with new values
-		var a1range = "A2"+":B"+(tbl.length+1);
+		var a1range = "ID_REFERENCE!A2"+":B"+(tbl.length+1);
 		gapi.client.sheets.spreadsheets.values.update({
 			"spreadsheetId": databaseId,
 			"range": a1range,
-			"sheetId": pageId,
 			"valueInputOption": "USER_ENTERED",
 			"resource": {
 				"values": tbl
