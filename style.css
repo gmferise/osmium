@@ -301,7 +301,7 @@ html {
 	padding-left: 10px;
 }
 .timeline-date div {
-	border-left: 2px solid rgba(0,0,0,0.2);
+	border-left: 2px dashed rgba(0,0,0,0.2);
 	padding-left: 10px;
 	margin-left: 10px;
 	font-size: 1.25vw;
@@ -309,6 +309,9 @@ html {
 	padding-top: 2px;
 	width: 100%;
 	cursor: pointer;
+}
+.timeline-date div:selected {
+	border-left: 2px solid black !important;
 }
 .timeline-date div.selected:after {
 	font-family: "Material Icons";
