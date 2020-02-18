@@ -197,27 +197,9 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 							
 							var historylist = document.createElement('div');
 								historylist.classList.add('pretty-scrollbar-dark');
-							
-								//[ [day, [time,type],[time,type],[time,type]...],[...] ]
-								var data = [
-								[new Date(2020,0,2),[new Date(new Date().setMinutes(0)),"Signed In"],[new Date(new Date().setMinutes(10)),"Sent to Tech"],[new Date(new Date().setMinutes(20)),"Signed Out"]],
-								[new Date(2020,0,1),[new Date(new Date().setMinutes(2)),"Signed In"],[new Date(new Date().setMinutes(12)),"Signed Out"],[new Date(new Date().setMinutes(20)),"Signed In"],[new Date(new Date().setMinutes(26)),"Sent to Tech"],[new Date(new Date().setMinutes(38)),"Signed Out"]]
-								];
-								//todo pull person data
-								
-								for (var i=0; i<data.length; i++) {
-									var eachdate = document.createElement('div');
-									eachdate.classList.add('timeline-date');
-									eachdate.innerHTML = data[i][0].toLocaleString('en-US',{weekday:'long',month:'long',day:'numeric'});
-									for (var j=1; j<data[i].length; j++) {
-										var eachtime = document.createElement('div');
-										eachtime.innerHTML = get12time(data[i][j][0])+" - "+data[i][j][1];
-										eachdate.appendChild(eachtime);
-									}
-									historylist.appendChild(eachdate);
-								}
-								var t = document.createElement('div')
-								t.classList.add('TEST-scroll');
+								historylist.id = "student-history-wrapper"
+									var t = document.createElement('div')
+									t.classList.add('TEST-scroll');
 								historylist.appendChild(t);
 							leftside.appendChild(historylist)
 							
@@ -235,6 +217,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 				container.appendChild(center);
 			popup.appendChild(container);
 		document.body.appendChild(popup);
+		getStudentHistory(obj.id);
 	}
 	
 	//click the card's button - uses card's properties to determine action
@@ -559,6 +542,65 @@ function catchEventsAfter(response) {
 	}
 }
 	
+function catchStudentHistory(response){
+	var dt = response.getDataTable();
+	
+	if (response.isError()) {
+		showError('db-get-fail');
+		return;
+	}
+	
+	var dateset = [];
+	var eventset = [[]];
+	var lastdate = "";
+	
+	if (dt.getNumberOfRows() > 0) {
+		for (var i=0; i<dt.getNumberOfRows(); i++) {
+			var row = [];
+			for (var j=0; j<dt.getNumberOfColumns(); j++) {
+				row.push(dt.getValue(i,j));
+			}
+			
+			var dstr = row[3].toLocaleString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+			if (lastdate == "") {
+				lastdate = dstr;
+			}
+			if (dstr == lastdate) {
+				eventset[eventest.length-1].push(row);
+			} else {
+				dateset.push(lastdate); //close previous date by pushing it
+				eventset.push([]);		//close prev list by adding a new one		
+				lastdate = dstr;		//remember this new day
+			}
+			
+		}
+		dateset.push(lastdate); //close last date by pushing it
+		var wrap = document.getElementById('student-history-wrapper');
+		for (var i=0; i<dateset; i++) {
+			var eachdate = document.createElement('div');
+				eachdate.classList.add('timeline-date');
+				eachdate.innerHTML = dateset[i];
+				for (var j=1; j<eventset[i].length; j++) {
+					var eachtime = document.createElement('div');
+					var eventname = 'undefined';
+					switch (eventset[i][j][2]) {
+						case 'sign-in':
+							eventname = 'Signed In';
+							break;
+						case 'sign-out':
+							eventname = 'Signed Out';
+							break;
+						case 'sent-tech':
+							eventname = 'Sent to Tech';
+							break;
+					}
+					eachtime.innerHTML = get12time(eventset[i][j][3])+" - "+eventname;
+					eachdate.appendChild(eachtime);
+				}
+				historylist.appendChild(eachdate);
+		}
+	}
+}
 
 function onAuthUpdate() {
 	selectDatabaseIdFromUrl();

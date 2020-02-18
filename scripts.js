@@ -515,10 +515,6 @@ function getStudentHistory(id){
 	gvzQuery("SELECT A, B, C, D, E, F, G, H, I WHERE A = "+id+" ORDER BY D DESC", catchStudentHistory);
 }
 
-function catchStudentHistory(response){
-	console.log(response.getDataTable());
-}
-
 // Gets student's latest event by their id
 // Returns through catch
 function getStatusById(id){
