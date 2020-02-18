@@ -512,7 +512,7 @@ function catchEventsAfter(response){
 // Gets all table rows with a student's id
 // Returns through catch
 function getStudentHistory(id){
-	gvzQuery("SELECT A, B, C, D, E, F, G, H, I WHERE A = "+id+" ORDER BY D DESC", catchDailyEntries);
+	gvzQuery("SELECT A, B, C, D, E, F, G, H, I WHERE A = "+id+" ORDER BY D DESC", catchStudentHistory);
 }
 
 function catchStudentHistory(response){
