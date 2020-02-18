@@ -596,7 +596,7 @@ function catchStudentHistory(response){
 							break;
 					}
 					eachtime.innerHTML = get12time(eventset[i][j][3])+" - "+eventname;
-					eachtime.onclick = "selectComments("+i+","+j+")";
+					eachtime.setAttribute('onclick',"selectComments("+i+","+j+")");
 					eachdate.appendChild(eachtime);
 				}
 			wrap.appendChild(eachdate);
