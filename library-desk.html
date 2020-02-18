@@ -610,12 +610,12 @@ function selectComments(datenum,timenum) {
 	var cbox = document.getElementById('comments-box');
 	cbox.innerText = comments_eventset[datenum][timenum][4];
 	var wrap = document.getElementById('student-history-wrapper');
-	for (var i=0; i<wrap.children.length; i++) {
-		for (var j=0; j<wrap.children[i].length; j++) {
+	for (var i=0; i<wrap.childElementCount; i++) {
+		for (var j=0; j<wrap.children[i].childElementCount; j++) {
 			wrap.children[i].children[j].classList.remove('selected');
 		}
 	}
-	wrap.children[datenum].children[timenum].classList.add('selected');
+	wrap.children[datenum].children[wrap.children[i].childElementCount-1-timenum].classList.add('selected');
 }
 
 function onAuthUpdate() {
