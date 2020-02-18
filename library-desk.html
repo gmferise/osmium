@@ -208,7 +208,8 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 							rightlabel.innerHTML = "Notes for Event";
 						rightside.appendChild(rightlabel);
 						var commentsbox = document.createElement('textarea');
-							commentsbox.setAttribute('placeholder','Click to add notes');
+							commentsbox.setAttribute('placeholder','No notes for this event yet. Add some here!');
+							commentsbox.innerText = "(Click an event to see and edit Notes.)"
 							commentsbox.id = "comments-box";
 						rightside.appendChild(commentsbox);
 					center.appendChild(rightside);
@@ -608,6 +609,12 @@ function selectComments(datenum,timenum) {
 	commentsel = [datenum,timenum];
 	var cbox = document.getElementById('comments-box');
 	cbox.innerText = comments_eventset[datenum][timenum][4];
+	for (var i=0; i<cbox.children.length; i++) {
+		for (var j=0; j<cbox.children[i].length; j++) {
+			cbox.children[i].children[j].classList.remove('selected');
+		}
+	}
+	cbox.children[datenum].children[timenum].classList.add('selected');
 }
 
 function onAuthUpdate() {
