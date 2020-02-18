@@ -474,7 +474,7 @@ function pushEvent(id, type, comments, flags) {
 
 // Input: id, event, timestamp to identify a row
 // Sets the comments column of the given a rowIndex
-function updateComments(id, type, dateObject)[
+function updateComments(id, type, dateObject){
 	
 }
 
