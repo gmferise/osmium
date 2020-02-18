@@ -451,6 +451,7 @@ function pushEvent(id, type, comments, flags) {
 		gapi.client.sheets.spreadsheets.values.append({
 			"spreadsheetId": databaseId,
 			"range": "A:I",
+			"valueInputOption": "USER_ENTERED",
 			"resource": {
 				"values": [
 				[id, name, type,
@@ -459,8 +460,7 @@ function pushEvent(id, type, comments, flags) {
 				hour:"2-digit", minute:"2-digit", second:"2-digit"}).replace(",",""),
 				comments, flags[0], flags[1], flags[2], flags[3] ]
 				]
-			},
-			"valueInputOption": "USER_ENTERED"
+			}
 		}).then(function(response){
 			if (response.status != 200){
 				throw new Error("Failed to add new rows.");
@@ -474,8 +474,65 @@ function pushEvent(id, type, comments, flags) {
 
 // Input: id, event, timestamp to identify a row
 // Sets the comments column of the given a rowIndex
-function updateComments(id, type, dateObject){
-	
+function updateComment(id, type, dateObject, newComment){
+	// First get the number of rows with dates older than or exactly the target date
+	var dateString = dateObject.toLocaleString("en-CA-u-hc-h24",
+		{day:"2-digit", month:"2-digit", year:"numeric",
+		hour:"2-digit", minute:"2-digit", second:"2-digit"}).replace(",","");
+	gvzQuery("SELECT COUNT(D) WHERE D <= datetime '"+dateString+"'",
+	function(response){
+		var lteq = response.getDataTable.getDistinctValues(0)[0];
+		// Then get the data in any rows with the target date
+		gvzQuery("SELECT A, B, C, D, E, F, G, H, I WHERE D = datetime '"+dateString+"'",
+		function(response){
+			var eq = response.getDataTable.getNumberOfRows();
+			var rawtbl = response.getDataTable();
+			
+			// Process the data into an array
+			var tbl = [];
+			for (var i = 0; i < rawtbl.getNumberOfRows(); i++){
+				var row = []
+				for (var j = 0; j < rawtbl.getNumberOfColumns(); j++){
+					if (rawtbl.getColumnType(j) == "datetime"){
+						row.push(rawtbl.getValue(i,j).toLocaleString("en-CA-u-hc-h24",
+							{day:"2-digit", month:"2-digit", year:"numeric",
+							hour:"2-digit", minute:"2-digit", second:"2-digit"}).replace(",",""));
+					}
+					else {
+						row.push(rawtbl.getValue(i,j));
+					}
+				}
+				tbl.push(row);
+			}
+			
+			// Update the comment for the row with the correct event and id
+			// Any extra rows selected because of matching date are unchanged
+			for (var row in tbl){
+				if (row[0] == id && row[2] == type){
+					row[4] = newComment;
+				}
+			}
+			
+			// Now update ALL of the matching date rows in the database
+			// Definitely an ugly workaround for no UPDATE query
+			var a1range = "A"+(2+lteq-eq)+":I"+(1+lteq)
+			gapi.client.sheets.spreadsheets.values.update({
+				"spreadsheetId": databaseId,
+				"range": a1range,
+				"valueInputOption": "USER_ENTERED",
+				"resource": {
+					"values": tbl
+				}
+			}).then(function(response){
+				if (response.status != 200){append --> push
+					throw new Error("Failed to update comments.");
+				}
+				else {
+					console.log("Comments updated.")
+				}
+			});
+		});
+	});
 }
 
 
@@ -535,9 +592,9 @@ function catchStatus(response){
 	for (var i = 0; i < rawtbl.getNumberOfRows(); i++){
 		var row = []
 		for (var j = 0; j < rawtbl.getNumberOfColumns(); j++){
-			row.append(rawtbl.getValue(i,j));
+			row.push(rawtbl.getValue(i,j));
 		}
-		tbl.append(row);
+		tbl.push(row);
 	}
 	console.log(tbl);
 }
@@ -551,11 +608,19 @@ function getStatusByName(name, count){
 	gvzQuery("SELECT A, D, COUNT(A), COUNT(D) WHERE B CONTAINS '"+name+"' GROUP BY A, D ORDER BY D DESC LIMIT "+count|0,
 	function(response){
 		var ids = response.getDataTable().getDistinctValues(0);
-		var rows = [];
 		for (i in ids){
 			// SQL: SELECT TOP 1 * WHERE id = ? ORDER BY date DESC 
-			gvzQuery("SELECT A, B, C, D, E, F, G, H, I WHERE A = "+ids[i]+" ORDER BY D DESC LIMIT 1", function(response){
-				statuses.push(response.getDataTable().getDistinctValues(0))
+			gvzQuery("SELECT A, B, C, D, E, F, G, H, I WHERE A = "+ids[i]+" ORDER BY D DESC LIMIT 1",
+			function(response){
+				var rawtbl = response.getDataTable();
+				var row = [];
+				for (var i = 0; i < rawtbl.getNumberOfRows(); i++){
+					var row = []
+					for (var j = 0; j < rawtbl.getNumberOfColumns(); j++){
+						row.push(rawtbl.getValue(i,j));
+					}
+					statuses.push(row);
+				}
 				if (statuses.length >= count){ catchStatusBatch(statuses); }
 			});
 		}
