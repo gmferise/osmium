@@ -524,7 +524,7 @@ function updateComment(id, type, dateObject, newComment){
 					"values": tbl
 				}
 			}).then(function(response){
-				if (response.status != 200){append --> push
+				if (response.status != 200){
 					throw new Error("Failed to update comments.");
 				}
 				else {
@@ -570,6 +570,13 @@ function fixDatatbaseNameColumn(){
 				"valueInputOption": "USER_ENTERED",
 				"resource": {
 					"values": tbl
+				}
+			}).then(function(response){
+				if (response.status != 200){
+					throw new Error("Failed to perform name fix.");
+				}
+				else {
+					console.log("Names fixed.")
 				}
 			});
 		}, pageId);
