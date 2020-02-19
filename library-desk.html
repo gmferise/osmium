@@ -618,11 +618,12 @@ function selectComments(datenum,timenum) {
 	flaglist.innerHTML = '';
 	var flagnames = ['study','tech','print','loaner'];
 	for (var i=0; i<4; i++) {
-		if (row[5+i]){
-			var flag = document.createElement('div');
-				flag.classList.add(flagnames[i]);
-			flaglist.appendChild(flag);
-		}
+		var flag = document.createElement('div');
+			flag.classList.add(flagnames[i]);
+			if (row[5+i]){
+				flag.classList.add('yes');
+			}
+		flaglist.appendChild(flag);
 	}
 	var wrap = document.getElementById('student-history-wrapper');
 	for (var i=0; i<wrap.childElementCount; i++) {

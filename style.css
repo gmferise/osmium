@@ -262,7 +262,7 @@ html {
 	font-size: 2.2vw;
 }
 .card-popup-container .middle-wrapper .right {
-	width: 50%;
+	width: 60%;
 	height: 100%;
 	float: right;
 }
@@ -270,11 +270,11 @@ html {
 .card-popup-container .middle-wrapper .right textarea {
 	background-color: transparent;
 	margin: 0px;
-	width: 80%;
+	width: 90%;
 	height: 80%;
 	font-size: x-large;
 	margin-left: 10%;
-	margin-top: 20px;
+	margin-top: 10px;
 	overflow: hidden;
 	resize: none;
 	line-height: 32px;
@@ -287,6 +287,9 @@ html {
 	outline: 0;
 	border-left: 1px solid red;
 	background: repeating-linear-gradient(180deg, rgba(0,0,0,0) 0px, #2196F3 1px, rgba(0,0,0,0) 2px, rgba(0,0,0,0) 32px );
+}
+.card-popup-container .middle-wrapper .right .title-center {
+	margin-left: 10%;
 }
 
 .card-popup-container .middle-wrapper .pretty-scrollbar-dark {
@@ -334,18 +337,21 @@ html {
 	margin-left: 10%;
 	font-size: 1.5vw;
 	font-weight: 300;
-	min-height: 20px;
-	max-width: 80%
+	max-width: 90%
 }
 #comments-flags div {
-	padding-left: 6px;
-    padding-right: 6px;
+	padding-left: 8px;
+    padding-right: 8px;
     display: inline;
-    background: rgba(0,0,0,0.1);
+    background: rgba(0,0,0,0.05);
     border-radius: 100px;
 	font-size: 1vw;
 	font-weight: 300;
 	margin-right: 6px;
+	white-space: nowrap;
+}
+#comments-flags div.yes {
+	background: rgba(33, 150, 243,0.2);
 }
 #comments-flags div:before {
 	font-size: inherit;
@@ -355,7 +361,7 @@ html {
 	margin-left: 2px;
 	vertical-align: middle;
 	display: inline-block;
-	transform: translate(-5%);
+	transform: translateY(-5%);
 	font-size: inherit;
 	white-space: nowrap;
 }
@@ -366,19 +372,19 @@ html {
 	content: 'menu_book';
 }
 #comments-flags div.tech:before {
-	content: 'Get Tech Help';
+	content: 'Tech Help';
 }
 #comments-flags div.tech:after {
 	content: 'phonelink';
 }
 #comments-flags div.print:before {
-	content: 'Print Documents';
+	content: 'Printing';
 }
 #comments-flags div.print:after {
 	content: 'print';
 }
 #comments-flags div.loaner:before {
-	content: 'Borrow/Return Laptop';
+	content: 'Loaner Laptop';
 }
 #comments-flags div.loaner:after {
 	content: 'laptop_chromebook';
