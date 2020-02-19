@@ -619,7 +619,7 @@ function selectComments(datenum,timenum) {
 			flaglist.innerHTML = "Student Signed In For:";
 			var flagnames = ['study','tech','print','loaner'];
 			for (var i=0; i<4; i++) {
-				if (row[5][i]){
+				if (row[5+i]){
 					var flag = document.createElement('div');
 						flag.classList.add(flagnames[i]);
 					flaglist.appendChild(flag);
