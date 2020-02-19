@@ -207,6 +207,9 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 							rightlabel.classList.add('title-center');
 							rightlabel.innerHTML = "Notes for Event";
 						rightside.appendChild(rightlabel);
+						var flaglist = document.createElement('div');
+							flaglist.id = 'comments-flags';
+						rightside.appendChild(flaglist);
 						var commentsbox = document.createElement('textarea');
 							commentsbox.setAttribute('placeholder','No notes for this event yet. Add some here!');
 							commentsbox.innerText = "(Click an event to see and edit Notes.)"
@@ -607,8 +610,20 @@ function catchStudentHistory(response){
 }
 function selectComments(datenum,timenum) {
 	commentsel = [datenum,timenum];
+	var row = comments_eventset[datenum][timenum];
 	var cbox = document.getElementById('comments-box');
-	cbox.value = comments_eventset[datenum][timenum][4];
+	cbox.value = row[4];
+	var flaglist = document.getElementById('comments-flags');
+	flaglist.innerHTML = '';
+	var flagnames = ['study','tech','print','loaner'];
+	for (var i=0; i<4; i++) {
+		var flag = document.createElement('div');
+			flag.classList.add(flagnames[i]);
+			if (row[5+i]){
+				flag.classList.add('yes');
+			}
+		flaglist.appendChild(flag);
+	}
 	var wrap = document.getElementById('student-history-wrapper');
 	for (var i=0; i<wrap.childElementCount; i++) {
 		for (var j=0; j<wrap.children[i].childElementCount; j++) {
