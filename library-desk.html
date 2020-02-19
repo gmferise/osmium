@@ -198,6 +198,9 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 							var historylist = document.createElement('div');
 								historylist.classList.add('pretty-scrollbar-dark');
 								historylist.id = "student-history-wrapper";
+								var loadicon = document.createElement('i');
+									loadicon.classList.add('small-text');
+									loadicon.innerHTML = "Loading...";
 							leftside.appendChild(historylist)
 							
 					center.appendChild(leftside);
@@ -587,6 +590,7 @@ function catchStudentHistory(response){
 		}
 		dateset.push(lastdate); //close last date by pushing it
 		var wrap = document.getElementById('student-history-wrapper');
+		wrap.innerHTML = "";
 		for (var i=0; i<dateset.length; i++) {
 			var eachdate = document.createElement('div');
 				eachdate.classList.add('timeline-date');

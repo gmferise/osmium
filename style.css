@@ -293,7 +293,7 @@ html {
 	margin-left: 10%;
 }
 
-.card-popup-container .middle-wrapper .pretty-scrollbar-dark {
+#student-history-wrapper {
 	overflow-y: scroll;
 	height: calc(100% - 73px);
 }
