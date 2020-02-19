@@ -340,8 +340,10 @@ html {
 	max-width: 90%
 }
 #comments-flags div {
-	padding-left: 8px;
-    padding-right: 8px;
+	padding-left: 10px;
+    padding-right: 10px;
+	padding-top: 2px;
+	padding-bottom: 2px;
     display: inline;
     background: rgba(0,0,0,0.1);
     border-radius: 100px;
@@ -349,19 +351,19 @@ html {
 	font-weight: 300;
 	margin-right: 6px;
 	white-space: nowrap;
-	opacity: 0.5;
+	opacity: 0.2;
 	transition: all 0.25s ease-in-out;
 }
 #comments-flags div.yes {
 	background: rgba(33, 150, 243,0.2);
-	opacity: 0;
+	opacity: 1;
 }
 #comments-flags div:before {
 	font-size: inherit;
 }
 #comments-flags div:after {
 	font-family: 'Material Icons';
-	margin-left: 2px;
+	margin-left: 4px;
 	vertical-align: middle;
 	display: inline-block;
 	transform: translateY(-5%);
