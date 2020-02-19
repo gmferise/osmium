@@ -349,7 +349,8 @@ html {
 	font-weight: 300;
 	margin-right: 6px;
 	white-space: nowrap;
-	opacity: 0.5
+	opacity: 0.5;
+	transition: all 0.25s ease-in-out;
 }
 #comments-flags div.yes {
 	background: rgba(33, 150, 243,0.2);
