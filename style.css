@@ -313,7 +313,6 @@ html {
 	padding-top: 2px;
 	width: 100%;
 	cursor: pointer;
-	transition: border-left 0.1s ease-in-out;
 }
 .timeline-date div.selected {
 	border-left: 2px solid rgb(33, 150, 243) !important;
@@ -325,7 +324,6 @@ html {
 	vertical-align: top;
 	content: 'edit';
 	color: rgba(0,0,0,0.2);
-	transition: color 0.1s ease-in-out;
 }
 .timeline-date div.selected:after {
 	font-family: "Material Icons";
