@@ -316,7 +316,7 @@ html {
 	transition: border-left 0.1s ease-in-out;
 }
 .timeline-date div.selected {
-	border-left: 2px solid black !important;
+	border-left: 2px solid rgb(33, 150, 243) !important;
 }
 .timeline-date div.hascomments:after {
 	font-family: "Material Icons";
@@ -324,8 +324,8 @@ html {
 	margin-left: 10px;
 	vertical-align: top;
 	content: 'edit';
-	opacity: 0.5;
-	transition: opacity 0.1s ease-in-out;
+	color: rgba(0,0,0,0.2);
+	transition: color 0.1s ease-in-out;
 }
 .timeline-date div.selected:after {
 	font-family: "Material Icons";
@@ -333,7 +333,7 @@ html {
 	margin-left: 10px;
 	vertical-align: top;
 	content: 'edit';
-	opacity: 1;
+	color: rgb(33, 150, 243);
 }
 .timeline-date div:hover {
 	background-color: rgba(0,0,0,0.1);
