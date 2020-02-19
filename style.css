@@ -357,6 +357,7 @@ html {
 	display: inline-block;
 	transform: translate(-5%);
 	font-size: inherit;
+	white-space: nowrap;
 }
 #comments-flags div.study:before {
 	content: 'Work/Study/Read';

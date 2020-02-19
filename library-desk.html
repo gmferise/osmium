@@ -615,24 +615,14 @@ function selectComments(datenum,timenum) {
 	var cbox = document.getElementById('comments-box');
 	cbox.value = row[4];
 	var flaglist = document.getElementById('comments-flags');
-	switch (row[2]) {
-		case 'sign-in':
-			flaglist.innerHTML = "Student Signed In For:";
-			var flagnames = ['study','tech','print','loaner'];
-			for (var i=0; i<4; i++) {
-				if (row[5+i]){
-					var flag = document.createElement('div');
-						flag.classList.add(flagnames[i]);
-					flaglist.appendChild(flag);
-				}
-			}
-			break;
-		case 'sign-out':
-			flaglist.innerHTML = 'Student Signed Out';
-			break;
-		case 'sent-tech':
-			flaglist.innerHTML = 'Librarian Sent Student to Tech Office';
-			break;
+	flaglist.innerHTML = '';
+	var flagnames = ['study','tech','print','loaner'];
+	for (var i=0; i<4; i++) {
+		if (row[5+i]){
+			var flag = document.createElement('div');
+				flag.classList.add(flagnames[i]);
+			flaglist.appendChild(flag);
+		}
 	}
 	var wrap = document.getElementById('student-history-wrapper');
 	for (var i=0; i<wrap.childElementCount; i++) {
