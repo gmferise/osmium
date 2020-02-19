@@ -103,6 +103,7 @@ html {
 	display: inline;
 	font-size: x-large;
 	font-weight: 300;
+	vertical-align: -webkit-baseline-middle;
 }
 #sortbar div.tablecell div.updown {
 	display: inline-table;
@@ -352,7 +353,7 @@ html {
 	margin-right: 6px;
 	white-space: nowrap;
 	opacity: 0.2;
-	transition: all 0.25s ease-in-out;
+	transition: opacity 0.25s ease-in-out, background 0.25s ease-in-out;
 }
 #comments-flags div.yes {
 	background: rgba(33, 150, 243,0.2);
