@@ -209,6 +209,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 						rightside.appendChild(rightlabel);
 						var flaglist = document.createElement('div');
 							flaglist.id = 'comments-flags';
+						rightside.appendChild(flaglist);
 						var commentsbox = document.createElement('textarea');
 							commentsbox.setAttribute('placeholder','No notes for this event yet. Add some here!');
 							commentsbox.innerText = "(Click an event to see and edit Notes.)"
