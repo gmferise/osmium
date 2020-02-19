@@ -607,7 +607,7 @@ function catchStudentHistory(response){
 					}
 					eachtime.innerHTML = get12time(eventset[i][j][3])+" - "+eventname;
 					eachtime.setAttribute('onclick',"selectComments("+i+","+j+")");
-					if (eventset[i][j][4] != "") {
+					if (eventset[i][j][4] != null) {
 						eachtime.classList.add('hascomments');
 					}
 					eachdate.appendChild(eachtime);
