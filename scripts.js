@@ -446,7 +446,10 @@ function pushEvent(id, type, comments, flags) {
 	// Get name from uid 
 	getName(id, function(response){
 		name = response.getDataTable().getDistinctValues(1)[0];
-		if (name == "undefined") { console.log("pushEvent() WARN: No name found for id "+id); }
+		if (name == "undefined") {
+			name = "Unknown Student";
+			console.log("pushEvent() WARN: No name found for id "+id);
+		}
 		// Update values
 		gapi.client.sheets.spreadsheets.values.append({
 			"spreadsheetId": databaseId,
@@ -553,6 +556,9 @@ function updateReferenceName(id, newName){
 		for (var i = 0; i < tbl.length; i++){
 			if (tbl[i][0] == id){
 				tbl[i][1] = newName
+			}
+			if (tbl[i][1] == "undefined" || tbl[i][1] == undefined){
+				tbl[i][1] == "Unknown Student";
 			}
 		}
 		
