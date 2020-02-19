@@ -334,6 +334,8 @@ html {
 	margin-left: 10%;
 	font-size: 1.5vw;
 	font-weight: 300;
+	min-height: 20px;
+	max-width: 80%
 }
 #comments-flags div {
 	padding-left: 6px;
@@ -343,50 +345,42 @@ html {
     border-radius: 100px;
 	font-size: 1vw;
 	font-weight: 300;
+	margin-right: 6px;
+}
+#comments-flags div:before {
+	font-size: inherit;
+}
+#comments-flags div:after {
+	font-family: 'Material Icons';
+	margin-left: 2px;
+	vertical-align: middle;
+	display: inline-block;
+	transform: translate(-5%);
+	font-size: inherit;
 }
 #comments-flags div.study:before {
 	content: 'Work/Study/Read';
-	font-size: inherit;
 }
 #comments-flags div.study:after {
-	font-family: 'Material Icons';
 	content: 'menu_book';
-	margin-left: 2px;
-	vertical-align: middle;
-	font-size: inherit;
 }
 #comments-flags div.tech:before {
 	content: 'Get Tech Help';
-	font-size: inherit;
 }
 #comments-flags div.tech:after {
-	font-family: 'Material Icons';
 	content: 'phonelink';
-	margin-left: 2px;
-	vertical-align: middle;
-	font-size: inherit;
 }
 #comments-flags div.print:before {
 	content: 'Print Documents';
-	font-size: inherit;
 }
 #comments-flags div.print:after {
-	font-family: 'Material Icons';
 	content: 'print';
-	margin-left: 2px;
-	vertical-align: middle;
-	font-size: inherit;
 }
 #comments-flags div.loaner:before {
 	content: 'Borrow/Return Laptop';
-	font-size: inherit;
 }
 #comments-flags div.loaner:after {
-	font-family: 'Material Icons';
 	content: 'laptop_chromebook';
-	margin-left: 2px;
-	vertical-align: middle;
-	font-size: inherit;
 }
 
 /* CARD COLORS */
