@@ -198,9 +198,10 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 							var historylist = document.createElement('div');
 								historylist.classList.add('pretty-scrollbar-dark');
 								historylist.id = "student-history-wrapper";
-								var loadicon = document.createElement('i');
-									loadicon.classList.add('small-text');
-									loadicon.innerHTML = "Loading...";
+								var loadtxt = document.createElement('i');
+									loadtxt.classList.add('small-text');
+									loadtxt.innerHTML = "Loading...";
+								historylist.appendChild(loadtxt);
 							leftside.appendChild(historylist)
 							
 					center.appendChild(leftside);
