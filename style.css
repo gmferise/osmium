@@ -313,9 +313,19 @@ html {
 	padding-top: 2px;
 	width: 100%;
 	cursor: pointer;
+	transition: border-left 0.1s ease-in-out;
 }
 .timeline-date div.selected {
 	border-left: 2px solid black !important;
+}
+.timeline-date div.hascomments:after {
+	font-family: "Material Icons";
+	font-size: inherit;
+	margin-left: 10px;
+	vertical-align: top;
+	content: 'edit';
+	opacity: 0.5;
+	transition: opacity 0.1s ease-in-out;
 }
 .timeline-date div.selected:after {
 	font-family: "Material Icons";
@@ -323,6 +333,7 @@ html {
 	margin-left: 10px;
 	vertical-align: top;
 	content: 'edit';
+	opacity: 1;
 }
 .timeline-date div:hover {
 	background-color: rgba(0,0,0,0.1);
