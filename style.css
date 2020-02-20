@@ -50,7 +50,7 @@ html {
 	content: "";
 	border-bottom: 2px solid white;
 	width: 80%;
-	top: .5vh
+	top: 0.5vh;
 	margin-left: 10%;
 	margin-right: 10%;
 	position: relative;
