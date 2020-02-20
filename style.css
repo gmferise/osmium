@@ -400,6 +400,11 @@ html {
 #comments-flags div.print:after {
 	content: 'print';
 }
+#comments-status {
+	float: right;
+	opacity: 0.8;
+	font-style: italic;
+}
 
 /* CARD COLORS */
 .color-card_sign-in .text-holder {

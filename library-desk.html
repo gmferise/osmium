@@ -225,6 +225,10 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 							commentsbox.innerText = "(Click an event to see and edit Notes.)"
 							commentsbox.id = "comments-box";
 						rightside.appendChild(commentsbox);
+						var commentsstatus = document.createElement('div');
+							commentsstatus.classList.add('small-text');
+							commentsstatus.id = "comments-status";
+						rightside.appendChild(commentsstatus);
 					center.appendChild(rightside);
 				container.appendChild(center);
 			popup.appendChild(container);
@@ -623,10 +627,12 @@ function catchStudentHistory(response){
 	comments_eventset = eventset;
 }
 function selectComments(datenum,timenum) {
+	if (commentsChangeTimeout
 	commentsel = [datenum,timenum];
 	var row = comments_eventset[datenum][timenum];
 	var cbox = document.getElementById('comments-box');
 	cbox.value = row[4];
+	cbox.setAttribute('onchange','commentsChange('+datenum','+timenum+')');
 	var flaglist = document.getElementById('comments-flags');
 	for (var i=0; i<flaglist.childElementCount; i++) {
 		if (row[5+i]){
@@ -642,6 +648,27 @@ function selectComments(datenum,timenum) {
 		}
 	}
 	wrap.children[datenum].children[wrap.children[datenum].childElementCount-1-timenum].classList.add('selected');
+}
+
+var commentsChangeTimeout;
+function commentsChange(datenum,timenum) {
+	var row = comments_eventset[datenum][timenum];
+	if (commentsChangeTimeout != null) { //if a timeout is counting down
+		clearTimeout(commentsChangeTimeout()); //clear and start new one
+		commentsChangeTimeout = setTimeout(saveCommentsChange(row),1000);
+	} else if (commentsChangeTimeout != false) { //if no timeout is active and not waiting for gvz reply
+		commentsChangeTimeout = setTimeout(saveCommentsChange(row),1000);//start one
+	}
+}
+function saveCommentsChange(row) {
+	updateComment(row[0],row[2],row[3],document.getElementById('comments-box').value);
+	document.getElementById('comments-status').innerText = "Saving changes...";
+	commentsChangeTimeout = false; //waiting for gvz
+}
+function catchUpdateComment() {
+	var cs = document.getElementById('comments-status');
+	document.getElementById('comments-status').innerText = "";
+	commentsChangeTimeout = null; //no longer waiting for gvz
 }
 
 function onAuthUpdate() {
