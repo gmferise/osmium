@@ -737,7 +737,7 @@ body.bigbody button.new:focus {
 	content: "(You can head straight there. Let them know you're there to borrow/return a loaner.)";
 }
 div.bigpopup {
-	z-index: 100;	
+	z-index: 200;	
 	position: absolute;
 	visibility: hidden;
 	left: 0;
@@ -1084,7 +1084,7 @@ body.bigbody div.fixedratio div.bigpopup div.content-extra div.large-text {
 	font-family: 'Material Icons';
 }
 /* big buttons and other inputs */
-body.bigbody button.big {
+button.big {
 	display: block;
 	width: 480px;
 	margin-left: 50%;
@@ -1100,11 +1100,11 @@ body.bigbody button.big {
 	transition: box-shadow 0.1s ease-in-out,
 				transform 0.1s ease-in-out;
 }
-body.bigbody button.big:hover {
+button.big:hover {
 	box-shadow: 5px 6px 0px 1px black;
 	transform: translate(calc(-50% + -2px),-2px);
 }
-body.bigbody button.big:focus {
+button.big:focus {
 	outline: 0;
 }
 /* show newtab icon */

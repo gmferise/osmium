@@ -195,7 +195,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 					header.id = 'student-name-edit';
 					header.innerHTML = obj.name;
 					var editbtn = document.createElement('button');
-						editbtn.setAttribute('onclick','showEditStudentName(true,'+obj.id+');');
+						editbtn.setAttribute('onclick','showEditStudentName(true,'+obj.id+','+obj.name+');');
 					header.appendChild(editbtn);
 				container.appendChild(header);
 				var center = document.createElement('div');
@@ -640,7 +640,6 @@ function catchStudentHistory(response){
 	}
 	comments_eventset = eventset;
 }
-var commentsrow;
 function selectComments(datenum,timenum) {
 	commentsel = [datenum,timenum];
 	var row = comments_eventset[datenum][timenum];
@@ -696,10 +695,12 @@ function catchUpdateComment() {
 	}
 }
 
-function showEditStudentName(state,id) {
+function showEditStudentName(state,id,name) {
 	if (state == true) {
 		document.getElementById('edit-name-popup').classList.add('visible');
-		document.getElementById('stuname').focus();
+		var n = document.getElementById('stuname');
+		n.value = name;
+		n.focus();
 		document.getElementById("stuid").value = id;
 	} else {
 		document.getElementById('edit-name-popup').classList.remove('visible');
@@ -717,12 +718,20 @@ function throwEditStudentName() {
 		if (name != "") {
 			document.getElementById('setname-loading').classList.add('loading');
 			setReferenceName(name,document.getElementById('stuid').value);
+			document.getElementById('student-name-edit').childNodes[0].nodeValue = name;
 			editStudentNameHTMLSTATE = 1;
 		}
 	}
 }
 function catchEditStudentName(){
-	location.reload();
+	cards = [];
+	lastResultsRefreshTime = new Date();
+	lastResultsRefreshTime.setHours(0);
+	lastResultsRefreshTime.setMinutes(0);
+	lastResultsRefreshTime.setSeconds(0);
+	lastResultsRefreshTime.setMilliseconds(0);
+	updateTodaysDate();
+	showEditStudentName(false);
 }
 
 function onAuthUpdate() {
