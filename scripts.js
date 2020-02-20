@@ -422,7 +422,7 @@ function selectDatabaseIdFromUrl() {
 
 /// ***** ASYNC FUNCTIONS *****
 
-// Input: id, event name, comments, bool[](studying, technology, printing, loaning)
+// Input: id, event name, comments, bool[](studying, technology, printing)
 function pushEvent(id, type, comments, flags) {
 	if (flags.length != 3) { throw new Error("flags array expected 3 values"); }
 	// Get name from uid 
@@ -435,7 +435,7 @@ function pushEvent(id, type, comments, flags) {
 		// Update values
 		gapi.client.sheets.spreadsheets.values.append({
 			"spreadsheetId": databaseId,
-			"range": "A:I",
+			"range": "A:H",
 			"valueInputOption": "USER_ENTERED",
 			"resource": {
 				"values": [
@@ -500,7 +500,7 @@ function updateComment(id, type, dateObject, newComment){
 			
 			// Now update ALL of the matching date rows in the database
 			// Definitely an ugly workaround for no UPDATE query
-			var a1range = "A"+(2+lteq-eq)+":I"+(1+lteq);
+			var a1range = "A"+(2+lteq-eq)+":H"+(1+lteq);
 			gapi.client.sheets.spreadsheets.values.update({
 				"spreadsheetId": databaseId,
 				"range": a1range,
