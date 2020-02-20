@@ -478,7 +478,6 @@ function updateTodaysDate() {
 var inactivityTime = function () {
     var time;
 	var timedout = false;
-    window.onload = resetTimer;
     // DOM Events
     document.onmousemove = resetTimer;
     document.onkeypress = resetTimer;
@@ -500,6 +499,7 @@ var inactivityTime = function () {
         time = setTimeout(timeOut, 3000);
         // 1000 milliseconds = 1 second
     }
+	resetTimer();
 };
 
 function catchPushEvent(name, type, flags) {
