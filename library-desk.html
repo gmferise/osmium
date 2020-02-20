@@ -656,31 +656,30 @@ var commentsChangeTimeout;
 function commentsChange(datenum,timenum) {
 	var row = comments_eventset[datenum][timenum];
 	var newval = document.getElementById('comments-box').value;
-	if (commentsChangeTimeout != false) { //not waiting for gvz
-		if (commentsChangeTimeout != null) { //timeout is set
-			clearTimeout(commentsChangeTimeout); //clear old
-		}
-		//start new
-		var wrap = document.getElementById('student-history-wrapper');
-		comments_eventset[datenum][timenum][4] = newval;
-		if (newval != "") {
-			wrap.children[datenum].children[wrap.children[datenum].childElementCount-1-timenum].classList.add('hascomments');
-		} else {
-			wrap.children[datenum].children[wrap.children[datenum].childElementCount-1-timenum].classList.remove('hascomments');
-		}
-		commentsChangeTimeout = setTimeout(function(){saveCommentsChange(row,newval)},500);
+	if (commentsChangeTimeout != null) { //timeout is set
+		clearTimeout(commentsChangeTimeout); //clear old
 	}
+	//start new
+	var wrap = document.getElementById('student-history-wrapper');
+	comments_eventset[datenum][timenum][4] = newval;
+	if (newval != "") {
+		wrap.children[datenum].children[wrap.children[datenum].childElementCount-1-timenum].classList.add('hascomments');
+	} else {
+		wrap.children[datenum].children[wrap.children[datenum].childElementCount-1-timenum].classList.remove('hascomments');
+	}
+	commentsChangeTimeout = setTimeout(function(){saveCommentsChange(row,newval)},500);
 }
 function saveCommentsChange(row,value) {
 	updateComment(row[0],row[2],row[3],value);
 	document.getElementById('comments-status').innerText = "Saving changes...";
-	commentsChangeTimeout = false; //waiting for gvz
+	commentsChangeTimeout = null; //no longer timeout
 }
 function catchUpdateComment() {
 	var cs = document.getElementById('comments-status');
 	if (cs != null) {
-		document.getElementById('comments-status').innerText = "";
-		commentsChangeTimeout = null; //no longer waiting for gvz
+		if (commentsChangeTimeout == null) {
+			document.getElementById('comments-status').innerText = "";
+		}
 	}
 }
 
