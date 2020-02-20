@@ -196,7 +196,7 @@ function throwSignOut() {
 		var studentid = document.getElementById('sign-out-id').value;
 		if ((studentid.length > 0)&&(studentid.length <= 6)) {
 			document.getElementById('sign-out-loading').classList.add('loading');
-			pushEvent(studentid, 'sign-out', '', [false,false,false,false]);
+			pushEvent(studentid, 'sign-out', '', [false,false,false]);
 			signOutHTMLSTATE = 1;
 		}
 	}
