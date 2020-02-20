@@ -469,7 +469,7 @@ function updateTodaysDate() {
 		}
 		getEventsAfter(lastResultsRefreshTime);
 		lastResultsRefreshTime = new Date();
-		setTimeout(function(){updateTodaysDate();},10000-((now.getSeconds()*1000)+now.getMilliseconds())); //timeout to refresh every 10s
+		setTimeout(function(){updateTodaysDate();},60000-((now.getSeconds()*1000)+now.getMilliseconds())); //timeout to refresh every 10s
 	} else {
 		pauseUpdate = 2;
 	}
