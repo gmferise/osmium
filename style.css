@@ -56,8 +56,11 @@ html {
 	display: block;
 }
 }
-#timeout-overlay.smallsleep {
-	font-size: 3vw;
+#timeout-overlay .smallsleep {
+    font-weight: 100;
+    left: 50%;
+    text-align: center;
+    font-size: 3vw;
 }
 
 /* splitting document */
