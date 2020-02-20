@@ -408,14 +408,21 @@ html {
 #student-name-edit {
 	cursor: pointer;
 }
-#student-name-edit:after {
+#student-name-edit btn {
+	display: inline;
+	padding-left: 10px;
 	font-size: 50%;
+	border: 0;
+	border-radius: 5px;
 	font-family: 'Material Icons';
 }
-#student-name-edit:hover:after {
+#student-name-edit btn:after {
+	content: 'edit';
+}
+#student-name-edit:hover btn:after {
 	animation: wiggle 0.25s linear forwards;
 	text-shadow: 1px 3px 0 #000;
-
+}
 /* CARD COLORS */
 .color-card_sign-in .text-holder {
 	background-color: #46c37e; /* checkedin green */

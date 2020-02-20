@@ -185,6 +185,8 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 					header.classList.add('title-center');
 					header.id = 'student-name-edit';
 					header.innerHTML = obj.name;
+					var editbtn = document.createElement('button');
+					header.appendChild(editbtn);
 				container.appendChild(header);
 				var center = document.createElement('div');
 					center.classList.add('middle-wrapper');
