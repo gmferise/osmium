@@ -670,10 +670,6 @@ function getEventsAfter(dateObject){
 	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D > datetime '"+dateString+"' ORDER BY D ASC", catchEventsAfter);
 }
 
-function catchEventsAfter(response){
-	console.log(response.getDataTable());
-}
-
 // Gets all table rows with a student's id
 // Returns through catch
 function getStudentHistory(id){
