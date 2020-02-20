@@ -549,6 +549,7 @@ html {
 	text-align: center;
 	padding: 5px 0;
 	border-radius: 6px;
+	cursor: pointer;
  
 	position: absolute;
 	left: calc(100% + 10px);

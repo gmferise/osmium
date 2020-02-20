@@ -168,6 +168,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 			var txtmed = document.createElement('div');
 				txtmed.classList.add('medium-text');
 				txtmed.innerHTML = obj.name;
+				txtmed.setAttribute('onclick','cardObjectFromElement(this,2).showComments();')'
 				var hover = document.createElement('div');
 					hover.classList.add('tooltip');
 				txtmed.appendChild(hover);
