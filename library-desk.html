@@ -626,8 +626,8 @@ function catchStudentHistory(response){
 	}
 	comments_eventset = eventset;
 }
+var commentsrow;
 function selectComments(datenum,timenum) {
-	if (commentsChangeTimeout
 	commentsel = [datenum,timenum];
 	var row = comments_eventset[datenum][timenum];
 	var cbox = document.getElementById('comments-box');
@@ -653,11 +653,13 @@ function selectComments(datenum,timenum) {
 var commentsChangeTimeout;
 function commentsChange(datenum,timenum) {
 	var row = comments_eventset[datenum][timenum];
-	if (commentsChangeTimeout != null) { //if a timeout is counting down
-		clearTimeout(commentsChangeTimeout()); //clear and start new one
-		commentsChangeTimeout = setTimeout(saveCommentsChange(row),1000);
-	} else if (commentsChangeTimeout != false) { //if no timeout is active and not waiting for gvz reply
-		commentsChangeTimeout = setTimeout(saveCommentsChange(row),1000);//start one
+	if (commentsChangeTimeout != false) { //not waiting for gvz
+		if (commentsChangeTimeout != null) { //timeout is set
+			clearTimeout(commentsChangeTimeout()); //clear and start new one
+			commentsChangeTimeout = setTimeout(saveCommentsChange(row),1000);
+		} else { //timeout is not set but waiting for gvz
+			commentsChangeTimeout = setTimeout(saveCommentsChange(row),1000); //start one
+		}
 	}
 }
 function saveCommentsChange(row) {
