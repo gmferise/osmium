@@ -717,7 +717,7 @@ function throwEditStudentName() {
 		var name = document.getElementById('stuname').value;
 		if (name != "") {
 			document.getElementById('edit-name-loading').classList.add('loading');
-			setReferenceName(name,document.getElementById('stuid').value);
+			setReferenceName(document.getElementById('stuid').value,name);
 			document.getElementById('student-name-edit').childNodes[0].nodeValue = name;
 			editStudentNameHTMLSTATE = 1;
 		}
