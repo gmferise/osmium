@@ -24,7 +24,7 @@
 		<div id="edit-name-popup" class="bigpopup pretty-scrollbar-light">
 			<div class="content">
 				<div class="title-center fullsize fullwidth">Edit Student Name</div>
-				<i class="material-icons">identity</i>
+				<i class="material-icons">account_circle</i>
 				<input id="stuname" type="text" placeholder="Student Name"></input>
 				<input id="stuid" type="text" hidden></input>
 				<button id='edit-name-loading' class="material-icons big ok" onclick="throwEditStudentName();"></button>
@@ -716,7 +716,7 @@ function throwEditStudentName() {
 	if (editStudentNameHTMLSTATE == 0) { //prevent double submission
 		var name = document.getElementById('stuname').value;
 		if (name != "") {
-			document.getElementById('setname-loading').classList.add('loading');
+			document.getElementById('edit-name-loading').classList.add('loading');
 			setReferenceName(name,document.getElementById('stuid').value);
 			document.getElementById('student-name-edit').childNodes[0].nodeValue = name;
 			editStudentNameHTMLSTATE = 1;

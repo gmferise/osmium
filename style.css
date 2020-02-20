@@ -421,8 +421,8 @@ html {
 	content: 'edit';
 }
 #student-name-edit button:hover {
-    background: rgba(0,0,0,0.2);
-	border: 1px solid rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.15);
+	border: 1px solid rgba(0,0,0,0.6);
 }
 /* CARD COLORS */
 .color-card_sign-in .text-holder {
