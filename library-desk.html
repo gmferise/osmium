@@ -222,7 +222,8 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 						rightside.appendChild(flaglist);
 						var commentsbox = document.createElement('textarea');
 							commentsbox.setAttribute('placeholder','No notes for this event yet. Add some here!');
-							commentsbox.innerText = "(Click an event to see and edit Notes.)"
+							commentsbox.innerText = "(Click an event to see and edit Notes.)";
+							commentsbox.disabled = true;
 							commentsbox.id = "comments-box";
 						rightside.appendChild(commentsbox);
 						var commentsstatus = document.createElement('div');
@@ -632,7 +633,8 @@ function selectComments(datenum,timenum) {
 	var row = comments_eventset[datenum][timenum];
 	var cbox = document.getElementById('comments-box');
 	cbox.value = row[4];
-	cbox.setAttribute('onchange','commentsChange('+datenum+','+timenum+')');
+	commentsbox.disabled = false;
+	cbox.setAttribute('oninput','commentsChange('+datenum+','+timenum+')');
 	var flaglist = document.getElementById('comments-flags');
 	for (var i=0; i<flaglist.childElementCount; i++) {
 		if (row[5+i]){
@@ -653,17 +655,20 @@ function selectComments(datenum,timenum) {
 var commentsChangeTimeout;
 function commentsChange(datenum,timenum) {
 	var row = comments_eventset[datenum][timenum];
+	var newval = document.getElementById('comments-box').value;
 	if (commentsChangeTimeout != false) { //not waiting for gvz
 		if (commentsChangeTimeout != null) { //timeout is set
 			clearTimeout(commentsChangeTimeout()); //clear and start new one
-			commentsChangeTimeout = setTimeout(saveCommentsChange(row),1000);
+			comments_eventset[datenum][timenum][4] = newval;
+			commentsChangeTimeout = setTimeout(saveCommentsChange(row,newval),1000);
 		} else { //timeout is not set but waiting for gvz
-			commentsChangeTimeout = setTimeout(saveCommentsChange(row),1000); //start one
+			comments_eventset[datenum][timenum][4] = newval;
+			commentsChangeTimeout = setTimeout(saveCommentsChange(row,newval),1000); //start one
 		}
 	}
 }
-function saveCommentsChange(row) {
-	updateComment(row[0],row[2],row[3],document.getElementById('comments-box').value);
+function saveCommentsChange(row,value) {
+	updateComment(row[0],row[2],row[3],value);
 	document.getElementById('comments-status').innerText = "Saving changes...";
 	commentsChangeTimeout = false; //waiting for gvz
 }
