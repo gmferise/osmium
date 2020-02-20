@@ -632,7 +632,7 @@ function selectComments(datenum,timenum) {
 	var row = comments_eventset[datenum][timenum];
 	var cbox = document.getElementById('comments-box');
 	cbox.value = row[4];
-	cbox.setAttribute('onchange','commentsChange('+datenum','+timenum+')');
+	cbox.setAttribute('onchange','commentsChange('+datenum+','+timenum+')');
 	var flaglist = document.getElementById('comments-flags');
 	for (var i=0; i<flaglist.childElementCount; i++) {
 		if (row[5+i]){
