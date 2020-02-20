@@ -21,7 +21,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 	<body class="color-bg-main">
-		<div id="timeout-overlay"></div>
+		<div id="timeout-overlay">
+			<div class="title-center fullsize">This page is sleeping...</div>
+			<div class="medium-text">Move the mouse to wake it up.</div>
+		</div>
 		<div id="edit-name-popup" class="bigpopup pretty-scrollbar-light">
 			<div class="content">
 				<div class="title-center fullsize fullwidth">Edit Student Name</div>
@@ -482,7 +485,7 @@ var inactivityTime = function () {
 	
 	function timeOut() {
 		timedout = true;
-		pauseUpdate = 0;
+		pauseUpdate = 2;
 		document.getElementById('timeout-overlay').classList.add('timedout');
 	}
 
@@ -490,7 +493,7 @@ var inactivityTime = function () {
 		if (timedout) {
 			updateTodaysDate();
 			timedout = false;
-			pauseUpdate = 2;
+			pauseUpdate = 0;
 			document.getElementById('timeout-overlay').classList.remove('timedout');
 		}
         clearTimeout(time);
