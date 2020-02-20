@@ -224,23 +224,6 @@ function createDatabase(name){
 				"fields": "dataValidation"
 			}
 		});
-		requests.push({ // bool loaning (strict)
-			"repeatCell": {
-				"range": {
-					"startRowIndex": 1,
-					"startColumnIndex":8,
-					"endColumnIndex": 9
-				},
-				"cell": {
-					"dataValidation": {
-						"condition": { "type": "BOOLEAN" },
-						"strict": true,
-						"showCustomUi": true
-					}
-				},
-				"fields": "dataValidation"
-			}
-		});
 		
 		// Give database columns headers		
 		requests.push({
@@ -252,10 +235,9 @@ function createDatabase(name){
 						{"userEnteredValue": {"stringValue": "event"}},
 						{"userEnteredValue": {"stringValue": "timestamp"}},
 						{"userEnteredValue": {"stringValue": "comments"}},
-						{"userEnteredValue": {"stringValue": "studying"}},
+						{"userEnteredValue": {"stringValue": "library"}},
 						{"userEnteredValue": {"stringValue": "technology"}},
-						{"userEnteredValue": {"stringValue": "printing"}},
-						{"userEnteredValue": {"stringValue": "loaning"}}
+						{"userEnteredValue": {"stringValue": "printing"}}
 					]
 				}],
 				"fields": "userEnteredValue",
@@ -442,7 +424,7 @@ function selectDatabaseIdFromUrl() {
 
 // Input: id, event name, comments, bool[](studying, technology, printing, loaning)
 function pushEvent(id, type, comments, flags) {
-	if (flags.length != 4) { throw new Error("flags array expected 4 values"); }
+	if (flags.length != 3) { throw new Error("flags array expected 3 values"); }
 	// Get name from uid 
 	getName(id, function(response){
 		name = response.getDataTable().getDistinctValues(1)[0];
@@ -461,7 +443,7 @@ function pushEvent(id, type, comments, flags) {
 				new Date().toLocaleString("en-CA-u-hc-h24",
 				{day:"2-digit", month:"2-digit", year:"numeric",
 				hour:"2-digit", minute:"2-digit", second:"2-digit"}).replace(",",""),
-				comments, flags[0], flags[1], flags[2], flags[3] ]
+				comments, flags[0], flags[1], flags[2] ]
 				]
 			}
 		}).then(function(response){
@@ -486,7 +468,7 @@ function updateComment(id, type, dateObject, newComment){
 	function(response){
 		var lteq = response.getDataTable().getDistinctValues(0)[0];
 		// Then get the data in any rows with the target date
-		gvzQuery("SELECT A, B, C, D, E, F, G, H, I WHERE D = datetime '"+dateString+"'",
+		gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D = datetime '"+dateString+"'",
 		function(response){
 			var eq = response.getDataTable().getNumberOfRows();
 			var rawtbl = response.getDataTable();
@@ -661,7 +643,7 @@ function getEventsAfter(dateObject){
 	var dateString = dateObject.toLocaleString("en-CA-u-hc-h24",
 				{day:"2-digit", month:"2-digit", year:"numeric",
 				hour:"2-digit", minute:"2-digit", second:"2-digit"}).replace(",","");
-	gvzQuery("SELECT A, B, C, D, E, F, G, H, I WHERE D > datetime '"+dateString+"' ORDER BY D ASC", catchEventsAfter);
+	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D > datetime '"+dateString+"' ORDER BY D ASC", catchEventsAfter);
 }
 
 function catchEventsAfter(response){
@@ -671,14 +653,14 @@ function catchEventsAfter(response){
 // Gets all table rows with a student's id
 // Returns through catch
 function getStudentHistory(id){
-	gvzQuery("SELECT A, B, C, D, E, F, G, H, I WHERE A = "+id+" ORDER BY D DESC", catchStudentHistory);
+	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+id+" ORDER BY D DESC", catchStudentHistory);
 }
 
 // Gets student's latest event by their id
 // Returns through catch
 function getStatusById(id){
 	// SQL: SELECT TOP 2 * WHERE id = ? ORDER BY date DESC
-	gvzQuery("SELECT A, B, C, D, E, F, G, H, I WHERE A = "+id+" ORDER BY D DESC LIMIT 2", catchStatus);
+	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+id+" ORDER BY D DESC LIMIT 2", catchStatus);
 }
 
 function catchStatus(response){
@@ -706,7 +688,7 @@ function getStatusByName(name, count){
 		var ids = response.getDataTable().getDistinctValues(0);
 		for (i in ids){
 			// SQL: SELECT TOP 1 * WHERE id = ? ORDER BY date DESC 
-			gvzQuery("SELECT A, B, C, D, E, F, G, H, I WHERE A = "+ids[i]+" ORDER BY D DESC LIMIT 1",
+			gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+ids[i]+" ORDER BY D DESC LIMIT 1",
 			function(response){
 				var rawtbl = response.getDataTable();
 				var row = [];

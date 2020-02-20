@@ -382,10 +382,10 @@ html {
 	font-size: inherit;
 	white-space: nowrap;
 }
-#comments-flags div.study:before {
-	content: 'Work/Study/Read';
+#comments-flags div.library:before {
+	content: 'Library Resources';
 }
-#comments-flags div.study:after {
+#comments-flags div.library:after {
 	content: 'menu_book';
 }
 #comments-flags div.tech:before {
@@ -399,12 +399,6 @@ html {
 }
 #comments-flags div.print:after {
 	content: 'print';
-}
-#comments-flags div.loaner:before {
-	content: 'Loaner Laptop';
-}
-#comments-flags div.loaner:after {
-	content: 'laptop_chromebook';
 }
 
 /* CARD COLORS */

@@ -40,30 +40,24 @@
 					<button class="material-icons big cancel" onclick='showSignIn(false);'>close</button>
 				</div>
 				<div class="content-extra">
-					<div class="medium-text title-left">I'm here to...</div>
+					<div class="medium-text title-left">I'm here for...</div>
 					<label class="checkbox-container">
-						Work/Study/Read
-						<input id='work-checkbox' type="checkbox">
+						Library Resources
+						<input id='library-checkbox' type="checkbox">
 						<span class="checkmark"></span>
 						<i class='material-icons'>menu_book</i>
 					</label>
 					<label class="checkbox-container">
-						Get Tech Help
+						Tech Help
 						<input id='tech-help-checkbox' type="checkbox">
 						<span class="checkmark"></span>
 						<i class='material-icons'>phonelink</i>
 					</label>
 					<label class="checkbox-container">
-						Print Documents
+						Printing
 						<input id='print-checkbox' type="checkbox">
 						<span class="checkmark"></span>
 						<i class='material-icons'>print</i>
-					</label>
-					<label class="checkbox-container">
-						Borrow/Return Laptop
-						<input id='loaner-checkbox' type="checkbox">
-						<span class="checkmark"></span>
-						<i class='material-icons'>laptop_chromebook</i>
 					</label>
 				</div>
 				<div class="numpad">
@@ -161,10 +155,9 @@ function showSignIn(state) {
 	} else {
 		document.getElementById('sign-in-popup').classList.remove('visible');
 		document.getElementById("sign-in-id").value = "";
-		document.getElementById('work-checkbox').checked = false;
+		document.getElementById('library-checkbox').checked = false;
 		document.getElementById('tech-help-checkbox').checked = false;
 		document.getElementById('print-checkbox').checked = false;
-		document.getElementById('loaner-checkbox').checked = false;
 		document.getElementById('sign-in-loading').classList.remove('loading');
 		signInHTMLSTATE = 0;
 	}
@@ -178,7 +171,7 @@ function throwSignIn() {
 		var studentid = document.getElementById('sign-in-id').value;
 		if ((studentid.length > 0)&&(studentid.length <= 6)) {
 			document.getElementById('sign-in-loading').classList.add('loading');
-			pushEvent(studentid, 'sign-in', '', [document.getElementById('work-checkbox').checked, document.getElementById('tech-help-checkbox').checked, document.getElementById('print-checkbox').checked, document.getElementById('loaner-checkbox').checked]);
+			pushEvent(studentid, 'sign-in', '', [document.getElementById('library-checkbox').checked, document.getElementById('tech-help-checkbox').checked, document.getElementById('print-checkbox').checked, document.getElementById('loaner-checkbox').checked]);
 			signInHTMLSTATE = 1;
 		}
 	}

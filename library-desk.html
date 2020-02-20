@@ -213,8 +213,8 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 						rightside.appendChild(rightlabel);
 						var flaglist = document.createElement('div');
 							flaglist.id = 'comments-flags';
-							var flagnames = ['study','tech','print','loaner'];
-							for (var i=0; i<4; i++) {
+							var flagnames = ['library','tech','print'];
+							for (var i=0; i<3; i++) {
 								var flag = document.createElement('div');
 									flag.classList.add(flagnames[i]);
 								flaglist.appendChild(flag);
@@ -483,7 +483,7 @@ function catchEventsAfter(response) {
 					preids.push(row[0]);
 					precards.push([row]);
 					var c = row;
-					c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],c[8]); //if loaner tech true
+					c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7]],false);
 					tmpcards.push(c);
 				}
 			} else {
@@ -505,7 +505,7 @@ function catchEventsAfter(response) {
 						
 						precards[index] = [row];
 						var c = row;
-						c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],c[8]); //if loaner tech true
+						c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7]],false);
 						tmpcards[index] = c;
 					}
 				} else if (last == 'sent-tech') {
@@ -523,7 +523,7 @@ function catchEventsAfter(response) {
 						
 						precards[index] = [row];
 						var c = row;
-						c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7],c[8]],c[8]); //if loaner tech true
+						c = new_Card(c[0],c[1],c[2],c[3],c[4],[c[5],c[6],c[7]],false); //if loaner tech true
 						tmpcards[index] = c;
 					}
 				}
