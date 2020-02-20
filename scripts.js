@@ -546,7 +546,7 @@ function setReferenceName(id, newName){
 			}
 		}
 		// If it never found the id, add it
-		if !(foundAndUpdated){ tbl.push([id,name]); }
+		if (!foundAndUpdated){ tbl.push([id,name]); }
 		
 		// Update spreadsheet with new values
 		var a1range = "ID_REFERENCE!A2"+":B"+(tbl.length+1);
