@@ -658,13 +658,17 @@ function commentsChange(datenum,timenum) {
 	var newval = document.getElementById('comments-box').value;
 	if (commentsChangeTimeout != false) { //not waiting for gvz
 		if (commentsChangeTimeout != null) { //timeout is set
-			clearTimeout(commentsChangeTimeout); //clear and start new one
-			comments_eventset[datenum][timenum][4] = newval;
-			commentsChangeTimeout = setTimeout(function(){saveCommentsChange(row,newval)},500);
-		} else { //timeout is not set but waiting for gvz
-			comments_eventset[datenum][timenum][4] = newval;
-			commentsChangeTimeout = setTimeout(function(){saveCommentsChange(row,newval)},500); //start one
+			clearTimeout(commentsChangeTimeout); //clear old
 		}
+		//start new
+		var wrap = document.getElementById('student-history-wrapper');
+		comments_eventset[datenum][timenum][4] = newval;
+		if (newval != "") {
+			wrap.children[datenum].children[wrap.children[datenum].childElementCount-1-timenum].classList.add('hascomments');
+		} else {
+			wrap.children[datenum].children[wrap.children[datenum].childElementCount-1-timenum].classList.remove('hascomments');
+		}
+		commentsChangeTimeout = setTimeout(function(){saveCommentsChange(row,newval)},500);
 	}
 }
 function saveCommentsChange(row,value) {
@@ -674,8 +678,10 @@ function saveCommentsChange(row,value) {
 }
 function catchUpdateComment() {
 	var cs = document.getElementById('comments-status');
-	document.getElementById('comments-status').innerText = "";
-	commentsChangeTimeout = null; //no longer waiting for gvz
+	if (cs != null) {
+		document.getElementById('comments-status').innerText = "";
+		commentsChangeTimeout = null; //no longer waiting for gvz
+	}
 }
 
 function onAuthUpdate() {
