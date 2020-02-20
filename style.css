@@ -455,7 +455,8 @@ html {
 	width: fit-content;
 	background: rgba(0,0,0,0.05);
 	border: 1px solid rgba(0,0,0,0.1);
-	border-radius: 5px;
+	padding: 5px;
+	border-radius: 10px;
 	font-family: 'Material Icons';
 }
 #student-name-edit button:after {
