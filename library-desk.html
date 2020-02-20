@@ -469,7 +469,7 @@ function updateTodaysDate() {
 		}
 		getEventsAfter(lastResultsRefreshTime);
 		lastResultsRefreshTime = new Date();
-		setTimeout(function(){updateTodaysDate();},60000-((now.getSeconds()*1000)+now.getMilliseconds())); //timeout to refresh on next minute
+		setTimeout(function(){updateTodaysDate();},10000-((now.getSeconds()*1000)+now.getMilliseconds())); //timeout to refresh every 10s
 	} else {
 		pauseUpdate = 2;
 	}
@@ -490,13 +490,13 @@ var inactivityTime = function () {
 
     function resetTimer() {
 		if (timedout) {
-			updateTodaysDate();
 			timedout = false;
 			pauseUpdate = 0;
 			document.getElementById('timeout-overlay').classList.remove('timedout');
+			updateTodaysDate();
 		}
         clearTimeout(time);
-        time = setTimeout(timeOut, 3000);
+        time = setTimeout(timeOut, 30000);
         // 1000 milliseconds = 1 second
     }
 	resetTimer();
