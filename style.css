@@ -21,6 +21,22 @@ html {
 	height: 100%;
 }
 
+#timeout-overlay {
+	z-index: 10000;	
+	position: absolute;
+	display: none;
+	opacity: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	transition: opacity 10s linear;
+    background: rgba(0,0,0,0.9);
+}
+#timeout-overlay.timedout {
+	display: block;
+	opacity: 1;
+}
+
 /* splitting document */
 .split-left {
 	position: absolute;

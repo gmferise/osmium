@@ -21,6 +21,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 	<body class="color-bg-main">
+		<div id="timeout-overlay"></div>
 		<div id="edit-name-popup" class="bigpopup pretty-scrollbar-light">
 			<div class="content">
 				<div class="title-center fullsize fullwidth">Edit Student Name</div>
@@ -470,6 +471,37 @@ function updateTodaysDate() {
 		pauseUpdate = 2;
 	}
 }
+
+var inactivityTime = function () {
+    var time;
+	var timedout = false;
+    window.onload = resetTimer;
+    // DOM Events
+    document.onmousemove = resetTimer;
+    document.onkeypress = resetTimer;
+	
+	function timeOut() {
+		timedout = true;
+		pauseUpdate = 0;
+		document.getElementById('timeout-overlay').classList.add('timedout');
+	}
+
+    function resetTimer() {
+		if (timedout) {
+			updateTodaysDate();
+			timedout = false;
+			pauseUpdate = 2;
+			document.getElementById('timeout-overlay').classList.remove('timedout');
+		}
+        clearTimeout(time);
+        time = setTimeout(timeOut(), 10000);
+        // 1000 milliseconds = 1 second
+    }
+};
+window.onload = function() {
+  inactivityTime(); 
+}
+
 function catchPushEvent(name, type, flags) {
 	updateTodaysDate();
 }
