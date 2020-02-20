@@ -644,6 +644,7 @@ function getName(id, callback){
 // Gets list of names/ids pairs matching name
 // Returns through catch
 function getIdsByName(name, maxSize){
+	if ((pageId == 0) || (pageId == undefined)) { throw new Error("Page must not be first page of sheet"); }
 	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE A CONTAINS '"+name+"' GROUP BY A, B LIMIT "+maxSize, catchIdsByName, pageId);
 }
 
