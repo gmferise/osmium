@@ -633,7 +633,7 @@ function selectComments(datenum,timenum) {
 	var row = comments_eventset[datenum][timenum];
 	var cbox = document.getElementById('comments-box');
 	cbox.value = row[4];
-	commentsbox.disabled = false;
+	cbox.disabled = false;
 	cbox.setAttribute('oninput','commentsChange('+datenum+','+timenum+')');
 	var flaglist = document.getElementById('comments-flags');
 	for (var i=0; i<flaglist.childElementCount; i++) {
