@@ -546,7 +546,7 @@ function setReferenceName(id, newName){
 			}
 		}
 		// If it never found the id, add it
-		if (!foundAndUpdated){ tbl.push([id,name]); }
+		if (!foundAndUpdated){ tbl.push([id,newName]); }
 		
 		// Update spreadsheet with new values
 		var a1range = "ID_REFERENCE!A2"+":B"+(tbl.length+1);
@@ -645,7 +645,7 @@ function getName(id, callback){
 // Returns through catch
 function getIdsByName(name, maxSize){
 	if ((pageId == 0) || (pageId == undefined)) { throw new Error("Page must not be first page of sheet"); }
-	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE A CONTAINS '"+name+"' GROUP BY A, B LIMIT "+maxSize, catchIdsByName, pageId);
+	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE B CONTAINS '"+name+"' GROUP BY A, B LIMIT "+maxSize, catchIdsByName, pageId);
 }
 
 function catchIdsByName(response){
