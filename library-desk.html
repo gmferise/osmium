@@ -695,6 +695,13 @@ function catchUpdateComment() {
 	}
 }
 
+document.getElementById('stuname').addEventListener("keydown", function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    throwEditStudentName();
+  }
+});
+
 function showEditStudentName(state,id,name) {
 	if (state == true) {
 		document.getElementById('edit-name-popup').classList.add('visible');
