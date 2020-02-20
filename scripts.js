@@ -520,7 +520,7 @@ function updateComment(id, type, dateObject, newComment){
 	});
 }
 
-function updateReferenceName(id, newName){
+function setReferenceName(id, newName){
 	if (pageId == 0 || pageId == undefined){ throw new Error("pageId must not be 0"); }
 	// Get entire reference page
 	gvzQuery("SELECT A, B",
@@ -535,14 +535,18 @@ function updateReferenceName(id, newName){
 			tbl.push(row);
 		}
 		// Update new id with name
+		var foundAndUpdated = false;
 		for (var i = 0; i < tbl.length; i++){
 			if (tbl[i][0] == id){
 				tbl[i][1] = newName
+				foundAndUpdated = true;
 			}
 			if (tbl[i][1] == "undefined" || tbl[i][1] == undefined){
 				tbl[i][1] == "Unknown Student";
 			}
 		}
+		// If it never found the id, add it
+		if (!foundAndUpdated){ tbl.push([id,newName]); }
 		
 		// Update spreadsheet with new values
 		var a1range = "ID_REFERENCE!A2"+":B"+(tbl.length+1);
@@ -637,6 +641,26 @@ function getName(id, callback){
 	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE A = "+id+" GROUP BY A, B LIMIT 1", callback, pageId);
 }
 
+// Gets list of names/ids pairs matching name
+// Returns through catch
+function getIdsByName(name, maxSize){
+	if ((pageId == 0) || (pageId == undefined)) { throw new Error("Page must not be first page of sheet"); }
+	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE B CONTAINS '"+name+"' GROUP BY A, B LIMIT "+maxSize, catchIdsByName, pageId);
+}
+
+function catchIdsByName(response){
+	var rawtbl = response.getDataTable();
+	var tbl = [];
+	for (var i = 0; i < rawtbl.getNumberOfRows(); i++){
+		var row = []
+		for (var j = 0; j < 2; j++){
+			row.push(rawtbl.getValue(i,j));
+		}
+		tbl.push(row);
+	}
+	console.log(tbl);	
+}
+
 // Gets all table rows later than the given time
 // Returns through catch
 function getEventsAfter(dateObject){
@@ -654,57 +678,4 @@ function catchEventsAfter(response){
 // Returns through catch
 function getStudentHistory(id){
 	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+id+" ORDER BY D DESC", catchStudentHistory);
-}
-
-// Gets student's latest event by their id
-// Returns through catch
-function getStatusById(id){
-	// SQL: SELECT TOP 2 * WHERE id = ? ORDER BY date DESC
-	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+id+" ORDER BY D DESC LIMIT 2", catchStatus);
-}
-
-function catchStatus(response){
-	if (response == undefined){ console.log("getStatus Query Failed"); return; }
-	var rawtbl = response.getDataTable(); // Array of [id, name, status, timestamp, comments]
-	var tbl = []
-	for (var i = 0; i < rawtbl.getNumberOfRows(); i++){
-		var row = []
-		for (var j = 0; j < rawtbl.getNumberOfColumns(); j++){
-			row.push(rawtbl.getValue(i,j));
-		}
-		tbl.push(row);
-	}
-	console.log(tbl);
-}
-
-// Gets list of 10 statuses that most closely match the given name
-// Returns through catch
-function getStatusByName(name, count){
-	// SELECT TOP ? DISTINCT NAME WHERE NAME LIKE ?
-	if (typeof(count) != "number"){ throw new TypeError; }
-	var statuses = [];
-	gvzQuery("SELECT A, D, COUNT(A), COUNT(D) WHERE B CONTAINS '"+name+"' GROUP BY A, D ORDER BY D DESC LIMIT "+count|0,
-	function(response){
-		var ids = response.getDataTable().getDistinctValues(0);
-		for (i in ids){
-			// SQL: SELECT TOP 1 * WHERE id = ? ORDER BY date DESC 
-			gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+ids[i]+" ORDER BY D DESC LIMIT 1",
-			function(response){
-				var rawtbl = response.getDataTable();
-				var row = [];
-				for (var i = 0; i < rawtbl.getNumberOfRows(); i++){
-					var row = []
-					for (var j = 0; j < rawtbl.getNumberOfColumns(); j++){
-						row.push(rawtbl.getValue(i,j));
-					}
-					statuses.push(row);
-				}
-				if (statuses.length >= count){ catchStatusBatch(statuses); }
-			});
-		}
-	}, pageId);
-}
-
-function catchStatusBatch(response){
-	console.log(response);
 }
