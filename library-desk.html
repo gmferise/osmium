@@ -658,7 +658,7 @@ function commentsChange(datenum,timenum) {
 	var newval = document.getElementById('comments-box').value;
 	if (commentsChangeTimeout != false) { //not waiting for gvz
 		if (commentsChangeTimeout != null) { //timeout is set
-			clearTimeout(commentsChangeTimeout()); //clear and start new one
+			clearTimeout(commentsChangeTimeout); //clear and start new one
 			comments_eventset[datenum][timenum][4] = newval;
 			commentsChangeTimeout = setTimeout(saveCommentsChange(row,newval),1000);
 		} else { //timeout is not set but waiting for gvz
