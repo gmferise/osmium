@@ -469,13 +469,14 @@ function updateTodaysDate() {
 		}
 		getEventsAfter(lastResultsRefreshTime);
 		lastResultsRefreshTime = new Date();
-		setTimeout(function(){updateTodaysDate();},60000-((now.getSeconds()*1000)+now.getMilliseconds())); //timeout to refresh every 10s
+		var INTERVAL = 15;
+		setTimeout(function(){updateTodaysDate();},INTERVAL*1000-(((now.getSeconds()%INTERVAL)*1000)+now.getMilliseconds())); //timeout to refresh every INTERVAl sec
 	} else {
 		pauseUpdate = 2;
 	}
 }
 
-/*
+
 var inactivityTime = function () {
     var time;
 	var timedout = false;
@@ -502,7 +503,6 @@ var inactivityTime = function () {
     }
 	resetTimer();
 };
-*/
 
 function catchPushEvent(name, type, flags) {
 	updateTodaysDate();
