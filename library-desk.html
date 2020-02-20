@@ -660,10 +660,10 @@ function commentsChange(datenum,timenum) {
 		if (commentsChangeTimeout != null) { //timeout is set
 			clearTimeout(commentsChangeTimeout); //clear and start new one
 			comments_eventset[datenum][timenum][4] = newval;
-			commentsChangeTimeout = setTimeout(function(){saveCommentsChange(row,newval)},1000);
+			commentsChangeTimeout = setTimeout(function(){saveCommentsChange(row,newval)},500);
 		} else { //timeout is not set but waiting for gvz
 			comments_eventset[datenum][timenum][4] = newval;
-			commentsChangeTimeout = setTimeout(function(){saveCommentsChange(row,newval)},1000); //start one
+			commentsChangeTimeout = setTimeout(function(){saveCommentsChange(row,newval)},500); //start one
 		}
 	}
 }
