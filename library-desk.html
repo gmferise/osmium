@@ -195,7 +195,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 					header.id = 'student-name-edit';
 					header.innerHTML = obj.name;
 					var editbtn = document.createElement('button');
-						editbtn.setAttribute('onclick','showEditStudentName(true,'+obj.id+','+obj.name+');');
+						editbtn.setAttribute('onclick','showEditStudentName(true,'+obj.id+',"'+obj.name+'");');
 					header.appendChild(editbtn);
 				container.appendChild(header);
 				var center = document.createElement('div');
