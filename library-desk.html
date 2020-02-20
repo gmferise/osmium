@@ -725,11 +725,16 @@ function throwEditStudentName() {
 }
 function catchEditStudentName(){
 	cards = [];
+	repackCards();
 	lastResultsRefreshTime = new Date();
 	lastResultsRefreshTime.setHours(0);
 	lastResultsRefreshTime.setMinutes(0);
 	lastResultsRefreshTime.setSeconds(0);
 	lastResultsRefreshTime.setMilliseconds(0);
+	preids = [];
+	precards = [];
+	tmpcards = [];
+	finalcards = [];
 	updateTodaysDate();
 	showEditStudentName(false);
 }
