@@ -405,6 +405,16 @@ html {
 	opacity: 0.8;
 	font-style: italic;
 }
+#student-name-edit {
+	cursor: pointer;
+}
+#student-name-edit:after {
+	font-size: 50%;
+	font-family: 'Material Icons';
+}
+#student-name-edit:hover:after {
+	animation: wiggle 0.25s linear forwards;
+	text-shadow: 1px 3px 0 #000;
 
 /* CARD COLORS */
 .color-card_sign-in .text-holder {

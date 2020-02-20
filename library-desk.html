@@ -183,6 +183,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 				container.appendChild(close);
 				var header = document.createElement('div');
 					header.classList.add('title-center');
+					header.id = 'student-name-edit';
 					header.innerHTML = obj.name;
 				container.appendChild(header);
 				var center = document.createElement('div');
