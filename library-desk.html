@@ -486,16 +486,20 @@ var inactivityTime = function () {
 	
 	function timeOut() {
 		timedout = true;
-		pauseUpdate = 2;
+		pauseUpdate = 1;
 		document.getElementById('timeout-overlay').classList.add('timedout');
 	}
 
     function resetTimer() {
 		if (timedout) {
 			timedout = false;
-			pauseUpdate = 0;
+			if (pauseUpdate == 2) { //natural interval was blocked, restart it
+				pauseUpdate = 0;
+				updateTodaysDate();
+			} else {
+				pauseUpdate = 0;
+			}
 			document.getElementById('timeout-overlay').classList.remove('timedout');
-			updateTodaysDate();
 		}
         clearTimeout(time);
         time = setTimeout(timeOut, 30000);
