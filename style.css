@@ -198,6 +198,7 @@ html {
 	vertical-align: middle;
 	font-weight: 300;
 	position: relative;
+	cursor: pointer;
 }
 .check-card .small-text {
 	font-size: x-large;
@@ -549,7 +550,6 @@ html {
 	text-align: center;
 	padding: 5px 0;
 	border-radius: 6px;
-	cursor: pointer;
  
 	position: absolute;
 	left: calc(100% + 10px);
