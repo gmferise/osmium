@@ -562,7 +562,6 @@ function setReferenceName(id, newName){
 				throw new Error("Failed to update name.");
 			}
 			else {
-				console.log("Name updated.") // PUT catchNameUpdate() HERE
 				fixDatabaseNameColumn();
 			}
 		});
@@ -611,7 +610,7 @@ function fixDatabaseNameColumn(){
 					throw new Error("Failed to perform name fix.");
 				}
 				else {
-					console.log("Names fixed.") // PUT catchNameFix() HERE
+					catchEditStudentName();
 				}
 			});
 		}, pageId);

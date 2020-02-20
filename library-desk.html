@@ -21,7 +21,16 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 	<body class="color-bg-main">
-		
+		<div id="edit-name-popup" class="bigpopup pretty-scrollbar-light">
+			<div class="content">
+				<div class="title-center fullsize fullwidth">Edit Student Name</div>
+				<i class="material-icons">identity</i>
+				<input id="stuname" type="text" placeholder="Student Name"></input>
+				<input id="stuid" type="text" hidden></input>
+				<button id='setname-loading' class="material-icons big ok" onclick="throwEditStudentName();"></button>
+				<button class="material-icons big cancel" onclick='showEditStudentName(false);'>close</button>
+			</div>
+		</div>
 		<div class="split-left pretty-scrollbar-dark">
 			<div class="small-spacer"></div>
 			<div class='middle-wrapper'>
@@ -186,6 +195,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 					header.id = 'student-name-edit';
 					header.innerHTML = obj.name;
 					var editbtn = document.createElement('button');
+						editbtn.setAttribute('onclick','showEditStudentName(true,'+obj.id+');');
 					header.appendChild(editbtn);
 				container.appendChild(header);
 				var center = document.createElement('div');
@@ -684,6 +694,35 @@ function catchUpdateComment() {
 			document.getElementById('comments-status').innerText = "";
 		}
 	}
+}
+
+function showEditStudentName(state,id) {
+	if (state == true) {
+		document.getElementById('edit-name-popup').classList.add('visible');
+		document.getElementById('stuname').focus();
+		document.getElementById("stuid").value = id;
+	} else {
+		document.getElementById('edit-name-popup').classList.remove('visible');
+		document.getElementById("stuname").value = "";
+		document.getElementById("stuid").value = "";
+		document.getElementById('edit-name-loading').classList.remove('loading');
+		createDatabaseHTMLSTATE = 0;
+	}
+}
+
+var editStudentNameHTMLSTATE = 0;
+function throwEditStudentName() {
+	if (editStudentNameHTMLSTATE == 0) { //prevent double submission
+		var name = document.getElementById('stuname').value;
+		if (name != "") {
+			document.getElementById('setname-loading').classList.add('loading');
+			setReferenceName(name,document.getElementById('stuid').value);
+			editStudentNameHTMLSTATE = 1;
+		}
+	}
+}
+function catchEditStudentName(){
+	location.reload();
 }
 
 function onAuthUpdate() {

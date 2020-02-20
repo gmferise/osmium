@@ -405,23 +405,22 @@ html {
 	opacity: 0.8;
 	font-style: italic;
 }
-#student-name-edit {
+#student-name-edit button {
 	cursor: pointer;
-}
-#student-name-edit btn {
 	display: inline;
-	padding-left: 10px;
-	font-size: 50%;
+	margin-left: 10px;
+	font-size: 60%;
 	border: 0;
+	width: fit-content;
+	background: rgba(0,0,0,0.1);
 	border-radius: 5px;
 	font-family: 'Material Icons';
 }
-#student-name-edit btn:after {
+#student-name-edit button:after {
 	content: 'edit';
 }
-#student-name-edit:hover btn:after {
-	animation: wiggle 0.25s linear forwards;
-	text-shadow: 1px 3px 0 #000;
+#student-name-edit button:hover {
+    background: rgba(0,0,0,0.2);
 }
 /* CARD COLORS */
 .color-card_sign-in .text-holder {
