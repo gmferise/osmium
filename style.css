@@ -29,7 +29,7 @@ html {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	transition: opacity 10s linear;
+	transition: opacity 10s linear forwards;
     background: rgba(0,0,0,0.9);
 }
 #timeout-overlay.timedout {

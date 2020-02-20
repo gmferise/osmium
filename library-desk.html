@@ -494,13 +494,10 @@ var inactivityTime = function () {
 			document.getElementById('timeout-overlay').classList.remove('timedout');
 		}
         clearTimeout(time);
-        time = setTimeout(timeOut, 10000);
+        time = setTimeout(timeOut, 3000);
         // 1000 milliseconds = 1 second
     }
 };
-window.onload = function() {
-  inactivityTime(); 
-}
 
 function catchPushEvent(name, type, flags) {
 	updateTodaysDate();
@@ -782,6 +779,7 @@ function catchEditStudentName(){
 function onAuthUpdate() {
 	selectDatabaseIdFromUrl();
 	updateTodaysDate();
+	inactivityTime();
 	if (!(GoogleAuth.isSignedIn.get())) {
 		showError('auth-lost');
 	}
