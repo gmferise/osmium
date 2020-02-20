@@ -513,7 +513,7 @@ function updateComment(id, type, dateObject, newComment){
 					throw new Error("Failed to update comments.");
 				}
 				else {
-					console.log("Comments updated.") // PUT catchUpdateComment() HERE
+					catchUpdateComment();
 				}
 			});
 		});
