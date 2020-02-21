@@ -574,7 +574,7 @@ function updateComment(id, type, dateObject, newComment){
 // Sets a name for an id in the reference table and then fixes the database
 function setReferenceName(id, newName){
 	if (pageId == 0 || pageId == undefined){ showError("no-database-bad-pageid"); }
-	if !areDatatypesValid({id:"number",newName:"string"}){
+	if (!areDatatypesValid({id:"number",newName:"string"})) {
 		showError("malformed-set-reference-name");
 	}
 	// Get entire reference page
@@ -692,7 +692,7 @@ function gvzQuery(query, callback, page){
 // Returns through catch
 function getName(id, callback){
 	if (pageId == 0 || pageId == undefined){ showError("no-database-bad-pageid"); }
-	if !areDatatypesValid({id:"number"}){ showError("malformed-get-name"); }
+	if (!areDatatypesValid({id:"number"})){ showError("malformed-get-name"); }
 	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE A = "+id+" GROUP BY A, B LIMIT 1", callback, pageId);
 }
 
@@ -700,7 +700,7 @@ function getName(id, callback){
 // Returns through catch
 function getIdsByName(name, maxSize){
 	if (pageId == 0 || pageId == undefined){ showError("no-database-bad-pageid"); }
-	if !areDatatypesValid({name:"string",maxSize:"number"}){ showError("malformed-get-name"); }
+	if (!areDatatypesValid({name:"string",maxSize:"number"})){ showError("malformed-get-name"); }
 	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE B CONTAINS '"+name+"' GROUP BY A, B LIMIT "+maxSize, catchIdsByName, pageId);
 }
 
@@ -720,7 +720,7 @@ function catchIdsByName(response){
 // Gets all table rows later than the given time
 // Returns through catch
 function getEventsAfter(dateObject){
-	if !areDatatypesValid({dateObject:"object"}){ showError("malformed-get-events-after"); }
+	if (!areDatatypesValid({dateObject:"object"})){ showError("malformed-get-events-after"); }
 	var dateString = dateObject.toLocaleString("en-CA-u-hc-h24",
 				{day:"2-digit", month:"2-digit", year:"numeric",
 				hour:"2-digit", minute:"2-digit", second:"2-digit"}).replace(",","");
@@ -730,6 +730,6 @@ function getEventsAfter(dateObject){
 // Gets all table rows with a student's id
 // Returns through catch
 function getStudentHistory(id){
-	if !areDatatypesValid({id:"number"}){ showError("malformed-get-student-history"); }
+	if (!areDatatypesValid({id:"number"})){ showError("malformed-get-student-history"); }
 	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+id+" ORDER BY D DESC", catchStudentHistory);
 }
