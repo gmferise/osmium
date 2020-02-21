@@ -508,7 +508,7 @@ function pushEvent(id, type, comments, flags) {
 // Input: id, event, timestamp to identify a row
 // Sets the comments column of the given a rowIndex
 function updateComment(id, type, dateObject, newComment){
-	if !areDatatypesValid({id:"number",type:"string",dateObject:"object",newComment:"string"}){
+	if (!areDatatypesValid({id:"number",type:"string",dateObject:"object",newComment:"string"})) {
 		showError("malformed-update-comment");
 	}
 	// First get the number of rows with dates older than or exactly the target date
