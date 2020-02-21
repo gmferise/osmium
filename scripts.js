@@ -1,3 +1,47 @@
+/// *********************
+/// * UTILITY FUNCTIONS *
+/// *********************
+
+// Returns bool with whether all params are matching datatype
+// array = {data:"datatype"}
+function areDatatypesValid(dict){
+	var isValid = true;
+	for (var key in dict){
+		if (key == null || key == undefined) { isValid = false; }
+		var type = dict[key];
+		switch (type) {
+			case "string":
+				if (typeof(key) != "string") { isValid = false; }
+				break;
+			case "number":
+				if (typeof(key) != "number") { isValid = false; }
+				break;
+			case "boolean":
+				if (typeof(key) != "boolean") { isValid = false; }
+				break;
+			case "object":
+				if (typeof(key) != "object") { isValid = false; }
+				break;
+			case "array-string":
+				if (typeof(key) != "object" || !key.every(function(n){ return typeof(n) == "string"; }) ){
+					isValid = false;
+				}
+				break;
+			case "array-number":
+				if (typeof(key) != "object" || !key.every(function(n){ return typeof(n) == "number"; }) ){
+					isValid = false;
+				}
+				break;
+			case "array-boolean":
+				if (typeof(key) != "object" || !key.every(function(n){ return typeof(n) == "boolean"; }) ){
+					isValid = false;
+				}
+				break;
+		}
+	}
+	return isValid;
+}
+
 /// ******************************
 /// * GOOGLE AUTH API AND CONFIG *
 /// ******************************
@@ -54,7 +98,7 @@ var pageId = 0; // Second page of spreadsheet
 // Creates new database in user's Drive using given name
 // Returns new database id through catch
 function createDatabase(name){
-	if ((name == '') || (name == null)){ throw new Error("Please provide a valid name"); }
+	if (!areDatatypesValid({name:"string"}) || name == '') { showError("invalid-database-name"); }
 	name = '[OsDB] '+name;
 	gapi.client.sheets.spreadsheets.create({
 		properties: {
@@ -355,6 +399,7 @@ function createDatabase(name){
 
 // Pulls list of [OsDB] sheets from user's Drive to update knownDatabases
 // Returns new knownDatabases through catch
+// newDatabase is an optional parameter that is used during database creation to act as a callback
 function getDatabases(newDatabase){
 	// Do not place params directly in the array, must be evaluated beforehand
 	var params = "mimeType='application/vnd.google-apps.spreadsheet' and '"+GoogleAuth.currentUser.get().getBasicProfile().getEmail()+"' in writers and name contains '[OsDB]' and trashed = false";
@@ -389,8 +434,8 @@ function catchPageId(response){
 
 // Assigns databaseId a database from knownDatabases given it's name
 // Returns selected database id
-function selectDatabaseName(name){ 
-	var id = knownDatabases[name]
+function selectDatabaseName(name){
+	var id = knownDatabases[name];
 	selectDatabaseId(id);
 	return id;
 }
@@ -405,8 +450,9 @@ function selectDatabaseId(id){
 			return db;
 		}
 	}
-	return id;
+	return undefined;
 }
+
 function selectDatabaseIdFromUrl() {
 	var url = new URLSearchParams(window.location.search).get('id');
 	if (url != null) {
@@ -424,7 +470,9 @@ function selectDatabaseIdFromUrl() {
 
 // Input: id, event name, comments, bool[](studying, technology, printing)
 function pushEvent(id, type, comments, flags) {
-	if (flags.length != 3) { throw new Error("flags array expected 3 values"); }
+	if (flags.length != 3) || !areDatatypesValid({id:"number", type:"string", comments:"string", flags:"array-bool"}){
+		showError("malformed-push-event");
+	}
 	// Get name from uid 
 	getName(id, function(response){
 		name = response.getDataTable().getDistinctValues(1)[0];
@@ -460,6 +508,9 @@ function pushEvent(id, type, comments, flags) {
 // Input: id, event, timestamp to identify a row
 // Sets the comments column of the given a rowIndex
 function updateComment(id, type, dateObject, newComment){
+	if !areDatatypesValid({id:"number",type:"string",dateObject:"object",newComment:"string"}){
+		showError("malformed-update-comment");
+	}
 	// First get the number of rows with dates older than or exactly the target date
 	var dateString = dateObject.toLocaleString("en-CA-u-hc-h24",
 		{day:"2-digit", month:"2-digit", year:"numeric",
@@ -520,8 +571,12 @@ function updateComment(id, type, dateObject, newComment){
 	});
 }
 
+// Sets a name for an id in the reference table and then fixes the database
 function setReferenceName(id, newName){
-	if (pageId == 0 || pageId == undefined){ throw new Error("pageId must not be 0"); }
+	if (pageId == 0 || pageId == undefined){ showError("no-database-bad-pageid"); }
+	if !areDatatypesValid({id:"number",newName:"string"}){
+		showError("malformed-set-reference-name");
+	}
 	// Get entire reference page
 	gvzQuery("SELECT A, B",
 	function(response){
@@ -637,14 +692,16 @@ function gvzQuery(query, callback, page){
 // Queries the reference page for the name of a user given their id
 // Returns through catch
 function getName(id, callback){
-	if ((pageId == 0) || (pageId == undefined)) { throw new Error("Page must not be first page of sheet"); }
+	if (pageId == 0 || pageId == undefined){ showError("no-database-bad-pageid"); }
+	if !areDatatypesValid({id:"number"}){ showError("malformed-get-name"); }
 	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE A = "+id+" GROUP BY A, B LIMIT 1", callback, pageId);
 }
 
 // Gets list of names/ids pairs matching name
 // Returns through catch
 function getIdsByName(name, maxSize){
-	if ((pageId == 0) || (pageId == undefined)) { throw new Error("Page must not be first page of sheet"); }
+	if (pageId == 0 || pageId == undefined){ showError("no-database-bad-pageid"); }
+	if !areDatatypesValid({name:"string",maxSize:"number"}){ showError("malformed-get-name"); }
 	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE B CONTAINS '"+name+"' GROUP BY A, B LIMIT "+maxSize, catchIdsByName, pageId);
 }
 
@@ -664,6 +721,7 @@ function catchIdsByName(response){
 // Gets all table rows later than the given time
 // Returns through catch
 function getEventsAfter(dateObject){
+	if !areDatatypesValid({dateObject:"object"}){ showError("malformed-get-events-after"); }
 	var dateString = dateObject.toLocaleString("en-CA-u-hc-h24",
 				{day:"2-digit", month:"2-digit", year:"numeric",
 				hour:"2-digit", minute:"2-digit", second:"2-digit"}).replace(",","");
@@ -673,5 +731,6 @@ function getEventsAfter(dateObject){
 // Gets all table rows with a student's id
 // Returns through catch
 function getStudentHistory(id){
+	if !areDatatypesValid({id:"number"}){ showError("malformed-get-student-history"); }
 	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE A = "+id+" ORDER BY D DESC", catchStudentHistory);
 }
