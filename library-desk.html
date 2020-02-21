@@ -38,9 +38,14 @@
 		<div class="split-left pretty-scrollbar-dark">
 			<div class="small-spacer"></div>
 			<div class='middle-wrapper'>
-				<div id='searchbar'>
-					<i class="material-icons">search</i>
+				<div id='searchbar' class="hasresults" onclick="this.classList.toggle('hasresults')">
+					<i class="material-icons"></i>
 					<input type='text' id='searchfield' placeholder="Search"></input>
+					<div id='search-results'>
+						<div>Jotaro Joestar<span>Last Seen 2/21/2020, 12:26pm</span></div>
+						<div>Joseph Joestar</div>
+						<div>Giorno Giovanna</div>
+					</div>
 				</div>
 			</div>
 			<div class='middle-wrapper'>
