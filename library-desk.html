@@ -21,7 +21,20 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 	<body class="color-bg-main">
-		
+		<div id="timeout-overlay">
+			<div class="bigsleep">This page is sleeping...</div>
+			<div class="smallsleep">Move the mouse to wake it up</div>
+		</div>
+		<div id="edit-name-popup" class="bigpopup pretty-scrollbar-light">
+			<div class="content">
+				<div class="title-center fullsize fullwidth">Edit Student Name</div>
+				<i class="material-icons">account_circle</i>
+				<input id="stuname" type="text" placeholder="Student Name"></input>
+				<input id="stuid" type="text" hidden></input>
+				<button id='edit-name-loading' class="material-icons big ok" onclick="throwEditStudentName();"></button>
+				<button class="material-icons big cancel" onclick='showEditStudentName(false);'>close</button>
+			</div>
+		</div>
 		<div class="split-left pretty-scrollbar-dark">
 			<div class="small-spacer"></div>
 			<div class='middle-wrapper'>
@@ -54,7 +67,7 @@
 		</div>
 		
 		<div class="split-right">
-			<div id="overview-table" onclick="updateTodaysDate()">
+			<div id="overview-table">
 				<div class="tablerow">
 					<div id="todays-date" class="title-center">
 						<div class="center-h medium-text">Loading...</div>
@@ -159,6 +172,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 			var txtmed = document.createElement('div');
 				txtmed.classList.add('medium-text');
 				txtmed.innerHTML = obj.name;
+				txtmed.setAttribute('onclick','cardObjectFromElement(this,2).showComments();');
 				var hover = document.createElement('div');
 					hover.classList.add('tooltip');
 				txtmed.appendChild(hover);
@@ -183,7 +197,11 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 				container.appendChild(close);
 				var header = document.createElement('div');
 					header.classList.add('title-center');
+					header.id = 'student-name-edit';
 					header.innerHTML = obj.name;
+					var editbtn = document.createElement('button');
+						editbtn.setAttribute('onclick','showEditStudentName(true,'+obj.id+',this.parentElement.textContent);');
+					header.appendChild(editbtn);
 				container.appendChild(header);
 				var center = document.createElement('div');
 					center.classList.add('middle-wrapper');
@@ -451,11 +469,45 @@ function updateTodaysDate() {
 		}
 		getEventsAfter(lastResultsRefreshTime);
 		lastResultsRefreshTime = new Date();
-		setTimeout(function(){updateTodaysDate();},60000-((now.getSeconds()*1000)+now.getMilliseconds())); //timeout to refresh on next minute
+		var INTERVAL = 15;
+		setTimeout(function(){updateTodaysDate();},INTERVAL*1000-(((now.getSeconds()%INTERVAL)*1000)+now.getMilliseconds())); //timeout to refresh every INTERVAl sec
 	} else {
 		pauseUpdate = 2;
 	}
 }
+
+
+var inactivityTime = function () {
+    var time;
+	var timedout = false;
+    // DOM Events
+    document.onmousemove = resetTimer;
+    document.onkeypress = resetTimer;
+	
+	function timeOut() {
+		timedout = true;
+		pauseUpdate = 1;
+		document.getElementById('timeout-overlay').classList.add('timedout');
+	}
+
+    function resetTimer() {
+		if (timedout) {
+			timedout = false;
+			if (pauseUpdate == 2) { //natural interval was blocked, restart it
+				pauseUpdate = 0;
+				updateTodaysDate();
+			} else {
+				pauseUpdate = 0;
+			}
+			document.getElementById('timeout-overlay').classList.remove('timedout');
+		}
+        clearTimeout(time);
+        time = setTimeout(timeOut, 30000);
+        // 1000 milliseconds = 1 second
+    }
+	resetTimer();
+};
+
 function catchPushEvent(name, type, flags) {
 	updateTodaysDate();
 }
@@ -627,7 +679,6 @@ function catchStudentHistory(response){
 	}
 	comments_eventset = eventset;
 }
-var commentsrow;
 function selectComments(datenum,timenum) {
 	commentsel = [datenum,timenum];
 	var row = comments_eventset[datenum][timenum];
@@ -656,37 +707,88 @@ var commentsChangeTimeout;
 function commentsChange(datenum,timenum) {
 	var row = comments_eventset[datenum][timenum];
 	var newval = document.getElementById('comments-box').value;
-	if (commentsChangeTimeout != false) { //not waiting for gvz
-		if (commentsChangeTimeout != null) { //timeout is set
-			clearTimeout(commentsChangeTimeout); //clear old
-		}
-		//start new
-		var wrap = document.getElementById('student-history-wrapper');
-		comments_eventset[datenum][timenum][4] = newval;
-		if (newval != "") {
-			wrap.children[datenum].children[wrap.children[datenum].childElementCount-1-timenum].classList.add('hascomments');
-		} else {
-			wrap.children[datenum].children[wrap.children[datenum].childElementCount-1-timenum].classList.remove('hascomments');
-		}
-		commentsChangeTimeout = setTimeout(function(){saveCommentsChange(row,newval)},500);
+	if (commentsChangeTimeout != null) { //timeout is set
+		clearTimeout(commentsChangeTimeout); //clear old
 	}
+	//start new
+	var wrap = document.getElementById('student-history-wrapper');
+	comments_eventset[datenum][timenum][4] = newval;
+	if (newval != "") {
+		wrap.children[datenum].children[wrap.children[datenum].childElementCount-1-timenum].classList.add('hascomments');
+	} else {
+		wrap.children[datenum].children[wrap.children[datenum].childElementCount-1-timenum].classList.remove('hascomments');
+	}
+	commentsChangeTimeout = setTimeout(function(){saveCommentsChange(row,newval)},500);
 }
 function saveCommentsChange(row,value) {
 	updateComment(row[0],row[2],row[3],value);
 	document.getElementById('comments-status').innerText = "Saving changes...";
-	commentsChangeTimeout = false; //waiting for gvz
+	commentsChangeTimeout = null; //no longer timeout
 }
 function catchUpdateComment() {
 	var cs = document.getElementById('comments-status');
 	if (cs != null) {
-		document.getElementById('comments-status').innerText = "";
-		commentsChangeTimeout = null; //no longer waiting for gvz
+		if (commentsChangeTimeout == null) {
+			document.getElementById('comments-status').innerText = "";
+		}
 	}
+}
+
+document.getElementById('stuname').addEventListener("keydown", function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    throwEditStudentName();
+  }
+});
+
+function showEditStudentName(state,id,name) {
+	if (state == true) {
+		document.getElementById('edit-name-popup').classList.add('visible');
+		var n = document.getElementById('stuname');
+		n.value = name;
+		n.focus();
+		document.getElementById("stuid").value = id;
+	} else {
+		document.getElementById('edit-name-popup').classList.remove('visible');
+		document.getElementById("stuname").value = "";
+		document.getElementById("stuid").value = "";
+		document.getElementById('edit-name-loading').classList.remove('loading');
+		editStudentNameHTMLSTATE = 0;
+	}
+}
+
+var editStudentNameHTMLSTATE = 0;
+function throwEditStudentName() {
+	if (editStudentNameHTMLSTATE == 0) { //prevent double submission
+		var name = document.getElementById('stuname').value;
+		if (name != "") {
+			document.getElementById('edit-name-loading').classList.add('loading');
+			setReferenceName(document.getElementById('stuid').value,name);
+			document.getElementById('student-name-edit').childNodes[0].nodeValue = name;
+			editStudentNameHTMLSTATE = 1;
+		}
+	}
+}
+function catchEditStudentName(){
+	cards = [];
+	repackCards();
+	lastResultsRefreshTime = new Date();
+	lastResultsRefreshTime.setHours(0);
+	lastResultsRefreshTime.setMinutes(0);
+	lastResultsRefreshTime.setSeconds(0);
+	lastResultsRefreshTime.setMilliseconds(0);
+	preids = [];
+	precards = [];
+	tmpcards = [];
+	finalcards = [];
+	updateTodaysDate();
+	showEditStudentName(false);
 }
 
 function onAuthUpdate() {
 	selectDatabaseIdFromUrl();
 	updateTodaysDate();
+	inactivityTime();
 	if (!(GoogleAuth.isSignedIn.get())) {
 		showError('auth-lost');
 	}
