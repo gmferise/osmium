@@ -470,7 +470,7 @@ function selectDatabaseIdFromUrl() {
 
 // Input: id, event name, comments, bool[](studying, technology, printing)
 function pushEvent(id, type, comments, flags) {
-	if (flags.length != 3) || !areDatatypesValid({id:"number", type:"string", comments:"string", flags:"array-bool"}){
+	if ((flags.length != 3) || (!areDatatypesValid({id:"number", type:"string", comments:"string", flags:"array-bool"}))) {
 		showError("malformed-push-event");
 	}
 	// Get name from uid 
