@@ -38,11 +38,11 @@
 		<div class="split-left pretty-scrollbar-dark">
 			<div class="small-spacer"></div>
 			<div class='middle-wrapper'>
-				<div id='searchbar' class="hasresults" onclick="this.classList.toggle('hasresults')">
+				<div id='searchbar'>
 					<i class="material-icons"></i>
-					<input type='text' id='searchfield' placeholder="Search"></input>
+					<input type='text' id='searchfield' oninput="throwSearch(this.value)" placeholder="Search"></input>
 					<div id='search-results'>
-						<div><span>Jotaro Joestar</span><span>Last Seen Wednesday, 12:26pm</span></div>
+						<div><span>Jotaro Joestar</span><span>Last Seen 2/21/2020, 12:26pm</span></div>
 						<div><span>Jotaro Joestar</span><span>Last Seen 2/21/2020, 12:26pm</span></div>
 						<div><span>Jotaro Joestar</span><span>Last Seen 2/21/2020, 12:26pm</span></div>
 					</div>
@@ -788,6 +788,15 @@ function catchEditStudentName(){
 	finalcards = [];
 	updateTodaysDate();
 	showEditStudentName(false);
+}
+
+function updateSearchResults(values) {
+	var searchbar = document.getElementById('searchbar');
+	if (value == "") {
+		searchbar.classList.remove('hasresults');
+	} else {
+		searchbar.classList.add('hasresults');
+	}
 }
 
 function onAuthUpdate() {
