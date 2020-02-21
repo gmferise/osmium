@@ -170,9 +170,13 @@ html {
 	width: 100%;
 	box-sizing: border-box;
 }
-#search-results div span {
-	position: absolute;
-	left: 80%;
+#search-results div span:first-child {
+	position: relative;
+	left: 0%;
+}
+#search-results div span:last-child {
+	position: relative;
+	left: 69%;
 	font-style: italic;
 }
 #search-results div:before {
@@ -181,7 +185,7 @@ html {
 	font-family: 'Material Icons';
 	content: 'search';
 	display: inline-block;
-	transform: scale(0.8);
+	transform: scale(0.8) translateY(-2px);
 }
 #search-results div:hover {
 	background-color: antiquewhite;
