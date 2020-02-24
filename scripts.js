@@ -638,14 +638,14 @@ function gvzQuery(query, callback, page){
 // Returns through catch
 function searchById(id){
 	if (pageId == 0 || pageId == undefined){ showError("bad-pageid"); }
-	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE A = "+id+" GROUP BY A, B LIMIT 1", catchSearchById, pageId);
+	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE A = "+id+" GROUP BY A, B LIMIT 1", catchSearch, pageId);
 }
 
 // Gets list of names/ids pairs matching name
 // Returns through catch
 function searchByName(name, maxSize){
 	if (pageId == 0 || pageId == undefined){ showError("bad-pageid"); }
-	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE B CONTAINS '"+name+"' GROUP BY A, B LIMIT "+maxSize, catchSearchByName, pageId);
+	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE B CONTAINS '"+name+"' GROUP BY A, B LIMIT "+maxSize, catchSearch, pageId);
 }
 
 //Selects single most recent date of given student id

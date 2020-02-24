@@ -813,27 +813,15 @@ function searchChange() {
 }
 
 function throwSearch(searchval) {
-	if (RegExp('^\\d{6}').test(searchval)) {//matches studentid
+	if (RegExp('^\\d{6}$').test(searchval)) {//matches studentid
 		searchById(searchval);
 		document.getElementById('searchbar').classList.remove('hasresults');
-	} else if (!(RegExp('^\\d*').test(searchval))) {//not just a number
+	} else if (!(RegExp('^\\d*$').test(searchval))) {//not just a number
 		searchByName(searchval, 10);
 		document.getElementById('searchbar').classList.remove('hasresults');
 	}
 }
-function catchSearchById(response) {
-	var rawtbl = response.getDataTable();
-	var tbl = [];
-	for (var i = 0; i < rawtbl.getNumberOfRows(); i++){
-		var row = []
-		for (var j = 0; j < 2; j++){
-			row.push(rawtbl.getValue(i,j));
-		}
-		tbl.push(row);
-	}
-	updateSearchResults(tbl);
-}
-function catchSearchByName(response){
+function catchSearch(response) {
 	var rawtbl = response.getDataTable();
 	var tbl = [];
 	for (var i = 0; i < rawtbl.getNumberOfRows(); i++){
@@ -865,7 +853,7 @@ function new_SearchResult(studentname, studentid, parent) {
 		var tbl = [];
 		for (var i = 0; i < rawtbl.getNumberOfRows(); i++){
 			var row = []
-			for (var j = 0; j < 2; j++){
+			for (var j = 0; j < 1; j++){
 				row.push(rawtbl.getValue(i,j));
 			}
 			tbl.push(row);
@@ -907,9 +895,8 @@ function toggleSearch() {
 	if (s.value != "") {
 		s.value = "";
 		sbar.classList.remove('hasresults');
-	} else {
-		s.focus();
 	}
+	s.focus();
 }
 
 function onAuthUpdate() {
