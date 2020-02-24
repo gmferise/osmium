@@ -20,7 +20,7 @@
 		<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
-	<body class="color-bg-main">
+	<body class="color-bg-main" onclick="toggleSearch(0)">
 		<div id="timeout-overlay">
 			<div class="bigsleep">This page is sleeping...</div>
 			<div class="smallsleep">Move the mouse to wake it up</div>
@@ -40,7 +40,7 @@
 			<div class='middle-wrapper'>
 				<div id='searchbar'>
 					<i class="material-icons" onclick="toggleSearch()"></i>
-					<input type='text' id='searchfield' oninput="searchChange()" placeholder="Search"></input>
+					<input type='text' id='searchfield' onclick="toggleSearch(1)" oninput="searchChange()" placeholder="Search"></input>
 					<div id='search-results'>
 						<div><span>Jotaro Joestar</span><span>Last Seen 2/21/2020, 12:26pm</span></div>
 						<div><span>Jotaro Joestar</span><span>Last Seen 2/21/2020, 12:26pm</span></div>
@@ -890,6 +890,8 @@ function updateSearchResults(tbl) {
 			var left = document.createElement('span');
 				left.innerText = "No results found";
 			noresults.appendChild(left);
+			var right = document.createElement('span');
+			noresults.appendChild(right);
 		resultsarea.appendChild(noresults);
 	}
 }
