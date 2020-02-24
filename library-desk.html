@@ -284,7 +284,7 @@ function showCommentsPopup(id,name) {
 				header.id = 'student-name-edit';
 				header.innerHTML = name;
 				var editbtn = document.createElement('button');
-					editbtn.setAttribute('onclick','showEditStudentName(true,'+id+',this.parentElement.innerText);');
+					editbtn.setAttribute('onclick','showEditStudentName(true,'+id+',this.parentElement.childNodes[0].nodeValue);');
 				header.appendChild(editbtn);
 				var tooltip = document.createElement('div');
 					tooltip.classList.add('tooltip');
