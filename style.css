@@ -173,7 +173,7 @@ html {
 }
 #search-results div span:first-child {
 	position: relative;
-	left: 0%;
+	left: 3.8px;
 }
 #search-results div span:last-child {
 	position: absolute;
