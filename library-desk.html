@@ -126,6 +126,12 @@ function showError(errorname) {
 			break;
 		case 'db-get-fail':
 			throw new Error("ERROR: Could not update event list.");
+		case 'bad-pageid':
+			throw new Error("CRITICAL ERROR: Page ID for second sheet not set. Was a database selected?");
+			break;
+		default:
+			throw new Error("UNDEFINED ERROR: "+errorname+" (No more context was provided)");
+			break;
 	}
 }
 
