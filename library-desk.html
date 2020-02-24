@@ -697,8 +697,14 @@ function catchStudentHistory(response){
 				}
 			wrap.appendChild(eachdate);
 		}
+		comments_eventset = eventset;
+	} else {
+		var wrap = document.getElementById('student-history-wrapper');
+		wrap.innerHTML = "";
+		var no = document.createElement('div');
+		no.innerHTML = "No history found.";
+		wrap.appendChild(no);
 	}
-	comments_eventset = eventset;
 }
 function selectComments(datenum,timenum) {
 	commentsel = [datenum,timenum];
