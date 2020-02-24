@@ -876,6 +876,7 @@ function new_SearchResult(studentname, studentid, parent) {
 			obj.resultelement.children[1].innerHTML = "Last seen: Never";
 		}
 	}
+	return obj;
 }
 
 function updateSearchResults(tbl) {
@@ -907,7 +908,7 @@ function toggleSearch() {
 		s.value = "";
 		sbar.classList.remove('hasresults');
 	} else {
-		sbar.focus();
+		s.focus();
 	}
 }
 
