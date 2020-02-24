@@ -176,8 +176,8 @@ html {
 	left: 0%;
 }
 #search-results div span:last-child {
-	position: relative;
-	left: 69%;
+	position: absolute;
+	left: calc(100% - 250px);
 	font-style: italic;
 }
 #search-results div:before {
