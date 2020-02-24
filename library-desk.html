@@ -197,73 +197,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 	obj.card = wrap;
 	
 	obj.showComments = function() {
-		var popup = document.createElement('div');
-			popup.classList.add('card-popup');
-			var container = document.createElement('div');
-			container.classList.add('card-popup-container','color-bg-main');
-				var close = document.createElement('button');
-					close.classList.add('close','material-icons');
-					close.innerHTML = 'close';
-					close.setAttribute('onclick','this.parentElement.parentElement.remove()');
-				container.appendChild(close);
-				var header = document.createElement('div');
-					header.classList.add('title-center');
-					header.id = 'student-name-edit';
-					header.innerHTML = obj.name;
-					var editbtn = document.createElement('button');
-						editbtn.setAttribute('onclick','showEditStudentName(true,'+obj.id+',this.parentElement.textContent);');
-					header.appendChild(editbtn);
-				container.appendChild(header);
-				var center = document.createElement('div');
-					center.classList.add('middle-wrapper');
-					var leftside = document.createElement('div');
-						leftside.classList.add('left');
-						
-							var leftlabel = document.createElement('div');
-								leftlabel.classList.add('title-left');
-								leftlabel.innerHTML = "Student History";
-							leftside.appendChild(leftlabel);
-							
-							var historylist = document.createElement('div');
-								historylist.classList.add('pretty-scrollbar-dark');
-								historylist.id = "student-history-wrapper";
-								var loadtxt = document.createElement('i');
-									loadtxt.classList.add('small-text');
-									loadtxt.innerHTML = "Loading...";
-								historylist.appendChild(loadtxt);
-							leftside.appendChild(historylist)
-							
-					center.appendChild(leftside);
-					var rightside = document.createElement('div');
-						rightside.classList.add('right');
-						var rightlabel = document.createElement('div');
-							rightlabel.classList.add('title-center');
-							rightlabel.innerHTML = "Notes for Event";
-						rightside.appendChild(rightlabel);
-						var flaglist = document.createElement('div');
-							flaglist.id = 'comments-flags';
-							var flagnames = ['library','tech','print'];
-							for (var i=0; i<3; i++) {
-								var flag = document.createElement('div');
-									flag.classList.add(flagnames[i]);
-								flaglist.appendChild(flag);
-							}
-						rightside.appendChild(flaglist);
-						var commentsbox = document.createElement('textarea');
-							commentsbox.setAttribute('placeholder','No notes for this event yet. Add some here!');
-							commentsbox.innerText = "(Click an event to see and edit Notes.)";
-							commentsbox.disabled = true;
-							commentsbox.id = "comments-box";
-						rightside.appendChild(commentsbox);
-						var commentsstatus = document.createElement('div');
-							commentsstatus.classList.add('small-text');
-							commentsstatus.id = "comments-status";
-						rightside.appendChild(commentsstatus);
-					center.appendChild(rightside);
-				container.appendChild(center);
-			popup.appendChild(container);
-		document.body.appendChild(popup);
-		getStudentHistory(obj.id);
+		showCommentsPopup(obj.id,obj.name);
 	}
 	
 	//click the card's button - uses card's properties to determine action
@@ -333,6 +267,76 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 	};
 	
 	return obj;
+}
+
+function showCommentsPopup(id,name) {
+	var popup = document.createElement('div');
+		popup.classList.add('card-popup');
+		var container = document.createElement('div');
+		container.classList.add('card-popup-container','color-bg-main');
+			var close = document.createElement('button');
+				close.classList.add('close','material-icons');
+				close.innerHTML = 'close';
+				close.setAttribute('onclick','this.parentElement.parentElement.remove()');
+			container.appendChild(close);
+			var header = document.createElement('div');
+				header.classList.add('title-center');
+				header.id = 'student-name-edit';
+				header.innerHTML = name;
+				var editbtn = document.createElement('button');
+					editbtn.setAttribute('onclick','showEditStudentName(true,'+id+',this.parentElement.textContent);');
+				header.appendChild(editbtn);
+			container.appendChild(header);
+			var center = document.createElement('div');
+				center.classList.add('middle-wrapper');
+				var leftside = document.createElement('div');
+					leftside.classList.add('left');
+					
+						var leftlabel = document.createElement('div');
+							leftlabel.classList.add('title-left');
+							leftlabel.innerHTML = "Student History";
+						leftside.appendChild(leftlabel);
+						
+						var historylist = document.createElement('div');
+							historylist.classList.add('pretty-scrollbar-dark');
+							historylist.id = "student-history-wrapper";
+							var loadtxt = document.createElement('i');
+								loadtxt.classList.add('small-text');
+								loadtxt.innerHTML = "Loading...";
+							historylist.appendChild(loadtxt);
+						leftside.appendChild(historylist)
+						
+				center.appendChild(leftside);
+				var rightside = document.createElement('div');
+					rightside.classList.add('right');
+					var rightlabel = document.createElement('div');
+						rightlabel.classList.add('title-center');
+						rightlabel.innerHTML = "Notes for Event";
+					rightside.appendChild(rightlabel);
+					var flaglist = document.createElement('div');
+						flaglist.id = 'comments-flags';
+						var flagnames = ['library','tech','print'];
+						for (var i=0; i<3; i++) {
+							var flag = document.createElement('div');
+								flag.classList.add(flagnames[i]);
+							flaglist.appendChild(flag);
+						}
+					rightside.appendChild(flaglist);
+					var commentsbox = document.createElement('textarea');
+						commentsbox.setAttribute('placeholder','No notes for this event yet. Add some here!');
+						commentsbox.innerText = "(Click an event to see and edit Notes.)";
+						commentsbox.disabled = true;
+						commentsbox.id = "comments-box";
+					rightside.appendChild(commentsbox);
+					var commentsstatus = document.createElement('div');
+						commentsstatus.classList.add('small-text');
+						commentsstatus.id = "comments-status";
+					rightside.appendChild(commentsstatus);
+				center.appendChild(rightside);
+			container.appendChild(center);
+		popup.appendChild(container);
+	document.body.appendChild(popup);
+	getStudentHistory(id);
 }
 
 function randomDate() {
@@ -834,11 +838,12 @@ function catchSearch(response) {
 	updateSearchResults(tbl);
 }
 
-function new_SearchResult(studentname, studentid, parent) {
+function new_SearchResult(studentid, studentname, parent) {
 	const obj = {};
 	obj.name = studentname;
 	obj.id = studentid;
 	var el = document.createElement('div');
+		el.setAttribute('onclick','showCommentsPopup('+studentid+','+studentname+')');
 		var left = document.createElement('span');
 			left.innerText = obj.name;
 		el.appendChild(left);
@@ -874,7 +879,7 @@ function updateSearchResults(tbl) {
 		searchbar.classList.add('hasresults');
 		resultsarea.innerHTML = '';
 		for (var i=0; i<tbl.length; i++) {
-			var res = new_SearchResult(tbl[i][1],tbl[i][0],resultsarea);
+			var res = new_SearchResult(tbl[i][0],tbl[i][1],resultsarea);
 			getLastSeen(tbl[i][0],res.updateLastSeen);
 		}
 	} else {
