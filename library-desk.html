@@ -823,6 +823,19 @@ function throwSearch(searchval) {
 	} else if (!(RegExp('^\\d*$').test(searchval))) {//not just a number
 		searchByName(searchval, 10);
 		document.getElementById('searchbar').classList.remove('hasresults');
+	} else {
+		var searchbar = document.getElementById('searchbar');
+		var resultsarea = document.getElementById('search-results');
+		searchbar.classList.add('hasresults');
+		resultsarea.innerHTML = '';
+		var noresults = document.createElement('div');
+			noresults.classList.add('noresults');
+			var left = document.createElement('span');
+				left.innerText = "Type a student name or valid student number";
+			noresults.appendChild(left);
+			var right = document.createElement('span');
+			noresults.appendChild(right);
+		resultsarea.appendChild(noresults);
 	}
 }
 function catchSearch(response) {
