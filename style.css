@@ -189,7 +189,7 @@ html {
 	transform: scale(0.8) translateY(-2px);
 }
 #search-results div.noresults:before {
-	content: 'close';
+	content: 'error_outline';
 }
 #search-results div:hover {
 	background-color: antiquewhite;
