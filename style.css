@@ -117,6 +117,7 @@ html {
 #searchbar .material-icons {
 	font-size: 28px;
 	vertical-align: middle;
+	cursor: pointer;
 }
 #searchbar .material-icons:after {
 	content: 'search';
