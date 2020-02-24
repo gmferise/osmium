@@ -894,14 +894,21 @@ function updateSearchResults(tbl) {
 	}
 }
 
-function toggleSearch() {
+function toggleSearch(focusstate) {
 	var sbar = document.getElementById('searchbar');
+	var sres = document.getElementById('search-results');
 	var s = document.getElementById('searchfield');
-	if (s.value != "") {
-		s.value = "";
+	if (focusstate == 0) { //lost focus
 		sbar.classList.remove('hasresults');
+	else if ((focusstate == 1)&&(sres.childElementCount > 0)) { //gained focus & has stuff 2 show
+		sbar.classList.add('hasresults');
+	} else { //icon click
+		if ((s.value != "")||(sbar.classList).contains('hasresults')) {//clear if x
+			s.value = "";
+			sbar.classList.remove('hasresults');
+		}
+		s.focus();
 	}
-	s.focus();
 }
 
 function onAuthUpdate() {
