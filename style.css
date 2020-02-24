@@ -179,6 +179,7 @@ html {
 	position: absolute;
 	left: calc(100% - 250px);
 	font-style: italic;
+	padding-top: 3px;
 }
 #search-results div:before {
 	font-size: 28px;
