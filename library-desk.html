@@ -39,7 +39,7 @@
 			<div class="small-spacer"></div>
 			<div class='middle-wrapper'>
 				<div id='searchbar'>
-					<i class="material-icons" onclick="toggleSearch()"></i>
+					<i class="material-icons" onclick="toggleSearch(2)"></i>
 					<input type='text' id='searchfield' onclick="toggleSearch(1)" oninput="searchChange()" placeholder="Search"></input>
 					<div id='search-results'>
 						<div><span>Jotaro Joestar</span><span>Last Seen 2/21/2020, 12:26pm</span></div>
@@ -904,7 +904,7 @@ function toggleSearch(focusstate) {
 		sbar.classList.remove('hasresults');
 	} else if ((focusstate == 1)&&(sres.childElementCount > 0)) { //gained focus & has stuff 2 show
 		sbar.classList.add('hasresults');	
-	} else { //icon click
+	} else if ((focusstate == 2)){ //icon click
 		if ((s.value != "")||(sbar.classList).contains('hasresults')) {//clear if x
 			s.value = "";
 			sbar.classList.remove('hasresults');
