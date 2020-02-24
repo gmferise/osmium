@@ -490,7 +490,7 @@ function updateTodaysDate() {
 		}
 		getEventsAfter(lastResultsRefreshTime);
 		lastResultsRefreshTime = new Date();
-		var INTERVAL = 15;
+		var INTERVAL = 10;
 		setTimeout(function(){updateTodaysDate();},INTERVAL*1000-(((now.getSeconds()%INTERVAL)*1000)+now.getMilliseconds())); //timeout to refresh every INTERVAl sec
 	} else {
 		pauseUpdate = 2;
