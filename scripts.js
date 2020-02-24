@@ -645,7 +645,7 @@ function searchById(id){
 // Returns through catch
 function searchByName(name, maxSize){
 	if (pageId == 0 || pageId == undefined){ showError("bad-pageid"); }
-	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE B CONTAINS '"+name+"' GROUP BY A, B LIMIT "+maxSize, catchSearch, pageId);
+	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE lower(B) CONTAINS lower('"+name+"') GROUP BY A, B LIMIT "+maxSize, catchSearch, pageId);
 }
 
 //Selects single most recent date of given student id
