@@ -40,7 +40,7 @@
 			<div class='middle-wrapper'>
 				<div id='searchbar'>
 					<i class="material-icons"></i>
-					<input type='text' id='searchfield' oninput="throwSearch(this.value)" placeholder="Search"></input>
+					<input type='text' id='searchfield' oninput="searchChange()" placeholder="Search"></input>
 					<div id='search-results'>
 						<div><span>Jotaro Joestar</span><span>Last Seen 2/21/2020, 12:26pm</span></div>
 						<div><span>Jotaro Joestar</span><span>Last Seen 2/21/2020, 12:26pm</span></div>
@@ -796,12 +796,106 @@ function catchEditStudentName(){
 	showEditStudentName(false);
 }
 
+document.getElementById('searchfield').addEventListener("keydown", function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    throwSearch();
+  }
+});
+
+var searchChangeTimeout;
+function searchChange() {
+	var searchval = document.getElementById('searchfield').value;
+	if (searchChangeTimeout != null) { //timeout is set
+		clearTimeout(searchChangeTimeout); //clear old
+	}
+	searchChangeTimeout = setTimeout(function(){throwSearch(searchval)},500);
+}
+
+function throwSearch(searchval) {
+	if (RegExp('^\d{6}$').test(searchval)) {//matches studentid
+		getName(searchval);
+		document.getElementById('searchbar').classList.remove('hasresults');
+	} else if (!(RegExp('^\d*$').test(searchval))) {//not just a number
+		getIdsByName(searchval, 10);
+		document.getElementById('searchbar').classList.remove('hasresults');
+	}
+}
+function catchSearchById(response) {
+	var rawtbl = response.getDataTable();
+	var tbl = [];
+	for (var i = 0; i < rawtbl.getNumberOfRows(); i++){
+		var row = []
+		for (var j = 0; j < 2; j++){
+			row.push(rawtbl.getValue(i,j));
+		}
+		tbl.push(row);
+	}
+	updateSearchResults(tbl);
+}
+function catchSearchByName(response){
+	var rawtbl = response.getDataTable();
+	var tbl = [];
+	for (var i = 0; i < rawtbl.getNumberOfRows(); i++){
+		var row = []
+		for (var j = 0; j < 2; j++){
+			row.push(rawtbl.getValue(i,j));
+		}
+		tbl.push(row);
+	}
+	updateSearchResults(tbl);
+}
+
+function new_SearchResult(studentname, studentid, parent) {
+	obj.name = studentname;
+	obj.id = studentid;
+	var el = document.createElement('div');
+		var left = document.createElement('span');
+			left.innerText = obj.name;
+		el.appendChild(left);
+		var right = document.createElement('span');
+			right.innerText = '';
+		el.appendChild(right);
+	obj.resultelement = el;
+	parent.appendChild(obj.resultelement);
+	
+	obj.updateLastSeen = function(response) {
+		var rawtbl = response.getDataTable();
+		var tbl = [];
+		for (var i = 0; i < rawtbl.getNumberOfRows(); i++){
+			var row = []
+			for (var j = 0; j < 2; j++){
+				row.push(rawtbl.getValue(i,j));
+			}
+			tbl.push(row);
+		}
+		if (tbl.length > 0) {
+			obj.resultelement.children[1].innerHTML = "Last seen: "+tbl[0][0].toLocaleString("en-US",{"year":"numeric","month":"2-digit","day":"2-digit","hour":"2-digit","minute":"2-digit"});
+		} else {
+			obj.resultelement.children[1].innerHTML = "Last seen: Never";
+		}
+	}
+}
+
 function updateSearchResults(values) {
 	var searchbar = document.getElementById('searchbar');
-	if (value == "") {
-		searchbar.classList.remove('hasresults');
+	var resultsarea = document.getElementById('search-results');
+	if (values.length > 0) {
+		searchbar.classList.add('hasresults');
+		resultsarea.innerHTML = '';
+		for (var i=0; i<values.length; i++) {
+			var res = new_SearchResult(tbl[i][1],tbl[i][0],resultsarea);
+			getLastSeen(tbl[i][0],res.updateLastSeen);
+		}
 	} else {
 		searchbar.classList.add('hasresults');
+		resultsarea.innerHTML = '';
+		var noresults = document.createElement('div');
+			noresults.classList.add('noresults');
+			var left = document.createElement('span');
+				left.innerText = "No results found";
+			noresults.appendChild(left);
+		resultsarea.appendChild(noresults);
 	}
 }
 

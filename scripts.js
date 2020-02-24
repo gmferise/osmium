@@ -636,29 +636,22 @@ function gvzQuery(query, callback, page){
 
 // Queries the reference page for the name of a user given their id
 // Returns through catch
-function getName(id, callback){
+function searchById(id){
 	if (pageId == 0 || pageId == undefined){ showError("bad-pageid"); }
-	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE A = "+id+" GROUP BY A, B LIMIT 1", callback, pageId);
+	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE A = "+id+" GROUP BY A, B LIMIT 1", catchSearchById, pageId);
 }
 
 // Gets list of names/ids pairs matching name
 // Returns through catch
-function getIdsByName(name, maxSize){
+function searchByName(name, maxSize){
 	if (pageId == 0 || pageId == undefined){ showError("bad-pageid"); }
-	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE B CONTAINS '"+name+"' GROUP BY A, B LIMIT "+maxSize, catchIdsByName, pageId);
+	gvzQuery("SELECT A, B, COUNT(A), COUNT(B) WHERE B CONTAINS '"+name+"' GROUP BY A, B LIMIT "+maxSize, catchSearchByName, pageId);
 }
 
-function catchIdsByName(response){
-	var rawtbl = response.getDataTable();
-	var tbl = [];
-	for (var i = 0; i < rawtbl.getNumberOfRows(); i++){
-		var row = []
-		for (var j = 0; j < 2; j++){
-			row.push(rawtbl.getValue(i,j));
-		}
-		tbl.push(row);
-	}
-	console.log(tbl);	
+//Selects single most recent date of given student id
+// Returns through catch to a given callback
+function getLastSeen(id, callback){
+	gvzQuery("SELECT D WHERE A = "+id+" ORDER BY D DESC LIMIT 1", callback);
 }
 
 // Gets all table rows later than the given time

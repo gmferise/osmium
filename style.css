@@ -187,6 +187,9 @@ html {
 	display: inline-block;
 	transform: scale(0.8) translateY(-2px);
 }
+#search-results div.noresults:before {
+	content: 'close';
+}
 #search-results div:hover {
 	background-color: antiquewhite;
 }
