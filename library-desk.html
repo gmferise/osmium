@@ -286,6 +286,12 @@ function showCommentsPopup(id,name) {
 				var editbtn = document.createElement('button');
 					editbtn.setAttribute('onclick','showEditStudentName(true,'+id+',this.parentElement.textContent);');
 				header.appendChild(editbtn);
+				var tooltip = document.createElement('div');
+					tooltip.classList.add('tooltip');
+					var tooltiptext = document.createElement('span');
+						tooltiptext.innerHTML = id;
+					tooltip.appendChild(tooltiptext);
+				header.appendChild(tooltip);
 			container.appendChild(header);
 			var center = document.createElement('div');
 				center.classList.add('middle-wrapper');

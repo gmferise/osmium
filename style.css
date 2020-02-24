@@ -358,6 +358,40 @@ html {
 	z-index: 100;
 	overflow: hidden;
 }
+.card-popup-container div.title-center div.tooltip {
+	visibility: hidden;
+	opacity: 0;
+	width: max-content;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	padding: 5px 0;
+	border-radius: 6px;
+ 
+	width: 120px;
+	top: 100%;
+	left: 50%;
+	margin-left: -60px;
+	z-index: 1;
+}
+.card-popup-container div.title-center div.tooltip span {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.card-popup-container div.title-center div.tooltip:after{
+	content: " ";
+	position: absolute;
+	bottom: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: transparent transparent black transparent;
+}
+.card-popup-container div.title-center:hover div.tooltip {
+	visibility: visible;
+	opacity: 1;
+}
 .card-popup-container .middle-wrapper {
 	height: 90%;
 	position: absolute;
