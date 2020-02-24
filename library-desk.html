@@ -877,13 +877,13 @@ function new_SearchResult(studentname, studentid, parent) {
 	}
 }
 
-function updateSearchResults(values) {
+function updateSearchResults(tbl) {
 	var searchbar = document.getElementById('searchbar');
 	var resultsarea = document.getElementById('search-results');
-	if (values.length > 0) {
+	if (tbl.length > 0) {
 		searchbar.classList.add('hasresults');
 		resultsarea.innerHTML = '';
-		for (var i=0; i<values.length; i++) {
+		for (var i=0; i<tbl.length; i++) {
 			var res = new_SearchResult(tbl[i][1],tbl[i][0],resultsarea);
 			getLastSeen(tbl[i][0],res.updateLastSeen);
 		}
