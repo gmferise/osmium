@@ -856,7 +856,7 @@ function new_SearchResult(studentid, studentname, parent) {
 	obj.name = studentname;
 	obj.id = studentid;
 	var el = document.createElement('div');
-		el.setAttribute('onclick','showCommentsPopup('+studentid+','+studentname+')');
+		el.setAttribute('onclick','showCommentsPopup("'+studentid+'","'+studentname+'")');
 		var left = document.createElement('span');
 			left.innerText = obj.name;
 		el.appendChild(left);
