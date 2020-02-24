@@ -192,6 +192,9 @@ html {
 #search-results div.noresults:before {
 	content: 'error_outline';
 }
+#search-results div.helptxt:before {
+	content: 'help_outline';
+}
 #search-results div:hover {
 	background-color: antiquewhite;
 }

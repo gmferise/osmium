@@ -42,9 +42,6 @@
 					<i class="material-icons" onclick="toggleSearch(2)"></i>
 					<input type='text' id='searchfield' onclick="toggleSearch(1)" oninput="searchChange()" placeholder="Search"></input>
 					<div id='search-results'>
-						<div><span>Jotaro Joestar</span><span>Last Seen 2/21/2020, 12:26pm</span></div>
-						<div><span>Jotaro Joestar</span><span>Last Seen 2/21/2020, 12:26pm</span></div>
-						<div><span>Jotaro Joestar</span><span>Last Seen 2/21/2020, 12:26pm</span></div>
 					</div>
 				</div>
 			</div>
@@ -842,7 +839,7 @@ function throwSearch(searchval) {
 		searchbar.classList.add('hasresults');
 		resultsarea.innerHTML = '';
 		var noresults = document.createElement('div');
-			noresults.classList.add('noresults');
+			noresults.classList.add('helptxt');
 			var left = document.createElement('span');
 				left.innerText = "Type a student name or valid student number";
 			noresults.appendChild(left);
