@@ -368,11 +368,12 @@ html {
 	padding: 5px 0;
 	border-radius: 6px;
  
+	position: absolute;
 	width: 120px;
-	top: 100%;
 	left: 50%;
 	margin-left: -60px;
 	z-index: 1;
+	transition: opacity 0.25s ease-in-out;
 }
 .card-popup-container div.title-center div.tooltip span {
 	padding-left: 10px;

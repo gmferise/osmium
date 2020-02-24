@@ -824,7 +824,7 @@ function searchChange() {
 }
 
 function throwSearch(searchval) {
-	if (RegExp('^\\d{6}$').test(searchval)) {//matches studentid
+	if (RegExp('^\\d{6,9}$').test(searchval)) {//matches studentid
 		searchById(searchval);
 		document.getElementById('searchbar').classList.remove('hasresults');
 	} else if (!(RegExp('^\\d*$').test(searchval))) {//not just a number
