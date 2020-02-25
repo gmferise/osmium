@@ -131,6 +131,18 @@ function showError(errorname) {
 			break;
 	}
 }
+function errorPopup(message) {
+	var popup = document.createElement('div');
+		popup.classList.add('error-popup');
+		var text = document.createElement('div');
+			text.innerHTML = message;
+		popup.appendChild(text);
+		var close = document.createElement('button');
+			close.innerHTML = 'close';
+			close.setAttribute('onclick','this.parentElement.remove()');
+		popup.appendChild(close);
+	document.body.appendChild(popup);
+}
 
 function get12time(date) {
 	var hours = date.getHours();
@@ -918,8 +930,8 @@ function toggleSearch(focusstate) {
 		sbar.classList.remove('hasresults');
 	} else if ((focusstate > 0)&&(sres.childElementCount > 0)) { //gained focus & has stuff 2 show
 		sbar.classList.add('hasresults');	
-	} else if ((focusstate == 2)){ //icon click
-		if (sbar.classList.contains('hasresults') {//clear if x
+	} else if (focusstate == 2) { //icon click
+		if (sbar.classList.contains('hasresults')) {//clear if x
 			s.value = "";
 			sres.innerHTML = "";
 			sbar.classList.remove('hasresults');

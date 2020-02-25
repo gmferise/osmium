@@ -1480,6 +1480,30 @@ div.half-pair .right {
 	display: table-cell;
 }
 
+/* error popup */
+div.error-popup {
+	z-index: 3000;
+	position: absolute;
+	width: 80%;
+	top: 80%;
+	left: 10%;
+	background: #ca3f3f;
+	border: 1px solid rgba(255,255,255,0.25);
+}
+div.error-popup button {
+	font-family: "Material Icons";
+	width: 40px;
+	height: 40px;
+	float: right;
+	border-radius: 20px;
+	border: 1px solid rgba(0,0,0,0.2);
+	transition: all 0.1s ease-in-out;
+}
+div.error-popup button:hover {
+	border: 1px solid rgba(255,0,0,0.5);
+	box-shadow: 0 0 4px rgb(255,0,0), 0 0 0px 3px #fff;
+}
+
 /* toggle switches */
 .switch {
 	position: relative;
