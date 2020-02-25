@@ -279,16 +279,18 @@ function showCommentsPopup(id,name) {
 			var header = document.createElement('div');
 				header.classList.add('title-center');
 				header.id = 'student-name-edit';
-				header.innerHTML = name;
+				var headertxt = document.createElement('span');
+					headertxt.innerHTML = name;
+					var tooltip = document.createElement('div');
+						tooltip.classList.add('tooltip');
+						var tooltiptext = document.createElement('span');
+							tooltiptext.innerHTML = id;
+						tooltip.appendChild(tooltiptext);
+					headertxt.appendChild(tooltip);
+				header.appendChild(headertxt);
 				var editbtn = document.createElement('button');
-					editbtn.setAttribute('onclick','showEditStudentName(true,'+id+',this.parentElement.childNodes[0].nodeValue);');
+					editbtn.setAttribute('onclick','showEditStudentName(true,'+id+',this.parentElement.children[0].innerText);');
 				header.appendChild(editbtn);
-				var tooltip = document.createElement('div');
-					tooltip.classList.add('tooltip');
-					var tooltiptext = document.createElement('span');
-						tooltiptext.innerHTML = id;
-					tooltip.appendChild(tooltiptext);
-				header.appendChild(tooltip);
 			container.appendChild(header);
 			var center = document.createElement('div');
 				center.classList.add('middle-wrapper');
@@ -788,7 +790,7 @@ function throwEditStudentName() {
 		if (name != "") {
 			document.getElementById('edit-name-loading').classList.add('loading');
 			setReferenceName(document.getElementById('stuid').value,name);
-			document.getElementById('student-name-edit').childNodes[0].nodeValue = name;
+			document.getElementById('student-name-edit').children[0].innerText = name;
 			editStudentNameHTMLSTATE = 1;
 		}
 	}
