@@ -919,7 +919,7 @@ function toggleSearch(focusstate) {
 	} else if ((focusstate > 0)&&(sres.childElementCount > 0)) { //gained focus & has stuff 2 show
 		sbar.classList.add('hasresults');	
 	} else if ((focusstate == 2)){ //icon click
-		if (sbar.classList).contains('hasresults') {//clear if x
+		if (sbar.classList.contains('hasresults') {//clear if x
 			s.value = "";
 			sres.innerHTML = "";
 			sbar.classList.remove('hasresults');
