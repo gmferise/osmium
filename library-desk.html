@@ -916,11 +916,12 @@ function toggleSearch(focusstate) {
 	var s = document.getElementById('searchfield');
 	if ((focusstate == 0)&&(document.activeElement != s)) { //lost focus
 		sbar.classList.remove('hasresults');
-	} else if ((focusstate == 1)&&(sres.childElementCount > 0)) { //gained focus & has stuff 2 show
+	} else if ((focusstate > 0)&&(sres.childElementCount > 0)) { //gained focus & has stuff 2 show
 		sbar.classList.add('hasresults');	
 	} else if ((focusstate == 2)){ //icon click
-		if ((s.value != "")||(sbar.classList).contains('hasresults')) {//clear if x
+		if (sbar.classList).contains('hasresults') {//clear if x
 			s.value = "";
+			sres.innerHTML = "";
 			sbar.classList.remove('hasresults');
 		}
 		s.focus();
