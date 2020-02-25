@@ -1484,24 +1484,46 @@ div.half-pair .right {
 div.error-popup {
 	z-index: 3000;
 	position: absolute;
-	width: 80%;
-	top: 80%;
-	left: 10%;
+	width: 80vw;
+	top: 80vh;
+	left: 10vw;
+	height: 8vh;
 	background: #ca3f3f;
-	border: 1px solid rgba(255,255,255,0.25);
+	border: 1px solid rgba(255,255,255,0.75);
+	animation: anim-from-bottom 0.5s ease-in-out forwards;
+}@keyframes anim-from-bottom {
+	0% {transform:translateY(100%);opacity:0;}
+	100% {transform:translateY(0%);opacity:1;}
+}
+div.error-popup div {
+	position: absolute;
+	color: white;
+	font-weight: 100;
+	font-size: 2vw;
+	top: 50%;
+	left: 1vw;
+	transform: translateY(-50%);
 }
 div.error-popup button {
 	font-family: "Material Icons";
-	width: 40px;
-	height: 40px;
-	float: right;
-	border-radius: 20px;
-	border: 1px solid rgba(0,0,0,0.2);
-	transition: all 0.1s ease-in-out;
+	font-size: 1vw;
+	width: 2.5vw;
+	padding: 0;
+	height: 2.5vw;
+	position: absolute;
+	border-radius: 100%;
+	background: transparent;
+	border: 0;
+	transition: box-shadow 0.1s ease-in-out, font-size 0.1s ease-in-out;
+	color: white;
+	top: 50%;
+	left: 77vw;
+	cursor: pointer;
+	transform: translateY(-50%);
+	box-shadow: 0 0 0px 0px #fff, inset 0 0 0px 3px #fff;
 }
 div.error-popup button:hover {
-	border: 1px solid rgba(255,0,0,0.5);
-	box-shadow: 0 0 4px rgb(255,0,0), 0 0 0px 3px #fff;
+	box-shadow: 0 0 0px 3px #fff, inset 0 0 0px 0px #fff;
 }
 
 /* toggle switches */

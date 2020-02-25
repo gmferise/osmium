@@ -116,21 +116,22 @@
 function showError(errorname) {
 	switch (errorname) {
 		case 'no-url-database':
-			throw new Error("CRITICAL ERROR: No database selected.");
+			errorPopup("CRITICAL ERROR: No database selected via url.");
 			break;
 		case 'auth-lost':
-			throw new Error("CRITICAL ERROR: Authentication lost.");
+			errorPopup("CRITICAL ERROR: Google authentication lost.");
 			break;
 		case 'db-get-fail':
-			throw new Error("ERROR: Could not update event list.");
+			errorPopup("ERROR: Could not update event list.");
 		case 'bad-pageid':
-			throw new Error("CRITICAL ERROR: Page ID for second sheet not set. Was a database selected?");
+			errorPopup("CRITICAL ERROR: Page ID for second sheet not set. (Was a database selected?)");
 			break;
 		default:
-			throw new Error("UNDEFINED ERROR: "+errorname+" (No more context was provided)");
+			errorPopup("UNDEFINED ERROR: "+errorname+" (No more context was provided)");
 			break;
 	}
 }
+
 function errorPopup(message) {
 	var popup = document.createElement('div');
 		popup.classList.add('error-popup');
@@ -142,6 +143,7 @@ function errorPopup(message) {
 			close.setAttribute('onclick','this.parentElement.remove()');
 		popup.appendChild(close);
 	document.body.appendChild(popup);
+	throw new Error(message);
 }
 
 function get12time(date) {
