@@ -21,14 +21,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 	<body id='auth-body' class='bigbody'>
-		<div style="position: fixed; left:0;top:0;">
-			<a onclick="
-			document.getElementById('auth-body').classList.toggle('authenticated');
-			document.getElementById('google-profilepic').src = 'favicon.ico';
-			document.getElementById('google-userinfo').innerHTML = 'Signed in as osmium-localhost@gmail.com';
-			">toggle auth</a>
-			<a onclick="document.getElementById('auth-body').classList.toggle('databased')">toggle db</a>
-		</div>
 		<div id="newdb-popup" class="bigpopup pretty-scrollbar-light">
 			<div class="content">
 				<div class="title-center fullsize fullwidth">Create New Database</div>
@@ -74,6 +66,19 @@
 	</body>
 </html>
 <script>
+if (new URLSearchParams(window.location.search).get('debug') == "true") {
+	var div = document.createElement('div');
+		div.style = "position: fixed; left:0;top:0;"
+		var btn = document.createElement('button');
+			btn.setAttribute('onclick',"document.getElementById('auth-body').classList.toggle('authenticated');document.getElementById('google-profilepic').src = 'favicon.ico';document.getElementById('google-userinfo').innerHTML = 'Signed in as osmium-localhost@gmail.com';");
+			btn.innerHTML = "toggle db";
+		div.appendChild(btn);
+		var btn = document.createElement('button');
+			btn.setAttribute('onclick',"document.getElementById('auth-body').classList.toggle('databased')");
+			btn.innerHTML = "toggle auth";
+		div.appendChild(btn);
+	document.body.appendChild(div);
+}
 function showError(errorname) {
 	switch (errorname) {
 		case 'no-url-database':
@@ -197,6 +202,7 @@ function updateAuthButton() {
 			el.classList.add('authenticated');
 			document.getElementById('google-profilepic').src = GoogleAuth.currentUser.get().getBasicProfile().getImageUrl();
 			document.getElementById('google-userinfo').innerHTML = "Signed in as "+GoogleAuth.currentUser.get().getBasicProfile().getEmail();
+			document.getElementById('current-db').innerHTML = "Select a database:";
 			getDatabases();
 		}
 	}
