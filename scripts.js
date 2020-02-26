@@ -1,3 +1,19 @@
+/// *********************
+/// * Utility Functions *
+/// *********************
+function isoDate(dateObj){
+	// LOCAL ISO: YYYY-MM-DD HH:MM:SS
+	return dateObj.getFullYear()+"-"+padZeroes(2,dateObj.getMonth()+1)+"-"+padZeroes(2,dateObj.getDate())+" "+padZeroes(2,dateObj.getHours())+":"+padZeroes(2,dateObj.getMinutes())+":"+padZeroes(2,dateObj.getSeconds());
+}
+
+function padZeroes(width, num){
+	width -= num.toString().length;
+	if (width > 0){
+		return new Array(width+(/\./.test(num) ? 2 : 1)).join('0')+num;
+	}
+	return num+"";
+}
+
 /// ******************************
 /// * GOOGLE AUTH API AND CONFIG *
 /// ******************************
@@ -440,9 +456,7 @@ function pushEvent(id, type, comments, flags) {
 			"resource": {
 				"values": [
 				[id, name, type,
-				new Date().toLocaleString("en-CA-u-hc-h24",
-				{day:"2-digit", month:"2-digit", year:"numeric",
-				hour:"2-digit", minute:"2-digit", second:"2-digit"}).replace(",",""),
+				isoDate(new Date()),
 				comments, flags[0], flags[1], flags[2] ]
 				]
 			}
@@ -461,9 +475,7 @@ function pushEvent(id, type, comments, flags) {
 // Sets the comments column of the given a rowIndex
 function updateComment(id, type, dateObject, newComment){
 	// First get the number of rows with dates older than or exactly the target date
-	var dateString = dateObject.toLocaleString("en-CA-u-hc-h24",
-		{day:"2-digit", month:"2-digit", year:"numeric",
-		hour:"2-digit", minute:"2-digit", second:"2-digit"}).replace(",","");
+	var dateString = isoDate(dateObject);
 	gvzQuery("SELECT COUNT(D) WHERE D <= datetime '"+dateString+"'",
 	function(response){
 		var lteq = response.getDataTable().getDistinctValues(0)[0];
@@ -479,9 +491,7 @@ function updateComment(id, type, dateObject, newComment){
 				var row = []
 				for (var j = 0; j < rawtbl.getNumberOfColumns(); j++){
 					if (rawtbl.getColumnType(j) == "datetime"){
-						row.push(rawtbl.getValue(i,j).toLocaleString("en-CA-u-hc-h24",
-							{day:"2-digit", month:"2-digit", year:"numeric",
-							hour:"2-digit", minute:"2-digit", second:"2-digit"}).replace(",",""));
+						row.push(isoDate(rawtbl.getValue(i,j)));
 					}
 					else {
 						row.push(rawtbl.getValue(i,j));
@@ -664,9 +674,7 @@ function getLastSeen(id, callback){
 // Gets all table rows later than the given time
 // Returns through catch
 function getEventsAfter(dateObject){
-	var dateString = dateObject.toLocaleString("en-CA-u-hc-h24",
-				{day:"2-digit", month:"2-digit", year:"numeric",
-				hour:"2-digit", minute:"2-digit", second:"2-digit"}).replace(",","");
+	var dateString = isoDate(dateObject);
 	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D > datetime '"+dateString+"' ORDER BY D ASC", catchEventsAfter);
 }
 
