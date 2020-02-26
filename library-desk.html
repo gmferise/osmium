@@ -116,20 +116,34 @@
 function showError(errorname) {
 	switch (errorname) {
 		case 'no-url-database':
-			throw new Error("CRITICAL ERROR: No database selected.");
+			errorPopup("CRITICAL ERROR: No database selected via url.");
 			break;
 		case 'auth-lost':
-			throw new Error("CRITICAL ERROR: Authentication lost.");
+			errorPopup("CRITICAL ERROR: Google authentication lost.");
 			break;
 		case 'db-get-fail':
-			throw new Error("ERROR: Could not update event list.");
+			errorPopup("ERROR: Could not update event list.");
 		case 'bad-pageid':
-			throw new Error("CRITICAL ERROR: Page ID for second sheet not set. Was a database selected?");
+			errorPopup("CRITICAL ERROR: Page ID for second sheet not set. (Was a database selected?)");
 			break;
 		default:
-			throw new Error("UNDEFINED ERROR: "+errorname+" (No more context was provided)");
+			errorPopup("UNDEFINED ERROR: "+errorname+" (No more context was provided)");
 			break;
 	}
+}
+
+function errorPopup(message) {
+	var popup = document.createElement('div');
+		popup.classList.add('error-popup');
+		var text = document.createElement('div');
+			text.innerHTML = message;
+		popup.appendChild(text);
+		var close = document.createElement('button');
+			close.innerHTML = 'close';
+			close.setAttribute('onclick','this.parentElement.remove()');
+		popup.appendChild(close);
+	document.body.appendChild(popup);
+	throw new Error(message);
 }
 
 function get12time(date) {
@@ -279,16 +293,18 @@ function showCommentsPopup(id,name) {
 			var header = document.createElement('div');
 				header.classList.add('title-center');
 				header.id = 'student-name-edit';
-				header.innerHTML = name;
+				var headertxt = document.createElement('span');
+					headertxt.innerHTML = name;
+					var tooltip = document.createElement('div');
+						tooltip.classList.add('tooltip');
+						var tooltiptext = document.createElement('span');
+							tooltiptext.innerHTML = id;
+						tooltip.appendChild(tooltiptext);
+					headertxt.appendChild(tooltip);
+				header.appendChild(headertxt);
 				var editbtn = document.createElement('button');
-					editbtn.setAttribute('onclick','showEditStudentName(true,'+id+',this.parentElement.childNodes[0].nodeValue);');
+					editbtn.setAttribute('onclick','showEditStudentName(true,'+id+',this.parentElement.children[0].innerText);');
 				header.appendChild(editbtn);
-				var tooltip = document.createElement('div');
-					tooltip.classList.add('tooltip');
-					var tooltiptext = document.createElement('span');
-						tooltiptext.innerHTML = id;
-					tooltip.appendChild(tooltiptext);
-				header.appendChild(tooltip);
 			container.appendChild(header);
 			var center = document.createElement('div');
 				center.classList.add('middle-wrapper');
@@ -788,7 +804,7 @@ function throwEditStudentName() {
 		if (name != "") {
 			document.getElementById('edit-name-loading').classList.add('loading');
 			setReferenceName(document.getElementById('stuid').value,name);
-			document.getElementById('student-name-edit').childNodes[0].nodeValue = name;
+			document.getElementById('student-name-edit').children[0].innerText = name;
 			editStudentNameHTMLSTATE = 1;
 		}
 	}
@@ -813,7 +829,7 @@ function catchEditStudentName(){
 document.getElementById('searchfield').addEventListener("keydown", function(event) {
   if (event.keyCode === 13) {
     event.preventDefault();
-    throwSearch();
+    throwSearch(this.value);
   }
 });
 
@@ -914,11 +930,12 @@ function toggleSearch(focusstate) {
 	var s = document.getElementById('searchfield');
 	if ((focusstate == 0)&&(document.activeElement != s)) { //lost focus
 		sbar.classList.remove('hasresults');
-	} else if ((focusstate == 1)&&(sres.childElementCount > 0)) { //gained focus & has stuff 2 show
+	} else if ((focusstate > 0)&&(sres.childElementCount > 0)) { //gained focus & has stuff 2 show
 		sbar.classList.add('hasresults');	
-	} else if ((focusstate == 2)){ //icon click
-		if ((s.value != "")||(sbar.classList).contains('hasresults')) {//clear if x
+	} else if (focusstate == 2) { //icon click
+		if (sbar.classList.contains('hasresults')) {//clear if x
 			s.value = "";
+			sres.innerHTML = "";
 			sbar.classList.remove('hasresults');
 		}
 		s.focus();

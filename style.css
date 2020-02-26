@@ -358,41 +358,6 @@ html {
 	z-index: 100;
 	overflow: hidden;
 }
-.card-popup-container div.title-center div.tooltip {
-	visibility: hidden;
-	opacity: 0;
-	width: max-content;
-	background-color: black;
-	color: #fff;
-	text-align: center;
-	padding: 5px 0;
-	border-radius: 6px;
- 
-	position: absolute;
-	width: 120px;
-	left: 50%;
-	margin-left: -60px;
-	z-index: 1;
-	transition: opacity 0.25s ease-in-out;
-}
-.card-popup-container div.title-center div.tooltip span {
-	padding-left: 10px;
-	padding-right: 10px;
-}
-.card-popup-container div.title-center div.tooltip:after{
-	content: " ";
-	position: absolute;
-	bottom: 100%;
-	left: 50%;
-	margin-left: -5px;
-	border-width: 5px;
-	border-style: solid;
-	border-color: transparent transparent black transparent;
-}
-.card-popup-container div.title-center:hover div.tooltip {
-	visibility: visible;
-	opacity: 1;
-}
 .card-popup-container .middle-wrapper {
 	height: 90%;
 	position: absolute;
@@ -551,15 +516,53 @@ html {
 #student-name-edit button {
 	cursor: pointer;
 	display: inline;
-	margin-left: 10px;
 	font-size: 60%;
 	border: 0;
+	margin-left: 10px;
 	width: fit-content;
 	background: rgba(0,0,0,0.05);
 	border: 1px solid rgba(0,0,0,0.1);
 	padding: 5px;
 	border-radius: 10px;
 	font-family: 'Material Icons';
+}
+#student-name-edit span {
+	font-size: inherit;
+}
+#student-name-edit span div.tooltip {
+	visibility: hidden;
+	opacity: 0;
+	width: max-content;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	padding: 5px 0;
+	border-radius: 6px;
+ 
+	position: absolute;
+	width: 120px;
+	left: 50%;
+	margin-left: -60px;
+	z-index: 1;
+	transition: opacity 0.25s ease-in-out;
+}
+#student-name-edit span div.tooltip span {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+#student-name-edit span div.tooltip:after{
+	content: " ";
+	position: absolute;
+	bottom: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: transparent transparent black transparent;
+}
+#student-name-edit span:hover div.tooltip {
+	visibility: visible;
+	opacity: 1;
 }
 #student-name-edit button:after {
 	content: 'edit';
@@ -1475,6 +1478,52 @@ div.half-pair .right {
 	padding-left: 1em;
 	width: 50%;
 	display: table-cell;
+}
+
+/* error popup */
+div.error-popup {
+	z-index: 3000;
+	position: absolute;
+	width: 80vw;
+	top: 80vh;
+	left: 10vw;
+	height: 8vh;
+	background: #ca3f3f;
+	border: 1px solid rgba(255,255,255,0.75);
+	animation: anim-from-bottom 0.5s ease-in-out forwards;
+}@keyframes anim-from-bottom {
+	0% {transform:translateY(100%);opacity:0;}
+	100% {transform:translateY(0%);opacity:1;}
+}
+div.error-popup div {
+	position: absolute;
+	color: white;
+	font-weight: 100;
+	font-size: 2vw;
+	top: 50%;
+	left: 1vw;
+	transform: translateY(-50%);
+}
+div.error-popup button {
+	font-family: "Material Icons";
+	font-size: 1vw;
+	width: 2.5vw;
+	padding: 0;
+	height: 2.5vw;
+	position: absolute;
+	border-radius: 100%;
+	background: transparent;
+	border: 0;
+	transition: box-shadow 0.1s ease-in-out, font-size 0.1s ease-in-out;
+	color: white;
+	top: 50%;
+	left: 77vw;
+	cursor: pointer;
+	transform: translateY(-50%);
+	box-shadow: 0 0 0px 0px #fff, inset 0 0 0px 3px #fff;
+}
+div.error-popup button:hover {
+	box-shadow: 0 0 0px 3px #fff, inset 0 0 0px 0px #fff;
 }
 
 /* toggle switches */
