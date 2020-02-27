@@ -27,7 +27,7 @@
 				<div id="push-tech-message" class="large-text center-h">
 				<div class='small-text center-h'></div>
 				<div class="small-spacer"></div></div>
-				<button class="big" onclick="this.parentElement.parentElement.classList.remove('visible')">Ok</div>
+				<button class="big" onclick="hidePushSuccess();">Ok</div>
 			</div>
 		</div>
 		<div class="fixedratio">
@@ -151,6 +151,7 @@ function errorPopup(message) {
 }
 
 function doFullscreen() {
+	return;
 	var docElm = document.documentElement;
 	if (docElm.requestFullscreen) {
 		docElm.requestFullscreen();
@@ -184,10 +185,25 @@ document.body.addEventListener("keydown", function(event) {
 	}
 });
 
+var pushSuccessTimeout = null;
+function showPushSuccess(autoTimeout) {
+	document.getElementById('push-success-popup').classList.add('visible');
+	if (autoTimeout != -1) {
+		pushSuccessTimeout = setTimeout(hidePushSuccess,autoTimeout);
+	}
+}
+function hidePushSuccess() {
+	if (pushSuccessTimeout != null) {
+		clearTimeout(pushSuccessTimeout);
+		pushSuccessTimeout = null;
+	}
+	document.getElementById('push-success-popup').classList.remove('visible');
+}
+
 function showSignIn(state) {
 	if (state == true) {
 		document.getElementById('sign-in-popup').classList.add('visible');
-		setTimeout(function(){document.getElementById('sign-in-id').focus()},250);
+		document.getElementById('sign-in-id').focus();
 	} else {
 		document.getElementById('sign-in-popup').classList.remove('visible');
 		document.getElementById("sign-in-id").value = "";
@@ -224,7 +240,7 @@ function throwSignIn() {
 function showSignOut(state) {
 	if (state == true) {
 		document.getElementById('sign-out-popup').classList.add('visible');
-		setTimeout(function(){document.getElementById('sign-out-id').focus()},250);
+		document.getElementById('sign-out-id').focus();
 	} else {
 		document.getElementById('sign-out-popup').classList.remove('visible');
 		document.getElementById("sign-out-id").value = "";
@@ -259,7 +275,7 @@ function catchUnknownId(id,type) {
 	bonus.classList.remove('newid');
 	bonus.classList.add('unknownid');
 	document.getElementById('push-success-title').textContent = "Oops! Did you make a typo?";
-	document.getElementById('push-success-popup').classList.add('visible');
+	showPushSuccess(-1) //typo message
 	lastunknownid = id;
 	
 	if (type == "sign-in") {
@@ -281,8 +297,12 @@ function catchPushEvent(name, type, flags) {
 	bonus.classList.remove('newid');
 	if (name == "Unknown Student") {
 		bonus.classList.add('newid');
+		showPushSuccess(5000); //unknown student message
 	} else if (flags[1]) {
 		bonus.classList.add('tech');
+		showPushSuccess(5000); //tech message
+	} else {
+		showPushSuccess(3000); //normal sign in/out
 	}
 	if (type == 'sign-in') {
 		if (signInHTMLSTATE == 1) { //don't touch UI if already closed
@@ -295,8 +315,7 @@ function catchPushEvent(name, type, flags) {
 		}
 		document.getElementById('push-success-title').textContent = "Goodbye, "+name;
 	}
-	document.getElementById('push-success-popup').classList.add('visible');
-	console.log(name+' '+type+' '+flags);
+	//console.log(name+' '+type+' '+flags);
 
 }
 
@@ -306,7 +325,7 @@ function numpadInput(targetid,value) {
 		if (target.value.length > 0) {
 			target.value = target.value.substring(0,target.value.length-1);
 		}
-	} else if ((isNaN(value) == false)&&(target.value.length <= 9)) { //MAX CHAR 9
+	} else if ((isNaN(value) == false)&&(target.value.length < 9)) { //MAX CHAR 9
 		target.value += value;
 	}
 }

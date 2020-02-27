@@ -985,13 +985,14 @@ div.bigpopup div.content button.ok:after {
 div.bigpopup div.content button.ok.loading:after {
 	font-size: inherit;
 	font-family: inherit;
-	content: 'sync';
+	content: 'sync' !important;
 	display: inline-block;
 	animation: loading 1s infinite ease-in-out;
 } @keyframes loading {
 	0% {transform: rotate(0deg);}
 	100% {transform: rotate(-360deg);}
 }
+
 div.bigpopup div.content button.ok:hover {
 	border: 1px solid limegreen;
 }
