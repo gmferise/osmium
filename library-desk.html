@@ -217,7 +217,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 			//todo send "moved to tech" query
 			//obj.updateStatusAndColor("sign-in",true);
 			if (!(obj.card.classList.contains('loading'))) {
-			pushEvent(obj.id, 'sent-tech', '', [false,false,false]);
+			pushEvent(obj.id, 'sent-tech', '', [false,false,false], true);
 				obj.card.classList.add('loading');
 				pauseUpdate = 1;
 				clearTimeout(pauseUpdateTimer);
