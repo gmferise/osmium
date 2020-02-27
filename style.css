@@ -983,16 +983,21 @@ div.bigpopup div.content button.ok:after {
 	content: 'arrow_forward';
 }
 div.bigpopup div.content button.ok.loading:after {
-	font-size: inherit;
-	font-family: inherit;
-	content: 'sync' !important;
+	display: none;
+}
+div.bigpopup div.content button.ok svg {
+	width: 6vh;
+	height: 6vh;
+	display: none;
+}
+div.bigpopup div.content button.ok.loading svg {
 	display: inline-block;
 	animation: loading 1s infinite ease-in-out;
-} @keyframes loading {
+}
+@keyframes loading {
 	0% {transform: rotate(0deg);}
 	100% {transform: rotate(-360deg);}
 }
-
 div.bigpopup div.content button.ok:hover {
 	border: 1px solid limegreen;
 }
