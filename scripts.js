@@ -440,13 +440,17 @@ function selectDatabaseIdFromUrl() {
 /// ***** ASYNC FUNCTIONS *****
 
 // Input: id, event name, comments, bool[](studying, technology, printing)
-function pushEvent(id, type, comments, flags) {
+function pushEvent(id, type, comments, flags, forceunknown) {
 	// Get name from uid 
 	getName(id, function(response){
 		name = response.getDataTable().getDistinctValues(1)[0];
 		if (name == "undefined") {
-			name = "Unknown Student";
-			console.log("pushEvent() WARN: No name found for id "+id);
+			if (forceunknown) {
+				name = "Unknown Student";
+			} else {
+				catchUnknownId(id);
+				return;
+			}
 		}
 		// Update values
 		gapi.client.sheets.spreadsheets.values.append({

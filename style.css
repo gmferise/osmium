@@ -878,12 +878,21 @@ body.bigbody button.new:focus {
 #push-tech-message.tech .small-text:after {
 	content: "(It's the big one in the center.)";
 }
-#push-tech-message.loaner:before {
+#push-tech-message.unknownid:before {
 	display: block;
-	content: 'Please visit the Tech Office for loaner laptops.';
+	color: red;
+	content: 'Your student ID was not recognized. Please try again.';
 }
-#push-tech-message.loaner .small-text:after {
-	content: "(You can head straight there. Let them know you're there to borrow/return a loaner.)";
+#push-tech-message.unknownid .small-text:after {
+	color: red;
+	content: "";
+}
+#push-tech-message.newid:before {
+	display: block;
+	content: "It looks like we don't have your name yet. Please visit the Library Desk.";
+}
+#push-tech-message.newid .small-text:after {
+	content: "(It's the big one in the center.)";
 }
 div.bigpopup {
 	z-index: 200;	
