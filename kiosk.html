@@ -20,7 +20,7 @@
 		<!-- <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"> -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
-	<body class="bigbody">
+	<body class="bigbody" onclick="doFullscreen()">
 		<div id="push-success-popup" class="bigpopup pretty-scrollbar-light">
 			<div class="content">
 				<div id="push-success-title" class="title-center fullsize"></div>
@@ -148,6 +148,22 @@ function errorPopup(message) {
 		popup.appendChild(close);
 	document.body.appendChild(popup);
 	throw new Error(message);
+}
+
+function doFullscreen() {
+	var docElm = document.documentElement;
+	if (docElm.requestFullscreen) {
+		docElm.requestFullscreen();
+	}
+	else if (docElm.mozRequestFullScreen) {
+		docElm.mozRequestFullScreen();
+	}
+	else if (docElm.webkitRequestFullScreen) {
+		docElm.webkitRequestFullScreen();
+	}
+	else if (docElm.msRequestFullscreen) {
+		docElm.msRequestFullscreen();
+	}
 }
 
 document.getElementById('sign-in-id').addEventListener("keydown", function(event) {
