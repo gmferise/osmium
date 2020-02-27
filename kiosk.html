@@ -190,7 +190,11 @@ function throwSignIn() {
 		var studentid = document.getElementById('sign-in-id').value;
 		if ((studentid.length >= 6)&&(studentid.length <= 9)) { //MAX CHAR 9
 			document.getElementById('sign-in-loading').classList.add('loading');
-			pushEvent(studentid, 'sign-in', '', [document.getElementById('library-checkbox').checked, document.getElementById('tech-help-checkbox').checked, document.getElementById('print-checkbox').checked]);
+			var flags = [document.getElementById('library-checkbox').checked, document.getElementById('tech-help-checkbox').checked, document.getElementById('print-checkbox').checked];
+			if (flags[0]+flags[1]+flags[2] == 0) {//default check library
+				flags[0] = true;
+			}
+			pushEvent(studentid, 'sign-in', '', flags);
 			signInHTMLSTATE = 1;
 		}
 	}
