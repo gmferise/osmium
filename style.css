@@ -979,6 +979,9 @@ div.bigpopup div.content button.ok:after {
 	font-family: inherit;
 	content: 'done';
 }
+#sign-in-popup div.content button.ok:after, #sign-out-popup div.content button.ok:after { /*for kiosk*/
+	content: 'arrow_forward';
+}
 div.bigpopup div.content button.ok.loading:after {
 	font-size: inherit;
 	font-family: inherit;

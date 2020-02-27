@@ -166,20 +166,21 @@ function doFullscreen() {
 	}
 }
 
-document.getElementById('sign-in-id').addEventListener("keydown", function(event) {
-    event.preventDefault();
-	if (event.keyCode === 13) {
-		throwSignIn();
-	} else {
-		numpadInput('sign-in-id',event.key.toLowerCase());
-    }
-});
-document.getElementById('sign-out-id').addEventListener("keydown", function(event) {
-    event.preventDefault();
-	if (event.keyCode == 13) {
-		throwSignOut();
-	} else {
-		numpadInput('sign-out-id',event.key.toLowerCase());
+document.body.addEventListener("keydown", function(event) {
+	if (document.getElementById('sign-in-popup').classList.contains('visible')) {
+		event.preventDefault();
+		if (event.keyCode === 13) {
+			throwSignIn();
+		} else {
+			numpadInput('sign-in-id',event.key.toLowerCase());
+		}
+    } else if (document.getElementById('sign-out-popup').classList.contains('visible')) {
+		event.preventDefault();
+		if (event.keyCode == 13) {
+			throwSignOut();
+		} else {
+			numpadInput('sign-out-id',event.key.toLowerCase());
+		}
 	}
 });
 
@@ -255,6 +256,7 @@ var lastunknownid = '';
 function catchUnknownId(id,type) {
 	var bonus = document.getElementById('push-tech-message');
 	bonus.classList.remove('tech');
+	bonus.classList.remove('newid');
 	bonus.classList.add('unknownid');
 	document.getElementById('push-success-title').textContent = "Oops! Did you make a typo?";
 	document.getElementById('push-success-popup').classList.add('visible');
