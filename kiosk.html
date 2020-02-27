@@ -259,6 +259,8 @@ function catchUnknownId(id,type) {
 function catchPushEvent(name, type, flags) {
 	var bonus = document.getElementById('push-tech-message');
 	bonus.classList.remove('tech');
+	bonus.classList.remove('unknownid');
+	bonus.classList.remove('newid');
 	if (name == "Unknown Student") {
 		bonus.classList.add('newid');
 	} else if (flags[1]) {

@@ -889,7 +889,7 @@ body.bigbody button.new:focus {
 }
 #push-tech-message.newid:before {
 	display: block;
-	content: "It looks like we don't have your name yet. Please visit the Library Desk.";
+	content: "Please visit the Library Desk so we can get your name.";
 }
 #push-tech-message.newid .small-text:after {
 	content: "(It's the big one in the center.)";
