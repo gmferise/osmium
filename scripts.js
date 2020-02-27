@@ -448,7 +448,7 @@ function pushEvent(id, type, comments, flags, forceunknown) {
 			if (forceunknown) {
 				name = "Unknown Student";
 			} else {
-				catchUnknownId(id);
+				catchUnknownId(id,type);
 				return;
 			}
 		}
