@@ -309,6 +309,10 @@ html {
 	position: relative;
 	cursor: pointer;
 }
+.check-card .medium-text:hover {
+	text-decoration: solid underline rgba(255,255,255,0.7);
+    text-decoration-skip-ink: none;
+}
 .check-card .small-text {
 	font-size: x-large;
 	font-weight: 400;
