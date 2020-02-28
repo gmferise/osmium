@@ -103,6 +103,9 @@ html {
 	padding-top: 5px;
 	padding-bottom: 5px;
 }
+.middle-wrapper.minmargin {
+	max-width: calc(90% - 120px);
+}
 /* searchbar */
 #searchbar {
 	height: 100%;
@@ -265,6 +268,7 @@ html {
 
 /* CARDS */
 .check-card {
+	max-width: calc(90% - 120px);
 	width: 80%;
 	margin-left: 10%;
 	margin-top: 20px;
