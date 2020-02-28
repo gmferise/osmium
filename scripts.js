@@ -36,12 +36,12 @@ function toggleAuth() {
 
 // Called from HTML to finish loading API
 function loadAuth() {
-	gapi.auth2.getAuthInstance().signOut();
 	gapi.load("client:auth2", initClient);
 }
 
 // Generates auth client instance, stored in GoogleAuth
 function initClient() {
+	gapi.auth2.getAuthInstance().signOut();
 	// do not place docs directly in the array, must be evaluated beforehand
 	var docs = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest","https://www.googleapis.com/discovery/v1/apis/sheets/v4/rest"];
 	gapi.client.init({ // Initialize a client with these properties
