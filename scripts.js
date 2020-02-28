@@ -163,7 +163,7 @@ function createDatabase(name){
 					"userEnteredFormat": {
 						"numberFormat": {
 							"type": "DATE_TIME",
-							"pattern": "yyyy-mm-dd HH:MM:SS"
+							"pattern": "h:mmaa M/d"
 						}
 					}
 				},
