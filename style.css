@@ -983,19 +983,27 @@ div.bigpopup div.content button.ok:after {
 #sign-in-popup div.content button.ok:after, #sign-out-popup div.content button.ok:after { /*for kiosk*/
 	content: 'arrow_forward';
 }
-div.bigpopup div.content button.ok.loading:after {
-	display: none;
-}
-div.bigpopup div.content button.ok svg {
+/*svg loader*/
+#sign-in-popup div.content button.ok svg, #sign-out-popup div.content button.ok svg {
 	width: 6vh;
 	height: 6vh;
 	display: none;
 }
-div.bigpopup div.content button.ok.loading svg {
+#sign-in-popup div.content button.ok.loading svg, #sign-out-popup div.content button.ok.loading svg {
 	display: inline-block;
 	animation: loading 1s infinite ease-in-out;
 }
-@keyframes loading {
+#sign-in-popup div.content button.ok.loading:after, #sign-out-popup div.content button.ok.loading:after {
+	display: none;
+}
+
+div.bigpopup div.content button.ok.loading:after {
+	font-size: inherit;
+	font-family: inherit;
+	content: 'sync' !important;
+	display: inline-block;
+	animation: loading 1s infinite ease-in-out;
+} @keyframes loading {
 	0% {transform: rotate(0deg);}
 	100% {transform: rotate(-360deg);}
 }
