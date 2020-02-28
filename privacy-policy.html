@@ -8,44 +8,50 @@
 	<body>
 		<h1>Osmium Privacy Policy</h1>
 		<p>
-			It is understandable to be concerned when an application is asking access to manage your files and Google account.
+			It is understandable to be concerned when an application is asking access to manage your files.
 			We highly value your security and privacy, so this document will explain to you what exactly we need access to and why.
-			This document and application is written to comply with the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>.
+		</p>
+		<h2>Data Collection and Storage</h2>
+		<p>
+			Our app does not store or collect any data from your Google Account, the files on your Google Account, or your browser.
+			It's sole purpose is to be a user-friendly interface to input and view data stored in Google Sheets.
 		</p>
 		
 		<h2>Google Permissions and Scopes</h2>
 		<p>
-			When making requests to Google's API, we ask for permission to different types of requests in the form of scopes.
-			A scope is essentially a bundle of permissions.
+
+		</p>
+		<p>
+			When performing actions with Google's API, we must enable certain scopes.
+			A scope is essentially a package of permissions.
 			We use as few as possible, and we don't use all of the permissions each scope grants.
-			Here are the scopes we request access to and why we need them.
+			Here are the scopes we use and the individual permissions we use from them.
 		</p>
 		<table>
 			<tr>
 				<th>Scope</th>
-				<th>Permissions Granted</th>
+				<th>Full Permissions</th>
+				<th>Used Permissions</th>
 				<th>Explanation</th>				
 			</tr>
 			<tr>
 				<td>/auth/spreadsheets</td>
 				<td>See, edit, create, and delete your spreadsheets in Google Drive</td>
+				<td>See, edit, and create only</td>
 				<td>Used to create new databases and edit the contents of existing databases</td>
 			</tr>
 			<tr>
 				<td>/auth/drive.file</td>
 				<td>View and manage Google Drive files and folders that you have opened or created with this app</td>
-				<td>Used to view and manage databases created with our app</td>
+				<td>View and manage</td>
+				<td>Used to view databases created with our app</td>
 			</tr>
 			<tr>
-				<td>/auth/drive.metadata.readonly</td>
-				<td>View metadata for files in your Google Drive</td>
-				<td>Used to search for databases in your Google Drive</td>
+				<td>/auth/drive</td>
+				<td> See, edit, create, and delete all of your Google Drive files</td>
+				<td>See and edit only</td>
+				<td>Used to search for and edit databases that were not created with our app or aren't owned by you</td>
 			</tr>
 		</table>
-		
-		<h2>Additional Google Data</h2>
-		<p>
-			It should also be noted that we use very basic profile data from your Google account to personalize the appearance of our app when you are signed in. This includes your account email, name, and profile photo.
-		</p>
 	</body>
 </html>
