@@ -51,7 +51,8 @@ function initClient() {
 	}).then(function() {
 		GoogleAuth = gapi.auth2.getAuthInstance();
 		GoogleAuth.isSignedIn.listen(onAuthUpdate);
-		GoogleAuth.signOut();
+		if (document.URL == "https://gmferise.github.io/osmium/") { GoogleAuth.signOut(); }
+		else { onAuthUpdate(); } // Still must be called, tells frontend auth has loaded
 	});
 }
 
@@ -163,7 +164,7 @@ function createDatabase(name){
 					"userEnteredFormat": {
 						"numberFormat": {
 							"type": "DATE_TIME",
-							"pattern": "yyyy-mm-dd HH:MM:SS"
+							"pattern": "h:mmaa M/d"
 						}
 					}
 				},
