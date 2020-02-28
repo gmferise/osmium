@@ -51,7 +51,7 @@ function initClient() {
 	}).then(function() {
 		GoogleAuth = gapi.auth2.getAuthInstance();
 		GoogleAuth.isSignedIn.listen(onAuthUpdate);
-		GoogleAuth.signOut();
+		if (document.URL == "https://gmferise.github.io/osmium/") { GoogleAuth.signOut(); }
 	});
 }
 
