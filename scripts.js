@@ -390,6 +390,7 @@ function getDatabases(newDatabase){
 // Gets second page id of currently selected database
 // Returns through catch
 function getPageId(){
+	if (databaseId == undefined) { showError("no-database-selected"); return; }
 	return gapi.client.sheets.spreadsheets.get({
 			spreadsheetId: databaseId
 	}).then(function(response){
