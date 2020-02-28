@@ -14,6 +14,11 @@ function padZeroes(width, num){
 	return num+"";
 }
 
+function readCookie(key){
+    var result;
+    return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
+}
+
 /// ******************************
 /// * GOOGLE AUTH API AND CONFIG *
 /// ******************************
@@ -28,7 +33,11 @@ function toggleAuth() {
 		GoogleAuth.signOut();
 	}
 	else {
-		GoogleAuth.signIn();
+		GoogleAuth.signIn().then(function(response){
+			if (GoogleAuth.isSignedIn()){
+				document.cookie = "keepAuth=true";
+			}
+		});
 	}
 }
 
@@ -51,7 +60,7 @@ function initClient() {
 	}).then(function() {
 		GoogleAuth = gapi.auth2.getAuthInstance();
 		GoogleAuth.isSignedIn.listen(onAuthUpdate);
-		if (document.URL == "https://gmferise.github.io/osmium/") { GoogleAuth.signOut(); }
+		if (document.URL == "https://gmferise.github.io/osmium/" && readCookie("keepAuth") == false) { GoogleAuth.signOut(); }
 		else { onAuthUpdate(); } // Still must be called, tells frontend auth has loaded
 	});
 }
