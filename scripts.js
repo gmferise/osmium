@@ -36,6 +36,7 @@ function toggleAuth() {
 
 // Called from HTML to finish loading API
 function loadAuth() {
+	gapi.auth2.getAuthInstance().signOut();
 	gapi.load("client:auth2", initClient);
 }
 
@@ -50,7 +51,6 @@ function initClient() {
 		"scope":"https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets"
 	}).then(function() {
 		GoogleAuth = gapi.auth2.getAuthInstance();
-		GoogleAuth.signOut();
 		GoogleAuth.isSignedIn.listen(onAuthUpdate);
 		onAuthUpdate();
 	});
