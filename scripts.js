@@ -41,7 +41,6 @@ function loadAuth() {
 
 // Generates auth client instance, stored in GoogleAuth
 function initClient() {
-	gapi.auth2.getAuthInstance().signOut();
 	// do not place docs directly in the array, must be evaluated beforehand
 	var docs = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest","https://www.googleapis.com/discovery/v1/apis/sheets/v4/rest"];
 	gapi.client.init({ // Initialize a client with these properties
@@ -51,8 +50,9 @@ function initClient() {
 		"scope":"https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets"
 	}).then(function() {
 		GoogleAuth = gapi.auth2.getAuthInstance();
-		GoogleAuth.isSignedIn.listen(onAuthUpdate);
+		GoogleAuth.signOut();
 		onAuthUpdate();
+		GoogleAuth.isSignedIn.listen(onAuthUpdate);
 	});
 }
 
