@@ -90,8 +90,6 @@ function showError(errorname) {
 		case 'bad-pageid':
 			console.warn("CRITICAL ERROR: Page ID for reference sheet not set. (Was a database selected?)");
 			break;
-		case 'no-url-bookmark':
-			console.log("No bookmarked database in URL.");
 		default:
 			errorPopup("UNDEFINED ERROR: "+errorname+" (No more context was provided)");
 			break;
@@ -221,7 +219,6 @@ function updateAuthButton() {
 }
 
 function onAuthUpdate() {
-	selectDatabaseIdFromBookmark();
 	updateAuthButton();
 }
 

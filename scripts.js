@@ -56,7 +56,7 @@ function initClient() {
 	}).then(function() {
 		GoogleAuth = gapi.auth2.getAuthInstance();
 		GoogleAuth.isSignedIn.listen(onAuthUpdate);
-		if (document.URL == "Osmium Home" && readCookie("keepAuth") == null) { GoogleAuth.signOut(); }
+		if (document.URL == "https://gmferise.github.io/osmium/" && readCookie("keepAuth") == null) { GoogleAuth.signOut(); }
 		else { onAuthUpdate(); } // Still must be called, tells frontend auth has loaded
 	});
 }
@@ -415,7 +415,6 @@ function catchPageId(response){
 function selectDatabaseName(name){
 	var id = knownDatabases[name];
 	selectDatabaseId(id);
-	if (document.title == "Osmium Home") { window.location.hash = id }
 	return id;
 }
 
@@ -432,14 +431,7 @@ function selectDatabaseId(id){
 	return undefined;
 }
 
-function selectDatabaseIdFromBookmark(){
-	var id = window.location.hash;
-	if (selectDatabaseId(id) == undefined){
-		showError('no-url-bookmark');
-	}
-}
-
-function selectDatabaseIdFromUrl(){
+function selectDatabaseIdFromUrl() {
 	var url = new URLSearchParams(window.location.search).get('id');
 	if (url != null) {
 		selectDatabaseId(url);
