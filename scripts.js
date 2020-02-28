@@ -33,11 +33,7 @@ function toggleAuth() {
 		GoogleAuth.signOut();
 	}
 	else {
-		GoogleAuth.signIn().then(function(response){
-			if (GoogleAuth.isSignedIn()){
-				document.cookie = "keepAuth=true";
-			}
-		});
+		GoogleAuth.signIn();
 	}
 }
 
