@@ -60,7 +60,7 @@ function initClient() {
 	}).then(function() {
 		GoogleAuth = gapi.auth2.getAuthInstance();
 		GoogleAuth.isSignedIn.listen(onAuthUpdate);
-		if (document.URL == "https://gmferise.github.io/osmium/" && readCookie("keepAuth") == false) { GoogleAuth.signOut(); }
+		if (document.URL == "https://gmferise.github.io/osmium/" && readCookie("keepAuth") != null) { GoogleAuth.signOut(); }
 		else { onAuthUpdate(); } // Still must be called, tells frontend auth has loaded
 	});
 }
