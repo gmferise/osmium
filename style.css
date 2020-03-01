@@ -17,6 +17,47 @@ html {
 	height: 100%;
 }
 
+.infolinks {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+    width: fit-content !important;
+	margin-bottom: 10px;
+	margin-right: 10px;
+	background: rgba(255,255,255,0.9);
+	font-size: 1px;
+}
+@media only screen and (max-width: 1200px) {
+  .infolinks {
+    font-size: calc( calc(calc(100vw - 505px) * 0.5 / 700) + 0.5px);
+  }
+}
+.infolinks .left {
+	padding-right: 5em !important;
+}
+.infolinks .right {
+	padding-left: 5em !important;
+}
+.infolinks button {
+	font-size: 24em !important;
+	border: 1px solid transparent;
+	border-radius: 32em;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+	background: none;
+	cursor: pointer;
+	transition-property: box-shadow, transform, border, background;
+	transition-duration: 0.1s;
+	transition-timing-function: ease-in-out;
+	outline: 0;
+}
+.infolinks button:hover {
+	box-shadow: 1px 2px 0px 1px black;
+	transform: translate(-1px,-2px);
+	border: 1px solid rgba(65, 105, 225);
+	background: rgba(65, 105, 225, 0.1);
+}
+
 #cards-wrapper {
 	height: 100%;
 }
@@ -776,7 +817,8 @@ body.bigbody div.logotext {
 	font-size: 88px;
 }
 body.bigbody div.pretty-scrollbar-dark {
-	overflow: auto;
+	overflow-y: auto;
+	overflow-x: hidden;
 	height: 100%;
 }
 /* dropdown */
