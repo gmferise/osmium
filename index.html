@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Osmium</title>
+		<title>Osmium Home</title>
 		<link href="style.css" rel="stylesheet" type ="text/css"/>
 		<link href="favicon.ico" rel="icon" type="image/png">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -207,6 +207,7 @@ function updateAuthButton() {
 	var el = document.getElementById('auth-body');
 	
 	if (GoogleAuth.isSignedIn.get()) {
+		document.cookie = "keepAuth=true";
 		if (!(el.classList.contains('authenticated'))) {
 			el.classList.add('authenticated');
 			document.getElementById('google-profilepic').src = GoogleAuth.currentUser.get().getBasicProfile().getImageUrl();
@@ -216,6 +217,7 @@ function updateAuthButton() {
 		}
 	}
 	else {
+		document.cookie = "keepAuth=null";
 		if (el.classList.contains('authenticated')) {
 			el.classList.remove('authenticated');
 		}
