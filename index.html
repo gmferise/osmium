@@ -196,7 +196,10 @@ function catchGetDatabases(databases){
 		dblist.appendChild(el);
 	}
 	if (knownDatabases != undefined && getHashmark() != undefined && knownDatabases[getHashmark()] != undefined && databaseId == undefined){
-		selectDatabase(knownDatabases[getHashmark()]);
+		selectDatabase(getHashmark());
+	}
+	else {
+		setHashmark("");
 	}
 }
 
