@@ -29,7 +29,7 @@
 			</div>
 		</div>
 		<div class='pretty-scrollbar-dark'>
-			<div onclick="window.open('/osmium','_self')"  class='fullsize title-center logotext clickable'>Osmium</div>
+			<div class='fullsize title-center'><span class="logotext" onclick="window.open('/osmium','_self')">Osmium<span></div>
 			<div class='smallish-spacer'></div>
 			
 			<button class='big' id="auth-button" onclick="toggleAuth()">
@@ -187,7 +187,7 @@ function catchGetDatabases(databases) {
 		i++;
 		var el = document.createElement('p')
 			el.innerText = getDatabaseName(id);
-			el.setAttribute('onclick','selectDatabase("'+id+'");');
+			el.setAttribute('onclick','catchSelectDatabase(selectDatabase("'+id+'"));');
 		dblist.appendChild(el);
 	}
 	if (i < 1) {
@@ -197,7 +197,7 @@ function catchGetDatabases(databases) {
 		dblist.appendChild(el);
 	}
 	if (knownDatabases != undefined && getHashmark() != undefined && knownDatabases[getHashmark()] != undefined && databaseId == undefined){
-		selectDatabase(getHashmark());
+		catchSelectDatabase(selectDatabase(getHashmark()));
 	}
 	else {
 		setHashmark("");

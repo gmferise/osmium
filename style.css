@@ -813,8 +813,9 @@ body.bigbody.databased .db-required {
 	visibility: visible;
 }
 /* big text */
-body.bigbody div.logotext {
+body.bigbody .logotext {
 	font-size: 88px;
+	cursor: pointer;
 }
 body.bigbody div.pretty-scrollbar-dark {
 	overflow-y: auto;
@@ -1471,10 +1472,6 @@ body.bigbody.authenticated #auth-button .tooltip::after {
 }
 .fullsize { /* make title scaled to size */
 	font-size: 4vw;
-}
-
-.clickable {
-	cursor: pointer;
 }
 
 /* fontsize labels */
