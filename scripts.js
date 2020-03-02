@@ -431,7 +431,7 @@ function selectDatabase(id){
 }
 
 function getDatabaseName(id){
-	return knownDatbases[id];
+	return knownDatabases[id];
 }
 
 function selectDatabaseFromUrl() {
