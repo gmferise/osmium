@@ -423,21 +423,21 @@ function catchPageId(response){
 
 // Assigns databaseId a database from knownDatabases given it's id
 // Returns selected database name
-function selectDatabaseId(id){
+function selectDatabase(id){
 	databaseId = id;
 	setHashmark(id);
 	getPageId();
-	return getDatabaseName(id);
+	catchSelectDatabase(id);
 }
 
 getDatabaseName(id){
 	return knownDatbases[id];
 }
 
-function selectDatabaseIdFromUrl() {
+function selectDatabaseFromUrl() {
 	var url = new URLSearchParams(window.location.search).get('id');
 	if (url != null) {
-		selectDatabaseId(url);
+		selectDatabase(url);
 	} else {
 		showError('no-url-database');
 	}
