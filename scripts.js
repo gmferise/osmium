@@ -19,6 +19,17 @@ function readCookie(key){
     return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
 }
 
+function getHashmark(){
+	if (window.location.hash != ""){
+		return window.location.hash;
+	}
+	return undefined;
+}
+
+function setHashmark(value){
+	return window.location.hash = value;
+}
+
 /// ******************************
 /// * GOOGLE AUTH API AND CONFIG *
 /// ******************************
@@ -422,6 +433,7 @@ function selectDatabaseName(name){
 // Returns selected database name
 function selectDatabaseId(id){
 	databaseId = id;
+	setHashmark(id);
 	getPageId();
 	for (var db in knownDatabases) {
 		if (knownDatabases[db] == id) {
