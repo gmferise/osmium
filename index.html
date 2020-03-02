@@ -177,16 +177,16 @@ function catchSelectDatabase(id) {
 	document.getElementById('auth-body').classList.add('databased');
 }
 
-function catchGetDatabases(response){
-	console.log("caught getdb: "+response);
+function catchGetDatabases(databases){
+	console.log("caught getdb");
 	var dblist = document.getElementById('db-list');
 	dblist.innerHTML = '';
 	var i = 0;
-	for (var db in response) {
+	for (var id in databases) {
 		i++;
 		var el = document.createElement('p')
-			el.innerText = response[db];
-			el.setAttribute('onclick','selectDatabase('+db+');');
+			el.innerText = getDatabaseName(id);
+			el.setAttribute('onclick','selectDatabase('+id+');');
 		dblist.appendChild(el);
 	}
 	if (i < 1) {
@@ -195,7 +195,7 @@ function catchGetDatabases(response){
 			el.setAttribute('onclick','showNewDB(true);');
 		dblist.appendChild(el);
 	}
-	if (getHashmark() != undefined && knownDatabases[getHashmark()] != undefined && databaseId == undefined){
+	if (knownDatabases != undefined && getHashmark() != undefined && knownDatabases[getHashmark()] != undefined && databaseId == undefined){
 		selectDatabase(knownDatabases[getHashmark()]);
 	}
 }
