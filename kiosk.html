@@ -153,11 +153,7 @@ function errorPopup(message) {
 }
 
 document.addEventListener("fullscreenchange", function() {
-  if((window.fullScreen) || (window.innerWidth == screen.width && window.innerHeight == screen.height)) {
-		document.body.setAttribute('onclick','');
-	} else {
-		document.body.setAttribute('onclick','doFullscreen()');
-	}
+	document.body.setAttribute('onclick','doFullscreen()');
 });
 
 function doFullscreen() {
