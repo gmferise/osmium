@@ -422,7 +422,7 @@ function catchPageId(response){
 /// ***** STANDARD FUNCTIONS *****
 
 // Assigns databaseId a database from knownDatabases given it's id
-// Returns selected database name
+// Returns selected database name through catch
 function selectDatabase(id){
 	databaseId = id;
 	setHashmark(id);
@@ -430,7 +430,7 @@ function selectDatabase(id){
 	catchSelectDatabase(id);
 }
 
-getDatabaseName(id){
+function getDatabaseName(id){
 	return knownDatbases[id];
 }
 
