@@ -425,9 +425,8 @@ function catchPageId(response){
 // Returns selected database name through catch
 function selectDatabase(id){
 	databaseId = id;
-	setHashmark(id);
 	getPageId();
-	catchSelectDatabase(id);
+	return id;
 }
 
 function getDatabaseName(id){
