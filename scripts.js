@@ -77,7 +77,7 @@ function initClient() {
 /// ***********************
 
 // Dictionary of known databases which is kept up to date using getDatabases()
-// Stored as 'Name':'SpreadsheetID'
+// Stored as 'id':'name'
 var knownDatabases = {}; 
 var databaseId; // Currently selected database in the form of it's spreadsheet id1
 var pageId = 0; // Second page of spreadsheet
@@ -396,7 +396,7 @@ function getDatabases(newDatabase){
 	}).then(function(response) {
 		var dbs = response.result.files
 		for (var i = 0; i < dbs.length; i++){
-			knownDatabases[dbs[i].name] = dbs[i].id;
+			knownDatabases[dbs[i].id] = dbs[i].name;
 		}
 		if (newDatabase != undefined) { catchCreateDatabase(newDatabase); }
 		catchGetDatabases(knownDatabases);
@@ -421,26 +421,17 @@ function catchPageId(response){
 
 /// ***** STANDARD FUNCTIONS *****
 
-// Assigns databaseId a database from knownDatabases given it's name
-// Returns selected database id
-function selectDatabaseName(name){
-	var id = knownDatabases[name];
-	selectDatabaseId(id);
-	return id;
-}
-
 // Assigns databaseId a database from knownDatabases given it's id
 // Returns selected database name
 function selectDatabaseId(id){
 	databaseId = id;
 	setHashmark(id);
 	getPageId();
-	for (var db in knownDatabases) {
-		if (knownDatabases[db] == id) {
-			return db;
-		}
-	}
-	return undefined;
+	return getDatabaseName(id);
+}
+
+getDatabaseName(id){
+	return knownDatbases[id];
 }
 
 function selectDatabaseIdFromUrl() {

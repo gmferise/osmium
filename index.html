@@ -170,9 +170,9 @@ function catchCreateDatabase(response){
 }
 
 //selectDatabase
-function throwSelectDatabase(name) {
-	selectDatabaseName(name);
-	catchSelectDatabase(name);
+function throwSelectDatabase(id) {
+	selectDatabaseId(id);
+	catchSelectDatabase(getDatabaseName(id));
 }
 function catchSelectDatabase(dbname) {
 	console.log("caught selectdb: "+databaseId); // New database id
@@ -188,8 +188,8 @@ function catchGetDatabases(response){
 	for (var db in response) {
 		i++;
 		var el = document.createElement('p')
-			el.innerText = db;
-			el.setAttribute('onclick','throwSelectDatabase(this.innerText);');
+			el.innerText = response[db];
+			el.setAttribute('onclick','throwSelectDatabase('+db+');');
 		dblist.appendChild(el);
 	}
 	if (i < 1) {
