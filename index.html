@@ -187,7 +187,7 @@ function catchGetDatabases(databases) {
 		i++;
 		var el = document.createElement('p')
 			el.innerText = getDatabaseName(id);
-			el.setAttribute('onclick','selectDatabase("'+id+'");');
+			el.setAttribute('onclick','catchSelectDatabase(selectDatabase("'+id+'"));');
 		dblist.appendChild(el);
 	}
 	if (i < 1) {
@@ -197,7 +197,7 @@ function catchGetDatabases(databases) {
 		dblist.appendChild(el);
 	}
 	if (knownDatabases != undefined && getHashmark() != undefined && knownDatabases[getHashmark()] != undefined && databaseId == undefined){
-		selectDatabase(getHashmark());
+		catchSelectDatabase(selectDatabase(getHashmark()));
 	}
 	else {
 		setHashmark("");
