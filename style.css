@@ -815,6 +815,7 @@ body.bigbody.databased .db-required {
 /* big text */
 body.bigbody div.logotext {
 	font-size: 88px;
+	cursor: pointer;
 }
 body.bigbody div.pretty-scrollbar-dark {
 	overflow-y: auto;
