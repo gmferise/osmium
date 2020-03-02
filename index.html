@@ -163,7 +163,7 @@ function throwCreateDatabase() {
 }
 function catchCreateDatabase(response){
 	console.log("caught newdb: "+response); // New database id
-	catchSelectDatabase(selectDatabase(response));
+	selectDatabase(response);
 	if (createDatabaseHTMLSTATE == 1) { //don't touch UI if already closed
 		showNewDB(false);
 	}
@@ -186,7 +186,7 @@ function catchGetDatabases(databases){
 		i++;
 		var el = document.createElement('p')
 			el.innerText = getDatabaseName(id);
-			el.setAttribute('onclick','selectDatabase('+id+');');
+			el.setAttribute('onclick','selectDatabase("'+id+'");');
 		dblist.appendChild(el);
 	}
 	if (i < 1) {

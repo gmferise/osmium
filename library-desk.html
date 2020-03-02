@@ -940,7 +940,7 @@ function toggleSearch(focusstate) {
 }
 
 function onAuthUpdate() {
-	selectDatabaseIdFromUrl();
+	selectDatabaseFromUrl();
 	updateTodaysDate();
 	inactivityTime();
 	if (!(GoogleAuth.isSignedIn.get())) {

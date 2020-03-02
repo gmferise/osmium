@@ -337,7 +337,7 @@ function numpadInput(targetid,value) {
 }
 
 function onAuthUpdate() {
-	selectDatabaseIdFromUrl();
+	selectDatabaseFromUrl();
 	if (!(GoogleAuth.isSignedIn.get())) {
 		showError('auth-lost');
 	}
