@@ -21,7 +21,7 @@ function readCookie(key){
 
 function getHashmark(){
 	if (window.location.hash != ""){
-		return window.location.hash;
+		return window.location.hash.substring(1);
 	}
 	return undefined;
 }
