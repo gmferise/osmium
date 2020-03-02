@@ -925,10 +925,9 @@ function toggleSearch(focusstate) {
 	var sbar = document.getElementById('searchbar');
 	var sres = document.getElementById('search-results');
 	var s = document.getElementById('searchfield');
+	
 	if ((focusstate == 0)&&(document.activeElement != s)) { //lost focus
 		sbar.classList.remove('hasresults');
-	} else if ((focusstate == 1)&&(sres.childElementCount > 0)) { //gained focus & has stuff 2 show
-		sbar.classList.add('hasresults');	
 	} else if (focusstate == 2) { //icon click
 		if (sbar.classList.contains('hasresults')) {//clear if x
 			s.value = "";
@@ -937,6 +936,9 @@ function toggleSearch(focusstate) {
 		}
 		s.focus();
 		s.setSelectionRange(-1,-1);
+	}
+	if ((focusstate > 0)&&(sres.childElementCount > 0)) { //newly gained focus & has stuff 2 show
+		sbar.classList.add('hasresults');
 	}
 }
 
