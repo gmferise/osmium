@@ -934,10 +934,11 @@ function toggleSearch(focusstate) {
 			sres.innerHTML = "";
 			sbar.classList.remove('hasresults');
 		}
-		sbar.classList.add('hasresults');
+		} //always focus and end
 		s.focus();
 		s.setSelectionRange(-1,-1);
-	} else if ((focusstate > 0)&&(sres.childElementCount > 0)) { //gained focus & has stuff 2 show
+	}
+	if ((focusstate > 0)&&(sres.childElementCount > 0)) { //newly gained focus & has stuff 2 show
 		sbar.classList.add('hasresults');
 	}
 }
