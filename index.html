@@ -220,12 +220,11 @@ function updateAuthButton() {
 	}
 	else {
 		document.cookie = "keepAuth=null";
-		if (el.classList.contains('authenticated')) {
-			el.classList.remove('authenticated');
-		}
-		if (el.classList.contains('databased')) {
-			el.classList.remove('databased');
-		}
+		el.classList.remove('authenticated');
+		el.classList.remove('databased');
+		knownDatabases = {}; 
+		databaseId;
+		pageId = 0;
 	}
 }
 
