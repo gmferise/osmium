@@ -134,6 +134,100 @@ html {
 #overview-table div.tablerow {
 	display: table-row; height: 33%;
 }
+#timemachine {
+	font-weight: 100;
+}
+#timemachine button {
+	border: 1px solid rgba(0,0,0,0.1);
+	border-radius: 50px;
+	padding-left: 8px;
+	padding-right: 8px;
+	cursor: pointer;
+	width: fit-content;
+}
+#timemachine button:hover {
+	background: rgba(0,0,0,0.15);
+	border: 1px solid rgba(0,0,0,0.6);
+}
+#timemachine button * {
+	vertical-align: middle;
+	font-size: 1.1vw;
+}
+#timemachine button i.material-icons {
+	padding-left: 5px;
+}
+#timemachine-popup .datetable {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	border: 0;
+	margin-left: 68px;
+	margin-bottom: 20px;
+	width: calc(100% - 263px);
+	white-space: nowrap;
+	overflow-x: hidden;
+}
+#timemachine-popup .datetable input {
+	position: unset;
+	margin: 0;
+	padding: 0;
+	font-size: 3em;
+	border-bottom: 5px solid rgba(0,0,0,0.3);
+	display: inline;
+	box-sizing: border-box;
+}
+#timemachine-popup .datetable div {
+	width: 5%;
+	font-size: 3em;
+	padding-left: 10px;
+	padding-right: 10px;
+	border: 0;
+	border-bottom: 5px solid rgba(0,0,0,0.3);
+	display: inline;
+	box-sizing: border-box;
+}
+#timemachine-popup #timemachine-month {
+	width: 20%;
+	padding-left: 10px;
+	min-width: 3.1em;
+}
+#timemachine-popup #timemachine-day {
+	width: 20%;
+	min-width: 1.8em;
+}
+#timemachine-popup #timemachine-year {
+	width: 50%;
+	min-width: 2em;
+}
+#backtothe::-webkit-datetime-edit:focus {
+	color: royalblue;
+	background: none;
+}
+#backtothe::-webkit-datetime-edit-fields-wrapper {}
+#backtothe::-webkit-datetime-edit-text {
+	padding: 5px;
+	color: rgba(0,0,0,0.6);
+}
+#backtothe::-webkit-datetime-edit-month-field:focus, 
+#backtothe::-webkit-datetime-edit-day-field:focus, 
+#backtothe::-webkit-datetime-edit-year-field:focus {
+	color: royalblue;
+	background: none;
+	text-decoration: dashed underline rgba(65, 105, 225, 0.5);
+	text-decoration-skip-ink: none;
+}
+#backtothe::-webkit-clear-button {display: none;}
+#backtothe::-webkit-inner-spin-button {display: none;}
+#backtothe::-webkit-calendar-picker-indicator {
+	display: block;
+	color: black;
+	cursor: pointer;
+	border-radius: 0.2em;
+	height: 0.5em;
+	width: 0.5em;
+	padding: 0.25em;
+}
+
 
 /* left hand split stuff */
 .middle-wrapper {

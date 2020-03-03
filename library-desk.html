@@ -33,6 +33,15 @@
 				<button class="material-icons big cancel" onclick='showEditStudentName(false);'>close</button>
 			</div>
 		</div>
+		<div id="timemachine-popup" class="bigpopup pretty-scrollbar-light">
+			<div class="content">
+				<div class="title-center fullsize fullwidth">Select a Date</div>
+				<i class="material-icons">date_range</i>
+				<input id="backtothe" type="date"></input>
+				<button id='timemachine-loading' class="material-icons big ok" onclick="throwTimemachine();"></button>
+				<button class="material-icons big cancel" onclick='showTimemachine(false);'>close</button>
+			</div>
+		</div>
 		<div class="split-left pretty-scrollbar-dark">
 			<div class="small-spacer"></div>
 			<div class='middle-wrapper minmargin'>
@@ -73,6 +82,12 @@
 						<div class="center-h medium-text">Loading...</div>
 						<div class="center-h medium-text"></div>
 						<div class="center-h medium-text" style="padding-bottom:10px;"></div>
+					</div>
+					<div id="timemachine" class="small-text center-h">
+						<button onclick="showTimemachine(true)">
+						<span>Previous Days</span>
+						<i class="material-icons">history</i>
+						</button>
 					</div>
 				</div>
 				<div class="tablerow">
@@ -940,6 +955,22 @@ function toggleSearch(focusstate) {
 	if ((focusstate > 0)&&(sres.childElementCount > 0)) { //newly gained focus & has stuff 2 show
 		sbar.classList.add('hasresults');
 	}
+}
+
+function showTimemachine(state) {
+	if (state == true) {
+		document.getElementById('timemachine-popup').classList.add('visible');
+		var d = document.getElementById('backtothe');
+		d.focus();
+	} else {
+		document.getElementById('timemachine-popup').classList.remove('visible');
+		document.getElementById("backtothe").value = "";
+		document.getElementById('timemachine-loading').classList.remove('loading');
+	}
+}
+
+function throwTimemachine() {
+
 }
 
 function onAuthUpdate() {
