@@ -38,7 +38,7 @@
 				<div class="title-center fullsize fullwidth">Select a Date</div>
 				<i class="material-icons">date_range</i>
 				<input id="backtothe" type="date"></input>
-				<button id='timemachine-loading' class="material-icons big ok" onclick="throwTimemachine();"></button>
+				<button id='timemachine-loading' class="material-icons big ok" onclick="throwTimemachine(true);"></button>
 				<button class="material-icons big cancel" onclick='showTimemachine(false);'>close</button>
 			</div>
 		</div>
@@ -229,17 +229,14 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 			//todo send "moved to tech" query
 			//obj.updateStatusAndColor("sign-in",true);
 			if (!(obj.card.classList.contains('loading'))) {
-			pushEvent(obj.id, 'sent-tech', '', [false,false,false], true);
-				obj.card.classList.add('loading');
 				pauseUpdate = 1;
+				pushEvent(obj.id, 'sent-tech', '', [false,false,false], true);
+				obj.card.classList.add('loading');
 				clearTimeout(pauseUpdateTimer);
+				clearTimeout(naturalUpdateTimer);
 				pauseUpdateTimer = setTimeout(function() {
-					if (pauseUpdate == 2) {
-						pauseUpdate = 0;
-						updateTodaysDate();
-					} else {
-						pauseUpdate = 0;
-					}
+					pauseUpdate = 0;
+					updateTodaysDate();
 					},2500);
 			}
 		} else {
@@ -500,10 +497,15 @@ lastResultsRefreshTime.setMinutes(0);
 lastResultsRefreshTime.setSeconds(0);
 lastResultsRefreshTime.setMilliseconds(0);
 var pauseUpdate = 0;
+// 0 no pause
+// 1 send animation active, do not do updates
+// 2 timed out, do not do updates
+// 3 time machine active, do not queue updates, just get events
 var pauseUpdateTimer = null;
+var naturalUpdateTimer = null;
 function updateTodaysDate() {
 	//var now = new Date(new Date().getTime()+Math.random()*100000000000)
-	if (pauseUpdate == 0) {
+	if (pauseUpdate != null) {
 		var now = new Date();
 		var s = now.toLocaleString('en-US',{weekday:'long',month:'long',day:'numeric'});
 		var d = s.split(", ");
@@ -516,9 +518,7 @@ function updateTodaysDate() {
 		getEventsAfter(lastResultsRefreshTime);
 		lastResultsRefreshTime = new Date();
 		var INTERVAL = 10;
-		setTimeout(function(){updateTodaysDate();},INTERVAL*1000-(((now.getSeconds()%INTERVAL)*1000)+now.getMilliseconds())); //timeout to refresh every INTERVAl sec
-	} else {
-		pauseUpdate = 2;
+		naturalUpdateTimer = setTimeout(function(){updateTodaysDate();},INTERVAL*1000-(((now.getSeconds()%INTERVAL)*1000)+now.getMilliseconds())); //timeout to refresh every INTERVAl sec
 	}
 }
 
@@ -532,19 +532,16 @@ var inactivityTime = function () {
 	
 	function timeOut() {
 		timedout = true;
-		pauseUpdate = 1;
+		pauseUpdate = 2;
+		clearTimeout(naturalUpdateTimer);
 		document.getElementById('timeout-overlay').classList.add('timedout');
 	}
 
     function resetTimer() {
 		if (timedout) {
 			timedout = false;
-			if (pauseUpdate == 2) { //natural interval was blocked, restart it
-				pauseUpdate = 0;
-				updateTodaysDate();
-			} else {
-				pauseUpdate = 0;
-			}
+			pauseUpdate = 0;
+			updateTodaysDate();
 			document.getElementById('timeout-overlay').classList.remove('timedout');
 		}
         clearTimeout(time);
@@ -969,8 +966,44 @@ function showTimemachine(state) {
 	}
 }
 
-function throwTimemachine() {
-
+function throwTimemachine(enable) {
+	if (enable) {
+		var datestring = document.getElementById('backtothe');
+		if (datestring != "") {
+			pauseUpdate = 3;
+			clearTimeout(naturalUpdateTimer());
+			cards = [];
+			repackCards();
+			lastResultsRefreshTime = new Date(datestring);
+			lastResultsRefreshTime.setHours(0);
+			lastResultsRefreshTime.setMinutes(0);
+			lastResultsRefreshTime.setSeconds(0);
+			lastResultsRefreshTime.setMilliseconds(0);
+			preids = [];
+			precards = [];
+			tmpcards = [];
+			finalcards = [];
+			
+			updateTodaysDate();
+			showTimemachine(false);
+		}
+	} else {
+		pauseUpdate = 0;
+		cards = [];
+		repackCards();
+		lastResultsRefreshTime = new Date();
+		lastResultsRefreshTime.setHours(0);
+		lastResultsRefreshTime.setMinutes(0);
+		lastResultsRefreshTime.setSeconds(0);
+		lastResultsRefreshTime.setMilliseconds(0);
+		preids = [];
+		precards = [];
+		tmpcards = [];
+		finalcards = [];
+		
+		updateTodaysDate();
+		showTimemachine(false);
+	}
 }
 
 function onAuthUpdate() {
