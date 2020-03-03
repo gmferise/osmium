@@ -139,8 +139,15 @@ html {
 	border-radius: 50px;
 	padding-left: 8px;
 	padding-right: 8px;
+	margin-bottom: 8px;
 	cursor: pointer;
 	width: fit-content;
+}
+#timemachine button:last-child {
+	display: none;
+}
+#timemachine.wayback button:last-child {
+	display: inline-block;
 }
 #timemachine button:hover {
 	background: rgba(0,0,0,0.15);
@@ -197,11 +204,9 @@ html {
 	width: 50%;
 	min-width: 2em;
 }
-#backtothe::-webkit-datetime-edit:focus {
-	color: royalblue;
-	background: none;
+#backtothe::-webkit-datetime-edit {
+	cursor: text;
 }
-#backtothe::-webkit-datetime-edit-fields-wrapper {}
 #backtothe::-webkit-datetime-edit-text {
 	padding: 5px;
 	color: rgba(0,0,0,0.6);
@@ -225,6 +230,8 @@ html {
 	width: 0.5em;
 	padding: 0.25em;
 	border: 1px solid transparent;
+	position: absolute;
+    left: 6.5em;
 }
 #backtothe::-webkit-calendar-picker-indicator:hover {
 	background: rgba(0,0,0,0.15);

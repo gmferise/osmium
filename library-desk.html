@@ -38,7 +38,7 @@
 				<div class="title-center fullsize fullwidth">Select a Date</div>
 				<i class="material-icons">date_range</i>
 				<input id="backtothe" type="date"></input>
-				<button id='timemachine-loading' class="material-icons big ok" onclick="throwTimemachine(true);"></button>
+				<button class="material-icons big ok" onclick="throwTimemachine(true);"></button>
 				<button class="material-icons big cancel" onclick='showTimemachine(false);'>close</button>
 			</div>
 		</div>
@@ -87,6 +87,11 @@
 						<button onclick="showTimemachine(true)">
 						<span>Previous Days</span>
 						<i class="material-icons">history</i>
+						</button>
+						<br>
+						<button onclick="throwTimemachine(false)">
+						<span>Back to Today</span>
+						<i class="material-icons">today</i>
 						</button>
 					</div>
 				</div>
@@ -492,10 +497,7 @@ function quickSort(items, left, right, name) {
 }
 
 var lastResultsRefreshTime = new Date();
-lastResultsRefreshTime.setHours(0);
-lastResultsRefreshTime.setMinutes(0);
-lastResultsRefreshTime.setSeconds(0);
-lastResultsRefreshTime.setMilliseconds(0);
+lastResultsRefreshTime.setHours(0,0,0,0);
 var pauseUpdate = 0;
 // 0 no pause
 // 1 send animation active, do not do updates
@@ -505,7 +507,7 @@ var pauseUpdateTimer = null;
 var naturalUpdateTimer = null;
 function updateTodaysDate() {
 	//var now = new Date(new Date().getTime()+Math.random()*100000000000)
-	if (pauseUpdate != null) {
+	if (pauseUpdate == 0) {
 		var now = new Date();
 		var s = now.toLocaleString('en-US',{weekday:'long',month:'long',day:'numeric'});
 		var d = s.split(", ");
@@ -519,6 +521,19 @@ function updateTodaysDate() {
 		lastResultsRefreshTime = new Date();
 		var INTERVAL = 10;
 		naturalUpdateTimer = setTimeout(function(){updateTodaysDate();},INTERVAL*1000-(((now.getSeconds()%INTERVAL)*1000)+now.getMilliseconds())); //timeout to refresh every INTERVAl sec
+	} if (pauseUpdate == 3) {
+		var s = lastResultsRefreshTime.toLocaleString('en-US',{weekday:'long',month:'long',day:'numeric'});
+		var d = s.split(", ");
+		d[0] += ",";
+		d.push(get12time(lastResultsRefreshTime));
+		var here = document.getElementById('todays-date');
+		for (var i=0; i<d.length-1; i++) {
+			here.children[i].innerHTML = d[i];
+		}
+		here.children[here.childElementCount-1].innerHTML = "";
+		
+		getEventsAfter(lastResultsRefreshTime);
+		lastResultsRefreshTime.setHours(23,59,59,999);
 	}
 }
 
@@ -531,10 +546,12 @@ var inactivityTime = function () {
     document.onkeypress = resetTimer;
 	
 	function timeOut() {
-		timedout = true;
-		pauseUpdate = 2;
-		clearTimeout(naturalUpdateTimer);
-		document.getElementById('timeout-overlay').classList.add('timedout');
+		if (pauseUpdate == 0) {
+			timedout = true;
+			pauseUpdate = 2;
+			clearTimeout(naturalUpdateTimer);
+			document.getElementById('timeout-overlay').classList.add('timedout');
+		}
 	}
 
     function resetTimer() {
@@ -822,10 +839,7 @@ function catchEditStudentName(){
 	cards = [];
 	repackCards();
 	lastResultsRefreshTime = new Date();
-	lastResultsRefreshTime.setHours(0);
-	lastResultsRefreshTime.setMinutes(0);
-	lastResultsRefreshTime.setSeconds(0);
-	lastResultsRefreshTime.setMilliseconds(0);
+	lastResultsRefreshTime.setHours(0,0,0,0);
 	preids = [];
 	precards = [];
 	tmpcards = [];
@@ -954,6 +968,13 @@ function toggleSearch(focusstate) {
 	}
 }
 
+document.getElementById('backtothe').addEventListener("keydown", function(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    throwTimemachine(true);
+  }
+});
+
 function showTimemachine(state) {
 	if (state == true) {
 		document.getElementById('timemachine-popup').classList.add('visible');
@@ -962,23 +983,20 @@ function showTimemachine(state) {
 	} else {
 		document.getElementById('timemachine-popup').classList.remove('visible');
 		document.getElementById("backtothe").value = "";
-		document.getElementById('timemachine-loading').classList.remove('loading');
 	}
 }
 
 function throwTimemachine(enable) {
 	if (enable) {
-		var datestring = document.getElementById('backtothe');
+		var datestring = document.getElementById('backtothe').value;
 		if (datestring != "") {
+			document.getElementById('timemachine').classList.add('wayback');
 			pauseUpdate = 3;
-			clearTimeout(naturalUpdateTimer());
+			clearTimeout(naturalUpdateTimer);
 			cards = [];
 			repackCards();
 			lastResultsRefreshTime = new Date(datestring);
-			lastResultsRefreshTime.setHours(0);
-			lastResultsRefreshTime.setMinutes(0);
-			lastResultsRefreshTime.setSeconds(0);
-			lastResultsRefreshTime.setMilliseconds(0);
+			lastResultsRefreshTime.setHours(24,0,0,0);
 			preids = [];
 			precards = [];
 			tmpcards = [];
@@ -988,14 +1006,12 @@ function throwTimemachine(enable) {
 			showTimemachine(false);
 		}
 	} else {
+		document.getElementById('timemachine').classList.remove('wayback');
 		pauseUpdate = 0;
 		cards = [];
 		repackCards();
 		lastResultsRefreshTime = new Date();
-		lastResultsRefreshTime.setHours(0);
-		lastResultsRefreshTime.setMinutes(0);
-		lastResultsRefreshTime.setSeconds(0);
-		lastResultsRefreshTime.setMilliseconds(0);
+		lastResultsRefreshTime.setHours(0,0,0,0);
 		preids = [];
 		precards = [];
 		tmpcards = [];
