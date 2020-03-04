@@ -838,7 +838,9 @@ function throwEditStudentName() {
 function catchEditStudentName(){
 	cards = [];
 	repackCards();
-	lastResultsRefreshTime = new Date();
+	if (pauseUpdates != 3) {
+		lastResultsRefreshTime = new Date();
+	}
 	lastResultsRefreshTime.setHours(0,0,0,0);
 	preids = [];
 	precards = [];
