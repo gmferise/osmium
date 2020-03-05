@@ -1,5 +1,5 @@
 /// *********************
-/// * UTILITY FUNCTIONS *
+/// * Utility Functions *
 /// *********************
 function isoDate(dateObj){
 	// LOCAL ISO: YYYY-MM-DD HH:MM:SS
@@ -452,42 +452,35 @@ function selectDatabaseFromUrl() {
 function pushEvent(id, type, comments, flags, forceunknown) {
 	// Get name from uid 
 	getName(id, function(response){
-		if (response.status != 200){
-				console.log('overnight deauth encountered. attempting reauth');
-				console.log('status: '+GoogleAuth)
-				GoogleAuth.signIn();
-		}
-		else {
-			name = response.getDataTable().getDistinctValues(1)[0];
-			if (name == "undefined") {
-				if (forceunknown) {
-					name = "Unknown Student";
-				} else {
-					catchUnknownId(id,type);
-					return;
-				}
+		name = response.getDataTable().getDistinctValues(1)[0];
+		if (name == "undefined") {
+			if (forceunknown) {
+				name = "Unknown Student";
+			} else {
+				catchUnknownId(id,type);
+				return;
 			}
-			// Update values
-			gapi.client.sheets.spreadsheets.values.append({
-				"spreadsheetId": databaseId,
-				"range": "A:H",
-				"valueInputOption": "USER_ENTERED",
-				"resource": {
-					"values": [
-					[id, name, type,
-					isoDate(new Date()),
-					comments, flags[0], flags[1], flags[2] ]
-					]
-				}
-			}).then(function(response){
-				if (response.status != 200){
-					throw new Error("Failed to add new rows.");
-				}
-				else {
-					catchPushEvent(name, type, flags);
-				}
-			});	
 		}
+		// Update values
+		gapi.client.sheets.spreadsheets.values.append({
+			"spreadsheetId": databaseId,
+			"range": "A:H",
+			"valueInputOption": "USER_ENTERED",
+			"resource": {
+				"values": [
+				[id, name, type,
+				isoDate(new Date()),
+				comments, flags[0], flags[1], flags[2] ]
+				]
+			}
+		}).then(function(response){
+			if (response.status != 200){
+				throw new Error("Failed to add new rows.");
+			}
+			else {
+				catchPushEvent(name, type, flags);
+			}
+		});	
 	}, pageId);
 }
 
