@@ -461,7 +461,7 @@ function selectDatabaseFromUrl() {
 
 // Input: id, event name, comments, bool[](studying, technology, printing)
 function pushEvent(id, type, comments, flags, forceunknown) {
-	whatIsTheTimeout("PUSH EVENT AT "+(new Date())+"\n";
+	whatIsTheTimeout("PUSH EVENT AT "+(new Date())+"\n");
 	// Get name from uid 
 	getName(id, function(response){
 		name = response.getDataTable().getDistinctValues(1)[0];
