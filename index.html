@@ -209,7 +209,6 @@ function updateAuthButton() {
 	var el = document.getElementById('auth-body');
 	
 	if (GoogleAuth.isSignedIn.get()) {
-		setInterval(whatIsTheTimeout("SCHEDULED "+(new Date())+"\n"),10*60*1000);
 		document.cookie = "keepAuth=true";
 		if (!(el.classList.contains('authenticated'))) {
 			el.classList.add('authenticated');
