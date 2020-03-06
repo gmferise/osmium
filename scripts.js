@@ -34,7 +34,7 @@ function whatIsTheTimeout(message) {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			console.log(message+"TOKEN TIMEOUT: JSON.parse(this.responseText).expires_in");
+			console.log(message+"TOKEN TIMEOUT: "+JSON.parse(this.responseText).expires_in);
 		}
 	}
 	xhttp.open("GET", "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token="+GoogleAuth.currentUser.get().getAuthResponse().access_token, true);
