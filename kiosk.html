@@ -341,6 +341,9 @@ function onAuthUpdate() {
 	if (!(GoogleAuth.isSignedIn.get())) {
 		showError('auth-lost');
 	}
+	else {
+		setInterval(whatIsTheTimeout("SCHEDULED "+(new Date())+"\n"),10*60*1000);
+	}
 }
 
 </script>
