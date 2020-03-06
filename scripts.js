@@ -35,10 +35,25 @@ function whatIsTheTimeout(message) {
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			console.log(message+"TOKEN TIMEOUT: "+JSON.parse(this.responseText).expires_in);
+			startTimeoutKeeper(JSON.parse(this.responseText).expires_in);
 		}
 	}
 	xhttp.open("GET", "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token="+GoogleAuth.currentUser.get().getAuthResponse().access_token, true);
 	xhttp.send();
+}
+
+function startTimeoutKeeper(timeout){
+	if (timeout == undefined){
+		setTimeout('whatIsTheTimeout("STANDARD "+new Date()+" ")',11*60*1000);
+	}
+	else{
+		if (timeout < 6*60){
+			setTimeout('whatIsTheTimeout("FINAL APPROACH "+new Date()+" ")',10*1000);
+		}
+		else if (timeout < 10*60){
+			setTimeout('whatIsTheTimeout("ACCELERATED "+new Date()+" ")',30*1000);
+		}
+	}	
 }
 
 /// ******************************
@@ -461,7 +476,6 @@ function selectDatabaseFromUrl() {
 
 // Input: id, event name, comments, bool[](studying, technology, printing)
 function pushEvent(id, type, comments, flags, forceunknown) {
-	whatIsTheTimeout("PUSH EVENT AT "+(new Date())+"\n");
 	// Get name from uid 
 	getName(id, function(response){
 		name = response.getDataTable().getDistinctValues(1)[0];
@@ -491,6 +505,7 @@ function pushEvent(id, type, comments, flags, forceunknown) {
 			}
 			else {
 				catchPushEvent(name, type, flags);
+				whatIsTheTimeout("AFTER PUSH EVENT "+(new Date())+"\n"); /// REMOVE
 			}
 		});	
 	}, pageId);

@@ -207,6 +207,7 @@ function hidePushSuccess() {
 }
 
 function showSignIn(state) {
+	whatIsTheTimeout("SIGN IN "+(new Date())+"\n"); /// REMOVE
 	if (state == true) {
 		document.getElementById('sign-in-popup').classList.add('visible');
 		document.getElementById('sign-in-id').focus();
@@ -244,6 +245,7 @@ function throwSignIn() {
 	}
 }
 function showSignOut(state) {
+	whatIsTheTimeout("SIGN OUT "+(new Date())+"\n"); /// REMOVE
 	if (state == true) {
 		document.getElementById('sign-out-popup').classList.add('visible');
 		document.getElementById('sign-out-id').focus();
@@ -342,7 +344,7 @@ function onAuthUpdate() {
 		showError('auth-lost');
 	}
 	else {
-		setInterval('whatIsTheTimeout("SCHEDULED "+new Date()+" ")',10*60*1000);
+		startTimeoutKeeper(); /// REMOVE
 	}
 }
 
