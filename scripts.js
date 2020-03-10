@@ -42,19 +42,6 @@ function whatIsTheTimeout(message) {
 	xhttp.send();
 }
 
-function startTimeoutKeeper(timeout){
-	if (timeout == undefined){
-		setTimeout('whatIsTheTimeout("STANDARD "+new Date()+" ")',11*60*1000);
-	}
-	else{
-		if (timeout < 6*60){
-			setTimeout('whatIsTheTimeout("FINAL APPROACH "+new Date()+" ")',10*1000);
-		}
-		else if (timeout < 10*60){
-			setTimeout('whatIsTheTimeout("ACCELERATED "+new Date()+" ")',30*1000);
-		}
-	}	
-}
 
 /// ******************************
 /// * GOOGLE AUTH API AND CONFIG *
@@ -505,7 +492,6 @@ function pushEvent(id, type, comments, flags, forceunknown) {
 			}
 			else {
 				catchPushEvent(name, type, flags);
-				whatIsTheTimeout("AFTER PUSH EVENT "+(new Date())+"\n"); /// REMOVE
 			}
 		});	
 	}, pageId);
