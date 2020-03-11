@@ -84,15 +84,28 @@
 						<div class="center-h medium-text" style="padding-bottom:10px;"></div>
 					</div>
 					<div id="timemachine" class="small-text center-h">
+					
 						<button onclick="showTimemachine(true)">
 						<span>Previous Days</span>
 						<i class="material-icons">history</i>
 						</button>
+						
 						<br>
+						<button onclick="toggleSignOutMode();">
+						<span>Sign-Out Mode</span>
+						<label class="switch">
+							<input type="checkbox" id='sign-out-mode'>
+							<span class="slider"></span>
+						</label>
+						</button>
+						
+						<br>
+						
 						<button onclick="throwTimemachine(false)">
 						<span>Back to Today</span>
 						<i class="material-icons">today</i>
 						</button>
+						
 					</div>
 				</div>
 				<div class="tablerow">
@@ -235,7 +248,11 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 			//obj.updateStatusAndColor("sign-in",true);
 			if (!(obj.card.classList.contains('loading'))&&(pauseUpdate != 3)) {
 				pauseUpdate = 1;
-				pushEvent(obj.id, 'sent-tech', '', [false,false,false], true);
+				if (document.getElementById('sign-out-mode').checked) {
+					pushEvent(obj.id, 'sign-out', '', [false,false,false], true);
+				} else {
+					pushEvent(obj.id, 'sent-tech', '', [false,false,false], true);
+				}
 				obj.card.classList.add('loading');
 				clearTimeout(pauseUpdateTimer);
 				clearTimeout(naturalUpdateTimer);
@@ -1022,6 +1039,12 @@ function throwTimemachine(enable) {
 		updateTodaysDate();
 		showTimemachine(false);
 	}
+}
+
+function toggleSignOutMode() {
+	var cbox = document.getElementById('sign-out-mode');
+	cbox.checked = !cbox.checked;
+	document.getElementById('cards-wrapper').classList.toggle('sign-out-mode-enabled');
 }
 
 function onAuthUpdate() {
