@@ -762,22 +762,25 @@ body.wayback #timemachine button:last-child {
 }
 .color-card_sign-out button:after,
 .color-card_sign-in_tech button:after,
-.color-card_sign-out_tech button:after,
-body.wayback .check-card button:after {
+.color-card_sign-out_tech button:after {
 	font-family: 'Material Icons';
-	content: "edit" !important;
+	content: "edit";
 	color: white;
 	font-size: xx-large;
 	float: right;
 }
-#cards-wrapper.sign-out-mode-enabled .color-card_sign-in button:after {
+body.wayback .check-card button:after {
+	content: "edit" !important;
+}
+#cards-wrapper.sign-out-mode-enabled .color-card_sign-in button:after,
+#cards-wrapper.sign-out-mode-enabled .color-card_sign-in_tech button:after {
 	font-family: 'Material Icons Round';
 	content: "call_made";
 	color: white;
 	font-size: xx-large;
 	float: right;
 }
-.color-card_sign-in.loading button:after {
+.check-card.loading button:after {
 	font-family: 'Material Icons Round';
 	content: "send";
 	color: white;
@@ -802,18 +805,21 @@ body.wayback .check-card button:after {
 	padding-left: 10px;
 	padding-right: 10px;
 }
-#cards-wrapper.sign-out-mode-enabled .color-card_sign-in button div.tooltip:before {
+#cards-wrapper.sign-out-mode-enabled .color-card_sign-in button div.tooltip:before,
+#cards-wrapper.sign-out-mode-enabled .color-card_sign-in_tech button div.tooltip:before {
 	content: "Sign Out";
 	padding-left: 10px;
 	padding-right: 10px;
 }
 .color-card_sign-out button div.tooltip:before,
 .color-card_sign-in_tech button div.tooltip:before,
-.color-card_sign-out_tech button div.tooltip:before,
-body.wayback .check-card button div.tooltip:before {
-	content: "Edit Notes" !important;
+.color-card_sign-out_tech button div.tooltip:before {
+	content: "Edit Notes";
 	padding-left: 10px;
 	padding-right: 10px;
+}
+body.wayback .check-card button div.tooltip:before {
+	content: "Edit Notes" !important;
 }
 .color-card_sign-in .medium-text div.tooltip:before {
 	content: "Checked In - Library";

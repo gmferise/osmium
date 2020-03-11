@@ -243,7 +243,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 	
 	//click the card's button - uses card's properties to determine action
 	obj.clickAction = function() {
-		if (!(obj.tech) && (obj.event=="sign-in") && (!document.body.classList.contains('wayback'))) {
+		if ((!(obj.tech)||(document.getElementById('sign-out-mode').checked)) && (obj.event=="sign-in") && (!document.body.classList.contains('wayback'))) {
 			//todo send "moved to tech" query
 			//obj.updateStatusAndColor("sign-in",true);
 			if (!(obj.card.classList.contains('loading'))&&(pauseUpdate != 3)) {
