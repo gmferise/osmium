@@ -151,11 +151,11 @@ html {
 #timemachine button:last-child {
 	display: none;
 }
-#timemachine.wayback button:nth-child(3),
-#timemachine.wayback br:nth-child(2) {
+body.wayback #timemachine button:nth-child(3),
+body.wayback #timemachine br:nth-child(2) {
 	display: none;
 }
-#timemachine.wayback button:last-child {
+body.wayback #timemachine button:last-child {
 	display: inline-block;
 }
 #timemachine button:hover {
@@ -760,9 +760,12 @@ html {
 	font-size: xx-large;
 	float: right;
 }
-.color-card_sign-out button:after, .color-card_sign-in_tech button:after, .color-card_sign-out_tech button:after {
+.color-card_sign-out button:after,
+.color-card_sign-in_tech button:after,
+.color-card_sign-out_tech button:after,
+body.wayback .check-card button:after {
 	font-family: 'Material Icons';
-	content: "edit";
+	content: "edit" !important;
 	color: white;
 	font-size: xx-large;
 	float: right;
@@ -804,8 +807,11 @@ html {
 	padding-left: 10px;
 	padding-right: 10px;
 }
-.color-card_sign-out button div.tooltip:before, .color-card_sign-in_tech button div.tooltip:before, .color-card_sign-out_tech button div.tooltip:before {
-	content: "Edit Notes";
+.color-card_sign-out button div.tooltip:before,
+.color-card_sign-in_tech button div.tooltip:before,
+.color-card_sign-out_tech button div.tooltip:before,
+body.wayback .check-card button div.tooltip:before {
+	content: "Edit Notes" !important;
 	padding-left: 10px;
 	padding-right: 10px;
 }
@@ -1748,7 +1754,7 @@ div.error-popup button:hover {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background-color: #ccc;
+	background-color: rgba(0,0,0,0.2);
 	border-radius: 1em;
 	transition: all 0.1s ease-in-out;
 }

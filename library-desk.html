@@ -243,7 +243,7 @@ function new_Card(studentId, studentName, eventName, timestamp, comments, flags,
 	
 	//click the card's button - uses card's properties to determine action
 	obj.clickAction = function() {
-		if (!(obj.tech) && (obj.event=="sign-in")) {
+		if (!(obj.tech) && (obj.event=="sign-in") && (!document.body.classList.contains('wayback'))) {
 			//todo send "moved to tech" query
 			//obj.updateStatusAndColor("sign-in",true);
 			if (!(obj.card.classList.contains('loading'))&&(pauseUpdate != 3)) {
@@ -1009,7 +1009,7 @@ function throwTimemachine(enable) {
 	if (enable) {
 		var datestring = document.getElementById('backtothe').value;
 		if (datestring != "") {
-			document.getElementById('timemachine').classList.add('wayback');
+			document.body.classList.add('wayback');
 			pauseUpdate = 3;
 			clearTimeout(naturalUpdateTimer);
 			cards = [];
@@ -1025,7 +1025,7 @@ function throwTimemachine(enable) {
 			showTimemachine(false);
 		}
 	} else {
-		document.getElementById('timemachine').classList.remove('wayback');
+		document.body.classList.remove('wayback');
 		pauseUpdate = 0;
 		cards = [];
 		repackCards();
