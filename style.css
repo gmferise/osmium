@@ -167,8 +167,10 @@ body.wayback #timemachine button:last-child {
 	font-size: 1.2vw;
 	font-weight: 100;
 }
-#timemachine button i.material-icons {
+#timemachine button i.material-icons,
+#timemachine button label.switch {
 	padding-left: 5px;
+	box-sizing: border-box;
 }
 #timemachine-popup .datetable {
 	position: absolute;
