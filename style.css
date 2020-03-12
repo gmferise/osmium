@@ -1747,8 +1747,8 @@ div.error-popup button:hover {
 .switch {
 	position: relative;
 	display: inline-block;
-	width: 2rem;
-	height: 1.1rem;
+	width: 2em;
+	height: 1.1em;
 }
 .switch input {
 	width: 0;
