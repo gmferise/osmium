@@ -782,6 +782,10 @@ body.wayback .check-card button:after {
 	font-size: xx-large;
 	float: right;
 }
+#cards-wrapper.sign-out-mode-enabled .color-card_sign-in button,
+#cards-wrapper.sign-out-mode-enabled .color-card_sign-in_tech button {
+	background-color: #FF9800;
+}
 .check-card.loading button:after {
 	font-family: 'Material Icons Round';
 	content: "send";

@@ -568,6 +568,8 @@ var inactivityTime = function () {
 			pauseUpdate = 2;
 			clearTimeout(naturalUpdateTimer);
 			document.getElementById('timeout-overlay').classList.add('timedout');
+			document.getElementById('sign-out-mode').checked = false;
+			document.getElementById('cards-wrapper').classList.remove('sign-out-mode-enabled');
 		}
 	}
 
