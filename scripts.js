@@ -698,11 +698,14 @@ function getLastSeen(id, callback){
 }
 
 // Gets all table rows later than the given time up to the end of the day
+// dateTo is optional
 // Returns through catch
-function getEventsAfter(dateObject){
-	var endOfDay = new Date(dateObject);
-	endOfDay.setHours(23,59,59);
-	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D > datetime '"+isoDate(dateObject)+"' AND D < datetime '"+isoDate(endOfDay)+"' ORDER BY D ASC", catchEventsAfter);
+function getEventsAfter(dateFrom, dateTo){
+	if (dateTo == undefined) {
+		dateTo = new Date(dateFrom);
+		dateTo.setHours(23,59,59);
+	}
+	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D > datetime '"+isoDate(dateFrom)+"' AND D < datetime '"+isoDate(dateTo)+"' ORDER BY D ASC", catchEventsAfter);
 }
 
 // Gets all table rows with a student's id
