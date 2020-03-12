@@ -1767,14 +1767,18 @@ div.error-popup button:hover {
 .slider:before {
 	position: absolute;
 	content: "";
-	height: 0.5em;
-	width: 0.5em;
-	left: 0.1em;
-	bottom: 0.13em;
+	height: 80%;
+	width: 43.99%;
+	left: 0;
+	top: 50%;
+	/* margin-left: 10px; */
+	/* margin-top: 100%; */
 	box-sizing: border-box;
 	background-color: white;
-	border-radius: 1em;
+	border-radius: 1vw;
 	transition: all 0.25s ease-in-out;
+	transform: translate(15%,-50%);
+	display: block;
 }
 input:checked + .slider {
 	background-color: mediumseagreen;
@@ -1785,9 +1789,9 @@ input:checked:focus + .slider {
 input:focus + .slider {
 	box-shadow: 0 0 1em 1px #ccc, 0 0 0px 3px #fff;
 }
-input:checked + .slider:before {
-	transform: translateX(0.7em);
-}
+input:checked + .slider:before {transform: translate(110%,-50%);}
+
+::before {}
 
 /* testing css */
 .TEST-scroll {
