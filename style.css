@@ -1068,7 +1068,8 @@ body.bigbody button.new:focus {
 }
 #push-tech-message.tech:before {
 	display: block;
-	content: 'Please visit the Library Desk for tech help.';
+	content: 'VISIT THE LIBRARY DESK FOR TECH HELP';
+    font-weight: 900;
 }
 #push-tech-message.tech .small-text:after {
 	content: "(It's the big one in the center.)";
