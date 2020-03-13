@@ -774,6 +774,10 @@ body.wayback #timemachine button:last-child {
 body.wayback .check-card button:after {
 	content: "edit" !important;
 }
+body.wayback .color-card_sign-in button,
+body.wayback .color-card_sign-in_tech button {
+	background-color: royalblue !important;
+}
 #cards-wrapper.sign-out-mode-enabled .color-card_sign-in button:after,
 #cards-wrapper.sign-out-mode-enabled .color-card_sign-in_tech button:after {
 	font-family: 'Material Icons Round';
