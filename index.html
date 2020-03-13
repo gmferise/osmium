@@ -162,7 +162,6 @@ function throwCreateDatabase() {
 	}
 }
 function catchCreateDatabase(response){
-	console.log("caught newdb: "+response); // New database id
 	catchSelectDatabase(selectDatabase(response));
 	if (createDatabaseHTMLSTATE == 1) { //don't touch UI if already closed
 		showNewDB(false);
@@ -172,14 +171,12 @@ function catchCreateDatabase(response){
 //selectDatabase
 function catchSelectDatabase(id) {
 	var dbname = getDatabaseName(id);
-	console.log("caught selectdb: "+databaseId); // New database id
 	document.getElementById('current-db').innerText = dbname;
 	document.getElementById('auth-body').classList.add('databased');
 	setHashmark(id);
 }
 
 function catchGetDatabases(databases) {
-	console.log("caught getdb");
 	var dblist = document.getElementById('db-list');
 	dblist.innerHTML = '';
 	var i = 0;

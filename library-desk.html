@@ -614,7 +614,6 @@ function catchEventsAfter(response) {
 			
 			var index = preids.indexOf(row[0]);
 			if (index == -1) {
-				console.log(row[1]+" new sign in");
 				if (row[2] == 'sign-in') {
 					preids.push(row[0]);
 					precards.push([row]);

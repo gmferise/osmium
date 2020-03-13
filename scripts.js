@@ -106,7 +106,6 @@ function createDatabase(name){
 		title: name
 		}
 	}).then(function(response){
-		console.log("Created new database. Configuring...");
 		var id = response.result.spreadsheetId;
 		getDatabases(id);
 		
@@ -389,9 +388,6 @@ function createDatabase(name){
 					if (response.status != 200){
 						throw new Error("Failed to configure the spreadsheet");
 					}
-					else {
-						console.log("Configured the spreadsheet.");
-					}
 				});
 			});
 		});
@@ -424,12 +420,7 @@ function getPageId(){
 			spreadsheetId: databaseId
 	}).then(function(response){
 		pageId = response.result.sheets[1].properties.sheetId;
-		catchPageId(pageId);
 	});
-}
-
-function catchPageId(response){
-	console.log("New pageId: "+response); // New reference id
 }
 
 /// ***** STANDARD FUNCTIONS *****
