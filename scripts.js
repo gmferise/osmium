@@ -705,7 +705,7 @@ function getEventsAfter(dateFrom, dateTo){
 		dateTo = new Date(dateFrom);
 		dateTo.setHours(23,59,59);
 	}
-	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D > datetime '"+isoDate(dateFrom)+"' AND D < datetime '"+isoDate(dateTo)+"' ORDER BY D ASC", catchEventsAfter);
+	gvzQuery("SELECT A, B, C, D, E, F, G, H WHERE D >= datetime '"+isoDate(dateFrom)+"' AND D < datetime '"+isoDate(dateTo)+"' ORDER BY D ASC", catchEventsAfter);
 }
 
 // Gets all table rows with a student's id
