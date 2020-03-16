@@ -70,11 +70,9 @@ function loadAuth() {
 
 // Generates auth client instance, stored in GoogleAuth
 function initClient() {
-	// do not place docs directly in the array, must be evaluated beforehand
-	var docs = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest","https://www.googleapis.com/discovery/v1/apis/sheets/v4/rest"];
 	gapi.client.init({ // Initialize a client with these properties
 		"apiKey":"AIzaSyDIptkXtN8vcrOr5LPBvk21WuAk8UmVwAs",
-		"discoveryDocs":docs,
+		"discoveryDocs":["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest","https://www.googleapis.com/discovery/v1/apis/sheets/v4/rest"],
 		"clientId":"1031491199015-pbjmtfn9kj0tvcl24k7vntelua6glb90.apps.googleusercontent.com",
 		"scope":"https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/spreadsheets"
 	}).then(function() {
